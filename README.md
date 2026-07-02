@@ -39,6 +39,11 @@
 | `jose-claudinho` | [Tamircohen28/jose-claudinho](https://github.com/Tamircohen28/jose-claudinho) | AI manager for Sport5 Fantasy World Cup 2026. |
 | `headhunter` | [Tamircohen28/headhunter](https://github.com/Tamircohen28/headhunter) | Job-search CRM with Gmail/Calendar/Notion/Todoist integrations. |
 
+## Prerequisites
+
+- A supported host: [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com/docs/plugins), or the [Codex CLI](https://developers.openai.com/codex/plugins).
+- **Contributors only:** Python 3 (used by `make generate` / `make validate` to regenerate and check manifests). No runtime dependencies are required to *install* plugins.
+
 ## Quick Start
 
 ### Claude Code
