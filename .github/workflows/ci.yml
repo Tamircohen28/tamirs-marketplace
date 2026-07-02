@@ -13,10 +13,18 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Check agent instruction drift
+        run: make agent:check
+
       - name: Regenerate and verify platform manifests
         run: make validate
 
-      - name: Secret scan
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Scan for accidental secrets
         run: |
           echo "Scanning for accidental secrets..."
           if grep -rE '(ghp_[A-Za-z0-9]{36}|sk-[A-Za-z0-9]{48}|AKIA[A-Z0-9]{16}|-----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY)' \

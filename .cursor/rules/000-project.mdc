@@ -1,0 +1,11 @@
+---
+description: "Project-wide conventions — AGENTS.md is canonical"
+alwaysApply: true
+---
+
+This is a multi-platform plugin **catalog** — marketplace manifests only, no
+plugin source. All project policy, commands, key files, and off-limits live in
+[AGENTS.md](../../AGENTS.md), which is the single source of truth. Edit the
+Claude manifest (`.claude-plugin/marketplace.json`) only; run `make generate`
+then `make validate` and commit the regenerated Codex/Cursor manifests. Do not
+duplicate policy here.

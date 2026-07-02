@@ -8,6 +8,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- Canonical `AGENTS.md` as the single source of truth for agent guidance, with
+  thin adapters: `CLAUDE.md` (`@AGENTS.md`) and `.cursor/rules/000-project.mdc`
+- `docs/agent-guidelines/` (style, testing, security) referenced from `AGENTS.md`
+- `scripts/check-agent-drift.sh` and `make agent:check`, wired into `make validate` and CI
+- README Prerequisites section
+- `docs/engineering/` with repo-standards review and remediation plan
+
+### Changed
+- CI runs the secret scan as its own dedicated `secret-scan` job
+- Moved `CODEOWNERS` to the repository root
+
 ---
 
 ## [1.1.0] — 2026-06-26
