@@ -1,0 +1,5 @@
+# Project-level Codex CLI overrides for tamirs-plugins (catalog contributors)
+project_doc_max_bytes = 32768
+
+# This repo is a marketplace catalog only — no MCP servers or hooks here.
+# Installed plugins declare MCP in their own repos (.mcp.json / plugin manifests).

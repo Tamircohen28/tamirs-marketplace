@@ -8,17 +8,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.2.0] — 2026-07-10
+
 ### Added
-- Canonical `AGENTS.md` as the single source of truth for agent guidance, with
-  thin adapters: `CLAUDE.md` (`@AGENTS.md`) and `.cursor/rules/000-project.mdc`
-- `docs/agent-guidelines/` (style, testing, security) referenced from `AGENTS.md`
-- `scripts/check-agent-drift.sh` and `make agent:check`, wired into `make validate` and CI
-- README Prerequisites section
-- `docs/engineering/` with repo-standards review and remediation plan
+- `docs/engineering/build-and-release/platform-targets.json` and `platform-targets.md`
+- `docs/engineering/build-and-release/versioning.md`
+- `docs/agent-guidelines/platform-equivalence.md` (catalog vs plugin capabilities)
+- `make install`, `make update`, `make uninstall` contributor lifecycle targets
+- `make repo-standards-gate`, `assert-contract`, and vendored contract check scripts
+- `.agents/skills/run-plugins-catalog/` contributor skill stub
+- `.codex/config.toml` stub for Codex contributors
+- README author + version badges; platform-target pinned AI badges
+- `production-master` row in README plugin table
+- Dedicated `CI` job as required branch-protection status check
 
 ### Changed
-- CI runs the secret scan as its own dedicated `secret-scan` job
-- Moved `CODEOWNERS` to the repository root
+- Marketplace version bumped to `1.2.0`
+- `make agent:check` now includes feature-equivalence and platform-targets checks
 
 ---
 
