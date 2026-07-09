@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Tamir Cohen's unified Claude Code plugin marketplace \u2014 a single catalog pointing to all of his plugin repositories.",
-    "version": "1.0.0"
+    "version": "1.2.0"
   },
   "plugins": [
     {

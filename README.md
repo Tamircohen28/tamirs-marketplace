@@ -5,15 +5,19 @@
 <h1 align="center">tamirs-plugins</h1>
 
 <p align="center">
+  <a href="https://github.com/Tamircohen28">
+    <img src="https://img.shields.io/badge/author-Tamir%20Cohen-181717?logo=github" alt="Tamir Cohen" />
+  </a>
   <a href="https://github.com/Tamircohen28/plugins/actions/workflows/ci.yml">
     <img src="https://github.com/Tamircohen28/plugins/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
   </a>
-  <img src="https://img.shields.io/badge/Claude%20Code-Plugin%20Catalog-blueviolet" alt="Claude Code Plugin Catalog" />
-  <img src="https://img.shields.io/badge/Cursor-Team%20Marketplace-000000" alt="Cursor Team Marketplace" />
-  <img src="https://img.shields.io/badge/Codex-Plugin%20Catalog-412991" alt="Codex Plugin Catalog" />
+  <img src="https://img.shields.io/badge/version-1.2.0-blue" alt="Version 1.2.0" />
+  <img src="https://img.shields.io/badge/Claude%20Code-2.0.0-blueviolet" alt="Claude Code 2.0.0" />
+  <img src="https://img.shields.io/badge/Cursor-0.45.0-000000" alt="Cursor 0.45.0" />
+  <img src="https://img.shields.io/badge/Codex-0.40.0-412991" alt="Codex 0.40.0" />
 </p>
 
 <p align="center">
@@ -38,6 +42,7 @@
 | `tamirs-superpowers` | [Tamircohen28/tamirs-superpowers](https://github.com/Tamircohen28/tamirs-superpowers) | Skills, smart worktree hooks, statusline, and MCP stubs for a full dev workflow. |
 | `jose-claudinho` | [Tamircohen28/jose-claudinho](https://github.com/Tamircohen28/jose-claudinho) | AI manager for Sport5 Fantasy World Cup 2026. |
 | `headhunter` | [Tamircohen28/headhunter](https://github.com/Tamircohen28/headhunter) | Job-search CRM with Gmail/Calendar/Notion/Todoist integrations. |
+| `production-master` | [ProductionMasterAI/production-master-intel](https://github.com/ProductionMasterAI/production-master-intel) | Autonomous production investigation — 19 agents, MCP skills, 10-step pipeline. |
 
 ## Prerequisites
 
@@ -45,6 +50,8 @@
 - **Contributors only:** Python 3 (used by `make generate` / `make validate` to regenerate and check manifests). No runtime dependencies are required to *install* plugins.
 
 ## Quick Start
+
+**Contributors:** `make install` once, then `make validate` before every PR.
 
 ### Claude Code
 

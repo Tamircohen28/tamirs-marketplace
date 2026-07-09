@@ -14,8 +14,13 @@ manifest is canonical; the Codex and Cursor manifests are generated from it.
 
 | Command | What it does |
 |---------|--------------|
+| `make install` | Contributor bootstrap (verify tools, run `make generate`) |
+| `make update` | `git pull` + regenerate manifests |
+| `make uninstall` | Print how to remove installed plugins (no local artifacts here) |
 | `make generate` | Regenerate Codex + Cursor manifests from the Claude manifest |
 | `make validate` | Run `generate`, validate all manifests, and fail if generated files are out of sync |
+| `make agent:check` | Agent drift + feature equivalence + platform targets |
+| `make repo-standards-gate` | Full pre-PR gate (agents + validate + contract) |
 
 Python 3 is required for the generator/validator. There is no build or runtime
 step — installing plugins needs only a supported host (Claude Code, Cursor, or
@@ -52,6 +57,8 @@ Codex CLI).
 - [docs/agent-guidelines/style.md](docs/agent-guidelines/style.md) — manifest and doc conventions
 - [docs/agent-guidelines/testing.md](docs/agent-guidelines/testing.md) — how to validate changes
 - [docs/agent-guidelines/security.md](docs/agent-guidelines/security.md) — secrets and IP hygiene
+- [docs/agent-guidelines/platform-equivalence.md](docs/agent-guidelines/platform-equivalence.md) — catalog vs plugin capabilities
+- [docs/engineering/build-and-release/versioning.md](docs/engineering/build-and-release/versioning.md) — semver and release tags
 
 ## Off-limits
 

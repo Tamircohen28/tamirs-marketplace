@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "tamirs-plugins",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Tamir Cohen's unified Claude Code plugin marketplace — a single catalog pointing to all of his plugin repositories.",
   "owner": {
     "name": "Tamir Cohen",
