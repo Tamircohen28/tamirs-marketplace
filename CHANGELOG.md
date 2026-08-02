@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **Docs: plugin discovery via newer Claude Code CLI/UI (2.1.157–2.1.172).** Quick-start now points at the `/plugin` marketplace search bar, `claude plugin list --enabled/--disabled` filters for the verify step, and the Installed tab's Skills section.
+- **Docs: `pluginSuggestionMarketplaces` for teams (2.1.152).** Concepts explains that org admins can allowlist `tamirs-plugins` so Claude Code surfaces its plugins as context-aware suggestions inside the organization.
+
 ### Changed
 - Platform targets: validated against Claude Code 2.1.220 (was 2.0.0). Reviewed the 2.0.0 → 2.1.220 changelog for marketplace-facing changes: `marketplace.json` stays valid, no renamed plugins (so the 2.1.191 `renames` map is not needed), and no reliance on removed features. Updated `platform-targets.json`, the `platform-targets.md` mirror, and the README Claude Code badge. `supported_min` stays 2.0.0.
 
@@ -44,11 +48,3 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - CI validates all three marketplace manifests and fails on generator drift
 - Release workflow regenerates Codex and Cursor manifests when bumping version
 - Banner SVG: correct repo name (`plugins-catalog` → `plugins`) and replace hardcoded plugin list with platform description
-
----
-
-## [1.0.0] — 2025-06-01
-
-### Added
-- Initial catalog with three plugins: `tamirs-superpowers`, `jose-claudinho`, `headhunter`
-- `allowCrossMarketplaceDependenciesOn` for `superpowers-dev` marketplace (enables `tamirs-superpowers` dependency auto-install)

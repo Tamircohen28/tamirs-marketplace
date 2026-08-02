@@ -28,6 +28,11 @@ A Claude Code plugin is a directory published to GitHub that Claude Code can ins
 
 The `@tamirs-plugins` suffix tells Claude Code which marketplace to resolve the name from.
 
+**For teams:** Claude Code only suggests plugins contextually from marketplaces an
+admin has allowlisted via the `pluginSuggestionMarketplaces` managed setting
+(2.1.152+). Adding `tamirs-plugins` to that allowlist lets Claude Code surface
+these plugins as context-aware tips inside your organization's sessions.
+
 ## Codex
 
 Codex plugins bundle skills, MCP servers, hooks, and app integrations. Add this repo as a marketplace source, then install plugins from the CLI or in-app plugin directory.
