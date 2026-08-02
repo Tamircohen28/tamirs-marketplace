@@ -15,7 +15,7 @@
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
   </a>
   <img src="https://img.shields.io/badge/version-1.2.0-blue" alt="Version 1.2.0" />
-  <img src="https://img.shields.io/badge/Claude%20Code-2.0.0-blueviolet" alt="Claude Code 2.0.0" />
+  <img src="https://img.shields.io/badge/Claude%20Code-2.1.220-blueviolet" alt="Claude Code 2.1.220" />
   <img src="https://img.shields.io/badge/Cursor-0.45.0-000000" alt="Cursor 0.45.0" />
   <img src="https://img.shields.io/badge/Codex-0.40.0-412991" alt="Codex 0.40.0" />
 </p>
