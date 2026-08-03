@@ -32,6 +32,15 @@ Inside Claude Code, use slash commands instead:
 /doctor
 ```
 
+Tips (Claude Code 2.1.163+):
+
+- Browsing the marketplace in `/plugin`? There's a search bar — start typing a
+  plugin name instead of scrolling.
+- `claude plugin list --enabled` (or `--disabled`) filters the verify step to
+  what's actually active.
+- The `/plugin` Installed tab has a **Skills** section showing every skill each
+  installed plugin contributes.
+
 Open a **new** session after installing to load skills.
 
 ---
