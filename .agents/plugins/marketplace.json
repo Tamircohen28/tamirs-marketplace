@@ -16,7 +16,7 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer Tools",
-      "description": "17 bundled skills, smart worktree hooks, statusline, and MCP server stubs \u2014 plan, implement, review, debug, and audit code from one plugin."
+      "description": "26 bundled skills, smart worktree hooks, statusline, and MCP server stubs \u2014 plan, implement, review, debug, and audit code from one plugin."
     },
     {
       "name": "jose-claudinho",
@@ -45,20 +45,6 @@
       },
       "category": "Productivity",
       "description": "Job search CRM: pipeline, interviews, tasks, contacts, and Gmail/Calendar/Notion/Todoist integrations with an interview-prep research pipeline."
-    },
-    {
-      "name": "production-master",
-      "source": {
-        "source": "url",
-        "url": "https://github.com/ProductionMasterAI/production-master-intel.git",
-        "ref": "main"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer Tools",
-      "description": "Autonomous production investigation plugin for Claude Code \u2014 19 agents, 39 MCP skills, 10-step pipeline. Customize for your infrastructure."
     }
   ]
 }

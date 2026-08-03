@@ -2,11 +2,18 @@
 
 Get plugins installed in under 5 minutes. Pick your platform below.
 
+| Target | Minimum | Validated against | Detailed guide |
+|--------|---------|-------------------|----------------|
+| Claude Code | 2.0.0 | 2.1.220 | [install/claude-code.md](install/claude-code.md) |
+| Cursor | 3.14.7 | 3.14.7 | [install/cursor.md](install/cursor.md) |
+| Codex | 0.40.0 | 0.146.0 | [install/codex.md](install/codex.md) |
+| OpenCode | 1.16.2 | 1.18.11 | [install/opencode.md](install/opencode.md) |
+
 ## Claude Code
 
 ### Prerequisites
 
-- Claude Code installed and authenticated
+- Claude Code ≥ 2.0.0, installed and authenticated (`claude --version`)
 - `claude` CLI accessible in your terminal
 
 ### Install
@@ -49,22 +56,28 @@ Open a **new** session after installing to load skills.
 
 ### Prerequisites
 
-- Codex app or CLI installed and signed in
+- Codex CLI ≥ 0.40.0 or the Codex app, signed in (`codex --version`)
 
 ### Install
 
 ```bash
-# 1. Add the marketplace
+# 1. Add the marketplace (--sparse keeps the clone small)
 codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins
 
-# 2. Install plugins
-codex plugin install tamirs-superpowers --source plugins
-codex plugin install jose-claudinho --source plugins
-codex plugin install headhunter --source plugins
+# 2. See what's available
+codex plugin list --marketplace tamirs-plugins
 
-# 3. Verify
-codex plugin list
+# 3. Install plugins
+codex plugin add tamirs-superpowers@tamirs-plugins
+codex plugin add jose-claudinho@tamirs-plugins
+codex plugin add headhunter@tamirs-plugins
+
+# 4. Verify
+codex plugin list --marketplace tamirs-plugins
 ```
+
+The subcommand is `codex plugin add` — there is no `codex plugin install` and no
+`--source` flag. Select the marketplace with `@tamirs-plugins` or `-m tamirs-plugins`.
 
 In the Codex app: **Settings → Plugins → + Add More…** → paste `https://github.com/Tamircohen28/plugins`.
 
@@ -72,11 +85,17 @@ In the Codex app: **Settings → Plugins → + Add More…** → paste `https://
 
 ## Cursor
 
+### Prerequisites
+
+- Cursor ≥ 3.14.7 (**Cursor → About Cursor**). Cursor documents no minimum for plugins;
+  3.14.7 is what this catalog was validated on.
+
 ### Team marketplace (Teams / Enterprise)
 
-1. Admin: **Dashboard → Settings → Plugins → Import Marketplace**
+1. Admin: **Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**
 2. Repository: `https://github.com/Tamircohen28/plugins`
-3. Developer: open the marketplace panel in Cursor and install plugins
+3. Save, then assign distribution groups
+4. Developer: open the marketplace panel in Cursor and install plugins
 
 ### Local development (any plan)
 
@@ -89,16 +108,47 @@ Restart Cursor or run **Developer: Reload Window**.
 
 ---
 
+## OpenCode
+
+### Prerequisites
+
+- OpenCode ≥ 1.16.2 (`opencode --version`)
+
+**OpenCode has no marketplace**, so this catalog cannot be added as an install source. Clone
+the plugin repo you want — OpenCode discovers its skills natively:
+
+```bash
+git clone https://github.com/Tamircohen28/tamirs-superpowers
+cd tamirs-superpowers
+opencode
+```
+
+Verify with `opencode debug skill`. To use a plugin's skills from *your* project, point
+`skills.paths` in your `opencode.json` at an **absolute** path to the clone's `skills/`
+directory.
+
+Full detail — config strictness, capability gaps, troubleshooting:
+[install/opencode.md](install/opencode.md).
+
+---
+
 ## Updating plugins
 
 Plugins are fetched from their pinned branch on install. To refresh:
 
 ```bash
-# Claude Code
-claude plugin update tamirs-superpowers
+# Claude Code — refresh the catalog, then the plugin
+claude plugin marketplace update tamirs-plugins
+claude plugin update tamirs-superpowers@tamirs-plugins
 
-# Codex
-codex plugin marketplace upgrade plugins
+# Codex — refresh the catalog snapshot
+codex plugin marketplace upgrade tamirs-plugins
+
+# Cursor — team marketplace installs refresh automatically on push
+# OpenCode — git pull in the clone, then restart
 ```
+
+> Claude Code caches plugins by the `version` in each plugin's `plugin.json`. If a plugin
+> release didn't bump its version, `plugin update` is a no-op.
 
 See [Troubleshooting](troubleshooting.md) if a plugin installs but skills do not appear.
