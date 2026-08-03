@@ -24,20 +24,33 @@ jobs:
             exit 1
           fi
 
-      - name: Bump version and regenerate manifests
+      # The manifest version is bumped in the PR that ships the change, not here.
+      # This job tags what is already on main; it never rewrites manifests and
+      # never pushes a commit — main is protected, so a commit push is rejected
+      # and the release half-completes with a tag pointing at an orphan.
+      - name: Verify manifest version matches the requested release
         run: |
-          python3 scripts/bump-marketplace-version.py "${{ github.event.inputs.version }}"
+          V="${{ github.event.inputs.version }}"
+          ACTUAL=$(python3 -c "import json,sys; print(json.load(open('.claude-plugin/marketplace.json'))['version'])")
+          if [ "$ACTUAL" != "$V" ]; then
+            echo "::error::.claude-plugin/marketplace.json is at $ACTUAL but the release asks for $V. Bump the manifest in a PR and merge it first — this job only tags what is already on main."
+            exit 1
+          fi
+          echo "Manifest version $ACTUAL matches the requested release."
+
+      - name: Verify generated manifests are in sync
+        run: |
           python3 scripts/generate-marketplaces.py
           python3 scripts/validate-marketplaces.py
+          git diff --exit-code -- .agents/plugins/marketplace.json .cursor-plugin/marketplace.json \
+            || (echo "::error::Generated manifests are out of sync on main. Run 'make generate' and merge the result before releasing." >&2; exit 1)
 
-      - name: Commit version bump
+      - name: Tag the release commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .claude-plugin/marketplace.json .agents/plugins/marketplace.json .cursor-plugin/marketplace.json
-          git commit -m "chore: release v${{ github.event.inputs.version }}"
           git tag "v${{ github.event.inputs.version }}"
-          git push origin main --tags
+          git push origin "v${{ github.event.inputs.version }}"
 
       - name: Create GitHub Release
         env:
