@@ -1,46 +1,99 @@
 {
-  "schema_version": 1,
-  "last_reviewed": "2026-08-02",
-  "reviewed_by_skill": "tamirs-superpowers@1.8.2",
+  "schema_version": 2,
+  "last_reviewed": "2026-08-03",
+  "reviewed_by_skill": "tamirs-superpowers@1.12.0",
+  "supported_targets": [
+    "claude_code",
+    "cursor",
+    "codex",
+    "opencode"
+  ],
   "targets": {
     "claude_code": {
       "supported_min": "2.0.0",
+      "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
       "validated_against": "2.1.220",
       "latest_known": "2.1.220",
+      "verified_on": "2026-08-03",
+      "verification_method": "claude --version on the maintainer machine; latest from registry.npmjs.org/@anthropic-ai/claude-code; catalog install verified with `claude plugin marketplace add Tamircohen28/plugins` followed by `claude plugin install <name>@tamirs-plugins`",
+      "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
-        "https://code.claude.com/docs/en/overview"
+        "https://code.claude.com/docs/en/plugin-marketplaces",
+        "https://code.claude.com/docs/en/plugins-reference"
       ],
       "features_adopted": [
-        "agents-md-import",
         "plugin-marketplace",
-        "plugin-suggestion-marketplaces-2.1.152",
-        "plugin-cli-discovery-2.1.163"
+        "marketplace-cross-dependencies"
+      ],
+      "capabilities": [
+        "marketplace",
+        "catalog-install"
       ]
     },
     "cursor": {
-      "supported_min": "0.45.0",
-      "validated_against": "0.45.0",
-      "latest_known": "0.45.0",
+      "supported_min": "3.14.7",
+      "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
+      "validated_against": "3.14.7",
+      "latest_known": "3.14.7",
+      "verified_on": "2026-08-03",
+      "verification_method": "cursor --version on the maintainer machine; team-marketplace import is a Dashboard flow (Import from Repo) with no CLI equivalent to assert in CI",
+      "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins"
       ],
       "features_adopted": [
-        "mdc-rules",
-        "agents-md",
-        "team-marketplace"
+        "team-marketplace",
+        "cursor-plugin-manifest"
+      ],
+      "capabilities": [
+        "marketplace",
+        "catalog-install"
       ]
     },
     "codex": {
       "supported_min": "0.40.0",
-      "validated_against": "0.40.0",
-      "latest_known": "0.40.0",
+      "supported_min_source": "earliest release this catalog has claimed .agents/plugins/marketplace.json support for",
+      "validated_against": "0.146.0",
+      "latest_known": "0.146.0",
+      "verified_on": "2026-08-03",
+      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end — `codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-plugins`, `codex plugin add tamirs-superpowers@tamirs-plugins`; test registrations removed afterwards",
+      "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
       ],
       "features_adopted": [
-        "agents-md",
-        "plugin-marketplace"
+        "plugin-marketplace",
+        "sparse-marketplace-checkout"
+      ],
+      "capabilities": [
+        "marketplace",
+        "catalog-install"
       ]
+    },
+    "opencode": {
+      "supported_min": "1.16.2",
+      "supported_min_source": "oldest version on which `skills.paths` discovery of a catalog plugin's skills was verified with `opencode debug skill`",
+      "validated_against": "1.18.11",
+      "latest_known": "1.18.11",
+      "verified_on": "2026-08-03",
+      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — each plugin repo is cloned and its skills verified with `opencode debug skill`",
+      "install_doc": "docs/user/install/opencode.md",
+      "doc_urls": [
+        "https://opencode.ai/docs/skills/",
+        "https://opencode.ai/docs/agents/",
+        "https://opencode.ai/config.json"
+      ],
+      "features_adopted": [
+        "native-skill-discovery",
+        "skills-paths-config"
+      ],
+      "capabilities": [
+        "per-plugin-clone"
+      ],
+      "capability_gaps": {
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
+      }
     }
   }
 }

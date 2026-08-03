@@ -14,14 +14,15 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
   </a>
-  <img src="https://img.shields.io/badge/version-1.2.0-blue" alt="Version 1.2.0" />
+  <img src="https://img.shields.io/badge/version-1.3.0-blue" alt="Version 1.3.0" />
   <img src="https://img.shields.io/badge/Claude%20Code-2.1.220-blueviolet" alt="Claude Code 2.1.220" />
-  <img src="https://img.shields.io/badge/Cursor-0.45.0-000000" alt="Cursor 0.45.0" />
-  <img src="https://img.shields.io/badge/Codex-0.40.0-412991" alt="Codex 0.40.0" />
+  <img src="https://img.shields.io/badge/Cursor-3.14.7-000000" alt="Cursor 3.14.7" />
+  <img src="https://img.shields.io/badge/Codex-0.146.0-412991" alt="Codex 0.146.0" />
+  <img src="https://img.shields.io/badge/OpenCode-1.18.11-fab283" alt="OpenCode 1.18.11" />
 </p>
 
 <p align="center">
-  A unified multi-platform plugin catalog for <a href="https://github.com/Tamircohen28">@Tamircohen28</a> — one marketplace install for <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a>, <a href="https://cursor.com/docs/plugins">Cursor</a>, and <a href="https://developers.openai.com/codex/plugins">Codex</a>.
+  A unified multi-platform plugin catalog for <a href="https://github.com/Tamircohen28">@Tamircohen28</a> — one marketplace install for <a href="https://code.claude.com/docs/en/plugin-marketplaces">Claude Code</a>, <a href="https://cursor.com/docs/plugins">Cursor</a>, and <a href="https://developers.openai.com/codex/plugins">Codex</a>, plus native skill discovery on <a href="https://opencode.ai/docs/skills/">OpenCode</a>.
 </p>
 
 ---
@@ -30,23 +31,38 @@
 
 - **Single install point** — add one marketplace to get all plugins, no per-repo configuration
 - **Catalog only** — this repo holds marketplace manifests only; plugin source lives in each plugin's own repo
-- **Multi-platform** — Claude, Cursor, and Codex manifests generated from one canonical source
+- **Four targets** — Claude Code, Cursor, Codex, and OpenCode; the Cursor and Codex manifests are generated from one canonical source
+- **Standalone too** — every plugin here also installs on all four targets *without* this catalog
 - **Auto-updated** — each plugin entry pins a branch so you always get the latest compatible version
 - **Schema-validated** — CI regenerates and validates all manifests on every push
-- **Production plugins** — browse the catalog below to see all available plugins, ready to install
+
+## Supported targets
+
+| Target | Minimum | Validated against | Catalog install | Install guide |
+|--------|---------|-------------------|-----------------|---------------|
+| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.220** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
+| [Cursor](https://cursor.com/docs/plugins) | 3.14.7 | **3.14.7** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
+| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.146.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
+| [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.11** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
+
+Every version above was read from the CLI itself, not inferred from release notes. Floors,
+verification methods, and OpenCode's documented capability gaps:
+[platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
 
 ## Plugins
 
 | Plugin | Repo | Description |
 |--------|------|-------------|
-| `tamirs-superpowers` | [Tamircohen28/tamirs-superpowers](https://github.com/Tamircohen28/tamirs-superpowers) | Skills, smart worktree hooks, statusline, and MCP stubs for a full dev workflow. |
+| `tamirs-superpowers` | [Tamircohen28/tamirs-superpowers](https://github.com/Tamircohen28/tamirs-superpowers) | 26 skills, smart worktree hooks, statusline, and MCP stubs for a full dev workflow. |
 | `jose-claudinho` | [Tamircohen28/jose-claudinho](https://github.com/Tamircohen28/jose-claudinho) | AI manager for Sport5 Fantasy World Cup 2026. |
 | `headhunter` | [Tamircohen28/headhunter](https://github.com/Tamircohen28/headhunter) | Job-search CRM with Gmail/Calendar/Notion/Todoist integrations. |
-| `production-master` | [ProductionMasterAI/production-master-intel](https://github.com/ProductionMasterAI/production-master-intel) | Autonomous production investigation — 19 agents, MCP skills, 10-step pipeline. |
+
+Each of those repos is independently installable on all four targets — see its own
+`docs/user/install/` directory.
 
 ## Prerequisites
 
-- A supported host: [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Cursor](https://cursor.com/docs/plugins), or the [Codex CLI](https://developers.openai.com/codex/plugins).
+- A supported host from the table above.
 - **Contributors only:** Python 3 (used by `make generate` / `make validate` to regenerate and check manifests). No runtime dependencies are required to *install* plugins.
 
 ## Quick Start
@@ -84,14 +100,17 @@ Slash-command equivalent inside Claude Code:
 # 1. Add this marketplace (sparse checkout keeps the clone small)
 codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins
 
-# 2. Install plugins
-codex plugin install tamirs-superpowers --source plugins
-codex plugin install jose-claudinho --source plugins
-codex plugin install headhunter --source plugins
+# 2. See what's available
+codex plugin list --marketplace tamirs-plugins
 
-# 3. List installed plugins
-codex plugin list
+# 3. Install plugins
+codex plugin add tamirs-superpowers@tamirs-plugins
+codex plugin add jose-claudinho@tamirs-plugins
+codex plugin add headhunter@tamirs-plugins
 ```
+
+The subcommand is `codex plugin add` — there is no `codex plugin install` and no `--source`
+flag. Codex reads `.agents/plugins/marketplace.json`, **not** `.codex-plugin/marketplace.json`.
 
 In the Codex app: **Settings → Plugins → + Add More…** and paste `https://github.com/Tamircohen28/plugins`.
 
@@ -99,7 +118,7 @@ In the Codex app: **Settings → Plugins → + Add More…** and paste `https://
 
 Org admins import this repo as a private team marketplace:
 
-1. **Dashboard → Settings → Plugins → Import Marketplace**
+1. **Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**
 2. Repository: `https://github.com/Tamircohen28/plugins`
 3. Save and assign distribution groups
 
@@ -116,10 +135,27 @@ ln -s "$(pwd)/tamirs-superpowers" ~/.cursor/plugins/local/tamirs-superpowers
 
 Restart Cursor or run **Developer: Reload Window**.
 
+### OpenCode
+
+OpenCode has **no marketplace**, so this catalog cannot be added as an install source. Clone
+the plugin you want — OpenCode discovers its skills natively from the `opencode.json` each
+plugin repo ships:
+
+```bash
+git clone https://github.com/Tamircohen28/tamirs-superpowers
+cd tamirs-superpowers
+opencode
+opencode debug skill    # verify what loaded
+```
+
+Details, config gotchas, and the full list of OpenCode capability gaps:
+[docs/user/install/opencode.md](docs/user/install/opencode.md).
+
 > Listed plugin repos must ship `.cursor-plugin/plugin.json` and `.codex-plugin/plugin.json` for Cursor and Codex installs to succeed. See [Troubleshooting](docs/user/troubleshooting.md).
 
 ## Documentation
 
+Per-target install guides: [docs/user/install/](docs/user/install/README.md).
 Full user guide, concepts, and troubleshooting are in [`docs/`](docs/README.md).
 
 ## Contributing
