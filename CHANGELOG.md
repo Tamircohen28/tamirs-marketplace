@@ -8,6 +8,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- **Platform target: Claude Code 2.1.221** (from 2.1.220). Docs-only bump reflecting two
+  2.1.221 install-flow improvements: plugins installed with `/plugin install` now activate
+  immediately when safe (no new session / `/reload-plugins` needed), and `/plugin install`
+  refreshes a stale marketplace catalog and retries before reporting a plugin not found.
+  Install guides, quick-start, troubleshooting, and `platform-targets.json` updated; the
+  older-version guidance is kept for users below 2.1.221.
+
 ## [1.3.0] — 2026-08-03
 
 ### Added

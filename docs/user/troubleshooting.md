@@ -29,8 +29,11 @@ revision new enough to ship its own marketplace manifest.
 
 **Symptom**: `/plugin install` succeeds but skills are not found
 
-**Fix**: Open a **new** Claude Code session. Plugins are loaded at session start, not mid-session.
-`/reload-plugins` reloads what's cached — it does **not** re-fetch from GitHub.
+**Fix**: On Claude Code 2.1.221+ a fresh `/plugin install` activates immediately when safe, so
+this mostly affects older versions: open a **new** Claude Code session — plugins load at
+session start there. `/reload-plugins` reloads what's cached — it does **not** re-fetch from
+GitHub. Since 2.1.221, `/plugin install` also refreshes a stale marketplace catalog and
+retries before reporting a plugin not found.
 
 ### `@tamirs-plugins` not recognized
 
