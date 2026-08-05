@@ -9,12 +9,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
-- **Platform target: Claude Code 2.1.221** (from 2.1.220). Docs-only bump reflecting two
+- **Platform target: Claude Code 2.1.222** (from 2.1.220). Docs-only bump reflecting two
   2.1.221 install-flow improvements: plugins installed with `/plugin install` now activate
   immediately when safe (no new session / `/reload-plugins` needed), and `/plugin install`
   refreshes a stale marketplace catalog and retries before reporting a plugin not found.
   Install guides, quick-start, troubleshooting, and `platform-targets.json` updated; the
-  older-version guidance is kept for users below 2.1.221.
+  older-version guidance is kept for users below 2.1.221. The 2.1.222 delta contains
+  nothing marketplace-facing — `marketplace.json` stays valid and no catalog change is
+  needed. Also reviewed against 2.1.221's `claude plugin validate` naming warnings
+  (names that Claude Desktop's managed marketplace sync would reject): the catalog name
+  `tamirs-plugins` and all three plugin names are lowercase-hyphen and pass.
 
 ## [1.3.0] — 2026-08-03
 
