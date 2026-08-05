@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.221** |
+| **Validated against** | Claude Code **2.1.222** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.221 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.222 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -101,9 +101,9 @@ claude plugin marketplace remove tamirs-plugins
 | Symptom | Fix |
 |---------|-----|
 | `Marketplace file not found` | The source has no `.claude-plugin/marketplace.json`. Check you passed `Tamircohen28/plugins` and not a plugin repo on an old revision. |
-| Plugin installs but skills don't appear | Start a **new** session. Skills load at session start, not on install. |
+| Plugin installs but skills don't appear | On 2.1.221+ installs activate immediately when safe; otherwise start a **new** session. Skills load at session start, not on install. |
 | `plugin update` does nothing | The plugin release didn't bump its `version`. Check that plugin's releases page. |
-| A plugin name isn't found | Run `claude plugin marketplace update tamirs-plugins` first — your cached catalog predates the entry. |
+| A plugin name isn't found | Since 2.1.221 `/plugin install` refreshes a stale catalog and retries on its own; on older versions run `claude plugin marketplace update tamirs-plugins` first. |
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-plugins`, then `claude plugin update <name>@tamirs-plugins`. |
 
 More: [troubleshooting.md](../troubleshooting.md).

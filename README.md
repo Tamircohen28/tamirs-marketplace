@@ -15,7 +15,7 @@
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
   </a>
   <img src="https://img.shields.io/badge/version-1.3.0-blue" alt="Version 1.3.0" />
-  <img src="https://img.shields.io/badge/Claude%20Code-2.1.221-blueviolet" alt="Claude Code 2.1.221" />
+  <img src="https://img.shields.io/badge/Claude%20Code-2.1.222-blueviolet" alt="Claude Code 2.1.222" />
   <img src="https://img.shields.io/badge/Cursor-3.14.7-000000" alt="Cursor 3.14.7" />
   <img src="https://img.shields.io/badge/Codex-0.146.0-412991" alt="Codex 0.146.0" />
   <img src="https://img.shields.io/badge/OpenCode-1.18.11-fab283" alt="OpenCode 1.18.11" />
@@ -40,7 +40,7 @@
 
 | Target | Minimum | Validated against | Catalog install | Install guide |
 |--------|---------|-------------------|-----------------|---------------|
-| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.221** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
+| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.222** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
 | [Cursor](https://cursor.com/docs/plugins) | 3.14.7 | **3.14.7** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
 | [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.146.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.11** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
