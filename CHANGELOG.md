@@ -9,6 +9,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform target: Claude Code 2.1.223** (from 2.1.222). Docs-only bump. The one
+  marketplace-facing item in the 2.1.223 delta is adopted: `strictKnownMarketplaces`
+  and `blockedMarketplaces` managed settings now accept **owner wildcards**
+  (`"Tamircohen28/*"`), so the Claude Code install guide gains a "Managed (enterprise)
+  environments" section showing admins how to allowlist this catalog and every
+  standalone plugin marketplace it points at in one entry, recorded as
+  `owner-wildcard-managed-allowlist-2.1.223` in `platform-targets.json`. The rest of
+  the delta is security/fix-focused (permission-prompt spoofing fixes, a Bash
+  permission bypass, a workflow sandbox escape) and needs no catalog change —
+  `marketplace.json` stays valid, and the `/review` → `/code-review` consolidation
+  touches nothing here.
+
 - **Platform target: Claude Code 2.1.222** (from 2.1.220). Docs-only bump reflecting two
   2.1.221 install-flow improvements: plugins installed with `/plugin install` now activate
   immediately when safe (no new session / `/reload-plugins` needed), and `/plugin install`
