@@ -8,7 +8,7 @@ Pick your host:
 
 | Target | Catalog install | Validated against | Minimum | Guide |
 |--------|-----------------|-------------------|---------|-------|
-| Claude Code | ✅ marketplace | 2.1.222 | 2.0.0 | [claude-code.md](claude-code.md) |
+| Claude Code | ✅ marketplace | 2.1.223 | 2.0.0 | [claude-code.md](claude-code.md) |
 | Cursor | ✅ team marketplace | 3.14.7 | 3.14.7 | [cursor.md](cursor.md) |
 | Codex | ✅ marketplace | 0.146.0 | 0.40.0 | [codex.md](codex.md) |
 | OpenCode | ❌ no marketplace — install per plugin | 1.18.11 | 1.16.2 | [opencode.md](opencode.md) |
