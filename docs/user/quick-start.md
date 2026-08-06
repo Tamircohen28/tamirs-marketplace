@@ -4,7 +4,7 @@ Get plugins installed in under 5 minutes. Pick your platform below.
 
 | Target | Minimum | Validated against | Detailed guide |
 |--------|---------|-------------------|----------------|
-| Claude Code | 2.0.0 | 2.1.222 | [install/claude-code.md](install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.223 | [install/claude-code.md](install/claude-code.md) |
 | Cursor | 3.14.7 | 3.14.7 | [install/cursor.md](install/cursor.md) |
 | Codex | 0.40.0 | 0.146.0 | [install/codex.md](install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | [install/opencode.md](install/opencode.md) |

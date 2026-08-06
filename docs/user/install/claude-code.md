@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.222** |
+| **Validated against** | Claude Code **2.1.223** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.222 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.223 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -95,6 +95,22 @@ can skip the catalog entirely:
 claude plugin uninstall headhunter@tamirs-plugins
 claude plugin marketplace remove tamirs-plugins
 ```
+
+## Managed (enterprise) environments
+
+Since Claude Code 2.1.223, the `strictKnownMarketplaces` and `blockedMarketplaces`
+managed settings accept **owner wildcards**. An admin who wants to allow this catalog
+*and* every standalone plugin repo it points at can allowlist the owner once instead
+of enumerating repos:
+
+```json
+{ "strictKnownMarketplaces": ["Tamircohen28/*"] }
+```
+
+That covers `Tamircohen28/plugins` (this catalog) plus the standalone marketplaces the
+plugins ship themselves (e.g. `Tamircohen28/tamirs-superpowers`, `TamirCohen28/headhunter`).
+On versions older than 2.1.223, list each repo explicitly. The same wildcard form works
+in `blockedMarketplaces`.
 
 ## Troubleshooting
 
