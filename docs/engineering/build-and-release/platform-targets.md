@@ -6,10 +6,10 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.223 | 2.1.223 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.224 | 2.1.224 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.14.7 | 3.14.7 | 3.14.7 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.146.0 | 0.146.0 | [codex.md](../../user/install/codex.md) |
-| OpenCode | 1.16.2 | 1.18.11 | 1.18.11 | [opencode.md](../../user/install/opencode.md) |
+| OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03, not inferred from
 release notes. Each target's `verification_method` in the JSON records exactly how.
