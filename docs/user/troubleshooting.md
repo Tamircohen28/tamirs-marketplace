@@ -52,6 +52,16 @@ claude plugin marketplace add Tamircohen28/plugins
 **Fix**: Claude Code caches plugins by the `version` field in each plugin's `plugin.json`. A
 release that didn't bump the version can't reach you. Check that plugin's releases page.
 
+### Plugin misbehaves after being installed in several projects
+
+**Symptom**: on Claude Code **2.1.223 or older**, installing the same plugin in multiple
+projects could silently corrupt its install records, leaving the plugin in a broken state
+in some of those projects.
+
+**Fix**: upgrade to Claude Code 2.1.224+, where the corruption is fixed. If a plugin is
+still misbehaving from a record corrupted on an older version, uninstall and reinstall it
+(`claude plugin uninstall <name>@tamirs-plugins`, then `claude plugin install`).
+
 ---
 
 ## Codex
