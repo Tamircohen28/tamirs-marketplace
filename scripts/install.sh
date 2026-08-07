@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — contributor bootstrap for tamirs-plugins catalog.
+# install.sh — contributor bootstrap for tamirs-marketplace catalog.
 #
 # Usage: make install
 set -euo pipefail

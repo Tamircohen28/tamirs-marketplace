@@ -17,7 +17,7 @@ Cursor manifests are generated from that file — never bump them by hand.
 1. Move `[Unreleased]` entries in `CHANGELOG.md` and `docs/CHANGELOG.md`.
 2. Bump `.claude-plugin/marketplace.json` `version`.
 3. Run `make generate` and `make validate`.
-4. Merge to `main`, then run the [Release workflow](https://github.com/Tamircohen28/plugins/actions/workflows/release.yml) or tag manually:
+4. Merge to `main`, then run the [Release workflow](https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/release.yml) or tag manually:
 
 ```bash
 VER=$(jq -r .version .claude-plugin/marketplace.json)

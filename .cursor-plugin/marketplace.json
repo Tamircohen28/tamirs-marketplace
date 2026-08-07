@@ -1,11 +1,11 @@
 {
-  "name": "tamirs-plugins",
+  "name": "tamirs-marketplace",
   "owner": {
     "name": "Tamir Cohen"
   },
   "metadata": {
     "description": "Tamir Cohen's unified Claude Code plugin marketplace \u2014 a single catalog pointing to all of his plugin repositories.",
-    "version": "1.3.0"
+    "version": "2.0.0"
   },
   "plugins": [
     {

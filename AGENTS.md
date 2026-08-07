@@ -1,4 +1,4 @@
-# AGENTS.md — tamirs-plugins
+# AGENTS.md — tamirs-marketplace
 
 Canonical agent guidance for this repository. Claude Code (`CLAUDE.md`), Cursor
 (`.cursor/rules/`), and Codex all point here — this file is the single source of

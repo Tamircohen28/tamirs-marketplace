@@ -4,8 +4,8 @@
 # Usage: make uninstall
 set -euo pipefail
 
-echo "tamirs-plugins is a catalog-only repo — nothing to uninstall locally."
+echo "tamirs-marketplace is a catalog-only repo — nothing to uninstall locally."
 echo "To remove installed plugins, use your host's plugin commands:"
-echo "  Claude Code: claude plugin uninstall <name>@tamirs-plugins"
+echo "  Claude Code: claude plugin uninstall <name>@tamirs-marketplace"
 echo "  Codex:       codex plugin uninstall <name>"
 echo "  Cursor:      remove via Settings → Plugins"
