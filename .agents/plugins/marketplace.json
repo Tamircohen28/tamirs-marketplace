@@ -1,5 +1,5 @@
 {
-  "name": "tamirs-plugins",
+  "name": "tamirs-marketplace",
   "interface": {
     "displayName": "Tamir Cohen's unified Claude Code plugin marketplace \u2014 a single catalog pointing to all of his plugin repositories."
   },

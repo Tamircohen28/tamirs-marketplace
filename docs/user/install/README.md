@@ -1,6 +1,6 @@
 # Install guides
 
-`tamirs-plugins` is a **catalog**: it holds marketplace manifests only. The plugin source
+`tamirs-marketplace` is a **catalog**: it holds marketplace manifests only. The plugin source
 lives in each plugin's own repository. Adding this catalog gives you one install point for
 every plugin in it.
 

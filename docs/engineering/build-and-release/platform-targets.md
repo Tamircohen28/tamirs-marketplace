@@ -1,6 +1,6 @@
 # Platform target versions
 
-`tamirs-plugins` supports **four** agent targets. This file is the human mirror of
+`tamirs-marketplace` supports **four** agent targets. This file is the human mirror of
 [`platform-targets.json`](platform-targets.json), which is the machine-readable source
 enforced by `scripts/check-platform-targets.sh`.
 

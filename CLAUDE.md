@@ -1,6 +1,6 @@
 @AGENTS.md
 
-# CLAUDE.md — tamirs-plugins
+# CLAUDE.md — tamirs-marketplace
 
 Project policy, commands, key files, and off-limits live in **[AGENTS.md](AGENTS.md)**
 (imported above) — that file is canonical for every agent. Do not duplicate its

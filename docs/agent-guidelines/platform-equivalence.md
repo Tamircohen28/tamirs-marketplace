@@ -1,6 +1,6 @@
 # Platform equivalence — catalog repo
 
-`tamirs-plugins` is a **catalog-only** marketplace. It ships marketplace manifests,
+`tamirs-marketplace` is a **catalog-only** marketplace. It ships marketplace manifests,
 not plugin source. Feature parity across the four targets — Claude Code, Cursor,
 Codex, and OpenCode — applies to **manifest generation and install docs**, not
 skills, hooks, or MCP servers.

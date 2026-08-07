@@ -27,7 +27,7 @@ the plugins in their in-editor marketplace panel.
 
 1. **Dashboard → Plugins → Team Marketplaces → Add Marketplace**
 2. Choose **Import from Repo**
-3. Repository: `https://github.com/Tamircohen28/plugins`
+3. Repository: `https://github.com/Tamircohen28/tamirs-marketplace`
 4. Save, then assign distribution groups
 
 Developers: open the marketplace panel in Cursor and install the plugins you want.
@@ -66,7 +66,7 @@ Each plugin also ships `.cursor/rules/*.mdc` (Cursor-native rules pointing at it
 Cursor has no `plugin list` CLI. Confirm in the editor:
 
 - **Settings → Plugins** lists the installed plugins
-- The marketplace panel shows `tamirs-plugins` as a source
+- The marketplace panel shows `tamirs-marketplace` as a source
 - Ask the agent to run one of the plugin's skills
 
 ## Update

@@ -20,12 +20,12 @@ Get plugins installed in under 5 minutes. Pick your platform below.
 
 ```bash
 # 1. Add the marketplace
-claude plugin marketplace add Tamircohen28/plugins
+claude plugin marketplace add Tamircohen28/tamirs-marketplace
 
 # 2. Install plugins
-claude plugin install tamirs-superpowers@tamirs-plugins
-claude plugin install jose-claudinho@tamirs-plugins
-claude plugin install headhunter@tamirs-plugins
+claude plugin install tamirs-superpowers@tamirs-marketplace
+claude plugin install jose-claudinho@tamirs-marketplace
+claude plugin install headhunter@tamirs-marketplace
 
 # 3. Verify
 claude plugin list
@@ -34,8 +34,8 @@ claude plugin list
 Inside Claude Code, use slash commands instead:
 
 ```text
-/plugin marketplace add Tamircohen28/plugins
-/plugin install tamirs-superpowers@tamirs-plugins
+/plugin marketplace add Tamircohen28/tamirs-marketplace
+/plugin install tamirs-superpowers@tamirs-marketplace
 /doctor
 ```
 
@@ -62,24 +62,24 @@ Open a **new** session after installing to load skills.
 
 ```bash
 # 1. Add the marketplace (--sparse keeps the clone small)
-codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins
+codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins
 
 # 2. See what's available
-codex plugin list --marketplace tamirs-plugins
+codex plugin list --marketplace tamirs-marketplace
 
 # 3. Install plugins
-codex plugin add tamirs-superpowers@tamirs-plugins
-codex plugin add jose-claudinho@tamirs-plugins
-codex plugin add headhunter@tamirs-plugins
+codex plugin add tamirs-superpowers@tamirs-marketplace
+codex plugin add jose-claudinho@tamirs-marketplace
+codex plugin add headhunter@tamirs-marketplace
 
 # 4. Verify
-codex plugin list --marketplace tamirs-plugins
+codex plugin list --marketplace tamirs-marketplace
 ```
 
 The subcommand is `codex plugin add` — there is no `codex plugin install` and no
-`--source` flag. Select the marketplace with `@tamirs-plugins` or `-m tamirs-plugins`.
+`--source` flag. Select the marketplace with `@tamirs-marketplace` or `-m tamirs-marketplace`.
 
-In the Codex app: **Settings → Plugins → + Add More…** → paste `https://github.com/Tamircohen28/plugins`.
+In the Codex app: **Settings → Plugins → + Add More…** → paste `https://github.com/Tamircohen28/tamirs-marketplace`.
 
 ---
 
@@ -93,7 +93,7 @@ In the Codex app: **Settings → Plugins → + Add More…** → paste `https://
 ### Team marketplace (Teams / Enterprise)
 
 1. Admin: **Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**
-2. Repository: `https://github.com/Tamircohen28/plugins`
+2. Repository: `https://github.com/Tamircohen28/tamirs-marketplace`
 3. Save, then assign distribution groups
 4. Developer: open the marketplace panel in Cursor and install plugins
 
@@ -138,11 +138,11 @@ Plugins are fetched from their pinned branch on install. To refresh:
 
 ```bash
 # Claude Code — refresh the catalog, then the plugin
-claude plugin marketplace update tamirs-plugins
-claude plugin update tamirs-superpowers@tamirs-plugins
+claude plugin marketplace update tamirs-marketplace
+claude plugin update tamirs-superpowers@tamirs-marketplace
 
 # Codex — refresh the catalog snapshot
-codex plugin marketplace upgrade tamirs-plugins
+codex plugin marketplace upgrade tamirs-marketplace
 
 # Cursor — team marketplace installs refresh automatically on push
 # OpenCode — git pull in the clone, then restart

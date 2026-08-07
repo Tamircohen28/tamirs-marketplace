@@ -23,12 +23,12 @@ claude --version
 
 ```bash
 # 1. Add the catalog
-claude plugin marketplace add Tamircohen28/plugins
+claude plugin marketplace add Tamircohen28/tamirs-marketplace
 
 # 2. Install the plugins you want
-claude plugin install tamirs-superpowers@tamirs-plugins
-claude plugin install jose-claudinho@tamirs-plugins
-claude plugin install headhunter@tamirs-plugins
+claude plugin install tamirs-superpowers@tamirs-marketplace
+claude plugin install jose-claudinho@tamirs-marketplace
+claude plugin install headhunter@tamirs-marketplace
 
 # 3. Verify
 claude plugin list
@@ -37,8 +37,8 @@ claude plugin list
 Inside an interactive session, the slash-command equivalent:
 
 ```text
-/plugin marketplace add Tamircohen28/plugins
-/plugin install tamirs-superpowers@tamirs-plugins
+/plugin marketplace add Tamircohen28/tamirs-marketplace
+/plugin install tamirs-superpowers@tamirs-marketplace
 /doctor
 ```
 
@@ -65,8 +65,8 @@ Each plugin's own repo documents its skills, commands, and integrations in detai
 ## Update
 
 ```bash
-claude plugin marketplace update tamirs-plugins
-claude plugin update tamirs-superpowers@tamirs-plugins
+claude plugin marketplace update tamirs-marketplace
+claude plugin update tamirs-superpowers@tamirs-marketplace
 ```
 
 > **Claude Code caches installed plugins by the `version` field in the plugin's
@@ -90,18 +90,18 @@ can skip the catalog entirely:
 ## Uninstall
 
 ```bash
-claude plugin uninstall headhunter@tamirs-plugins
-claude plugin marketplace remove tamirs-plugins
+claude plugin uninstall headhunter@tamirs-marketplace
+claude plugin marketplace remove tamirs-marketplace
 ```
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---------|-----|
-| `Marketplace file not found` | The source has no `.claude-plugin/marketplace.json`. Check you passed `Tamircohen28/plugins` and not a plugin repo on an old revision. |
+| `Marketplace file not found` | The source has no `.claude-plugin/marketplace.json`. Check you passed `Tamircohen28/tamirs-marketplace` and not a plugin repo on an old revision. |
 | Plugin installs but skills don't appear | Start a **new** session. Skills load at session start, not on install. |
 | `plugin update` does nothing | The plugin release didn't bump its `version`. Check that plugin's releases page. |
-| A plugin name isn't found | Run `claude plugin marketplace update tamirs-plugins` first — your cached catalog predates the entry. |
-| `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-plugins`, then `claude plugin update <name>@tamirs-plugins`. |
+| A plugin name isn't found | Run `claude plugin marketplace update tamirs-marketplace` first — your cached catalog predates the entry. |
+| `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 
 More: [troubleshooting.md](../troubleshooting.md).
