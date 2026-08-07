@@ -9,6 +9,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform target: Claude Code 2.1.224** (from 2.1.223). Docs-only bump. Two items in
+  the 2.1.224 delta touch marketplace docs: (1) the new **`archive` plugin source** —
+  plugins can be installed from a zip over HTTPS, without git or npm, with optional
+  SHA-256 pinning — is documented in concepts and the Claude Code install guide as a
+  distribution channel that exists alongside the git-pinned `github` sources this catalog
+  uses (the catalog itself does not publish archive sources, so `marketplace.json` is
+  unchanged); (2) the fix for **plugin install records being silently corrupted when the
+  same plugin is installed in multiple projects** gets a troubleshooting entry — on
+  2.1.224+ the corruption no longer happens, and a reinstall clears state broken by older
+  versions. The rest of the delta (self-hosted runners, cross-session messaging,
+  sandbox credential masking, subagent-cap removal) is not marketplace-facing.
+
 - **Platform target: Claude Code 2.1.223** (from 2.1.222). Docs-only bump. The one
   marketplace-facing item in the 2.1.223 delta is adopted: `strictKnownMarketplaces`
   and `blockedMarketplaces` managed settings now accept **owner wildcards**
