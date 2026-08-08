@@ -9,6 +9,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform target: Claude Code 2.1.226** (from 2.1.224). Docs-only bump. The
+  2.1.225 + 2.1.226 delta contains nothing marketplace-facing: 2.1.226 is fix-only
+  ("bug fixes and reliability improvements"), and 2.1.225's changes (gateway
+  spend-limit warnings, a `claude agents` workspace-trust prompt, OAuth/keychain 401
+  fixes, Remote Control and cross-session messaging improvements) are host-side and
+  touch no documented install or catalog flow. The catalog's install channels
+  (`github` sources, plus the `archive` source documented since 2.1.224) and the
+  managed-allowlist guidance (owner wildcards since 2.1.223) are unchanged. Version
+  tables, badges, and `platform-targets.json` are pinned to 2.1.226.
+
 - **Platform target: Claude Code 2.1.224** (from 2.1.223). Docs-only bump. Two items in
   the 2.1.224 delta touch marketplace docs: (1) the new **`archive` plugin source** —
   plugins can be installed from a zip over HTTPS, without git or npm, with optional
@@ -43,6 +53,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   needed. Also reviewed against 2.1.221's `claude plugin validate` naming warnings
   (names that Claude Desktop's managed marketplace sync would reject): the catalog name
   `tamirs-marketplace` and all three plugin names are lowercase-hyphen and pass.
+
+### Fixed
+- **Removed Cursor adoption commits that landed on the Claude Code nightly branch.**
+  The rolling `claude-code-update` branch briefly carried the "Cursor 3.11
+  (+2026-08-03) Team MCP + Customize" doc adoption and a follow-up install-index
+  note, duplicating the separate `cursor-update` nightly PR and putting
+  cursor-scoped files in a Claude Code-scoped PR; both are reverted here and live
+  only in the cursor PR where they belong.
 
 ## [2.0.0] — 2026-08-07
 
