@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="tamirs-plugins banner" width="800" />
+  <img src="assets/banner.svg" alt="tamirs-marketplace banner" width="800" />
 </p>
 
-<h1 align="center">tamirs-plugins</h1>
+<h1 align="center">tamirs-marketplace</h1>
 
 <p align="center">
   <a href="https://github.com/Tamircohen28">
     <img src="https://img.shields.io/badge/author-Tamir%20Cohen-181717?logo=github" alt="Tamir Cohen" />
   </a>
-  <a href="https://github.com/Tamircohen28/plugins/actions/workflows/ci.yml">
-    <img src="https://github.com/Tamircohen28/plugins/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  <a href="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml">
+    <img src="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
@@ -75,12 +75,12 @@ Inside Claude Code or from the `claude` CLI:
 
 ```bash
 # 1. Add this marketplace
-claude plugin marketplace add Tamircohen28/plugins
+claude plugin marketplace add Tamircohen28/tamirs-marketplace
 
 # 2. Install the plugins you want
-claude plugin install tamirs-superpowers@tamirs-plugins
-claude plugin install jose-claudinho@tamirs-plugins
-claude plugin install headhunter@tamirs-plugins
+claude plugin install tamirs-superpowers@tamirs-marketplace
+claude plugin install jose-claudinho@tamirs-marketplace
+claude plugin install headhunter@tamirs-marketplace
 
 # 3. Confirm they're installed
 claude plugin list
@@ -89,8 +89,8 @@ claude plugin list
 Slash-command equivalent inside Claude Code:
 
 ```text
-/plugin marketplace add Tamircohen28/plugins
-/plugin install tamirs-superpowers@tamirs-plugins
+/plugin marketplace add Tamircohen28/tamirs-marketplace
+/plugin install tamirs-superpowers@tamirs-marketplace
 /doctor
 ```
 
@@ -98,28 +98,28 @@ Slash-command equivalent inside Claude Code:
 
 ```bash
 # 1. Add this marketplace (sparse checkout keeps the clone small)
-codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins
+codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins
 
 # 2. See what's available
-codex plugin list --marketplace tamirs-plugins
+codex plugin list --marketplace tamirs-marketplace
 
 # 3. Install plugins
-codex plugin add tamirs-superpowers@tamirs-plugins
-codex plugin add jose-claudinho@tamirs-plugins
-codex plugin add headhunter@tamirs-plugins
+codex plugin add tamirs-superpowers@tamirs-marketplace
+codex plugin add jose-claudinho@tamirs-marketplace
+codex plugin add headhunter@tamirs-marketplace
 ```
 
 The subcommand is `codex plugin add` — there is no `codex plugin install` and no `--source`
 flag. Codex reads `.agents/plugins/marketplace.json`, **not** `.codex-plugin/marketplace.json`.
 
-In the Codex app: **Settings → Plugins → + Add More…** and paste `https://github.com/Tamircohen28/plugins`.
+In the Codex app: **Settings → Plugins → + Add More…** and paste `https://github.com/Tamircohen28/tamirs-marketplace`.
 
 ### Cursor — team marketplace (Teams / Enterprise)
 
 Org admins import this repo as a private team marketplace:
 
 1. **Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**
-2. Repository: `https://github.com/Tamircohen28/plugins`
+2. Repository: `https://github.com/Tamircohen28/tamirs-marketplace`
 3. Save and assign distribution groups
 
 Developers install optional plugins from the in-editor marketplace panel.

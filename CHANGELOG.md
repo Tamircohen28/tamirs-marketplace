@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the tamirs-plugins catalog are documented here.
+All notable changes to the tamirs-marketplace catalog are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
@@ -42,7 +42,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   nothing marketplace-facing — `marketplace.json` stays valid and no catalog change is
   needed. Also reviewed against 2.1.221's `claude plugin validate` naming warnings
   (names that Claude Desktop's managed marketplace sync would reject): the catalog name
-  `tamirs-plugins` and all three plugin names are lowercase-hyphen and pass.
+  `tamirs-marketplace` and all three plugin names are lowercase-hyphen and pass.
+
+## [2.0.0] — 2026-08-07
+
+### Changed
+- **BREAKING — the catalog is renamed from `tamirs-plugins` to `tamirs-marketplace`, and the repo from `Tamircohen28/plugins` to `Tamircohen28/tamirs-marketplace`.** The old repo URL still resolves via GitHub's redirect, but the marketplace *identifier* changed, so plugin selectors (`<plugin>@tamirs-plugins`), the local cache path (`~/.claude/plugins/cache/tamirs-plugins/`), and any glob built on that path no longer match. Existing installs must migrate:
+
+  ```
+  /plugin marketplace remove tamirs-plugins
+  /plugin marketplace add Tamircohen28/tamirs-marketplace
+  /plugin install tamirs-superpowers@tamirs-marketplace
+  ```
+
+  Consumers that hardcode the cache path — notably `tamirs-superpowers`' statusline and Pushover hooks — are updated in that repo's matching release. The rename makes the name state what the repo is: a marketplace catalog, not a pile of plugins.
 
 ## [1.3.0] — 2026-08-03
 
@@ -52,11 +65,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `platform-targets.json` schema 1 → 2: `supported_targets` makes the enforced target list data-driven, plus `supported_min_source`, `verified_on`, `verification_method`, `install_doc`, and `capabilities` per target. `scripts/check-platform-targets.sh` reads that list (with a legacy three-target fallback), so adding a fifth target needs no script change.
 - `--sync` now refreshes `latest_known` from npm for Claude Code (`@anthropic-ai/claude-code`) and OpenCode (`opencode-ai`), alongside the existing Codex GitHub-releases lookup. Cursor has no public version endpoint and stays manual.
 - **Docs: plugin discovery via newer Claude Code CLI/UI (2.1.157–2.1.172).** Quick-start now points at the `/plugin` marketplace search bar, `claude plugin list --enabled/--disabled` filters for the verify step, and the Installed tab's Skills section.
-- **Docs: `pluginSuggestionMarketplaces` for teams (2.1.152).** Concepts explains that org admins can allowlist `tamirs-plugins` so Claude Code surfaces its plugins as context-aware suggestions inside the organization.
+- **Docs: `pluginSuggestionMarketplaces` for teams (2.1.152).** Concepts explains that org admins can allowlist `tamirs-marketplace` so Claude Code surfaces its plugins as context-aware suggestions inside the organization.
 
 ### Fixed
-- **The Codex install commands in the README, quick-start, and concepts could never have worked.** They documented `codex plugin install <name> --source plugins`; Codex 0.146.0 has no `install` subcommand and no `--source` flag. Verified against `codex plugin add --help`. Corrected everywhere to `codex plugin add <name>@tamirs-plugins` and `codex plugin list --marketplace tamirs-plugins`.
-- **Removed the dead `production-master` catalog entry.** It pointed at `ProductionMasterAI/production-master-intel`, which 404s. `codex plugin add production-master@tamirs-plugins` failed with `remote: Repository not found` — the entry listed cleanly and then broke at clone time, which is the worst way for it to fail.
+- **The Codex install commands in the README, quick-start, and concepts could never have worked.** They documented `codex plugin install <name> --source plugins`; Codex 0.146.0 has no `install` subcommand and no `--source` flag. Verified against `codex plugin add --help`. Corrected everywhere to `codex plugin add <name>@tamirs-marketplace` and `codex plugin list --marketplace tamirs-marketplace`.
+- **Removed the dead `production-master` catalog entry.** It pointed at `ProductionMasterAI/production-master-intel`, which 404s. `codex plugin add production-master@tamirs-marketplace` failed with `remote: Repository not found` — the entry listed cleanly and then broke at clone time, which is the worst way for it to fail.
 - **Cursor's version floor was fiction.** `0.45.0` predates Cursor's plugin system entirely, so a host at that version could never have imported a team marketplace. Cursor's docs state no minimum for plugins, so the floor is now the version actually validated on (3.14.7).
 - Stale `tamirs-superpowers` description — "17 bundled skills" → **26**, in the canonical manifest (and therefore both generated manifests), README, and concepts.
 

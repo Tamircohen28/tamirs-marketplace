@@ -10,7 +10,7 @@ Per-target install guides carry their own troubleshooting tables:
 
 ### `/plugin marketplace add` fails
 
-**Symptom**: `Error: could not fetch marketplace from Tamircohen28/plugins`
+**Symptom**: `Error: could not fetch marketplace from Tamircohen28/tamirs-marketplace`
 
 **Fixes**:
 1. Confirm you are authenticated: run `/status` and check your GitHub connection
@@ -22,7 +22,7 @@ Per-target install guides carry their own troubleshooting tables:
 **Symptom**: adding a source fails with a missing-manifest error
 
 **Fix**: the source has no `.claude-plugin/marketplace.json`. For this catalog, confirm you
-passed `Tamircohen28/plugins`. For a plugin repo installed standalone, confirm you're on a
+passed `Tamircohen28/tamirs-marketplace`. For a plugin repo installed standalone, confirm you're on a
 revision new enough to ship its own marketplace manifest.
 
 ### Plugin installs but skills don't appear
@@ -35,14 +35,14 @@ session start there. `/reload-plugins` reloads what's cached — it does **not**
 GitHub. Since 2.1.221, `/plugin install` also refreshes a stale marketplace catalog and
 retries before reporting a plugin not found.
 
-### `@tamirs-plugins` not recognized
+### `@tamirs-marketplace` not recognized
 
-**Symptom**: `/plugin install headhunter@tamirs-plugins` returns `unknown marketplace`
+**Symptom**: `/plugin install headhunter@tamirs-marketplace` returns `unknown marketplace`
 
 **Fix**: Add the marketplace first:
 
 ```bash
-claude plugin marketplace add Tamircohen28/plugins
+claude plugin marketplace add Tamircohen28/tamirs-marketplace
 ```
 
 ### `plugin update` does nothing
@@ -68,11 +68,11 @@ still misbehaving from a record corrupted on an older version, uninstall and rei
 
 ### Marketplace add succeeds but no plugins listed
 
-**Symptom**: `codex plugin list --marketplace tamirs-plugins` is empty
+**Symptom**: `codex plugin list --marketplace tamirs-marketplace` is empty
 
 **Fixes**:
 1. Confirm you used `--sparse .agents/plugins` when adding the marketplace
-2. Upgrade the marketplace snapshot: `codex plugin marketplace upgrade tamirs-plugins`
+2. Upgrade the marketplace snapshot: `codex plugin marketplace upgrade tamirs-marketplace`
 3. Confirm each plugin repo has `.codex-plugin/plugin.json`
 
 ### `unrecognized subcommand 'install'` / `unexpected argument '--source'`
@@ -92,7 +92,7 @@ plugin repo, it's on a revision that predates the fix.
 **Symptom**: the plugin's git clone fails
 
 **Fix**: the catalog entry points at a repo that is private or gone. That's a catalog bug —
-[open an issue here](https://github.com/Tamircohen28/plugins/issues).
+[open an issue here](https://github.com/Tamircohen28/tamirs-marketplace/issues).
 
 ---
 
@@ -151,13 +151,13 @@ array. `type` is also required on MCP entries (`"local"` for stdio).
 **Fix**: refresh the catalog, then the plugin:
 
 ```bash
-claude plugin marketplace update tamirs-plugins
-claude plugin update tamirs-superpowers@tamirs-plugins
+claude plugin marketplace update tamirs-marketplace
+claude plugin update tamirs-superpowers@tamirs-marketplace
 ```
 
 If the error persists, open an issue in the plugin's own repo (not this catalog).
 
 ### Getting more help
 
-- Open an issue in [this repo](https://github.com/Tamircohen28/plugins/issues) for catalog-level problems (wrong repo URL, missing plugin entry)
+- Open an issue in [this repo](https://github.com/Tamircohen28/tamirs-marketplace/issues) for catalog-level problems (wrong repo URL, missing plugin entry)
 - Open an issue in the plugin's own repo for plugin-level bugs

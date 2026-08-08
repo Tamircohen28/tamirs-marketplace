@@ -1,4 +1,4 @@
-# Project-level Codex CLI overrides for tamirs-plugins (catalog contributors)
+# Project-level Codex CLI overrides for tamirs-marketplace (catalog contributors)
 project_doc_max_bytes = 32768
 
 # This repo is a marketplace catalog only — no MCP servers or hooks here.

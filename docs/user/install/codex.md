@@ -30,34 +30,34 @@ This catalog ships the correct path. It is generated from the Claude manifest by
 
 ```bash
 # 1. Add the catalog. --sparse keeps the clone to just the manifest directory.
-codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins
+codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins
 
 # 2. See what's available
-codex plugin list --marketplace tamirs-plugins
+codex plugin list --marketplace tamirs-marketplace
 
 # 3. Install the plugins you want
-codex plugin add tamirs-superpowers@tamirs-plugins
-codex plugin add jose-claudinho@tamirs-plugins
-codex plugin add headhunter@tamirs-plugins
+codex plugin add tamirs-superpowers@tamirs-marketplace
+codex plugin add jose-claudinho@tamirs-marketplace
+codex plugin add headhunter@tamirs-marketplace
 
 # 4. Verify
-codex plugin list --marketplace tamirs-plugins
+codex plugin list --marketplace tamirs-marketplace
 ```
 
 Step 2 prints, for the catalog as it stands today:
 
 ```
-Marketplace `tamirs-plugins`
-/Users/<you>/.codex/.tmp/marketplaces/tamirs-plugins/.agents/plugins/marketplace.json
+Marketplace `tamirs-marketplace`
+/Users/<you>/.codex/.tmp/marketplaces/tamirs-marketplace/.agents/plugins/marketplace.json
 
 PLUGIN                             STATUS         VERSION  PATH
-tamirs-superpowers@tamirs-plugins  not installed           https://github.com/Tamircohen28/tamirs-superpowers.git, ref `master`
-jose-claudinho@tamirs-plugins      not installed           https://github.com/Tamircohen28/jose-claudinho.git, ref `main`
-headhunter@tamirs-plugins          not installed           https://github.com/Tamircohen28/headhunter.git, ref `main`
+tamirs-superpowers@tamirs-marketplace  not installed           https://github.com/Tamircohen28/tamirs-superpowers.git, ref `master`
+jose-claudinho@tamirs-marketplace      not installed           https://github.com/Tamircohen28/jose-claudinho.git, ref `main`
+headhunter@tamirs-marketplace          not installed           https://github.com/Tamircohen28/headhunter.git, ref `main`
 ```
 
 In the Codex app: **Settings → Plugins → + Add More…** → paste
-`https://github.com/Tamircohen28/plugins`.
+`https://github.com/Tamircohen28/tamirs-marketplace`.
 
 ## Command names
 
@@ -65,8 +65,8 @@ In the Codex app: **Settings → Plugins → + Add More…** → paste
 marketplace is selected with `@MARKETPLACE` in the selector or with `--marketplace`:
 
 ```bash
-codex plugin add headhunter@tamirs-plugins        # selector form
-codex plugin add headhunter -m tamirs-plugins     # flag form
+codex plugin add headhunter@tamirs-marketplace        # selector form
+codex plugin add headhunter -m tamirs-marketplace     # flag form
 ```
 
 Verified against `codex plugin add --help` on 0.146.0.
@@ -85,17 +85,17 @@ its `.codex-plugin/plugin.json`.
 ## Update
 
 ```bash
-codex plugin marketplace upgrade tamirs-plugins
+codex plugin marketplace upgrade tamirs-marketplace
 ```
 
-That refreshes the catalog snapshot. Re-run `codex plugin add <name>@tamirs-plugins` to
+That refreshes the catalog snapshot. Re-run `codex plugin add <name>@tamirs-marketplace` to
 pull a newer plugin revision.
 
 ## Uninstall
 
 ```bash
-codex plugin remove headhunter@tamirs-plugins
-codex plugin marketplace remove tamirs-plugins
+codex plugin remove headhunter@tamirs-marketplace
+codex plugin marketplace remove tamirs-marketplace
 ```
 
 `marketplace remove` also deletes the installed marketplace root under `~/.codex/.tmp/`.
@@ -117,6 +117,6 @@ codex plugin add headhunter@headhunter
 | `error: unrecognized subcommand 'install'` | Use `codex plugin add`. `install` does not exist. |
 | `unexpected argument '--source'` | Use `@MARKETPLACE` in the selector, or `-m/--marketplace`. |
 | `remote: Repository not found` on install | The plugin's source repo is private or gone. Report it — a catalog entry pointing at an unreachable repo is a bug in the catalog. |
-| `codex plugin list` shows nothing from this catalog | You listed all marketplaces; scroll, or use `codex plugin list --marketplace tamirs-plugins`. |
+| `codex plugin list` shows nothing from this catalog | You listed all marketplaces; scroll, or use `codex plugin list --marketplace tamirs-marketplace`. |
 
 More: [troubleshooting.md](../troubleshooting.md).

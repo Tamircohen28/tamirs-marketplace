@@ -2,7 +2,7 @@
 
 ## The four targets
 
-`tamirs-plugins` and every plugin in it support four agent hosts:
+`tamirs-marketplace` and every plugin in it support four agent hosts:
 
 **Claude Code · Cursor · Codex · OpenCode**
 
@@ -41,11 +41,11 @@ session start. A plugin can bundle:
 - **Settings** — status line config and permissions
 
 ```bash
-claude plugin marketplace add Tamircohen28/plugins
-claude plugin install tamirs-superpowers@tamirs-plugins
+claude plugin marketplace add Tamircohen28/tamirs-marketplace
+claude plugin install tamirs-superpowers@tamirs-marketplace
 ```
 
-The `@tamirs-plugins` suffix tells Claude Code which marketplace to resolve the name from.
+The `@tamirs-marketplace` suffix tells Claude Code which marketplace to resolve the name from.
 
 Claude Code caches installed plugins by the `version` field in each plugin's `plugin.json`.
 A plugin release that doesn't bump its version never reaches installed users.
@@ -59,7 +59,7 @@ are what keep installs auto-updating.
 
 **For teams:** Claude Code only suggests plugins contextually from marketplaces an
 admin has allowlisted via the `pluginSuggestionMarketplaces` managed setting
-(2.1.152+). Adding `tamirs-plugins` to that allowlist lets Claude Code surface
+(2.1.152+). Adding `tamirs-marketplace` to that allowlist lets Claude Code surface
 these plugins as context-aware tips inside your organization's sessions.
 
 ## Codex
@@ -67,8 +67,8 @@ these plugins as context-aware tips inside your organization's sessions.
 Codex plugins bundle skills, MCP servers, hooks, and app integrations. Add this repo as a marketplace source, then install plugins from the CLI or in-app plugin directory.
 
 ```bash
-codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins
-codex plugin add tamirs-superpowers@tamirs-plugins
+codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins
+codex plugin add tamirs-superpowers@tamirs-marketplace
 ```
 
 Two things to know:
@@ -116,7 +116,7 @@ Full detail, including OpenCode's config strictness and its documented capabilit
 
 ## How this catalog works
 
-`tamirs-plugins` is a **catalog-only** repo. It contains marketplace manifests that point at each plugin's real repo. The actual plugin source (skills, hooks, MCP config) lives in those repos.
+`tamirs-marketplace` is a **catalog-only** repo. It contains marketplace manifests that point at each plugin's real repo. The actual plugin source (skills, hooks, MCP config) lives in those repos.
 
 ```
 plugins/

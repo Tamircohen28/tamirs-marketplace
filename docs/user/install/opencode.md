@@ -16,7 +16,7 @@ opencode --version
 ## This catalog cannot be installed on OpenCode
 
 OpenCode has no plugin marketplace and no plugin manifest format, so there is nothing for
-`tamirs-plugins` to hook into. This is a platform gap, tracked under
+`tamirs-marketplace` to hook into. This is a platform gap, tracked under
 `targets.opencode.capability_gaps` in
 [`platform-targets.json`](../../engineering/build-and-release/platform-targets.json) — not
 an omission in this repo.

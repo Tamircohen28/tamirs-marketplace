@@ -15,7 +15,7 @@
       "validated_against": "2.1.224",
       "latest_known": "2.1.224",
       "verified_on": "2026-08-07",
-      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/plugins` followed by `claude plugin install <name>@tamirs-plugins`",
+      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -59,7 +59,7 @@
       "validated_against": "0.146.0",
       "latest_known": "0.146.0",
       "verified_on": "2026-08-03",
-      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end — `codex plugin marketplace add Tamircohen28/plugins --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-plugins`, `codex plugin add tamirs-superpowers@tamirs-plugins`; test registrations removed afterwards",
+      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end — `codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-marketplace`, `codex plugin add tamirs-superpowers@tamirs-marketplace`; test registrations removed afterwards",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
