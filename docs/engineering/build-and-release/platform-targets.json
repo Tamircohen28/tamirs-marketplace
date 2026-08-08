@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-08",
-  "reviewed_by_skill": "tamirs-superpowers@2.0.0",
+  "last_reviewed": "2026-08-07",
+  "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
     "cursor",
@@ -38,27 +38,20 @@
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
       "validated_against": "3.14.7",
       "latest_known": "3.14.7",
-      "verified_on": "2026-08-08",
-      "verification_method": "cursor --version on the maintainer machine (3.14.7 CLI patch line); public changelog feature releases reviewed through 3.11 plus date-only entries through 2026-08-03; team-marketplace import remains a Dashboard flow",
+      "verified_on": "2026-08-03",
+      "verification_method": "cursor --version on the maintainer machine; team-marketplace import is a Dashboard flow (Import from Repo) with no CLI equivalent to assert in CI",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
-        "https://cursor.com/docs/plugins",
-        "https://cursor.com/changelog"
+        "https://cursor.com/docs/plugins"
       ],
       "features_adopted": [
         "team-marketplace",
-        "cursor-plugin-manifest",
-        "customize-page-3.9",
-        "team-mcp-marketplace-3.10",
-        "org-group-marketplace-access-3.10",
-        "google-workspace-plugins-2026-08-03"
+        "cursor-plugin-manifest"
       ],
       "capabilities": [
         "marketplace",
         "catalog-install"
-      ],
-      "changelog_date": "2026-08-03",
-      "changelog_feature": "3.11"
+      ]
     },
     "codex": {
       "supported_min": "0.40.0",
@@ -66,7 +59,7 @@
       "validated_against": "0.146.0",
       "latest_known": "0.146.0",
       "verified_on": "2026-08-03",
-      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end \u2014 `codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-marketplace`, `codex plugin add tamirs-superpowers@tamirs-marketplace`; test registrations removed afterwards",
+      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end — `codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-marketplace`, `codex plugin add tamirs-superpowers@tamirs-marketplace`; test registrations removed afterwards",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
@@ -86,7 +79,7 @@
       "validated_against": "1.18.11",
       "latest_known": "1.18.15",
       "verified_on": "2026-08-03",
-      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed \u2014 each plugin repo is cloned and its skills verified with `opencode debug skill`",
+      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — each plugin repo is cloned and its skills verified with `opencode debug skill`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",
@@ -101,7 +94,7 @@
         "per-plugin-clone"
       ],
       "capability_gaps": {
-        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly \u2014 clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
         "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
       }
     }
