@@ -35,15 +35,22 @@
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
       "validated_against": "3.14.7",
       "latest_known": "3.14.7",
+      "changelog_feature": "3.11",
+      "changelog_date": "2026-08-03",
       "verified_on": "2026-08-03",
-      "verification_method": "cursor --version on the maintainer machine; team-marketplace import is a Dashboard flow (Import from Repo) with no CLI equivalent to assert in CI",
+      "verification_method": "cursor --version on the maintainer machine; team-marketplace import is a Dashboard flow (Import from Repo) with no CLI equivalent to assert in CI; public changelog covered through feature 3.11 and date-only entries to 2026-08-03",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
-        "https://cursor.com/docs/plugins"
+        "https://cursor.com/docs/plugins",
+        "https://cursor.com/docs/customize-cursor"
       ],
       "features_adopted": [
         "team-marketplace",
-        "cursor-plugin-manifest"
+        "cursor-plugin-manifest",
+        "customize-page-3.9",
+        "team-mcp-marketplace-3.10",
+        "org-group-marketplace-access-3.10",
+        "google-workspace-plugins-optional-2026-08-03"
       ],
       "capabilities": [
         "marketplace",
