@@ -9,6 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Cursor changelog coverage through 3.11 + 2026-08-03** while keeping the CLI
+  `validated_against` pin at **3.14.7**. Added root [`.cursor-version`](.cursor-version).
+  Cursor install guide now covers Customize (3.9), Team MCPs distributed via team
+  marketplaces + organization-group access (3.10), and optional Google Workspace
+  marketplace plugins (2026-08-03). Corrected the catalog's listed
+  `tamirs-superpowers` skill count to **27**.
 - **Platform target: Claude Code 2.1.224** (from 2.1.223). Docs-only bump. Two items in
   the 2.1.224 delta touch marketplace docs: (1) the new **`archive` plugin source** —
   plugins can be installed from a zip over HTTPS, without git or npm, with optional
