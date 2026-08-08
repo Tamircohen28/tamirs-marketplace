@@ -83,6 +83,13 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
+## Working tips (3.11 → 2026-08-03)
+
+- **Side chats (3.11)** — `/side` / `/btw` to research a catalogued plugin's install path without interrupting the main thread.
+- **Cursor Router / Auto (2026-07-22)** — prefer Balance for routine catalog edits; Intelligence when auditing platform-target parity.
+- **Cursor Automations (3.8)** — `/automate` with **Workflow run completed** to triage catalog CI (`make validate` / `make agent:check`) and open a fix PR; **PR review comment** for auto-addressing review threads. Computer use is available for demo artifacts.
+- **Inbox (2026-07-29)** — track cloud-agent / automation PRs from phone or desktop; no catalog code change.
+
 ## Verify
 
 Cursor has no `plugin list` CLI. Confirm in the editor:

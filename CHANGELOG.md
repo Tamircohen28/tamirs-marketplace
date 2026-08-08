@@ -10,6 +10,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - **Cursor install guide covers 3.9–3.11 + 2026-08-03.** Documents Customize as the install surface, Organization Group marketplace access and Team MCP distribution (3.10), and clarifies optional Google Workspace plugins are unrelated to this catalog. Root `.cursor-version` pins CLI **3.14.7** with changelog feature **3.11** / date **2026-08-03**.
+- **Cursor working tips** — side chats, Cursor Router guidance, and Automations (3.8) GitHub triggers for catalog CI / review triage.
 
 ## [2.0.0] — 2026-08-07
 

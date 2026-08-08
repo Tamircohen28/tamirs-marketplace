@@ -50,7 +50,9 @@
         "customize-page-3.9",
         "team-mcp-marketplace-3.10",
         "org-group-marketplace-access-3.10",
-        "google-workspace-plugins-optional-2026-08-03"
+        "google-workspace-plugins-optional-2026-08-03",
+        "side-chats-docs-3.11",
+        "automations-github-triggers-docs-3.8"
       ],
       "capabilities": [
         "marketplace",
