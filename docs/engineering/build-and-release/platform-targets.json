@@ -52,7 +52,9 @@
         "org-group-marketplace-access-3.10",
         "google-workspace-plugins-optional-2026-08-03",
         "side-chats-docs-3.11",
-        "automations-github-triggers-docs-3.8"
+        "automations-github-triggers-docs-3.8",
+        "multi-pr-sessions-docs-2026-07-29",
+        "third-party-hooks-pointer"
       ],
       "capabilities": [
         "marketplace",
@@ -65,7 +67,7 @@
       "validated_against": "0.146.0",
       "latest_known": "0.146.0",
       "verified_on": "2026-08-03",
-      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end — `codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-marketplace`, `codex plugin add tamirs-superpowers@tamirs-marketplace`; test registrations removed afterwards",
+      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end \u2014 `codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-marketplace`, `codex plugin add tamirs-superpowers@tamirs-marketplace`; test registrations removed afterwards",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
@@ -85,7 +87,7 @@
       "validated_against": "1.18.11",
       "latest_known": "1.18.11",
       "verified_on": "2026-08-03",
-      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — each plugin repo is cloned and its skills verified with `opencode debug skill`",
+      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed \u2014 each plugin repo is cloned and its skills verified with `opencode debug skill`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",
@@ -100,7 +102,7 @@
         "per-plugin-clone"
       ],
       "capability_gaps": {
-        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly \u2014 clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
         "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
       }
     }

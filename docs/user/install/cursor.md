@@ -88,7 +88,8 @@ the agent. Never commit Workspace credentials into this repo or any catalogued p
 - **Side chats (3.11)** — `/side` / `/btw` to research a catalogued plugin's install path without interrupting the main thread.
 - **Cursor Router / Auto (2026-07-22)** — prefer Balance for routine catalog edits; Intelligence when auditing platform-target parity.
 - **Cursor Automations (3.8)** — `/automate` with **Workflow run completed** to triage catalog CI (`make validate` / `make agent:check`) and open a fix PR; **PR review comment** for auto-addressing review threads. Computer use is available for demo artifacts.
-- **Inbox (2026-07-29)** — track cloud-agent / automation PRs from phone or desktop; no catalog code change.
+- **Inbox + multi-PR sessions (2026-07-29)** — track cloud-agent / automation PRs from phone or desktop. When one chat opens catalog + plugin PRs together, open **every** PR from the session — not only the last.
+- **Third-party hooks** — Claude settings-based hooks can load in Cursor when third-party skills/hooks are enabled; catalogued plugins still need their own Cursor install path (see each plugin's Cursor guide).
 
 ## Verify
 
