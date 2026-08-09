@@ -53,17 +53,18 @@
     "codex": {
       "supported_min": "0.40.0",
       "supported_min_source": "earliest release this catalog has claimed .agents/plugins/marketplace.json support for",
-      "validated_against": "0.146.0",
-      "latest_known": "0.146.0",
-      "verified_on": "2026-08-03",
-      "verification_method": "codex --version on the maintainer machine; catalog install verified end to end — `codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins`, `codex plugin list --marketplace tamirs-marketplace`, `codex plugin add tamirs-superpowers@tamirs-marketplace`; test registrations removed afterwards",
+      "validated_against": "0.147.0",
+      "latest_known": "0.147.0",
+      "verified_on": "2026-08-09",
+      "verification_method": "official OpenAI Codex 0.147.0 changelog plus catalog compatibility review; the existing .agents/plugins marketplace remains compatible with portable Agent Plugin catalog discovery",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
       ],
       "features_adopted": [
         "plugin-marketplace",
-        "sparse-marketplace-checkout"
+        "sparse-marketplace-checkout",
+        "portable-agent-plugin-catalogs-0.147.0"
       ],
       "capabilities": [
         "marketplace",
