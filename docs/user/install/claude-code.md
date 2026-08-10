@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.220** |
+| **Validated against** | Claude Code **2.1.226** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.220 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.226 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -42,7 +42,9 @@ Inside an interactive session, the slash-command equivalent:
 /doctor
 ```
 
-Open a **new** session after installing — skills load at session start.
+Since Claude Code 2.1.221, plugins installed with `/plugin install` activate immediately
+when safe — no new session needed. On older versions (or when instant activation isn't
+safe), open a **new** session after installing — skills load at session start.
 
 ## What you get
 
@@ -87,6 +89,15 @@ can skip the catalog entirely:
 /plugin install headhunter@headhunter
 ```
 
+## Plugin sources: git and archive (2.1.224+)
+
+Every entry in this catalog is a `github` source pinned to a branch — installing fetches
+the plugin's repo over git, and `plugin update` tracks that branch. Since Claude Code
+2.1.224, marketplaces can alternatively distribute a plugin as an **`archive` source**: a
+zip downloaded over HTTPS, with no git or npm required and optional SHA-256 pinning for
+integrity. This catalog does not currently offer archive sources — nothing changes for
+installs from here — but plugins you install from other marketplaces may arrive that way.
+
 ## Uninstall
 
 ```bash
@@ -94,14 +105,30 @@ claude plugin uninstall headhunter@tamirs-marketplace
 claude plugin marketplace remove tamirs-marketplace
 ```
 
+## Managed (enterprise) environments
+
+Since Claude Code 2.1.223, the `strictKnownMarketplaces` and `blockedMarketplaces`
+managed settings accept **owner wildcards**. An admin who wants to allow this catalog
+*and* every standalone plugin repo it points at can allowlist the owner once instead
+of enumerating repos:
+
+```json
+{ "strictKnownMarketplaces": ["Tamircohen28/*"] }
+```
+
+That covers `Tamircohen28/plugins` (this catalog) plus the standalone marketplaces the
+plugins ship themselves (e.g. `Tamircohen28/tamirs-superpowers`, `TamirCohen28/headhunter`).
+On versions older than 2.1.223, list each repo explicitly. The same wildcard form works
+in `blockedMarketplaces`.
+
 ## Troubleshooting
 
 | Symptom | Fix |
 |---------|-----|
 | `Marketplace file not found` | The source has no `.claude-plugin/marketplace.json`. Check you passed `Tamircohen28/tamirs-marketplace` and not a plugin repo on an old revision. |
-| Plugin installs but skills don't appear | Start a **new** session. Skills load at session start, not on install. |
+| Plugin installs but skills don't appear | On 2.1.221+ installs activate immediately when safe; otherwise start a **new** session. Skills load at session start, not on install. |
 | `plugin update` does nothing | The plugin release didn't bump its `version`. Check that plugin's releases page. |
-| A plugin name isn't found | Run `claude plugin marketplace update tamirs-marketplace` first — your cached catalog predates the entry. |
+| A plugin name isn't found | Since 2.1.221 `/plugin install` refreshes a stale catalog and retries on its own; on older versions run `claude plugin marketplace update tamirs-marketplace` first. |
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 
 More: [troubleshooting.md](../troubleshooting.md).
