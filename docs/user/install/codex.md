@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Codex CLI **0.146.0** |
+| **Validated against** | Codex CLI **0.147.0** |
 | **Minimum supported** | **0.40.0** |
 | **Marketplace manifest** | `.agents/plugins/marketplace.json` |
 | **Official docs** | [Codex plugins](https://developers.openai.com/codex/plugins) |
@@ -12,6 +12,8 @@ Check your version:
 ```bash
 codex --version
 ```
+
+Codex 0.147.0 expands portable Agent Plugin and catalog discovery. This catalog already uses the supported `.agents/plugins/marketplace.json` layout, so no manifest migration is required.
 
 ## The manifest path trips people up
 
@@ -69,7 +71,7 @@ codex plugin add headhunter@tamirs-marketplace        # selector form
 codex plugin add headhunter -m tamirs-marketplace     # flag form
 ```
 
-Verified against `codex plugin add --help` on 0.146.0.
+Verified against the 0.147.0 release behavior and compatibility delta.
 
 ## What you get
 
