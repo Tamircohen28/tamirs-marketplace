@@ -8,11 +8,13 @@ enforced by `scripts/check-platform-targets.sh`.
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.220 | 2.1.220 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.14.7 | 3.14.7 | 3.14.7 | [cursor.md](../../user/install/cursor.md) |
-| Codex | 0.40.0 | 0.146.0 | 0.146.0 | [codex.md](../../user/install/codex.md) |
+| Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.11 | [opencode.md](../../user/install/opencode.md) |
 
-All four versions were read from the CLIs themselves on 2026-08-03, not inferred from
-release notes. Each target's `verification_method` in the JSON records exactly how.
+All four versions were read from the CLIs themselves on 2026-08-03. Codex was revalidated
+against the **0.147.0** release on **2026-08-09** by comparing the official release delta
+with this catalog's `.agents/plugins/marketplace.json` installation surface. Each target's
+`verification_method` in the JSON records exactly how.
 
 ## Two corrected version floors
 
@@ -23,8 +25,8 @@ Both of these were fiction before 2026-08-03:
   so the floor is now the version this catalog was actually validated on (3.14.7) rather
   than a guess.
 - **Codex `0.40.0`** is kept as the floor because that is the earliest release this catalog
-  has claimed `.agents/plugins/marketplace.json` support for, but `validated_against` moved
-  from 0.40.0 to 0.146.0 — the version the install flow was actually exercised on.
+  has claimed `.agents/plugins/marketplace.json` support for. The catalog was exercised on
+  0.146.0 and revalidated for 0.147.0's portable Agent Plugin catalog support.
 
 ## What "supported" means per target
 
@@ -36,7 +38,7 @@ on different hosts.
 |--------|-----------------|---------------|-------|
 | Claude Code | ✅ `claude plugin marketplace add` | `.claude-plugin/marketplace.json` | Canonical manifest — the other two are generated from it |
 | Cursor | ✅ Dashboard → Import from Repo | `.cursor-plugin/marketplace.json` | Teams/Enterprise feature; no CLI equivalent |
-| Codex | ✅ `codex plugin marketplace add` | `.agents/plugins/marketplace.json` | **Not** `.codex-plugin/marketplace.json` |
+| Codex | ✅ `codex plugin marketplace add` | `.agents/plugins/marketplace.json` | **Not** `.codex-plugin/marketplace.json`; compatible with 0.147.0 portable Agent Plugin catalogs |
 | OpenCode | ❌ no marketplace concept | — | Install each plugin repo directly; see below |
 
 ### OpenCode

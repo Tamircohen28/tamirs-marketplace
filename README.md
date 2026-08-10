@@ -17,7 +17,7 @@
   <img src="https://img.shields.io/badge/version-1.3.0-blue" alt="Version 1.3.0" />
   <img src="https://img.shields.io/badge/Claude%20Code-2.1.220-blueviolet" alt="Claude Code 2.1.220" />
   <img src="https://img.shields.io/badge/Cursor-3.14.7-000000" alt="Cursor 3.14.7" />
-  <img src="https://img.shields.io/badge/Codex-0.146.0-412991" alt="Codex 0.146.0" />
+  <img src="https://img.shields.io/badge/Codex-0.147.0-412991" alt="Codex 0.147.0" />
   <img src="https://img.shields.io/badge/OpenCode-1.18.11-fab283" alt="OpenCode 1.18.11" />
 </p>
 
@@ -42,11 +42,10 @@
 |--------|---------|-------------------|-----------------|---------------|
 | [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.220** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
 | [Cursor](https://cursor.com/docs/plugins) | 3.14.7 | **3.14.7** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
-| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.146.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
+| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.147.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.11** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
-Every version above was read from the CLI itself, not inferred from release notes. Floors,
-verification methods, and OpenCode's documented capability gaps:
+Claude Code, Cursor, and OpenCode values above were validated from their CLIs. Codex 0.147.0 was revalidated on 2026-08-09 against the official release delta and this catalog's native `.agents/plugins/marketplace.json` surface. Floors, verification methods, and OpenCode's documented capability gaps:
 [platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
 
 ## Plugins
