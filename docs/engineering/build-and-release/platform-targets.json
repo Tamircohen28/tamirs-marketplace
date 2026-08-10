@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-03",
+  "last_reviewed": "2026-08-08",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.220",
-      "latest_known": "2.1.220",
-      "verified_on": "2026-08-03",
-      "verification_method": "claude --version on the maintainer machine; latest from registry.npmjs.org/@anthropic-ai/claude-code; catalog install verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`",
+      "validated_against": "2.1.226",
+      "latest_known": "2.1.226",
+      "verified_on": "2026-08-08",
+      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -23,7 +23,10 @@
       ],
       "features_adopted": [
         "plugin-marketplace",
-        "marketplace-cross-dependencies"
+        "marketplace-cross-dependencies",
+        "instant-plugin-activation-2.1.221",
+        "marketplace-refresh-on-install-2.1.221",
+        "owner-wildcard-managed-allowlist-2.1.223"
       ],
       "capabilities": [
         "marketplace",
@@ -75,7 +78,7 @@
       "supported_min": "1.16.2",
       "supported_min_source": "oldest version on which `skills.paths` discovery of a catalog plugin's skills was verified with `opencode debug skill`",
       "validated_against": "1.18.11",
-      "latest_known": "1.18.11",
+      "latest_known": "1.18.15",
       "verified_on": "2026-08-03",
       "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — each plugin repo is cloned and its skills verified with `opencode debug skill`",
       "install_doc": "docs/user/install/opencode.md",

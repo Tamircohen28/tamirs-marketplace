@@ -29,8 +29,11 @@ revision new enough to ship its own marketplace manifest.
 
 **Symptom**: `/plugin install` succeeds but skills are not found
 
-**Fix**: Open a **new** Claude Code session. Plugins are loaded at session start, not mid-session.
-`/reload-plugins` reloads what's cached — it does **not** re-fetch from GitHub.
+**Fix**: On Claude Code 2.1.221+ a fresh `/plugin install` activates immediately when safe, so
+this mostly affects older versions: open a **new** Claude Code session — plugins load at
+session start there. `/reload-plugins` reloads what's cached — it does **not** re-fetch from
+GitHub. Since 2.1.221, `/plugin install` also refreshes a stale marketplace catalog and
+retries before reporting a plugin not found.
 
 ### `@tamirs-marketplace` not recognized
 
@@ -48,6 +51,16 @@ claude plugin marketplace add Tamircohen28/tamirs-marketplace
 
 **Fix**: Claude Code caches plugins by the `version` field in each plugin's `plugin.json`. A
 release that didn't bump the version can't reach you. Check that plugin's releases page.
+
+### Plugin misbehaves after being installed in several projects
+
+**Symptom**: on Claude Code **2.1.223 or older**, installing the same plugin in multiple
+projects could silently corrupt its install records, leaving the plugin in a broken state
+in some of those projects.
+
+**Fix**: upgrade to Claude Code 2.1.224+, where the corruption is fixed. If a plugin is
+still misbehaving from a record corrupted on an older version, uninstall and reinstall it
+(`claude plugin uninstall <name>@tamirs-plugins`, then `claude plugin install`).
 
 ---
 
