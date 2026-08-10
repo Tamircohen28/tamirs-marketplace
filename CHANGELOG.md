@@ -9,51 +9,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
-- **Platform target: Claude Code 2.1.226** (from 2.1.224). Docs-only bump. The
-  2.1.225 + 2.1.226 delta contains nothing marketplace-facing: 2.1.226 is fix-only
-  ("bug fixes and reliability improvements"), and 2.1.225's changes (gateway
-  spend-limit warnings, a `claude agents` workspace-trust prompt, OAuth/keychain 401
-  fixes, Remote Control and cross-session messaging improvements) are host-side and
-  touch no documented install or catalog flow. The catalog's install channels
-  (`github` sources, plus the `archive` source documented since 2.1.224) and the
-  managed-allowlist guidance (owner wildcards since 2.1.223) are unchanged. Version
-  tables, badges, and `platform-targets.json` are pinned to 2.1.226.
-
-- **Platform target: Claude Code 2.1.224** (from 2.1.223). Docs-only bump. Two items in
-  the 2.1.224 delta touch marketplace docs: (1) the new **`archive` plugin source** —
-  plugins can be installed from a zip over HTTPS, without git or npm, with optional
-  SHA-256 pinning — is documented in concepts and the Claude Code install guide as a
-  distribution channel that exists alongside the git-pinned `github` sources this catalog
-  uses (the catalog itself does not publish archive sources, so `marketplace.json` is
-  unchanged); (2) the fix for **plugin install records being silently corrupted when the
-  same plugin is installed in multiple projects** gets a troubleshooting entry — on
-  2.1.224+ the corruption no longer happens, and a reinstall clears state broken by older
-  versions. The rest of the delta (self-hosted runners, cross-session messaging,
-  sandbox credential masking, subagent-cap removal) is not marketplace-facing.
-
-- **Platform target: Claude Code 2.1.223** (from 2.1.222). Docs-only bump. The one
-  marketplace-facing item in the 2.1.223 delta is adopted: `strictKnownMarketplaces`
-  and `blockedMarketplaces` managed settings now accept **owner wildcards**
-  (`"Tamircohen28/*"`), so the Claude Code install guide gains a "Managed (enterprise)
-  environments" section showing admins how to allowlist this catalog and every
-  standalone plugin marketplace it points at in one entry, recorded as
-  `owner-wildcard-managed-allowlist-2.1.223` in `platform-targets.json`. The rest of
-  the delta is security/fix-focused (permission-prompt spoofing fixes, a Bash
-  permission bypass, a workflow sandbox escape) and needs no catalog change —
-  `marketplace.json` stays valid, and the `/review` → `/code-review` consolidation
-  touches nothing here.
-
-- **Platform target: Claude Code 2.1.222** (from 2.1.220). Docs-only bump reflecting two
-  2.1.221 install-flow improvements: plugins installed with `/plugin install` now activate
-  immediately when safe (no new session / `/reload-plugins` needed), and `/plugin install`
-  refreshes a stale marketplace catalog and retries before reporting a plugin not found.
-  Install guides, quick-start, troubleshooting, and `platform-targets.json` updated; the
-  older-version guidance is kept for users below 2.1.221. The 2.1.222 delta contains
-  nothing marketplace-facing — `marketplace.json` stays valid and no catalog change is
-  needed. Also reviewed against 2.1.221's `claude plugin validate` naming warnings
-  (names that Claude Desktop's managed marketplace sync would reject): the catalog name
-  `tamirs-marketplace` and all three plugin names are lowercase-hyphen and pass.
-
 ### Fixed
 - **Removed Cursor adoption commits that landed on the Claude Code nightly branch.**
   The rolling `claude-code-update` branch briefly carried the "Cursor 3.11
