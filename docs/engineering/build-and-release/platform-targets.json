@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-08",
+  "last_reviewed": "2026-08-11",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -34,14 +34,14 @@
       ]
     },
     "cursor": {
-      "supported_min": "3.14.7",
+      "supported_min": "3.15.6",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.14.7",
-      "latest_known": "3.14.7",
+      "validated_against": "3.15.6",
+      "latest_known": "3.15.6",
       "changelog_feature": "3.11",
       "changelog_date": "2026-08-03",
-      "verified_on": "2026-08-03",
-      "verification_method": "cursor --version on the maintainer machine; team-marketplace import is a Dashboard flow (Import from Repo) with no CLI equivalent to assert in CI; public changelog covered through feature 3.11 and date-only entries to 2026-08-03",
+      "verified_on": "2026-08-11",
+      "verification_method": "latest desktop build from official Cursor download links (3.15.6, 2026-08-06) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-08-03); team-marketplace import remains a Dashboard flow with no CLI equivalent to assert in CI",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -57,7 +57,10 @@
         "side-chats-docs-3.11",
         "automations-github-triggers-docs-3.8",
         "multi-pr-sessions-docs-2026-07-29",
-        "third-party-hooks-pointer"
+        "third-party-hooks-pointer",
+        "workspace-open-hook-docs",
+        "agent-plugins-standard-docs",
+        "desktop-cli-pin-3.15.6"
       ],
       "capabilities": [
         "marketplace",

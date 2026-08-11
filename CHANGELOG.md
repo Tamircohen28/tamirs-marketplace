@@ -9,6 +9,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Cursor desktop pin → 3.15.6.** `.cursor-version`, cursor fields in `platform-targets.json`, README badge, and install docs track desktop **3.15.6**. Changelog feature coverage remains **3.11** / **2026-08-03**.
+- **Cursor docs: `workspaceOpen` + Agent Plugins standard.** Install guide documents the `workspaceOpen` hook and Agent Plugins open-standard support.
+
 ### Fixed
 - **Removed Cursor adoption commits that landed on the Claude Code nightly branch.**
   The rolling `claude-code-update` branch briefly carried the "Cursor 3.11

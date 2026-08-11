@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.14.7** |
-| **Minimum supported** | **3.14.7** |
+| **Validated against** | Cursor **3.15.6** |
+| **Minimum supported** | **3.15.6** |
 | **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-03** (see [`.cursor-version`](../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
@@ -16,7 +16,7 @@ cursor --version
 
 ## About the version floor
 
-Cursor's documentation states **no minimum version** for plugins. The 3.14.7 floor here is
+Cursor's documentation states **no minimum version** for plugins. The 3.15.6 floor here is
 simply the version this catalog was actually validated on, not a limit Cursor imposes. The
 previous floor in this repo was `0.45.0`, which predates Cursor's plugin system entirely —
 it could never have worked.
@@ -83,8 +83,11 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
-## Working tips (3.11 → 2026-08-03)
+## Working tips (3.11 → 2026-08-03; desktop CLI 3.15.6)
 
+- **Desktop CLI patch line** — pin is **3.15.6** (download line 2026-08-06). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-03**.
+- **Agent Plugins standard** — Cursor loads [Agent Plugins](https://agent-plugins.org) (portable skills/MCP) alongside Cursor Plugins. Catalogued plugins ship `.cursor-plugin/plugin.json`.
+- **`workspaceOpen` hook** — desktop/CLI app-lifecycle hook can return `pluginPaths` for workspace-specific plugin dirs (not Cloud Agents). Optional when developing catalogued plugins in a multi-root workspace.
 - **Side chats (3.11)** — `/side` / `/btw` to research a catalogued plugin's install path without interrupting the main thread.
 - **Cursor Router / Auto (2026-07-22)** — prefer Balance for routine catalog edits; Intelligence when auditing platform-target parity.
 - **Cursor Automations (3.8)** — `/automate` with **Workflow run completed** to triage catalog CI (`make validate` / `make agent:check`) and open a fix PR; **PR review comment** for auto-addressing review threads. Computer use is available for demo artifacts.
