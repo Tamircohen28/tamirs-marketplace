@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.226** |
+| **Validated against** | Claude Code **2.1.228** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.226 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.228 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -120,6 +120,14 @@ That covers `Tamircohen28/plugins` (this catalog) plus the standalone marketplac
 plugins ship themselves (e.g. `Tamircohen28/tamirs-superpowers`, `TamirCohen28/headhunter`).
 On versions older than 2.1.223, list each repo explicitly. The same wildcard form works
 in `blockedMarketplaces`.
+
+Since Claude Code 2.1.228, marketplace entries defined in **settings files merge as
+whole entries** across settings tiers. Before that, a marketplace redefined in a
+higher-precedence tier (say, a user settings file overriding a managed one) could
+silently inherit another tier's custom headers — for a catalog fetched over plain
+git like this one that was mostly invisible, but if you pin marketplaces with custom
+HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
+the two stop bleeding into each other.
 
 ## Troubleshooting
 

@@ -9,6 +9,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform target: Claude Code 2.1.228** (from 2.1.226). Docs-only bump. The
+  2.1.227 + 2.1.228 delta reviewed against the catalog surface:
+  `.claude-plugin/marketplace.json` stays valid, no plugin renames needed, and
+  nothing removed is relied on. One entry is marketplace-facing and now documented
+  in the Claude Code install guide's managed-environments section: **2.1.228 makes
+  marketplace entries merge as whole entries across settings tiers** — previously a
+  marketplace redefined in a higher-precedence settings file could inherit another
+  tier's custom headers. Also relevant to plugin authors working out of this
+  catalog: 2.1.228's background plugin-cache cleanup no longer deletes a plugin's
+  cache when its only version is a symlinked development checkout. The rest of the
+  delta (self-hosted-runner, Remote Control, and cross-session-messaging fixes, a
+  Write-tool rule change for newer models, slash-command menu polish) is host-side
+  and touches nothing this catalog documents.
+
 ### Fixed
 - **Removed Cursor adoption commits that landed on the Claude Code nightly branch.**
   The rolling `claude-code-update` branch briefly carried the "Cursor 3.11
