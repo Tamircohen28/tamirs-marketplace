@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-08",
+  "last_reviewed": "2026-08-12",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,9 +12,9 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.226",
-      "latest_known": "2.1.226",
-      "verified_on": "2026-08-08",
+      "validated_against": "2.1.228",
+      "latest_known": "2.1.228",
+      "verified_on": "2026-08-12",
       "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
@@ -26,7 +26,8 @@
         "marketplace-cross-dependencies",
         "instant-plugin-activation-2.1.221",
         "marketplace-refresh-on-install-2.1.221",
-        "owner-wildcard-managed-allowlist-2.1.223"
+        "owner-wildcard-managed-allowlist-2.1.223",
+        "settings-tier-whole-entry-merge-2.1.228"
       ],
       "capabilities": [
         "marketplace",
@@ -91,7 +92,7 @@
       "validated_against": "1.18.11",
       "latest_known": "1.18.15",
       "verified_on": "2026-08-03",
-      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed \u2014 each plugin repo is cloned and its skills verified with `opencode debug skill`",
+      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — each plugin repo is cloned and its skills verified with `opencode debug skill`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",
@@ -106,7 +107,7 @@
         "per-plugin-clone"
       ],
       "capability_gaps": {
-        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly \u2014 clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
         "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
       }
     }
