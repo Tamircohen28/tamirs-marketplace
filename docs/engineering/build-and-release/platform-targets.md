@@ -7,7 +7,7 @@ enforced by `scripts/check-platform-targets.sh`.
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.226 | 2.1.226 | [claude-code.md](../../user/install/claude-code.md) |
-| Cursor | 3.15.6 | 3.15.6 | 3.15.6 | [cursor.md](../../user/install/cursor.md) |
+| Cursor | 3.15.19 | 3.15.19 | 3.15.19 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
@@ -22,7 +22,7 @@ Both of these were fiction before 2026-08-03:
 
 - **Cursor `0.45.0`** predates Cursor's plugin system entirely — a 0.x release could never
   have imported a team marketplace. Cursor's docs state **no** minimum version for plugins,
-  so the floor is now the version this catalog was actually validated on (3.15.6) rather
+  so the floor is now the version this catalog was actually validated on (3.15.19) rather
   than a guess.
 - **Codex `0.40.0`** is kept as the floor because that is the earliest release this catalog
   has claimed `.agents/plugins/marketplace.json` support for. The catalog was exercised on
