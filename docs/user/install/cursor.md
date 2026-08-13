@@ -85,8 +85,10 @@ the agent. Never commit Workspace credentials into this repo or any catalogued p
 
 ## Working tips (3.11 → 2026-08-13; desktop CLI 3.15.19)
 
-- **Desktop CLI patch line** — pin is **3.15.19** (download line 2026-08-11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-13** (Cloud Agent Builds).
+- **Desktop CLI patch line** — pin is **3.15.19** (download line 2026-08-11; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-13** (Cloud Agent Builds).
 - **Cloud Agent Builds (2026-08-13)** — warm environment snapshots for Cloud Agents (install pre-run; failed builds stay inactive). Enable on the environment Builds tab when validating catalog installs in cloud; durable deps in `install`, fresh services in `start`. See [announcement](https://cursor.com/blog/builds).
+- **CLI sticky skills (Aug 11)** — Option+Enter keeps a mode-backed skill sticky across turns in Cursor CLI — useful when validating a catalogued plugin's install skill without re-invoking it each message.
+- **CLI plugin hooks (Aug 11)** — Cursor CLI now runs hooks from installed plugins (and `--plugin-dir`). Catalogued plugins still need a Cursor-native hooks bundle (not Claude-shaped `hooks/hooks.json`) before that path helps; see each plugin's Cursor install guide.
 - **Agent Plugins standard** — Cursor loads [Agent Plugins](https://agent-plugins.org) (portable skills/MCP) alongside Cursor Plugins. Catalogued plugins ship `.cursor-plugin/plugin.json`.
 - **`workspaceOpen` hook** — desktop/CLI app-lifecycle hook can return `pluginPaths` for workspace-specific plugin dirs (not Cloud Agents). Optional when developing catalogued plugins in a multi-root workspace.
 - **Side chats (3.11)** — `/side` / `/btw` to research a catalogued plugin's install path without interrupting the main thread.
