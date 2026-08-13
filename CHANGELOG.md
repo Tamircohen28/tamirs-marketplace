@@ -9,6 +9,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform target: Claude Code 2.1.231** (from 2.1.228). Docs-only bump. The
+  2.1.229 + 2.1.231 delta (no 2.1.230 entry was published) reviewed against the
+  catalog surface: `.claude-plugin/marketplace.json` stays valid as `github`
+  sources, no schema change, nothing removed is relied on. One entry is
+  marketplace-facing and is now documented: **plugin marketplace `command` sources
+  (2.1.229)** — a local command prints the plugin directory, re-resolved at each
+  session start and applied without a restart, with `mode: "link"` using the
+  directory in place. The install guide's plugin-sources section now covers all
+  three source types (git, archive 2.1.224+, command 2.1.229+) and points plugin
+  developers at command-source link installs instead of hand-editing the plugin
+  cache; the catalog's own entries deliberately stay `github` sources, since a
+  published catalog must resolve on machines that don't have the plugins checked
+  out. Also reviewed, host-side with no catalog change: both releases' MCP OAuth
+  redirect-URI fixes, the `/install-github-app` review-workflow fix (this repo
+  uses plain CI, not the generated review workflow), marketplace-unrelated crash
+  and rendering fixes, and the `/commit-push-pr` auto-approval tightening.
 - **Platform target: Claude Code 2.1.228** (from 2.1.226). Docs-only bump. The
   2.1.227 + 2.1.228 delta reviewed against the catalog surface:
   `.claude-plugin/marketplace.json` stays valid, no plugin renames needed, and

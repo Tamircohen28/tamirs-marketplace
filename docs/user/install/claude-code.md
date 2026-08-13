@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.228** |
+| **Validated against** | Claude Code **2.1.231** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.228 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.231 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -89,14 +89,20 @@ can skip the catalog entirely:
 /plugin install headhunter@headhunter
 ```
 
-## Plugin sources: git and archive (2.1.224+)
+## Plugin sources: git, archive, and command (2.1.224+ / 2.1.229+)
 
 Every entry in this catalog is a `github` source pinned to a branch — installing fetches
 the plugin's repo over git, and `plugin update` tracks that branch. Since Claude Code
 2.1.224, marketplaces can alternatively distribute a plugin as an **`archive` source**: a
 zip downloaded over HTTPS, with no git or npm required and optional SHA-256 pinning for
-integrity. This catalog does not currently offer archive sources — nothing changes for
-installs from here — but plugins you install from other marketplaces may arrive that way.
+integrity. Since 2.1.229 there is also a **`command` source**: a local command prints the
+plugin directory, the result is re-resolved at every session start and applied without a
+restart, and `mode: "link"` uses the printed directory in place — built for cases where
+another tool (an IDE, a monorepo script, a dev clone) owns the plugin's location. This
+catalog itself offers neither — its entries stay `github` sources, and nothing changes
+for installs from here — but plugin *developers* working on any plugin in this family
+should prefer a local command-source entry with `mode: "link"` over hand-editing the
+plugin cache; each plugin repo's development docs cover the pattern.
 
 ## Uninstall
 
