@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Cursor changelog through 2026-08-13 (Cloud Agent Builds).** `.cursor-version` / cursor-only `platform-targets.json` fields keep desktop **3.15.19** + feature **3.11** and advance `changelog_date` to **2026-08-13**. Install guide documents Cloud Agent Builds.
 - **Cursor desktop pin → 3.15.19.** `.cursor-version`, cursor fields in `platform-targets.json`, README badge, and install docs track desktop **3.15.19**. Changelog feature coverage remains **3.11** / **2026-08-03**.
 - **Cursor docs: `workspaceOpen` + Agent Plugins standard.** Install guide documents the `workspaceOpen` hook and Agent Plugins open-standard support.
 

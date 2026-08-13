@@ -4,7 +4,7 @@
 |---|---|
 | **Validated against** | Cursor **3.15.19** |
 | **Minimum supported** | **3.15.19** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-03** (see [`.cursor-version`](../../.cursor-version)) |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-13** (see [`.cursor-version`](../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -83,9 +83,10 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
-## Working tips (3.11 → 2026-08-03; desktop CLI 3.15.19)
+## Working tips (3.11 → 2026-08-13; desktop CLI 3.15.19)
 
-- **Desktop CLI patch line** — pin is **3.15.19** (download line 2026-08-11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-03**.
+- **Desktop CLI patch line** — pin is **3.15.19** (download line 2026-08-11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-13** (Cloud Agent Builds).
+- **Cloud Agent Builds (2026-08-13)** — warm environment snapshots for Cloud Agents (install pre-run; failed builds stay inactive). Enable on the environment Builds tab when validating catalog installs in cloud; durable deps in `install`, fresh services in `start`. See [announcement](https://cursor.com/blog/builds).
 - **Agent Plugins standard** — Cursor loads [Agent Plugins](https://agent-plugins.org) (portable skills/MCP) alongside Cursor Plugins. Catalogued plugins ship `.cursor-plugin/plugin.json`.
 - **`workspaceOpen` hook** — desktop/CLI app-lifecycle hook can return `pluginPaths` for workspace-specific plugin dirs (not Cloud Agents). Optional when developing catalogued plugins in a multi-root workspace.
 - **Side chats (3.11)** — `/side` / `/btw` to research a catalogued plugin's install path without interrupting the main thread.
