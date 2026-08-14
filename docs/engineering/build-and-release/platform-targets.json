@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-13",
+  "last_reviewed": "2026-08-14",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,9 +12,9 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.231",
-      "latest_known": "2.1.231",
-      "verified_on": "2026-08-13",
+      "validated_against": "2.1.232",
+      "latest_known": "2.1.232",
+      "verified_on": "2026-08-14",
       "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
@@ -28,7 +28,10 @@
         "marketplace-refresh-on-install-2.1.221",
         "owner-wildcard-managed-allowlist-2.1.223",
         "settings-tier-whole-entry-merge-2.1.228",
-        "command-plugin-sources-docs-2.1.229"
+        "command-plugin-sources-docs-2.1.229",
+        "install-refreshes-marketplace-first-2.1.232",
+        "marketplace-settings-aliases-docs-2.1.232",
+        "gitlab-marketplace-sources-docs-2.1.232"
       ],
       "capabilities": [
         "marketplace",
