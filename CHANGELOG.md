@@ -9,6 +9,28 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform target: Claude Code 2.1.232** (from 2.1.231). Docs-only bump. The
+  2.1.232 delta reviewed against the catalog surface:
+  `.claude-plugin/marketplace.json` stays valid as `github` sources, no schema
+  change, nothing removed is relied on. Three entries are marketplace-facing and
+  are now documented in the Claude Code install guide: **`/plugin install
+  plugin@marketplace` refreshes the marketplace first** (troubleshooting now
+  gives the version-scoped story: refresh-first on 2.1.232+, refresh-and-retry
+  on 2.1.221–2.1.231, manual `marketplace update` before that); **settings
+  aliases** — `additionalMarketplaces` / `allowedMarketplaces` accepted as
+  friendlier names for `extraKnownMarketplaces` / `strictKnownMarketplaces`
+  (managed-environments section shows both spellings, keeping the old names for
+  configs that must run on older versions), plus the url-typed
+  `blockedMarketplaces` entry now blocking a bare repo URL even when classified
+  as a git clone; and **GitLab marketplace sources** — bare `gitlab.com` repo
+  URLs (including nested subgroups) clone like `github.com` URLs, noted in the
+  plugin-sources section for anyone mirroring this catalog into a GitLab group
+  (the catalog itself stays on GitHub). Also now in troubleshooting: the
+  2.1.232 fix for a startup race that could silently unregister a marketplace
+  via concurrent `known_marketplaces.json` writes. The rest of the delta
+  (session naming and `@`-mentions, subagent forking, GitLab token redaction,
+  Remote Control and gateway fixes, sandbox `ripgrep` scoping) is host-side and
+  touches nothing this catalog documents.
 - **Platform target: Claude Code 2.1.231** (from 2.1.228). Docs-only bump. The
   2.1.229 + 2.1.231 delta (no 2.1.230 entry was published) reviewed against the
   catalog surface: `.claude-plugin/marketplace.json` stays valid as `github`

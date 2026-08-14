@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.231** |
+| **Validated against** | Claude Code **2.1.232** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.231 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.232 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -104,6 +104,13 @@ for installs from here — but plugin *developers* working on any plugin in this
 should prefer a local command-source entry with `mode: "link"` over hand-editing the
 plugin cache; each plugin repo's development docs cover the pattern.
 
+Since Claude Code 2.1.232, marketplaces themselves can also live on **GitLab**: a bare
+`gitlab.com` repo URL (including nested subgroups) passed to `/plugin marketplace add`
+clones just like a `github.com` URL, and clone auth-failure hints now name your actual
+git host. This catalog stays on GitHub — nothing changes for installs from here — but
+if you mirror or fork this catalog into a GitLab group, the mirror is now addable
+directly by its repo URL.
+
 ## Uninstall
 
 ```bash
@@ -127,6 +134,15 @@ plugins ship themselves (e.g. `Tamircohen28/tamirs-superpowers`, `TamirCohen28/h
 On versions older than 2.1.223, list each repo explicitly. The same wildcard form works
 in `blockedMarketplaces`.
 
+Since Claude Code 2.1.232, settings files also accept **`allowedMarketplaces`** as a
+friendlier alias for `strictKnownMarketplaces`, and **`additionalMarketplaces`** as an
+alias for `extraKnownMarketplaces` — the example above can be written
+`{ "allowedMarketplaces": ["Tamircohen28/*"] }` on 2.1.232+. The original names keep
+working, so settings that must run on older versions should stay on them. Also since
+2.1.232, a url-typed `blockedMarketplaces` entry for a bare repo URL keeps blocking
+that URL even when the CLI classifies it as a git clone — closing a gap where a
+blocked marketplace could slip through under a different source classification.
+
 Since Claude Code 2.1.228, marketplace entries defined in **settings files merge as
 whole entries** across settings tiers. Before that, a marketplace redefined in a
 higher-precedence tier (say, a user settings file overriding a managed one) could
@@ -142,7 +158,8 @@ the two stop bleeding into each other.
 | `Marketplace file not found` | The source has no `.claude-plugin/marketplace.json`. Check you passed `Tamircohen28/tamirs-marketplace` and not a plugin repo on an old revision. |
 | Plugin installs but skills don't appear | On 2.1.221+ installs activate immediately when safe; otherwise start a **new** session. Skills load at session start, not on install. |
 | `plugin update` does nothing | The plugin release didn't bump its `version`. Check that plugin's releases page. |
-| A plugin name isn't found | Since 2.1.221 `/plugin install` refreshes a stale catalog and retries on its own; on older versions run `claude plugin marketplace update tamirs-marketplace` first. |
+| A plugin name isn't found | Since 2.1.232 `/plugin install <name>@tamirs-marketplace` refreshes the catalog **first**, so a just-published plugin installs with no manual step. 2.1.221–2.1.231 refresh a stale catalog and retry on failure; on older versions run `claude plugin marketplace update tamirs-marketplace` first. |
+| The marketplace vanished from `/plugin` | Before 2.1.232, a startup race between concurrent writes to `known_marketplaces.json` could silently unregister a marketplace. Fixed in 2.1.232 — on older versions, re-add with `claude plugin marketplace add Tamircohen28/tamirs-marketplace`. |
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 
 More: [troubleshooting.md](../troubleshooting.md).
