@@ -157,3 +157,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `scripts/generate-marketplaces.py` and `scripts/validate-marketplaces.py`
 - `make generate` and `make validate` targets
 - Multi-platform install instructions for Claude Code, Codex, and Cursor
+
+### Changed
+- CI validates all three marketplace manifests and fails on generator drift
+- Release workflow regenerates Codex and Cursor manifests when bumping version
+- Banner SVG: correct repo name (`plugins-catalog` → `plugins`) and replace hardcoded plugin list with platform description
