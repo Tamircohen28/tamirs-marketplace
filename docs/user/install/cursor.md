@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.15.19** |
-| **Minimum supported** | **3.15.19** |
+| **Validated against** | Cursor **3.16.17** |
+| **Minimum supported** | **3.16.17** |
 | **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-13** (see [`.cursor-version`](../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
@@ -16,7 +16,7 @@ cursor --version
 
 ## About the version floor
 
-Cursor's documentation states **no minimum version** for plugins. The 3.15.19 floor here is
+Cursor's documentation states **no minimum version** for plugins. The 3.16.17 floor here is
 simply the version this catalog was actually validated on, not a limit Cursor imposes. The
 previous floor in this repo was `0.45.0`, which predates Cursor's plugin system entirely —
 it could never have worked.
@@ -83,10 +83,10 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
-## Working tips (3.11 → 2026-08-13; desktop CLI 3.15.19)
+## Working tips (3.11 → 2026-08-13; desktop CLI 3.16.17)
 
-- **Desktop CLI patch line** — pin is **3.15.19** (download line 2026-08-11; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-13** (Cloud Agent Builds).
-- **Cloud Agent Builds (2026-08-13)** — warm environment snapshots for Cloud Agents (install pre-run; ~hourly refresh; failed builds stay inactive). **Enable Builds now** when validating catalog installs in cloud — default for all environments from **2026-08-17**. Durable deps in `install`, fresh services in `start`. Private-registry credentials for Builds must be **team/environment secrets** (user secrets are session-only). Tune the dashboard git-staleness threshold. See [announcement](https://cursor.com/blog/builds).
+- **Desktop CLI patch line** — pin is **3.16.17** (download line 2026-08-11; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-13** (Cloud Agent Builds).
+- **Cloud Agent Builds (2026-08-13)** — warm environment snapshots for Cloud Agents (install pre-run; recurring refresh; failed builds stay inactive). **Enable Builds now** when validating catalog installs in cloud — default for all environments from **2026-08-17**. Private-registry credentials for Builds must be **team/environment secrets** (user secrets are session-only). Recurring Builds **Skip** when nothing changed since the last completed Build (no new default-branch commits / config / secret changes) — a Skipped stream is healthy. Enable **Update stale builds** and set the **Staleness threshold** (default **24 hours**; `0` = always pull latest default-branch at agent start). Phase split: durable work in `install` (Build-time), fresh services in `start`, shared app processes in `terminals` (both at agent start). See [announcement](https://cursor.com/blog/builds) · [Builds docs](https://cursor.com/docs/cloud-agent/builds).
 - **CLI sticky skills (Aug 11)** — Option+Enter keeps a mode-backed skill sticky across turns in Cursor CLI — useful when validating a catalogued plugin's install skill without re-invoking it each message.
 - **CLI steer + `/goal` (Aug 11)** — Enter steers a running CLI turn (Enter again interrupts); optional durable **`/goal`** spans idle/headless catalog validation sessions (rolling out / gated).
 - **CLI plugin hooks (Aug 11)** — Cursor CLI now runs hooks from installed plugins (and `--plugin-dir`). Catalogued plugins still need a Cursor-native hooks bundle (not Claude-shaped `hooks/hooks.json`) before that path helps; see each plugin's Cursor install guide.
