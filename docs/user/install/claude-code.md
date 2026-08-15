@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.232** |
+| **Validated against** | Claude Code **2.1.233** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.232 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.233 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -109,7 +109,9 @@ Since Claude Code 2.1.232, marketplaces themselves can also live on **GitLab**: 
 clones just like a `github.com` URL, and clone auth-failure hints now name your actual
 git host. This catalog stays on GitHub — nothing changes for installs from here — but
 if you mirror or fork this catalog into a GitLab group, the mirror is now addable
-directly by its repo URL.
+directly by its repo URL. Since 2.1.233, GitLab merge-request URLs are also accepted by
+`--worktree` and shown in the `claude agents` view (as `!N`) — orthogonal to marketplace
+installs, but relevant if you work against a GitLab mirror of a plugin repo.
 
 ## Uninstall
 
@@ -151,6 +153,23 @@ git like this one that was mostly invisible, but if you pin marketplaces with cu
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
 
+## Skill frontmatter validation (2.1.233+)
+
+Since Claude Code 2.1.233, `claude plugin validate` also checks **bare `.claude/skills`
+directories**, reporting any `SKILL.md` whose frontmatter fails to parse. This catalog's
+own contributor skill lives at `.agents/skills/run-plugins-catalog` — not a bare
+`.claude/skills` directory, so the new check doesn't change how it's discovered — and CI
+now runs `claude plugin validate --strict .agents/skills` on every push regardless, to
+catch a frontmatter regression there before it reaches a session. If you fork this catalog and add a skill
+under a bare `.claude/skills` directory of your own, the same 2.1.233 check applies to it
+automatically — no extra setup needed.
+
+Also fixed in 2.1.233: bundled skills like `/checkup` and `/review` no longer report
+"Unknown command" in `-p` mode or with plugins/MCP loaded when a user or project skill of
+the same name shadows them. None of this catalog's own plugins currently ship a skill
+named `checkup` or `review`, so this fix is compatibility-relevant but not a functional
+change here.
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -160,6 +179,7 @@ the two stop bleeding into each other.
 | `plugin update` does nothing | The plugin release didn't bump its `version`. Check that plugin's releases page. |
 | A plugin name isn't found | Since 2.1.232 `/plugin install <name>@tamirs-marketplace` refreshes the catalog **first**, so a just-published plugin installs with no manual step. 2.1.221–2.1.231 refresh a stale catalog and retry on failure; on older versions run `claude plugin marketplace update tamirs-marketplace` first. |
 | The marketplace vanished from `/plugin` | Before 2.1.232, a startup race between concurrent writes to `known_marketplaces.json` could silently unregister a marketplace. Fixed in 2.1.232 — on older versions, re-add with `claude plugin marketplace add Tamircohen28/tamirs-marketplace`. |
+| A skill's `SKILL.md` frontmatter silently does nothing | Since 2.1.233, `claude plugin validate --strict <path>` reports the parse error directly instead of the skill just not loading. This catalog runs it in CI on `.agents/skills`. |
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 
 More: [troubleshooting.md](../troubleshooting.md).
