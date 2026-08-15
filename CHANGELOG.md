@@ -8,7 +8,33 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **`make validate-skills`: native skill frontmatter validation (Claude Code
+  2.1.233).** 2.1.233 makes `claude plugin validate` check bare `.claude/skills`
+  directories and report `SKILL.md` files whose frontmatter fails to parse. This
+  new target runs `claude plugin validate --strict .agents/skills`, catching a
+  frontmatter regression in this catalog's contributor skill
+  (`run-plugins-catalog`) before it silently fails to load, instead of relying on
+  manual review. It soft-skips if the `claude` CLI isn't installed locally
+  (documented in `AGENTS.md` and `docs/agent-guidelines/testing.md`). **Not yet a
+  CI job** — this automation's GitHub App token has no `workflows` scope, so it
+  cannot push a `.github/workflows/*.yml` change; wiring `make validate-skills`
+  into CI is a one-job follow-up for a human edit.
+
 ### Changed
+- **Platform target: Claude Code 2.1.233** (from 2.1.232). Docs-only bump plus the
+  `make validate-skills` addition above. The 2.1.233 delta reviewed against the catalog surface:
+  `.claude-plugin/marketplace.json` stays valid as `github` sources, no schema
+  change, nothing removed is relied on. Two entries are documented: the skill
+  frontmatter validation described above, and **GitLab merge-request URL support**
+  for `--worktree` and the `claude agents` view (MRs display as `!N`) — noted in
+  the install guide's plugin-sources section as orthogonal to marketplace installs
+  but relevant to anyone working against a GitLab mirror of a plugin repo. Also
+  reviewed, host-side with no catalog-facing change: the bundled-skill-alias fix
+  for `/checkup` and `/review` reporting "Unknown command" when shadowed by a
+  same-named user/project skill (this catalog's plugins don't ship skills named
+  `checkup` or `review`, so nothing here was affected, but it's noted in
+  troubleshooting for completeness).
 - **Platform target: Claude Code 2.1.232** (from 2.1.231). Docs-only bump. The
   2.1.232 delta reviewed against the catalog surface:
   `.claude-plugin/marketplace.json` stays valid as `github` sources, no schema
@@ -131,8 +157,3 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `scripts/generate-marketplaces.py` and `scripts/validate-marketplaces.py`
 - `make generate` and `make validate` targets
 - Multi-platform install instructions for Claude Code, Codex, and Cursor
-
-### Changed
-- CI validates all three marketplace manifests and fails on generator drift
-- Release workflow regenerates Codex and Cursor manifests when bumping version
-- Banner SVG: correct repo name (`plugins-catalog` → `plugins`) and replace hardcoded plugin list with platform description

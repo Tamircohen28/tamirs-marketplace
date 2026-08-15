@@ -1,4 +1,4 @@
-.PHONY: help install update uninstall generate validate agent\:check agent-polish-gate \
+.PHONY: help install update uninstall generate validate validate-skills agent\:check agent-polish-gate \
 	check-agent-drift check-feature-equivalence check-platform-targets \
 	platform-targets-sync platform-targets-assert assert-contract repo-standards-gate
 
@@ -21,6 +21,15 @@ validate: generate agent-check
 	python3 scripts/validate-marketplaces.py
 	@git diff --exit-code -- .agents/plugins/marketplace.json .cursor-plugin/marketplace.json \
 		|| (echo "Generated manifests are out of sync. Run 'make generate' and commit the results." >&2; exit 1)
+
+# Native Claude Code (2.1.233+) SKILL.md frontmatter check. Soft-skips locally if the
+# `claude` CLI isn't installed; CI (skill-validate job) installs it and runs this for real.
+validate-skills:
+	@if command -v claude >/dev/null 2>&1; then \
+		claude plugin validate --strict .agents/skills; \
+	else \
+		echo "claude CLI not found — skipping local skill frontmatter check (CI runs this via the skill-validate job)"; \
+	fi
 
 check-agent-drift:
 	bash scripts/check-agent-drift.sh .
