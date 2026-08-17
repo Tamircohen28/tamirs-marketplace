@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.14.7** |
-| **Minimum supported** | **3.14.7** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-03** (see [`.cursor-version`](../../.cursor-version)) |
+| **Validated against** | Cursor **3.16.17** |
+| **Minimum supported** | **3.16.17** |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-17** (see [`.cursor-version`](../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -16,7 +16,7 @@ cursor --version
 
 ## About the version floor
 
-Cursor's documentation states **no minimum version** for plugins. The 3.14.7 floor here is
+Cursor's documentation states **no minimum version** for plugins. The 3.16.17 floor here is
 simply the version this catalog was actually validated on, not a limit Cursor imposes. The
 previous floor in this repo was `0.45.0`, which predates Cursor's plugin system entirely —
 it could never have worked.
@@ -83,11 +83,20 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
-## Working tips (3.11 → 2026-08-03)
+## Working tips (3.11 → 2026-08-17; desktop CLI 3.16.17; Grok 4.6)
 
+- **Desktop CLI patch line** — pin is **3.16.17** (download line 2026-08-11; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-17** (Origin).
+- **Origin (2026-08-17, early beta)** — Cursor's git forge ([docs](https://cursor.com/docs/origin)) can host or **mirror this catalog's GitHub repo** for browse/PR review in Cursor. **GitHub remains canonical** for marketplace installs (`Tamircohen28/tamirs-marketplace` / `Tamircohen28/plugins` redirect) and CI. Do not switch catalog consumers to Origin-only remotes.
+- **Cloud Agent Builds (2026-08-13; default as of 2026-08-17)** — warm environment snapshots for Cloud Agents (install pre-run; recurring refresh; failed builds stay inactive). **Builds is now the default** for all environments. Confirm each Cloud environment has Builds enabled (or inherited the default), a recent successful Build, `Update stale builds` on with a sensible Staleness threshold (default 24h), and install credentials as team/environment secrets. Private-registry credentials for Builds must be **team/environment secrets** (user secrets are session-only). Recurring Builds **Skip** when nothing changed since the last completed Build (no new default-branch commits / config / secret changes) — a Skipped stream is healthy. Enable **Update stale builds** and set the **Staleness threshold** (default **24 hours**; `0` = always pull latest default-branch at agent start). Phase split: durable work in `install` (Build-time), fresh services in `start`, shared app processes in `terminals` (both at agent start). See [announcement](https://cursor.com/blog/builds) · [Builds docs](https://cursor.com/docs/cloud-agent/builds).
+- **CLI sticky skills (Aug 11)** — Option+Enter keeps a mode-backed skill sticky across turns in Cursor CLI — useful when validating a catalogued plugin's install skill without re-invoking it each message.
+- **CLI steer + `/goal` (Aug 11)** — Enter steers a running CLI turn (Enter again interrupts); optional durable **`/goal`** spans idle/headless catalog validation sessions (rolling out / gated).
+- **CLI plugin hooks (Aug 11)** — Cursor CLI now runs hooks from installed plugins (and `--plugin-dir`). Catalogued plugins still need a Cursor-native hooks bundle (not Claude-shaped `hooks/hooks.json`) before that path helps; see each plugin's Cursor install guide.
+- **Agent Plugins standard** — Cursor loads [Agent Plugins](https://agent-plugins.org) (portable skills/MCP) alongside Cursor Plugins. Catalogued plugins ship `.cursor-plugin/plugin.json`.
+- **`workspaceOpen` hook** — desktop/CLI app-lifecycle hook can return `pluginPaths` for workspace-specific plugin dirs (not Cloud Agents). Optional when developing catalogued plugins in a multi-root workspace.
 - **Side chats (3.11)** — `/side` / `/btw` to research a catalogued plugin's install path without interrupting the main thread.
 - **Cursor Router / Auto (2026-07-22)** — prefer Balance for routine catalog edits; Intelligence when auditing platform-target parity.
-- **Cursor Automations (3.8)** — `/automate` with **Workflow run completed** to triage catalog CI (`make validate` / `make agent:check`) and open a fix PR; **PR review comment** for auto-addressing review threads. Computer use is available for demo artifacts.
+- **Grok 4.6 (2026-08-14)** — frontier model for long-running agents and stronger interactive/visual first passes ([announcement](https://cursor.com/blog/grok-4-6)). Prefer for multi-plugin catalog audits and visual marketplace demos; Router **Balance** for routine manifest edits. Host-side only — no catalog change.
+- **Cursor Automations (3.8)** — can **delete memory files** from the UI (or when prompted). `/automate` with **Workflow run completed** to triage catalog CI (`make validate` / `make agent:check`) and open a fix PR; **PR review comment** for auto-addressing review threads. Computer use is available for demo artifacts.
 - **Inbox + multi-PR sessions (2026-07-29)** — track cloud-agent / automation PRs from phone or desktop. When one chat opens catalog + plugin PRs together, open **every** PR from the session — not only the last.
 - **Third-party hooks** — Claude settings-based hooks can load in Cursor when third-party skills/hooks are enabled; catalogued plugins still need their own Cursor install path (see each plugin's Cursor guide).
 
