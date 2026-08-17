@@ -9,6 +9,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Cursor Origin + Builds default (2026-08-17).** Documented [Origin](https://cursor.com/docs/origin) (early-beta Cursor git forge; GitHub remains canonical for this catalog / `Tamircohen28/plugins` redirect) and flipped Cloud Agent Builds language to **now default**. Cursor-only pin bump: `changelog_date` **2026-08-13 → 2026-08-17**; desktop **3.16.17** / feature **3.11** unchanged.
+- **Cursor Grok 4.6 + Builds T-1 readiness (2026-08-16).** Install guide documents Grok 4.6 and a T-1 Builds checklist before **2026-08-17**. Cursor-only pins stay **3.16.17** / **3.11** / **2026-08-13**.
+- **Cursor desktop 3.16.17 + Builds skipped/staleness docs.** Desktop/`validated_against` pin **3.15.19 → 3.16.17**; install guide documents Builds Skipped checks, 24h staleness default, and install/start/terminals. Feature/date pins stay **3.11** / **2026-08-13**.
+- **Cursor Builds Aug-17 readiness + CLI steer/`/goal`.** Install guide documents enable-Builds-now (default **2026-08-17**), team/environment secrets for Builds, CLI steer-while-running, and durable `/goal`. Cursor-only pins stay **3.16.17** / **3.11** / **2026-08-13**.
+- **Cursor CLI Aug 11 advancement.** Install guide documents CLI sticky skills and that installed-plugin hooks execute in Cursor CLI once catalogued plugins ship Cursor-native hooks. `cli_changelog_date: 2026-08-11` in `.cursor-version`.
+- **Cursor changelog through 2026-08-13 (Cloud Agent Builds).** `.cursor-version` / cursor-only `platform-targets.json` fields keep desktop **3.16.17** + feature **3.11** and advance `changelog_date` to **2026-08-13**. Install guide documents Cloud Agent Builds.
+- **Cursor desktop pin → 3.16.17.** `.cursor-version`, cursor fields in `platform-targets.json`, README badge, and install docs track desktop **3.16.17**. Changelog feature coverage remains **3.11** / **2026-08-03**.
+- **Cursor docs: `workspaceOpen` + Agent Plugins standard.** Install guide documents the `workspaceOpen` hook and Agent Plugins open-standard support.
+
 ### Fixed
 - **Removed Cursor adoption commits that landed on the Claude Code nightly branch.**
   The rolling `claude-code-update` branch briefly carried the "Cursor 3.11
