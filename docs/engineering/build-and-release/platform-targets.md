@@ -6,14 +6,17 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.226 | 2.1.226 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.233 | 2.1.233 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.16.17 | 3.16.17 | 3.16.17 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
-All four versions were read from the CLIs themselves on 2026-08-03. Codex was revalidated
-against the **0.147.0** release on **2026-08-09** by comparing the official release delta
-with this catalog's `.agents/plugins/marketplace.json` installation surface. Each target's
+All four versions were read from the CLIs themselves on 2026-08-03. Claude Code was
+revalidated against **2.1.233** on **2026-08-15** from the official changelog (automated
+nightly review) — CI now also runs `claude plugin validate --strict .agents/skills`,
+adopting 2.1.233's native skill-frontmatter check. Codex was revalidated against the
+**0.147.0** release on **2026-08-09** by comparing the official release delta with this
+catalog's `.agents/plugins/marketplace.json` installation surface. Each target's
 `verification_method` in the JSON records exactly how.
 
 ## Two corrected version floors

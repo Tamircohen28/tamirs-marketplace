@@ -4,7 +4,7 @@ Get plugins installed in under 5 minutes. Pick your platform below.
 
 | Target | Minimum | Validated against | Detailed guide |
 |--------|---------|-------------------|----------------|
-| Claude Code | 2.0.0 | 2.1.226 | [install/claude-code.md](install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.233 | [install/claude-code.md](install/claude-code.md) |
 | Cursor | 3.16.17 | 3.16.17 | [install/cursor.md](install/cursor.md) |
 | Codex | 0.40.0 | 0.146.0 | [install/codex.md](install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | [install/opencode.md](install/opencode.md) |
@@ -50,6 +50,12 @@ Tips (Claude Code 2.1.163+):
 
 On Claude Code 2.1.221+, plugins installed with `/plugin install` activate immediately
 when safe. On older versions, open a **new** session after installing to load skills.
+On 2.1.232+, `/plugin install <name>@tamirs-marketplace` also refreshes the catalog
+**first**, so a plugin published minutes ago installs without a manual
+`marketplace update`. On 2.1.233+, `claude plugin validate` also checks bare
+`.claude/skills` directories and reports `SKILL.md` files whose frontmatter fails
+to parse — this catalog's own contributor skill
+(`.agents/skills/run-plugins-catalog`) is validated this way in CI.
 
 ---
 

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.226** |
+| **Validated against** | Claude Code **2.1.233** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.226 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.233 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -89,14 +89,29 @@ can skip the catalog entirely:
 /plugin install headhunter@headhunter
 ```
 
-## Plugin sources: git and archive (2.1.224+)
+## Plugin sources: git, archive, and command (2.1.224+ / 2.1.229+)
 
 Every entry in this catalog is a `github` source pinned to a branch — installing fetches
 the plugin's repo over git, and `plugin update` tracks that branch. Since Claude Code
 2.1.224, marketplaces can alternatively distribute a plugin as an **`archive` source**: a
 zip downloaded over HTTPS, with no git or npm required and optional SHA-256 pinning for
-integrity. This catalog does not currently offer archive sources — nothing changes for
-installs from here — but plugins you install from other marketplaces may arrive that way.
+integrity. Since 2.1.229 there is also a **`command` source**: a local command prints the
+plugin directory, the result is re-resolved at every session start and applied without a
+restart, and `mode: "link"` uses the printed directory in place — built for cases where
+another tool (an IDE, a monorepo script, a dev clone) owns the plugin's location. This
+catalog itself offers neither — its entries stay `github` sources, and nothing changes
+for installs from here — but plugin *developers* working on any plugin in this family
+should prefer a local command-source entry with `mode: "link"` over hand-editing the
+plugin cache; each plugin repo's development docs cover the pattern.
+
+Since Claude Code 2.1.232, marketplaces themselves can also live on **GitLab**: a bare
+`gitlab.com` repo URL (including nested subgroups) passed to `/plugin marketplace add`
+clones just like a `github.com` URL, and clone auth-failure hints now name your actual
+git host. This catalog stays on GitHub — nothing changes for installs from here — but
+if you mirror or fork this catalog into a GitLab group, the mirror is now addable
+directly by its repo URL. Since 2.1.233, GitLab merge-request URLs are also accepted by
+`--worktree` and shown in the `claude agents` view (as `!N`) — orthogonal to marketplace
+installs, but relevant if you work against a GitLab mirror of a plugin repo.
 
 ## Uninstall
 
@@ -121,6 +136,40 @@ plugins ship themselves (e.g. `Tamircohen28/tamirs-superpowers`, `TamirCohen28/h
 On versions older than 2.1.223, list each repo explicitly. The same wildcard form works
 in `blockedMarketplaces`.
 
+Since Claude Code 2.1.232, settings files also accept **`allowedMarketplaces`** as a
+friendlier alias for `strictKnownMarketplaces`, and **`additionalMarketplaces`** as an
+alias for `extraKnownMarketplaces` — the example above can be written
+`{ "allowedMarketplaces": ["Tamircohen28/*"] }` on 2.1.232+. The original names keep
+working, so settings that must run on older versions should stay on them. Also since
+2.1.232, a url-typed `blockedMarketplaces` entry for a bare repo URL keeps blocking
+that URL even when the CLI classifies it as a git clone — closing a gap where a
+blocked marketplace could slip through under a different source classification.
+
+Since Claude Code 2.1.228, marketplace entries defined in **settings files merge as
+whole entries** across settings tiers. Before that, a marketplace redefined in a
+higher-precedence tier (say, a user settings file overriding a managed one) could
+silently inherit another tier's custom headers — for a catalog fetched over plain
+git like this one that was mostly invisible, but if you pin marketplaces with custom
+HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
+the two stop bleeding into each other.
+
+## Skill frontmatter validation (2.1.233+)
+
+Since Claude Code 2.1.233, `claude plugin validate` also checks **bare `.claude/skills`
+directories**, reporting any `SKILL.md` whose frontmatter fails to parse. This catalog's
+own contributor skill lives at `.agents/skills/run-plugins-catalog` — not a bare
+`.claude/skills` directory, so the new check doesn't change how it's discovered — and CI
+now runs `claude plugin validate --strict .agents/skills` on every push regardless, to
+catch a frontmatter regression there before it reaches a session. If you fork this catalog and add a skill
+under a bare `.claude/skills` directory of your own, the same 2.1.233 check applies to it
+automatically — no extra setup needed.
+
+Also fixed in 2.1.233: bundled skills like `/checkup` and `/review` no longer report
+"Unknown command" in `-p` mode or with plugins/MCP loaded when a user or project skill of
+the same name shadows them. None of this catalog's own plugins currently ship a skill
+named `checkup` or `review`, so this fix is compatibility-relevant but not a functional
+change here.
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -128,7 +177,9 @@ in `blockedMarketplaces`.
 | `Marketplace file not found` | The source has no `.claude-plugin/marketplace.json`. Check you passed `Tamircohen28/tamirs-marketplace` and not a plugin repo on an old revision. |
 | Plugin installs but skills don't appear | On 2.1.221+ installs activate immediately when safe; otherwise start a **new** session. Skills load at session start, not on install. |
 | `plugin update` does nothing | The plugin release didn't bump its `version`. Check that plugin's releases page. |
-| A plugin name isn't found | Since 2.1.221 `/plugin install` refreshes a stale catalog and retries on its own; on older versions run `claude plugin marketplace update tamirs-marketplace` first. |
+| A plugin name isn't found | Since 2.1.232 `/plugin install <name>@tamirs-marketplace` refreshes the catalog **first**, so a just-published plugin installs with no manual step. 2.1.221–2.1.231 refresh a stale catalog and retry on failure; on older versions run `claude plugin marketplace update tamirs-marketplace` first. |
+| The marketplace vanished from `/plugin` | Before 2.1.232, a startup race between concurrent writes to `known_marketplaces.json` could silently unregister a marketplace. Fixed in 2.1.232 — on older versions, re-add with `claude plugin marketplace add Tamircohen28/tamirs-marketplace`. |
+| A skill's `SKILL.md` frontmatter silently does nothing | Since 2.1.233, `claude plugin validate --strict <path>` reports the parse error directly instead of the skill just not loading. This catalog runs it in CI on `.agents/skills`. |
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 
 More: [troubleshooting.md](../troubleshooting.md).

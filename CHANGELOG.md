@@ -8,7 +8,84 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **`make validate-skills`: native skill frontmatter validation (Claude Code
+  2.1.233).** 2.1.233 makes `claude plugin validate` check bare `.claude/skills`
+  directories and report `SKILL.md` files whose frontmatter fails to parse. This
+  new target runs `claude plugin validate --strict .agents/skills`, catching a
+  frontmatter regression in this catalog's contributor skill
+  (`run-plugins-catalog`) before it silently fails to load, instead of relying on
+  manual review. It soft-skips if the `claude` CLI isn't installed locally
+  (documented in `AGENTS.md` and `docs/agent-guidelines/testing.md`). **Not yet a
+  CI job** — this automation's GitHub App token has no `workflows` scope, so it
+  cannot push a `.github/workflows/*.yml` change; wiring `make validate-skills`
+  into CI is a one-job follow-up for a human edit.
+
 ### Changed
+- **Platform target: Claude Code 2.1.233** (from 2.1.232). Docs-only bump plus the
+  `make validate-skills` addition above. The 2.1.233 delta reviewed against the catalog surface:
+  `.claude-plugin/marketplace.json` stays valid as `github` sources, no schema
+  change, nothing removed is relied on. Two entries are documented: the skill
+  frontmatter validation described above, and **GitLab merge-request URL support**
+  for `--worktree` and the `claude agents` view (MRs display as `!N`) — noted in
+  the install guide's plugin-sources section as orthogonal to marketplace installs
+  but relevant to anyone working against a GitLab mirror of a plugin repo. Also
+  reviewed, host-side with no catalog-facing change: the bundled-skill-alias fix
+  for `/checkup` and `/review` reporting "Unknown command" when shadowed by a
+  same-named user/project skill (this catalog's plugins don't ship skills named
+  `checkup` or `review`, so nothing here was affected, but it's noted in
+  troubleshooting for completeness).
+- **Platform target: Claude Code 2.1.232** (from 2.1.231). Docs-only bump. The
+  2.1.232 delta reviewed against the catalog surface:
+  `.claude-plugin/marketplace.json` stays valid as `github` sources, no schema
+  change, nothing removed is relied on. Three entries are marketplace-facing and
+  are now documented in the Claude Code install guide: **`/plugin install
+  plugin@marketplace` refreshes the marketplace first** (troubleshooting now
+  gives the version-scoped story: refresh-first on 2.1.232+, refresh-and-retry
+  on 2.1.221–2.1.231, manual `marketplace update` before that); **settings
+  aliases** — `additionalMarketplaces` / `allowedMarketplaces` accepted as
+  friendlier names for `extraKnownMarketplaces` / `strictKnownMarketplaces`
+  (managed-environments section shows both spellings, keeping the old names for
+  configs that must run on older versions), plus the url-typed
+  `blockedMarketplaces` entry now blocking a bare repo URL even when classified
+  as a git clone; and **GitLab marketplace sources** — bare `gitlab.com` repo
+  URLs (including nested subgroups) clone like `github.com` URLs, noted in the
+  plugin-sources section for anyone mirroring this catalog into a GitLab group
+  (the catalog itself stays on GitHub). Also now in troubleshooting: the
+  2.1.232 fix for a startup race that could silently unregister a marketplace
+  via concurrent `known_marketplaces.json` writes. The rest of the delta
+  (session naming and `@`-mentions, subagent forking, GitLab token redaction,
+  Remote Control and gateway fixes, sandbox `ripgrep` scoping) is host-side and
+  touches nothing this catalog documents.
+- **Platform target: Claude Code 2.1.231** (from 2.1.228). Docs-only bump. The
+  2.1.229 + 2.1.231 delta (no 2.1.230 entry was published) reviewed against the
+  catalog surface: `.claude-plugin/marketplace.json` stays valid as `github`
+  sources, no schema change, nothing removed is relied on. One entry is
+  marketplace-facing and is now documented: **plugin marketplace `command` sources
+  (2.1.229)** — a local command prints the plugin directory, re-resolved at each
+  session start and applied without a restart, with `mode: "link"` using the
+  directory in place. The install guide's plugin-sources section now covers all
+  three source types (git, archive 2.1.224+, command 2.1.229+) and points plugin
+  developers at command-source link installs instead of hand-editing the plugin
+  cache; the catalog's own entries deliberately stay `github` sources, since a
+  published catalog must resolve on machines that don't have the plugins checked
+  out. Also reviewed, host-side with no catalog change: both releases' MCP OAuth
+  redirect-URI fixes, the `/install-github-app` review-workflow fix (this repo
+  uses plain CI, not the generated review workflow), marketplace-unrelated crash
+  and rendering fixes, and the `/commit-push-pr` auto-approval tightening.
+- **Platform target: Claude Code 2.1.228** (from 2.1.226). Docs-only bump. The
+  2.1.227 + 2.1.228 delta reviewed against the catalog surface:
+  `.claude-plugin/marketplace.json` stays valid, no plugin renames needed, and
+  nothing removed is relied on. One entry is marketplace-facing and now documented
+  in the Claude Code install guide's managed-environments section: **2.1.228 makes
+  marketplace entries merge as whole entries across settings tiers** — previously a
+  marketplace redefined in a higher-precedence settings file could inherit another
+  tier's custom headers. Also relevant to plugin authors working out of this
+  catalog: 2.1.228's background plugin-cache cleanup no longer deletes a plugin's
+  cache when its only version is a symlinked development checkout. The rest of the
+  delta (self-hosted-runner, Remote Control, and cross-session-messaging fixes, a
+  Write-tool rule change for newer models, slash-command menu polish) is host-side
+  and touches nothing this catalog documents.
 - **Cursor Origin + Builds default (2026-08-17).** Documented [Origin](https://cursor.com/docs/origin) (early-beta Cursor git forge; GitHub remains canonical for this catalog / `Tamircohen28/plugins` redirect) and flipped Cloud Agent Builds language to **now default**. Cursor-only pin bump: `changelog_date` **2026-08-13 → 2026-08-17**; desktop **3.16.17** / feature **3.11** unchanged.
 - **Cursor Grok 4.6 + Builds T-1 readiness (2026-08-16).** Install guide documents Grok 4.6 and a T-1 Builds checklist before **2026-08-17**. Cursor-only pins stay **3.16.17** / **3.11** / **2026-08-13**.
 - **Cursor desktop 3.16.17 + Builds skipped/staleness docs.** Desktop/`validated_against` pin **3.15.19 → 3.16.17**; install guide documents Builds Skipped checks, 24h staleness default, and install/start/terminals. Feature/date pins stay **3.11** / **2026-08-13**.
