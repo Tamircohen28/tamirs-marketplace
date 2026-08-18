@@ -16,7 +16,9 @@ revalidated against **2.1.233** on **2026-08-15** from the official changelog (a
 nightly review) — CI now also runs `claude plugin validate --strict .agents/skills`,
 adopting 2.1.233's native skill-frontmatter check. Codex was revalidated against the
 **0.147.0** release on **2026-08-09** by comparing the official release delta with this
-catalog's `.agents/plugins/marketplace.json` installation surface. Each target's
+catalog's `.agents/plugins/marketplace.json` installation surface. Cursor was
+revalidated against **3.16.17** on **2026-08-17**, which is also the most recent
+verification of any target and therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
 
 ## Two corrected version floors
