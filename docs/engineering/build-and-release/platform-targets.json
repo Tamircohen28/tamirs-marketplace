@@ -40,21 +40,23 @@
       ]
     },
     "cursor": {
-      "supported_min": "3.16.17",
+      "supported_min": "3.16.29",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.16.17",
-      "latest_known": "3.16.17",
+      "validated_against": "3.16.29",
+      "latest_known": "3.16.29",
       "changelog_feature": "3.11",
       "changelog_date": "2026-08-17",
-      "verified_on": "2026-08-17",
-      "verification_method": "latest desktop build from official Cursor download links (3.16.17, 2026-08-14 stable) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-08-17 Origin); team-marketplace import is a Dashboard flow; Builds now default (2026-08-17); Origin early-beta docs 2026-08-17",
+      "verified_on": "2026-08-18",
+      "verification_method": "latest desktop build from official Cursor download links (3.16.29, 2026-08-18 stable) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-08-17 Origin); team-marketplace import is a Dashboard flow; Builds now default (2026-08-17); Origin early-beta docs + Origin CLI/integrations (2026-08-17/18)",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
         "https://cursor.com/docs/customize-cursor",
         "https://cursor.com/blog/builds",
         "https://cursor.com/docs/origin",
-        "https://cursor.com/codebase"
+        "https://cursor.com/codebase",
+        "https://cursor.com/docs/origin/cli",
+        "https://cursor.com/docs/origin/integrations"
       ],
       "features_adopted": [
         "team-marketplace",
@@ -69,7 +71,7 @@
         "third-party-hooks-pointer",
         "workspace-open-hook-docs",
         "agent-plugins-standard-docs",
-        "desktop-cli-pin-3.16.17",
+        "desktop-cli-pin-3.16.29",
         "automations-memory-delete-docs",
         "cloud-agent-builds-docs-2026-08-13",
         "cli-plugin-hooks-docs-2026-08-11",
@@ -82,7 +84,8 @@
         "grok-4.6-docs-2026-08-14",
         "builds-t1-default-readiness-2026-08-16",
         "origin-git-forge-docs-2026-08-17",
-        "builds-now-default-2026-08-17"
+        "builds-now-default-2026-08-17",
+        "origin-cli-and-integrations-docs-2026-08-18"
       ],
       "capabilities": [
         "marketplace",
@@ -116,7 +119,7 @@
       "validated_against": "1.18.11",
       "latest_known": "1.18.15",
       "verified_on": "2026-08-03",
-      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — each plugin repo is cloned and its skills verified with `opencode debug skill`",
+      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed \u2014 each plugin repo is cloned and its skills verified with `opencode debug skill`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",
@@ -131,7 +134,7 @@
         "per-plugin-clone"
       ],
       "capability_gaps": {
-        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly \u2014 clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
         "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
       }
     }
