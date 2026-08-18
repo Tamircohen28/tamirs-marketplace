@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.233** |
+| **Validated against** | Claude Code **2.1.234** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.233 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.234 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -111,7 +111,9 @@ git host. This catalog stays on GitHub — nothing changes for installs from her
 if you mirror or fork this catalog into a GitLab group, the mirror is now addable
 directly by its repo URL. Since 2.1.233, GitLab merge-request URLs are also accepted by
 `--worktree` and shown in the `claude agents` view (as `!N`) — orthogonal to marketplace
-installs, but relevant if you work against a GitLab mirror of a plugin repo.
+installs, but relevant if you work against a GitLab mirror of a plugin repo. Since 2.1.234,
+an open GitLab MR for the current branch also shows as a badge in the footer/statusline,
+extending the same MR-awareness to the session UI.
 
 ## Uninstall
 
@@ -152,6 +154,15 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.234
+
+Reviewed for catalog impact: `CLAUDE_CODE_PROJECT_DIR_NAME`, auto-continue on usage-limit
+reset, account-email-only identification, Windows NT-namespace path-read hardening, Remote
+Control cross-session/org-switch sync, `/permissions` and `/add-dir` usable mid-turn, `/goal`
+improvements, and the removed "Default teammate model" setting are all host/session-side and
+touch nothing this catalog's `.claude-plugin/marketplace.json` or manifests rely on. The one
+catalog-adjacent item — the GitLab MR footer/statusline badge — is documented above.
 
 ## Skill frontmatter validation (2.1.233+)
 
