@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-17",
+  "last_reviewed": "2026-08-19",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -93,9 +93,9 @@
       "supported_min": "0.40.0",
       "supported_min_source": "earliest release this catalog has claimed .agents/plugins/marketplace.json support for",
       "validated_against": "0.147.0",
-      "latest_known": "0.147.0",
-      "verified_on": "2026-08-09",
-      "verification_method": "official OpenAI Codex 0.147.0 changelog plus catalog compatibility review; the existing .agents/plugins marketplace remains compatible with portable Agent Plugin catalog discovery",
+      "latest_known": "0.148.0",
+      "verified_on": "2026-08-19",
+      "verification_method": "official OpenAI Codex 0.148.0 changelog plus catalog compatibility review; the existing .agents/plugins marketplace remains compatible and 0.148.0 adds plugin-runtime hook capabilities without changing the catalog schema",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
@@ -103,7 +103,8 @@
       "features_adopted": [
         "plugin-marketplace",
         "sparse-marketplace-checkout",
-        "portable-agent-plugin-catalogs-0.147.0"
+        "portable-agent-plugin-catalogs-0.147.0",
+        "codex-0.148.0-catalog-compatibility-review"
       ],
       "capabilities": [
         "marketplace",
