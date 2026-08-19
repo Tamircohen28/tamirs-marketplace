@@ -4,7 +4,7 @@
 |---|---|
 | **Validated against** | Cursor **3.16.29** |
 | **Minimum supported** | **3.16.29** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-17** (see [`.cursor-version`](../../.cursor-version)) |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-19** (see [`.cursor-version`](../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -83,13 +83,16 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
-## Working tips (3.11 → 2026-08-17; desktop CLI 3.16.29; Grok 4.6)
+## Working tips (3.11 → 2026-08-19; desktop CLI 3.16.29; Grok 4.6)
 
-- **Desktop CLI patch line** — pin is **3.16.29** (download line 2026-08-18; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-17** (Origin).
+- **Desktop CLI patch line** — pin is **3.16.29** (download line 2026-08-18; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-19** (cloud-agent subscriptions / custom modes / isolated subagent VMs / `/goal` / steering).
+- **Custom Modes (2026-08-19)** — from `/`, pick a skill and press ⌥⏎ / Alt+Enter → **Use as Mode** to keep a catalogued plugin skill pinned for the chat (always-on playbook). Prefer for long install/verify sessions.
+- **`/goal` + non-interruptive steering (2026-08-19)** — long-lived objectives with `/goal`; follow-ups wait for the next tool call (Send now, or ⏎ twice). CLI Aug 11 steer/`/goal` still apply for `agent` runs.
+- **Subscriptions (Cloud Agents, 2026-08-19)** — wake on PR / Slack / schedule; agents auto-subscribe to PRs they create. Use for unattended catalog CI triage Automations.
+- **Subagents on isolated VMs (2026-08-19)** — cloud subagents get their own project copy; prefer for parallel plugin install checks without collisions.
 - **Origin (2026-08-17, early beta)** — Cursor's git forge ([docs](https://cursor.com/docs/origin)) can host or **mirror this catalog's GitHub repo** for browse/PR review in Cursor. Use the [Origin CLI](https://cursor.com/docs/origin/cli) for clone/push/pull; agents can [create Origin repos](https://cursor.com/docs/origin/create-repository); connect [Automations / Cloud Agents](https://cursor.com/docs/origin/integrations) and apps (Vercel / Depot / Buildkite) from repo settings. **GitHub remains canonical** for marketplace installs (`Tamircohen28/tamirs-marketplace` / `Tamircohen28/plugins` redirect) and CI. Do not switch catalog consumers to Origin-only remotes.
 - **Cloud Agent Builds (2026-08-13; default as of 2026-08-17)** — warm environment snapshots for Cloud Agents (install pre-run; recurring refresh; failed builds stay inactive). **Builds is now the default** for all environments. Confirm each Cloud environment has Builds enabled (or inherited the default), a recent successful Build, `Update stale builds` on with a sensible Staleness threshold (default 24h), and install credentials as team/environment secrets. Private-registry credentials for Builds must be **team/environment secrets** (user secrets are session-only). Recurring Builds **Skip** when nothing changed since the last completed Build (no new default-branch commits / config / secret changes) — a Skipped stream is healthy. Enable **Update stale builds** and set the **Staleness threshold** (default **24 hours**; `0` = always pull latest default-branch at agent start). Phase split: durable work in `install` (Build-time), fresh services in `start`, shared app processes in `terminals` (both at agent start). See [announcement](https://cursor.com/blog/builds) · [Builds docs](https://cursor.com/docs/cloud-agent/builds).
 - **CLI sticky skills (Aug 11)** — Option+Enter keeps a mode-backed skill sticky across turns in Cursor CLI — useful when validating a catalogued plugin's install skill without re-invoking it each message.
-- **CLI steer + `/goal` (Aug 11)** — Enter steers a running CLI turn (Enter again interrupts); optional durable **`/goal`** spans idle/headless catalog validation sessions (rolling out / gated).
 - **CLI plugin hooks (Aug 11)** — Cursor CLI now runs hooks from installed plugins (and `--plugin-dir`). Catalogued plugins still need a Cursor-native hooks bundle (not Claude-shaped `hooks/hooks.json`) before that path helps; see each plugin's Cursor install guide.
 - **Agent Plugins standard** — Cursor loads [Agent Plugins](https://agent-plugins.org) (portable skills/MCP) alongside Cursor Plugins. Catalogued plugins ship `.cursor-plugin/plugin.json`.
 - **`workspaceOpen` hook** — desktop/CLI app-lifecycle hook can return `pluginPaths` for workspace-specific plugin dirs (not Cloud Agents). Optional when developing catalogued plugins in a multi-root workspace.

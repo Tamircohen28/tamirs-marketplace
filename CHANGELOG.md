@@ -22,7 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   into CI is a one-job follow-up for a human edit.
 
 ### Changed
-- **Cursor desktop 3.16.29 + Origin CLI/integrations:** re-pin desktop/`validated_against` **3.16.17 → 3.16.29** (stable download line 2026-08-18; no separate feature write-up). Document Origin CLI, agent-created Origin repos, and Origin↔Automations/Cloud Agents / apps integrations. Feature/date pins stay **3.11** / **2026-08-17**.
+- **Cursor 3.11 (+2026-08-19) / desktop 3.16.29:** cumulative rolling window from **3.16.17 → 3.16.29** and changelog **2026-08-17 → 2026-08-19**. Adopt cloud-agent **Subscriptions**, **Custom Modes** (skill → mode via ⌥⏎), **subagents on isolated VMs**, Agent Window **`/goal`**, and **non-interruptive steering**. Keep Origin CLI/integrations docs. Cursor-only pins; other platform nightlies untouched.
 - **Platform target: Claude Code 2.1.233** (from 2.1.232). Docs-only bump plus the
   `make validate-skills` addition above. The 2.1.233 delta reviewed against the catalog surface:
   `.claude-plugin/marketplace.json` stays valid as `github` sources, no schema
