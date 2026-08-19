@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.234** |
+| **Validated against** | Claude Code **2.1.235** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.234 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.235 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -154,6 +154,16 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.235
+
+Reviewed for catalog impact: the new opt-in `spellcheck` setting (underlines misspelled
+words in the editor using `aspell`/`hunspell`/`ispell`), improved permission dialogs and
+context-limit error messages, Vim mode preserving NORMAL mode and cursor position when
+toggling the transcript, and `claude rc` applying enterprise-gateway availability checks
+for Remote Control are all editor/host-side and touch nothing this catalog's
+`.claude-plugin/marketplace.json` or manifests rely on — no marketplace or plugin-source
+behavior changed. Nothing here is adopted as a catalog capability.
 
 ## Claude Code 2.1.234
 

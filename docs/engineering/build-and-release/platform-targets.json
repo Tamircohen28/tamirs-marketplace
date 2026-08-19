@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-18",
+  "last_reviewed": "2026-08-19",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.234",
-      "latest_known": "2.1.234",
-      "verified_on": "2026-08-18",
-      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked in CI with `claude plugin validate --strict .agents/skills` (2.1.233+); 2.1.234 delta reviewed with no marketplace-schema-affecting changes",
+      "validated_against": "2.1.235",
+      "latest_known": "2.1.236",
+      "verified_on": "2026-08-19",
+      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked in CI with `claude plugin validate --strict .agents/skills` (2.1.233+); 2.1.234 and 2.1.235 deltas reviewed with no marketplace-schema-affecting changes. npm already lists 2.1.236 as the latest published package (recorded as latest_known), but code.claude.com/docs/en/changelog has no 2.1.236 entry yet as of this review, so validated_against stays at 2.1.235 (the newest version with a reviewable changelog) until its delta is published and reviewed",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",

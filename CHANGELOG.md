@@ -9,6 +9,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform target: Claude Code 2.1.235** (from 2.1.234). Docs-only bump. The 2.1.235
+  delta reviewed against the catalog surface: `.claude-plugin/marketplace.json` stays
+  valid as `github` sources, no schema change, nothing removed is relied on, and no
+  marketplace-facing behavior changed. The full delta — the opt-in `spellcheck` setting,
+  improved permission dialogs and context-limit error messages, Vim mode preserving
+  NORMAL mode/cursor position across transcript toggles, and `claude rc` enterprise-gateway
+  availability checks for Remote Control, plus the accompanying bug fixes (prompt-cache
+  invalidation, nested markdown lists, Shift+Tab permission prompts, notebook approval
+  dialogs, slash-command HTML entities, task-list collapse state, cloud session
+  memory/CPU) — is editor/host-side and touches nothing this catalog documents or ships.
+  `npm` already publishes **2.1.236**, but its changelog entry isn't live yet, so
+  `latest_known` is bumped to 2.1.236 while `validated_against` holds at 2.1.235 until
+  a future nightly run can read the 2.1.236 delta.
 - **Platform target: Claude Code 2.1.234** (from 2.1.233). Docs-only bump. The 2.1.234
   delta reviewed against the catalog surface: `.claude-plugin/marketplace.json` stays
   valid as `github` sources, no schema change, nothing removed is relied on, and no
