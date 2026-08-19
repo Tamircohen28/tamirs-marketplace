@@ -17,7 +17,7 @@
   <img src="https://img.shields.io/badge/version-1.3.0-blue" alt="Version 1.3.0" />
   <img src="https://img.shields.io/badge/Claude%20Code-2.1.233-blueviolet" alt="Claude Code 2.1.233" />
   <img src="https://img.shields.io/badge/Cursor-3.16.17-000000" alt="Cursor 3.16.17" />
-  <img src="https://img.shields.io/badge/Codex-0.148.0-412991" alt="Codex 0.148.0" />
+  <img src="https://img.shields.io/badge/Codex-0.147.0-412991" alt="Codex 0.147.0" />
   <img src="https://img.shields.io/badge/OpenCode-1.18.11-fab283" alt="OpenCode 1.18.11" />
 </p>
 
