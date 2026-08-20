@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.235** |
+| **Validated against** | Claude Code **2.1.238** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.235 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.238 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -115,6 +115,19 @@ installs, but relevant if you work against a GitLab mirror of a plugin repo. Sin
 an open GitLab MR for the current branch also shows as a badge in the footer/statusline,
 extending the same MR-awareness to the session UI.
 
+Since Claude Code 2.1.238, a **url-typed marketplace** or a catalog/`archive`-source entry
+can declare a `headersHelper` — a local command that mints HTTP headers (for example a
+short-lived token) for the marketplace catalog fetch and any same-origin archive downloads.
+It runs only at install/update time, and Claude Code shows a `[y/N]` confirmation before
+running it (skippable with `-y`). This catalog's entries are all public `github` sources —
+no auth is needed to fetch them, so nothing in `.claude-plugin/marketplace.json` uses
+`headersHelper` today — but it's now the documented answer if a future plugin here (or a
+fork of this catalog) needs a private or token-gated archive/catalog source. Separately,
+since 2.1.238 an MCP server's own `headersHelper` (in a project `.mcp.json`, a plugin, or
+an agent file) requires trust-dialog acceptance and runs without inherited credential
+env vars — relevant to `tamirs-superpowers`' MCP server stubs if any of them add header-based
+auth, though none currently do.
+
 ## Uninstall
 
 ```bash
@@ -154,6 +167,25 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.236 – 2.1.238
+
+Reviewed for catalog impact, closing the changelog gap noted after 2.1.235: **2.1.238**
+adds a `keybindingFlavor` setting (a `readline`-style Ctrl+W). It also lists the
+`known_marketplaces.json` concurrent-write startup race that could silently unregister a
+marketplace — this catalog already documents that fix in the troubleshooting table below
+under 2.1.232, where it first shipped, so no change was needed here. 2.1.238 also fixes
+output styles drifting back to default voice mid-session, fixes stdio MCP servers receiving
+`server/discover` before `initialize`, and changes
+`claude mcp list`/`claude mcp get` to show disabled servers as `⊘ Disabled`. The one
+catalog-facing item — marketplace/catalog `headersHelper`, plus the related MCP
+`headersHelper` trust-dialog requirement — is documented above in the plugin-sources
+section. **2.1.237** adds a built-in "Concise" output style and fixes prompt caching for
+LLM-gateway/custom-base-URL sessions. **2.1.236** adds the `ANTHROPIC_DEFAULT_MODEL` env
+var, `notify_when_idle` for cross-session `SendMessage`, and macOS sandbox wildcard
+read-deny precedence fixes. All of these except the `headersHelper` pair are editor/host/
+session-side and touch nothing this catalog's `.claude-plugin/marketplace.json` or
+manifests rely on.
 
 ## Claude Code 2.1.235
 
