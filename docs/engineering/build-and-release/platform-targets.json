@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-19",
+  "last_reviewed": "2026-08-20",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.235",
-      "latest_known": "2.1.236",
-      "verified_on": "2026-08-19",
-      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked in CI with `claude plugin validate --strict .agents/skills` (2.1.233+); 2.1.234 and 2.1.235 deltas reviewed with no marketplace-schema-affecting changes. npm already lists 2.1.236 as the latest published package (recorded as latest_known), but code.claude.com/docs/en/changelog has no 2.1.236 entry yet as of this review, so validated_against stays at 2.1.235 (the newest version with a reviewable changelog) until its delta is published and reviewed",
+      "validated_against": "2.1.238",
+      "latest_known": "2.1.238",
+      "verified_on": "2026-08-20",
+      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked in CI with `claude plugin validate --strict .agents/skills` (2.1.233+). The 2.1.236-2.1.238 changelog gap noted on 2026-08-19 is now closed: 2.1.236 (ANTHROPIC_DEFAULT_MODEL, notify_when_idle, macOS sandbox wildcard-deny precedence), 2.1.237 (built-in Concise output style, LLM-gateway prompt-cache fix) and 2.1.238 (keybindingFlavor, marketplace/catalog headersHelper, disabled-server display in `claude mcp list`/`get`, known_marketplaces.json startup-race fix, MCP headersHelper trust-dialog requirement) were all reviewed against the catalog surface. Only one item is marketplace-facing: 2.1.238's `headersHelper` for url marketplaces and catalog/archive entries, now documented in the install guide's plugin-sources section — this catalog's `github`-source entries need no auth so nothing in `.claude-plugin/marketplace.json` changed, but the capability is now recorded for future private/token-gated entries",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -33,7 +33,8 @@
         "marketplace-settings-aliases-docs-2.1.232",
         "gitlab-marketplace-sources-docs-2.1.232",
         "skill-frontmatter-ci-validation-2.1.233",
-        "gitlab-mr-badge-docs-2.1.234"
+        "gitlab-mr-badge-docs-2.1.234",
+        "marketplace-headersHelper-docs-2.1.238"
       ],
       "capabilities": [
         "marketplace",
