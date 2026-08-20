@@ -6,25 +6,30 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.235 | 2.1.236 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.238 | 2.1.238 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.16.17 | 3.16.17 | 3.16.17 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code was
-revalidated against **2.1.235** on **2026-08-19** from the official changelog (automated
-nightly review) — the 2.1.234 and 2.1.235 deltas both have no marketplace-schema-affecting
-changes, so this is another docs-only bump; CI still runs `claude plugin validate --strict
-.agents/skills`, adopting 2.1.233's native skill-frontmatter check. `npm` already lists
-**2.1.236** as published (recorded as `latest_known`), but `code.claude.com/docs/en/changelog`
-has no 2.1.236 entry yet, so `validated_against` stays on 2.1.235 — the same
-validated-vs-latest-known gap already documented for OpenCode below — until the changelog
-catches up and the next nightly review can read its delta. Codex was revalidated
-against the **0.147.0** release on **2026-08-09** by comparing the official release delta
-with this catalog's `.agents/plugins/marketplace.json` installation surface. Cursor was
-revalidated against **3.16.17** on **2026-08-17**. Claude Code's 2026-08-19 revalidation
-is now the most recent verification of any target and therefore the `last_reviewed` date.
-Each target's `verification_method` in the JSON records exactly how.
+revalidated against **2.1.238** on **2026-08-20** from the official changelog (automated
+nightly review), closing the 2.1.236 changelog gap noted the previous run: the 2.1.236
+(`ANTHROPIC_DEFAULT_MODEL`, `notify_when_idle`, macOS sandbox wildcard-deny fixes),
+2.1.237 (built-in Concise output style, LLM-gateway prompt-cache fix) and 2.1.238
+(`keybindingFlavor`, marketplace/catalog `headersHelper`, `claude mcp list`/`get`
+disabled-server display, `known_marketplaces.json` startup-race fix, MCP `headersHelper`
+trust-dialog requirement) deltas were all reviewed. Only 2.1.238's `headersHelper` for url
+marketplaces and catalog/archive entries is marketplace-facing, and it's now documented in
+the Claude Code install guide's plugin-sources section as an available (not yet needed)
+capability — this catalog's `github`-source entries are all public and need no auth, so
+`.claude-plugin/marketplace.json` itself is unchanged. CI still runs `claude plugin
+validate --strict .agents/skills`, adopting 2.1.233's native skill-frontmatter check.
+`validated_against` and `latest_known` are now equal again for Claude Code. Codex was
+revalidated against the **0.147.0** release on **2026-08-09** by comparing the official
+release delta with this catalog's `.agents/plugins/marketplace.json` installation surface.
+Cursor was revalidated against **3.16.17** on **2026-08-17**. Claude Code's 2026-08-20
+revalidation is now the most recent verification of any target and therefore the
+`last_reviewed` date. Each target's `verification_method` in the JSON records exactly how.
 
 ## Two corrected version floors
 
