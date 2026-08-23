@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-20",
+  "last_reviewed": "2026-08-23",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.238",
-      "latest_known": "2.1.238",
-      "verified_on": "2026-08-20",
-      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked in CI with `claude plugin validate --strict .agents/skills` (2.1.233+). The 2.1.236-2.1.238 changelog gap noted on 2026-08-19 is now closed: 2.1.236 (ANTHROPIC_DEFAULT_MODEL, notify_when_idle, macOS sandbox wildcard-deny precedence), 2.1.237 (built-in Concise output style, LLM-gateway prompt-cache fix) and 2.1.238 (keybindingFlavor, marketplace/catalog headersHelper, disabled-server display in `claude mcp list`/`get`, known_marketplaces.json startup-race fix, MCP headersHelper trust-dialog requirement) were all reviewed against the catalog surface. Only one item is marketplace-facing: 2.1.238's `headersHelper` for url marketplaces and catalog/archive entries, now documented in the install guide's plugin-sources section — this catalog's `github`-source entries need no auth so nothing in `.claude-plugin/marketplace.json` changed, but the capability is now recorded for future private/token-gated entries",
+      "validated_against": "2.1.241",
+      "latest_known": "2.1.241",
+      "verified_on": "2026-08-23",
+      "verification_method": "`claude --version` on the maintainer machine reads 2.1.241 directly (direct CLI validation, not just changelog review), cross-checked against code.claude.com/docs/en/changelog; catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked with the same locally-available `claude plugin validate --strict .agents/skills` (2.1.233+), which passed clean. The 2.1.239-2.1.241 delta was reviewed against the catalog surface: 2.1.239 (cloud-synced plugins now show as `name@synced`, work with `claude plugin enable/disable name@synced`, and never override a same-named plugin installed from a marketplace like this one; Windows cross-session messaging), 2.1.240 and 2.1.241 (bug fixes and reliability improvements, no changelog specifics). Only 2.1.239's `name@synced` non-override guarantee is marketplace-facing, and it's now documented in the install guide as reassurance that installing from this catalog is safe alongside claude.ai-synced plugins of the same name. 2.1.238's `headersHelper` for url marketplaces and catalog/archive entries remains documented in the install guide's plugin-sources section — this catalog's `github`-source entries need no auth so nothing in `.claude-plugin/marketplace.json` changed",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -34,7 +34,8 @@
         "gitlab-marketplace-sources-docs-2.1.232",
         "skill-frontmatter-ci-validation-2.1.233",
         "gitlab-mr-badge-docs-2.1.234",
-        "marketplace-headersHelper-docs-2.1.238"
+        "marketplace-headersHelper-docs-2.1.238",
+        "synced-plugin-non-override-docs-2.1.239"
       ],
       "capabilities": [
         "marketplace",
