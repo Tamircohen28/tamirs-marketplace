@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.238** |
+| **Validated against** | Claude Code **2.1.241** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.238 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.241 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -78,6 +78,18 @@ claude plugin update tamirs-superpowers@tamirs-marketplace
 
 Updating the *catalog* (`marketplace update`) refreshes the plugin list — which plugins
 exist and where they point. Updating a *plugin* fetches its source.
+
+### Plugins synced from claude.ai (2.1.239+)
+
+Since Claude Code 2.1.239, a plugin synced into a cloud session from claude.ai shows up
+as `name@synced` — a distinct install source from `name@tamirs-marketplace` — and it
+works with `claude plugin enable/disable name@synced` like any other install. Critically,
+a `@synced` plugin **never overrides** a same-named plugin you installed from a
+marketplace. So if you've installed `tamirs-superpowers@tamirs-marketplace` and later a
+cloud session also syncs a plugin named `tamirs-superpowers` from claude.ai, the two
+coexist as separate entries (`tamirs-superpowers@tamirs-marketplace` and
+`tamirs-superpowers@synced`) rather than one silently replacing the other. Nothing to do
+here — just don't be surprised to see both listed in `claude plugin list`.
 
 ## Installing a plugin standalone instead
 
@@ -167,6 +179,17 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.239 – 2.1.241
+
+Reviewed for catalog impact. **2.1.239** adds the `name@synced` naming and
+never-override guarantee for plugins synced from claude.ai into a cloud session,
+documented above under "Plugins synced from claude.ai", plus Windows cross-session
+messaging (host-side, no catalog impact). **2.1.240** and **2.1.241** are both
+"bug fixes and reliability improvements" with no changelog specifics — reviewed and
+found to touch nothing this catalog's `.claude-plugin/marketplace.json` or manifests
+rely on. `claude plugin validate --strict .agents/skills` was re-run directly against
+the local 2.1.241 CLI and passed clean.
 
 ## Claude Code 2.1.236 – 2.1.238
 
