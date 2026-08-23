@@ -9,6 +9,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **`name@synced` non-override guarantee documented (Claude Code 2.1.239).** Since
+  2.1.239, a plugin synced from claude.ai into a cloud session shows up as
+  `name@synced` and works with `claude plugin enable/disable name@synced` — and it
+  never overrides a same-named plugin installed from a marketplace like this one.
+  Documented in the install guide as reassurance that `tamirs-superpowers@tamirs-marketplace`
+  (or any plugin from this catalog) coexists safely with a claude.ai-synced plugin of
+  the same name rather than either silently replacing the other.
 - **`headersHelper` for marketplace/catalog entries documented (Claude Code
   2.1.238).** A url-typed marketplace or a catalog/`archive`-source entry can now
   declare a `headersHelper` command that mints HTTP headers (e.g. a short-lived
@@ -22,6 +29,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code 2.1.241** (from 2.1.238), verified directly from
+  `claude --version` on the maintainer machine rather than changelog review alone.
+  The 2.1.239 (`name@synced` plugin naming and non-override guarantee, Windows
+  cross-session messaging) and 2.1.240/2.1.241 (bug fixes and reliability
+  improvements, no changelog specifics) deltas were reviewed against the catalog
+  surface. Only 2.1.239's `name@synced` guarantee is catalog-facing (see Added,
+  above). `claude plugin validate --strict .agents/skills` re-ran clean on 2.1.241.
 - **Platform target: Claude Code 2.1.238** (from 2.1.235, closing the 2.1.236 gap
   opened last run). `validated_against` and `latest_known` are equal again. The
   2.1.236 (`ANTHROPIC_DEFAULT_MODEL`, `notify_when_idle` for cross-session
