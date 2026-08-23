@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Validated against** | Codex CLI **0.147.0** |
-| **Latest supported** | **0.148.0** |
+| **Latest supported** | **0.149.0** |
 | **Minimum supported** | **0.40.0** |
 | **Marketplace manifest** | `.agents/plugins/marketplace.json` |
 | **Official docs** | [Codex plugins](https://developers.openai.com/codex/plugins) |
@@ -14,7 +14,7 @@ Check your version:
 codex --version
 ```
 
-Codex 0.148.0 keeps the portable Agent Plugin/catalog model used by this repository. Its new async-command and MCP-tool hook capabilities are plugin-runtime features, not catalog-schema changes, so this marketplace needs no manifest migration. The catalog remains compatible through `.agents/plugins/marketplace.json`; direct CLI validation is still recorded separately from changelog-reviewed support.
+Codex 0.148–0.149 keep the portable Agent Plugin/catalog model used by this repository. The 0.148 async-command and MCP-tool hook capabilities are plugin-runtime features, not catalog-schema changes. Codex 0.149 adds native session controls such as `codex agents` and `codex queue`, working-directory commands, and richer `codex doctor` diagnostics; those are host features and likewise require no catalog migration. The marketplace therefore remains compatible through `.agents/plugins/marketplace.json`; direct CLI validation is still recorded separately from changelog-reviewed support.
 
 ## The manifest path trips people up
 
