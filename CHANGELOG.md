@@ -9,6 +9,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **`managed` connector marker documented (Claude Code 2.1.243).** `/mcp` and
+  `/plugins` now show a `managed` badge next to a connector whose authentication
+  is centrally controlled by an organization. Documented in the install guide
+  right alongside the `name@synced` note, since both are about how Claude Code
+  labels a plugin's *auth/source* metadata, not about anything this catalog's
+  `.claude-plugin/marketplace.json` needs to change — a plugin installed from
+  here via `/plugin install <name>@tamirs-marketplace` is a plain marketplace
+  install and doesn't acquire the `managed` label on that basis alone.
 - **`name@synced` non-override guarantee documented (Claude Code 2.1.239).** Since
   2.1.239, a plugin synced from claude.ai into a cloud session shows up as
   `name@synced` and works with `claude plugin enable/disable name@synced` — and it
@@ -29,6 +37,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code `latest_known` 2.1.245** (from 2.1.241; `validated_against`
+  stays 2.1.241 — this run had no live CLI to re-check against, so it advances only the
+  changelog-reviewed figure rather than claiming a validation that didn't happen). The
+  2.1.242–2.1.245 delta was reviewed against the catalog surface: 2.1.245 (a Linux
+  glibc 2.44 startup crash fix, host binary, no catalog impact), 2.1.244/2.1.242 (no
+  separately documented changes), and 2.1.243 (the `managed` connector marker — see
+  Added, above; a plugin-dependency-with-`marketplace`-field resolution fix scoped to
+  dev-time `--plugin-dir` loading, which doesn't affect this catalog's normal install
+  path even though `allowCrossMarketplaceDependenciesOn` uses that dependency
+  mechanism; a `/reload-plugins` LSP-tool fix, not applicable — no plugin here ships
+  an LSP integration). `claude plugin validate --strict .agents/skills` last passed
+  clean against the live 2.1.241 CLI on 2026-08-23; not re-run this cycle.
 - **Platform target: Claude Code 2.1.241** (from 2.1.238), verified directly from
   `claude --version` on the maintainer machine rather than changelog review alone.
   The 2.1.239 (`name@synced` plugin naming and non-override guarantee, Windows

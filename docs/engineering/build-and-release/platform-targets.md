@@ -6,30 +6,31 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.241 | 2.1.241 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.241 | 2.1.245 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.16.17 | 3.16.17 | 3.16.17 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code was
-revalidated against **2.1.241** on **2026-08-23**, this time directly from `claude
---version` on the maintainer machine (not just changelog review) — the CLI itself reads
-2.1.241. The 2.1.239-2.1.241 delta was reviewed: 2.1.239 (cloud-synced plugins now
-display as `name@synced`, work with `claude plugin enable/disable name@synced`, and never
-override a same-named plugin installed from a marketplace like this one; Windows
-cross-session messaging), 2.1.240 and 2.1.241 (bug fixes and reliability improvements,
-no catalog-facing specifics in the changelog). Only 2.1.239's `name@synced` non-override
-guarantee is marketplace-facing, and it's now documented in the Claude Code install guide
-as reassurance that this catalog's installs coexist safely with claude.ai-synced plugins
-of the same name. `.claude-plugin/marketplace.json` itself is unchanged — this catalog's
-`github`-source entries are all public and need no auth. CI still runs `claude plugin
-validate --strict .agents/skills`, adopting 2.1.233's native skill-frontmatter check, and
-it passed clean on 2.1.241. `validated_against` and `latest_known` remain equal for Claude
-Code. Codex was revalidated against the **0.147.0** release on **2026-08-09** by comparing
-the official release delta with this catalog's `.agents/plugins/marketplace.json`
+last directly CLI-validated at **2.1.241** on **2026-08-23** (`claude --version` on the
+maintainer machine, not just changelog review). This run had no live CLI to re-validate
+against, so `validated_against` stays **2.1.241** rather than claiming a check that
+didn't happen; `latest_known` advances to **2.1.245** from a changelog-only review of the
+2.1.242-2.1.245 delta: 2.1.245 (a Linux glibc 2.44 startup crash fix, host binary, no
+catalog surface), 2.1.244/2.1.242 (no separately documented changes), and 2.1.243 (the
+`managed` connector marker in `/mcp`/`/plugins`, now documented in the Claude Code
+install guide; a `--plugin-dir` cross-marketplace-dependency resolution fix that doesn't
+affect this catalog's normal `/plugin install` path; a `/reload-plugins` LSP-tool fix not
+applicable since no plugin here ships an LSP integration). `.claude-plugin/marketplace.json`
+itself is unchanged — this catalog's `github`-source entries are all public and need no
+auth. CI still runs `claude plugin validate --strict .agents/skills`, adopting 2.1.233's
+native skill-frontmatter check; it last passed clean against the live 2.1.241 CLI on
+2026-08-23. Codex was revalidated against the **0.147.0** release on **2026-08-09** by
+comparing the official release delta with this catalog's `.agents/plugins/marketplace.json`
 installation surface. Cursor was revalidated against **3.16.17** on **2026-08-17**. Claude
-Code's 2026-08-23 revalidation is now the most recent verification of any target and
-therefore the `last_reviewed` date. Each target's `verification_method` in the JSON
+Code's 2026-08-25 changelog review of `latest_known` is now the most recent review of any
+target and therefore the `last_reviewed` date, even though `validated_against` still
+reflects the 2026-08-23 CLI check. Each target's `verification_method` in the JSON
 records exactly how.
 
 ## Two corrected version floors

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-23",
+  "last_reviewed": "2026-08-25",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -13,9 +13,9 @@
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
       "validated_against": "2.1.241",
-      "latest_known": "2.1.241",
-      "verified_on": "2026-08-23",
-      "verification_method": "`claude --version` on the maintainer machine reads 2.1.241 directly (direct CLI validation, not just changelog review), cross-checked against code.claude.com/docs/en/changelog; catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked with the same locally-available `claude plugin validate --strict .agents/skills` (2.1.233+), which passed clean. The 2.1.239-2.1.241 delta was reviewed against the catalog surface: 2.1.239 (cloud-synced plugins now show as `name@synced`, work with `claude plugin enable/disable name@synced`, and never override a same-named plugin installed from a marketplace like this one; Windows cross-session messaging), 2.1.240 and 2.1.241 (bug fixes and reliability improvements, no changelog specifics). Only 2.1.239's `name@synced` non-override guarantee is marketplace-facing, and it's now documented in the install guide as reassurance that installing from this catalog is safe alongside claude.ai-synced plugins of the same name. 2.1.238's `headersHelper` for url marketplaces and catalog/archive entries remains documented in the install guide's plugin-sources section — this catalog's `github`-source entries need no auth so nothing in `.claude-plugin/marketplace.json` changed",
+      "latest_known": "2.1.245",
+      "verified_on": "2026-08-25",
+      "verification_method": "`validated_against` (2.1.241) is unchanged from the last direct CLI check on the maintainer machine (2026-08-23) — this run had no live `claude` CLI to re-validate against, so it does not claim one. `latest_known` advances to 2.1.245 from a changelog-only review of the 2.1.242-2.1.245 delta against the catalog surface: 2.1.245 (Linux glibc 2.44 startup crash fix, host binary, no catalog surface), 2.1.244 and 2.1.242 (no separately documented changes), 2.1.243 (the `managed` connector marker in `/mcp`/`/plugins` — documented in the install guide; a fix for plugin dependencies declared with a `marketplace` field not resolving under `--plugin-dir` — this catalog's `allowCrossMarketplaceDependenciesOn` entry uses that mechanism, but the bug only affected dev-time `--plugin-dir` loading, not a normal `/plugin install` from this catalog; a `/reload-plugins` LSP-tool fix — no plugin here ships an LSP integration). Everything else in 2.1.243 is host/editor-side with no marketplace or plugin-manifest surface. Prior verification still holds: catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked with the same locally-available `claude plugin validate --strict .agents/skills` (2.1.233+), which passed clean as of the 2.1.241 CLI run. 2.1.238's `headersHelper` for url marketplaces and catalog/archive entries remains documented in the install guide's plugin-sources section — this catalog's `github`-source entries need no auth so nothing in `.claude-plugin/marketplace.json` changed",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -35,7 +35,8 @@
         "skill-frontmatter-ci-validation-2.1.233",
         "gitlab-mr-badge-docs-2.1.234",
         "marketplace-headersHelper-docs-2.1.238",
-        "synced-plugin-non-override-docs-2.1.239"
+        "synced-plugin-non-override-docs-2.1.239",
+        "managed-connector-marker-docs-2.1.243"
       ],
       "capabilities": [
         "marketplace",

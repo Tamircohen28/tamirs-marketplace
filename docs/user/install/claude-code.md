@@ -91,6 +91,12 @@ coexist as separate entries (`tamirs-superpowers@tamirs-marketplace` and
 `tamirs-superpowers@synced`) rather than one silently replacing the other. Nothing to do
 here — just don't be surprised to see both listed in `claude plugin list`.
 
+Since Claude Code 2.1.243, `/mcp` and `/plugins` also show a **`managed`** marker next to
+a connector whose authentication your organization controls centrally. That marker is
+about *auth management*, not install source — a plugin installed from this catalog via
+`/plugin install <name>@tamirs-marketplace` is a plain marketplace install either way, and
+never shows as `managed` on that basis alone.
+
 ## Installing a plugin standalone instead
 
 Every plugin in this catalog also carries its own `.claude-plugin/marketplace.json`, so you
@@ -179,6 +185,26 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.242 – 2.1.245
+
+Reviewed for catalog impact. **2.1.245** ships only a Linux-glibc-2.44 startup crash
+fix — a host binary issue with no catalog surface. **2.1.244** and **2.1.242** have no
+separately documented changes. **2.1.243** is the delta with any marketplace-facing
+content: the `managed` connector marker in `/mcp`/`/plugins` (documented above, under
+"Plugins synced from claude.ai"); a fix for plugin dependencies declared with a
+`marketplace` field never resolving when both plugins are loaded together via
+`--plugin-dir` — this catalog's `allowCrossMarketplaceDependenciesOn` entry
+(`superpowers-dev`) declares that kind of cross-marketplace dependency, but the bug
+only manifested for dev-time `--plugin-dir` loading of two plugins together, not for a
+normal `/plugin install` from this catalog, so no behavior here was ever affected; and a
+`/reload-plugins` fix for a stale LSP tool after the last LSP plugin is disabled — no
+plugin in this catalog ships an LSP integration, so not applicable. Everything else in
+2.1.243 (the `/usage` Loops breakdown, `modelPicker`, `promptCacheTtl`/
+`subagentPromptCacheTtl`, `modelPricing`, keyless Console sign-in, `/web-setup`, hook
+`if`-condition fixes, `--agents` JSON validation) is host/editor-side with no
+marketplace or plugin-manifest surface. `claude plugin validate --strict .agents/skills`
+was re-run against the local 2.1.245 CLI and passed clean.
 
 ## Claude Code 2.1.239 – 2.1.241
 
