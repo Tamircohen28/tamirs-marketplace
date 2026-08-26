@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-25",
+  "last_reviewed": "2026-08-26",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.241",
-      "latest_known": "2.1.245",
-      "verified_on": "2026-08-25",
-      "verification_method": "`validated_against` (2.1.241) is unchanged from the last direct CLI check on the maintainer machine (2026-08-23) — this run had no live `claude` CLI to re-validate against, so it does not claim one. `latest_known` advances to 2.1.245 from a changelog-only review of the 2.1.242-2.1.245 delta against the catalog surface: 2.1.245 (Linux glibc 2.44 startup crash fix, host binary, no catalog surface), 2.1.244 and 2.1.242 (no separately documented changes), 2.1.243 (the `managed` connector marker in `/mcp`/`/plugins` — documented in the install guide; a fix for plugin dependencies declared with a `marketplace` field not resolving under `--plugin-dir` — this catalog's `allowCrossMarketplaceDependenciesOn` entry uses that mechanism, but the bug only affected dev-time `--plugin-dir` loading, not a normal `/plugin install` from this catalog; a `/reload-plugins` LSP-tool fix — no plugin here ships an LSP integration). Everything else in 2.1.243 is host/editor-side with no marketplace or plugin-manifest surface. Prior verification still holds: catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter checked with the same locally-available `claude plugin validate --strict .agents/skills` (2.1.233+), which passed clean as of the 2.1.241 CLI run. 2.1.238's `headersHelper` for url marketplaces and catalog/archive entries remains documented in the install guide's plugin-sources section — this catalog's `github`-source entries need no auth so nothing in `.claude-plugin/marketplace.json` changed",
+      "validated_against": "2.1.246",
+      "latest_known": "2.1.246",
+      "verified_on": "2026-08-26",
+      "verification_method": "Real direct CLI check this run — `claude --version` on the runner reports 2.1.246, closing the gap the prior two runs left between `validated_against` (stuck at 2.1.241) and `latest_known` (advanced to 2.1.245 by changelog review only). `claude plugin validate --strict .agents/skills` was re-run against this live 2.1.246 CLI and passed clean, and `claude plugin marketplace add`-style catalog resolution was re-checked via `make validate` (regenerate + validate manifests; 3 plugins in sync, no drift). The 2.1.246 changelog delta was reviewed line-by-line against the catalog surface: an Auto mode `/permissions` tab, a plugin-cache duplicate-SHA-directory fix, a `claude plugin update <name>` bare-name fix, hook-error `${CLAUDE_PLUGIN_ROOT}` resolution, an MCP `requiresUserInteraction` permission-prompt fix, subagent partial-output-on-maxTurns, deferred managed-settings consent prompts, and OTel `plugin_id_hash`/`enabled_via` changes are all host/CLI-side with no marketplace-manifest surface. Three items got a direct compatibility check against this repo: (1) the plugin.json UTF-8 BOM install-breaking bug — every JSON manifest in this repo (`.claude-plugin/marketplace.json`, `.cursor-plugin/marketplace.json`, `.agents/plugins/marketplace.json`) starts with a bare `{` byte, no BOM, confirmed with `od -An -tx1`; this catalog ships no `plugin.json` of its own (its three plugins are external repos) so there was nothing to fix either way; (2) the `/reload-plugins` fix for plugins whose skills live under `skills/*/SKILL.md` — this catalog's own contributor skill is at `.agents/skills/run-plugins-catalog/SKILL.md`, a bare skills directory rather than a Claude Code plugin's `skills/` tree, so the bug this fixes never applied here; (3) the skill-frontmatter `<plugin>:` name-doubling fix — this catalog's skill frontmatter `name: run-plugins-catalog` carries no plugin prefix, so it was never affected. Prior verification still holds: catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`. 2.1.238's `headersHelper` for url marketplaces and catalog/archive entries remains documented in the install guide's plugin-sources section — this catalog's `github`-source entries need no auth so nothing in `.claude-plugin/marketplace.json` changed",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -36,7 +36,9 @@
         "gitlab-mr-badge-docs-2.1.234",
         "marketplace-headersHelper-docs-2.1.238",
         "synced-plugin-non-override-docs-2.1.239",
-        "managed-connector-marker-docs-2.1.243"
+        "managed-connector-marker-docs-2.1.243",
+        "plugin-update-bare-name-docs-2.1.246",
+        "marketplace-install-error-docs-2.1.246"
       ],
       "capabilities": [
         "marketplace",

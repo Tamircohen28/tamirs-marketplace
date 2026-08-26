@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.241** |
+| **Validated against** | Claude Code **2.1.246** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.241 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.246 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -75,6 +75,12 @@ claude plugin update tamirs-superpowers@tamirs-marketplace
 > `plugin.json`.** If a plugin release did not bump its version, `plugin update` is a no-op
 > — you stay on the cached copy. `/reload-plugins` does **not** re-fetch from GitHub; it
 > only reloads what is already cached.
+
+Since Claude Code 2.1.246, `claude plugin update <name>` also works given just the
+plugin's **bare name** — before, only the fully-qualified `name@marketplace` form
+resolved, and `claude plugin update tamirs-superpowers` (without `@tamirs-marketplace`)
+failed. Both forms now work; the fully-qualified form above stays the recommended one
+when a plugin name might exist in more than one marketplace you've added.
 
 Updating the *catalog* (`marketplace update`) refreshes the plugin list — which plugins
 exist and where they point. Updating a *plugin* fetches its source.
@@ -186,6 +192,26 @@ git like this one that was mostly invisible, but if you pin marketplaces with cu
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
 
+## Claude Code 2.1.246
+
+Reviewed for catalog impact, with a live 2.1.246 CLI available this run (the first
+direct CLI validation since 2.1.241). Catalog-relevant items: the `claude plugin update
+<name>` bare-name fix and the `claude plugin install <name>` silent-exit-on-corrupted-
+`known_marketplaces.json` fix, both now documented above (Update section and
+Troubleshooting table); the plugin skill name-doubling fix and the `/reload-plugins`
+`skills/*/SKILL.md` fix, both reviewed above under "Skill frontmatter validation" and
+found not applicable to this catalog's own skill. The plugin.json UTF-8 BOM
+install-breaking fix was also checked directly — none of this repo's three JSON
+manifests (`.claude-plugin/marketplace.json`, `.cursor-plugin/marketplace.json`,
+`.agents/plugins/marketplace.json`) carry a BOM, and this catalog ships no `plugin.json`
+of its own (its plugins live in separate repos). Everything else in 2.1.246 (an Auto
+mode tab in `/permissions`, a plugin-cache duplicate-SHA-directory fix, hook-error
+`${CLAUDE_PLUGIN_ROOT}` resolution, an MCP `requiresUserInteraction` permission-prompt
+fix, subagent partial-output-on-`maxTurns`, deferred managed-settings consent prompts,
+and OTel `plugin_id_hash`/`enabled_via` changes for synced plugins) is host/CLI-side
+with no marketplace-manifest surface. `claude plugin validate --strict .agents/skills`
+and `make validate` both passed clean against the live 2.1.246 CLI.
+
 ## Claude Code 2.1.242 – 2.1.245
 
 Reviewed for catalog impact. **2.1.245** ships only a Linux-glibc-2.44 startup crash
@@ -272,6 +298,16 @@ the same name shadows them. None of this catalog's own plugins currently ship a 
 named `checkup` or `review`, so this fix is compatibility-relevant but not a functional
 change here.
 
+Two more skill/plugin-loading fixes landed in 2.1.246, both reviewed against this
+catalog: a plugin skill whose frontmatter `name` field already includes the `<plugin>:`
+prefix no longer shows it doubled in the slash menu (e.g. `/plugin:plugin:skill`) — this
+catalog's own skill frontmatter (`name: run-plugins-catalog`) carries no plugin prefix,
+so it was never affected; and `/reload-plugins` no longer reports 0 skills for a plugin
+that defines skills under `skills/*/SKILL.md` — this catalog's skill lives in a bare
+`.agents/skills` directory rather than inside a Claude Code plugin's own `skills/` tree,
+so this bug never applied here either. Both are host-CLI fixes with no manifest change
+required on this catalog's side.
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -283,5 +319,6 @@ change here.
 | The marketplace vanished from `/plugin` | Before 2.1.232, a startup race between concurrent writes to `known_marketplaces.json` could silently unregister a marketplace. Fixed in 2.1.232 — on older versions, re-add with `claude plugin marketplace add Tamircohen28/tamirs-marketplace`. |
 | A skill's `SKILL.md` frontmatter silently does nothing | Since 2.1.233, `claude plugin validate --strict <path>` reports the parse error directly instead of the skill just not loading. This catalog runs it in CI on `.agents/skills`. |
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
+| `claude plugin install <name>` exits with no output | Before 2.1.246, a missing or corrupted `~/.claude/plugins/known_marketplaces.json` made install fail silently instead of reporting an error. Fixed in 2.1.246 — on older versions, re-add the catalog with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` first if install seems to do nothing. |
 
 More: [troubleshooting.md](../troubleshooting.md).

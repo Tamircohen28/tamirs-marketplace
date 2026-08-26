@@ -6,32 +6,40 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.241 | 2.1.245 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.246 | 2.1.246 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.16.17 | 3.16.17 | 3.16.17 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
-All four versions were read from the CLIs themselves on 2026-08-03. Claude Code was
-last directly CLI-validated at **2.1.241** on **2026-08-23** (`claude --version` on the
-maintainer machine, not just changelog review). This run had no live CLI to re-validate
-against, so `validated_against` stays **2.1.241** rather than claiming a check that
-didn't happen; `latest_known` advances to **2.1.245** from a changelog-only review of the
-2.1.242-2.1.245 delta: 2.1.245 (a Linux glibc 2.44 startup crash fix, host binary, no
-catalog surface), 2.1.244/2.1.242 (no separately documented changes), and 2.1.243 (the
-`managed` connector marker in `/mcp`/`/plugins`, now documented in the Claude Code
-install guide; a `--plugin-dir` cross-marketplace-dependency resolution fix that doesn't
-affect this catalog's normal `/plugin install` path; a `/reload-plugins` LSP-tool fix not
-applicable since no plugin here ships an LSP integration). `.claude-plugin/marketplace.json`
-itself is unchanged — this catalog's `github`-source entries are all public and need no
-auth. CI still runs `claude plugin validate --strict .agents/skills`, adopting 2.1.233's
-native skill-frontmatter check; it last passed clean against the live 2.1.241 CLI on
-2026-08-23. Codex was revalidated against the **0.147.0** release on **2026-08-09** by
-comparing the official release delta with this catalog's `.agents/plugins/marketplace.json`
-installation surface. Cursor was revalidated against **3.16.17** on **2026-08-17**. Claude
-Code's 2026-08-25 changelog review of `latest_known` is now the most recent review of any
-target and therefore the `last_reviewed` date, even though `validated_against` still
-reflects the 2026-08-23 CLI check. Each target's `verification_method` in the JSON
-records exactly how.
+All four versions were read from the CLIs themselves on 2026-08-03. Claude Code is now
+directly CLI-validated at **2.1.246** on **2026-08-26** (`claude --version` on the
+runner reports 2.1.246), closing the gap the prior two runs left between
+`validated_against` (stuck at 2.1.241) and a changelog-only `latest_known` (2.1.245) —
+both figures are equal again. The 2.1.242-2.1.246 delta was reviewed against the catalog
+surface: 2.1.245 (a Linux glibc 2.44 startup crash fix, host binary, no catalog
+surface), 2.1.244/2.1.242 (no separately documented changes), 2.1.243 (the `managed`
+connector marker in `/mcp`/`/plugins`, documented in the Claude Code install guide; a
+`--plugin-dir` cross-marketplace-dependency resolution fix that doesn't affect this
+catalog's normal `/plugin install` path; a `/reload-plugins` LSP-tool fix not applicable
+since no plugin here ships an LSP integration), and 2.1.246 (a `claude plugin update
+<name>` bare-name fix and a `claude plugin install <name>` clear-error-on-corrupted-
+`known_marketplaces.json` fix, both documented in the install guide; a plugin.json
+UTF-8 BOM install-breaking bug — checked, no manifest in this repo carries a BOM and
+this catalog ships no `plugin.json` of its own; a `/reload-plugins` fix for skills under
+a plugin's `skills/*/SKILL.md` — checked, this catalog's own skill lives in a bare
+`.agents/skills` directory, not a plugin's `skills/` tree, so unaffected; a skill-
+frontmatter `<plugin>:` name-doubling fix — checked, this catalog's skill frontmatter
+carries no plugin-name prefix). `.claude-plugin/marketplace.json` itself is unchanged —
+this catalog's `github`-source entries are all public and need no auth. CI still runs
+`claude plugin validate --strict .agents/skills`, adopting 2.1.233's native
+skill-frontmatter check; it passed clean against the live 2.1.246 CLI on 2026-08-26, as
+did a full `make validate` (regenerate + validate manifests, 3 plugins in sync).
+Codex was revalidated against the **0.147.0** release on **2026-08-09** by comparing the
+official release delta with this catalog's `.agents/plugins/marketplace.json`
+installation surface. Cursor was revalidated against **3.16.17** on **2026-08-17**.
+Claude Code's 2026-08-26 direct CLI validation is now the most recent review of any
+target and therefore the `last_reviewed` date. Each target's `verification_method` in
+the JSON records exactly how.
 
 ## Two corrected version floors
 

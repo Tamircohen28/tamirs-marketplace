@@ -9,6 +9,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **`claude plugin update <name>` bare-name fix and install-error fix documented
+  (Claude Code 2.1.246).** `claude plugin update` now works given just a plugin's bare
+  name, not only the fully-qualified `name@marketplace` form — documented in the
+  install guide's Update section. `claude plugin install <name>` also now reports a
+  clear error instead of exiting silently when `~/.claude/plugins/known_marketplaces.json`
+  is missing or corrupted — added as a new Troubleshooting row.
 - **`managed` connector marker documented (Claude Code 2.1.243).** `/mcp` and
   `/plugins` now show a `managed` badge next to a connector whose authentication
   is centrally controlled by an organization. Documented in the install guide
@@ -37,6 +43,27 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code 2.1.246 — `validated_against` and `latest_known`
+  equal again** (from `validated_against` 2.1.241 / `latest_known` 2.1.245). A live
+  `claude` CLI was available this run and reports 2.1.246, so this is a real direct
+  validation, not a changelog-only bump — closing the gap the previous two runs left
+  open. `claude plugin validate --strict .agents/skills` and a full `make validate`
+  (regenerate + validate manifests) both passed clean against the live 2.1.246 CLI.
+  The 2.1.246 delta was reviewed against the catalog surface: the plugin-update
+  bare-name fix and the marketplace-install error fix (see Added, above); a plugin.json
+  UTF-8 BOM install-breaking bug, checked directly — no manifest in this repo carries a
+  BOM (`.claude-plugin/marketplace.json`, `.cursor-plugin/marketplace.json`,
+  `.agents/plugins/marketplace.json` all start with a bare `{`), and this catalog ships
+  no `plugin.json` of its own; a `/reload-plugins` fix for a plugin's `skills/*/SKILL.md`
+  layout, checked — this catalog's own skill lives in a bare `.agents/skills` directory,
+  not a plugin's `skills/` tree, so unaffected; a skill-frontmatter `<plugin>:`
+  name-doubling fix, checked — this catalog's skill frontmatter carries no plugin-name
+  prefix, so unaffected. Everything else in 2.1.246 (an Auto mode `/permissions` tab, a
+  plugin-cache duplicate-SHA-directory fix, hook-error `${CLAUDE_PLUGIN_ROOT}`
+  resolution, an MCP `requiresUserInteraction` permission-prompt fix, subagent
+  partial-output-on-`maxTurns`, deferred managed-settings consent prompts, and OTel
+  `plugin_id_hash`/`enabled_via` changes) is host/CLI-side with no marketplace-manifest
+  surface.
 - **Platform target: Claude Code `latest_known` 2.1.245** (from 2.1.241; `validated_against`
   stays 2.1.241 — this run had no live CLI to re-check against, so it advances only the
   changelog-reviewed figure rather than claiming a validation that didn't happen). The
