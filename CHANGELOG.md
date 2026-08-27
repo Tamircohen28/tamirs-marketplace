@@ -9,6 +9,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Version-less marketplace plugin cache directory fix documented (Claude Code
+  2.1.247).** Before 2.1.247, installing a marketplace plugin that has no `version`
+  field — installing it into a **second scope** (for example project-scope after an
+  earlier user-scope install, or the reverse) could delete the cache directory the
+  first scope's install was using. This is directly relevant here: none of this
+  catalog's three plugin entries declare a `version` field in
+  `.claude-plugin/marketplace.json` (confirmed — `tamirs-superpowers`,
+  `jose-claudinho`, and `headhunter` each carry only `name`/`source`/`description`),
+  so every install from this catalog is exactly the version-less case the bug
+  describes. Fixed in 2.1.247 — documented as a new Troubleshooting row and a note
+  in the install guide's Install section for anyone still on an older CLI who
+  installs the same catalog plugin in more than one scope.
 - **`claude plugin update <name>` bare-name fix and install-error fix documented
   (Claude Code 2.1.246).** `claude plugin update` now works given just a plugin's bare
   name, not only the fully-qualified `name@marketplace` form — documented in the
@@ -43,6 +55,39 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code 2.1.247 — `validated_against` and `latest_known`
+  both 2.1.247**, real direct CLI check for the second run in a row (`claude
+  --version` on this run's runner reports 2.1.247). `claude plugin validate --strict
+  .agents/skills` and a full `make validate` (regenerate + validate manifests, 3
+  plugins in sync, no drift) both passed clean against the live 2.1.247 CLI. The
+  2.1.247 changelog delta was reviewed line-by-line against the catalog surface.
+  Two items are directly about marketplace/catalog behavior and got a real check
+  against this repo, not a rubber stamp: the **version-less plugin cache directory
+  fix** — catalog-facing, see Added above, since all three of this catalog's plugin
+  entries omit `version`; and **marketplace hardening (control/invisible character
+  rejection, escape-safe text)** — checked directly against every plugin `name` and
+  `description` string in all three manifests with a Unicode category scan (category
+  `C*`, i.e. control/format/surrogate/private-use/unassigned) — **zero hits**, so
+  this catalog's entries were already clean and the new host-side rejection changes
+  nothing here. Also checked: the `/claude-api` skill Admin API coverage and the new
+  `/claude-api cost-optimize` subcommand — this catalog ships no `claude-api` skill
+  and no Python/Anthropic-SDK code of its own (unlike a repo that ships plugin
+  source), so not applicable, matching the same non-applicability already
+  established for sibling catalog-only repos. Everything else in 2.1.247 (the
+  `SendFeedback` tool, `spinnerTipsOverride`/`tipsFile` tip rotation, the Bash
+  permission-prompt auto-mode tip, arrow-key/history-search input fixes, sub-agent
+  model-404 fallback-chain fix, hook/background-agent error-output overflow fix,
+  non-Latin Ctrl-shortcut and split mouse-report fixes, Bash sandbox dotfile-symlink
+  fix, `/terminal-setup` Zed keymap merge fix, `/rename` silent-confirm fix,
+  `/compact`/"Summarize from here" system-prompt fix, background-session
+  "opening…" and unbounded-memory-growth fixes, `/install-github-app` SSH messaging,
+  background-session shell-logging fix, Remote Control diff reporting, self-hosted
+  runner status timing, first-run managed-gateway connectivity fix, cloud-session
+  permission-mode display and container-restart fixes, Bedrock/Vertex/Foundry
+  MCP-failure messaging, Sonnet 5's full-1M auto-compact window, cross-session
+  peer-message collapse, terminal hyperlink/control-character rendering, the PR-badge
+  refresh-skip, and the analytics/gateway/sign-in changes) is host/CLI/session-side
+  with no marketplace-manifest surface.
 - **Platform target: Claude Code 2.1.246 — `validated_against` and `latest_known`
   equal again** (from `validated_against` 2.1.241 / `latest_known` 2.1.245). A live
   `claude` CLI was available this run and reports 2.1.246, so this is a real direct

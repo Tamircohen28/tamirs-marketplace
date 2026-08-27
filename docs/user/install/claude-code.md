@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.246** |
+| **Validated against** | Claude Code **2.1.247** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.246 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.247 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -33,6 +33,14 @@ claude plugin install headhunter@tamirs-marketplace
 # 3. Verify
 claude plugin list
 ```
+
+> **Installing a catalog plugin in more than one scope?** Before Claude Code 2.1.247,
+> installing a plugin that declares no `version` field into a **second scope** (say,
+> project-scope after an earlier user-scope install, or the reverse) could delete the
+> cache directory the first scope's install was using. None of this catalog's three
+> plugins declare a `version` field, so this applied to every plugin here. Fixed in
+> 2.1.247 — on an older CLI, avoid installing the same catalog plugin into two scopes
+> at once, or upgrade first.
 
 Inside an interactive session, the slash-command equivalent:
 
@@ -192,6 +200,57 @@ git like this one that was mostly invisible, but if you pin marketplaces with cu
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
 
+## Claude Code 2.1.247
+
+Reviewed for catalog impact, with a live 2.1.247 CLI available this run (the second
+consecutive run with direct CLI validation). Two items are directly about
+marketplace/catalog behavior and were checked for real against this repo, not
+assumed:
+
+- **Version-less marketplace plugin cache directory fix.** Before 2.1.247, installing
+  a plugin with no `version` field into a second scope could delete the cache
+  directory the first scope's install used. Checked directly against
+  `.claude-plugin/marketplace.json`: none of this catalog's three plugin entries
+  (`tamirs-superpowers`, `jose-claudinho`, `headhunter`) declare a `version` field, so
+  every install from this catalog was exactly the version-less case this bug
+  describes. Fixed in 2.1.247 — now documented above (Install section) and in
+  Troubleshooting, below.
+- **Plugin marketplace hardening: control/invisible character rejection, escape-safe
+  text.** Checked directly with a Unicode category scan (`unicodedata.category`
+  starting with `C`, covering control, format, surrogate, private-use, and unassigned
+  code points) over every plugin `name` and `description` string in all three
+  manifests (`.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json`,
+  `.cursor-plugin/marketplace.json`) — **zero hits**. This catalog's entries were
+  already clean plain ASCII, so the new host-side rejection changes nothing here.
+
+Also checked and confirmed **not applicable**: the `/claude-api` skill's new Admin API
+coverage (organization members, invites, workspaces, API keys, rate-limit reports,
+workload identity federation, CMEK) and the new `/claude-api cost-optimize`
+subcommand — this catalog ships no `claude-api` skill and no Python or Anthropic-SDK
+code of its own, unlike a repo that ships its own plugin source.
+
+Everything else in 2.1.247 is host/CLI/session-side with no marketplace-manifest
+surface, reviewed and confirmed: the `SendFeedback` tool and `feedbackDrafts` setting;
+`spinnerTipsOverride`'s `{id, text, cooldownSessions, priority}` entries, `tipsFile`,
+and `label`; the Bash-permission-prompt "switch to auto mode" tip; fast arrow-key +
+Enter fixes across history search, `/config`, `/mcp`, `/skills`, background tasks, and
+`/model`; the sub-agent first-call-model-404 fallback-chain fix; the hook/background-
+agent error-output overflow fix; non-Latin-keyboard Ctrl shortcuts and split
+mouse-report-sequence fixes under kitty-protocol terminals; the Bash sandbox
+dotfile-symlink deletion fix; `/terminal-setup`'s Zed `keymap.json` merge fix (instead
+of overwrite); the `/rename` silent-confirm-on-failure fix; the `/compact`/"Summarize
+from here" system-prompt fix; the background-session "opening…" and unbounded-
+memory-growth fixes; the `/install-github-app` SSH messaging fix; the background-
+session shell-logging fix; Remote Control working-tree diff reporting; self-hosted
+runner session status timing; the first-run managed-gateway connectivity fix;
+cloud-session permission-mode-display and container-restart fixes;
+Bedrock/Vertex/Foundry MCP-connection-failure messaging; Sonnet 5's full-1M
+auto-compact window; cross-session peer-message collapse-by-default; terminal
+hyperlink/control-character rendering; the PR-badge GitHub-recheck skip; and the
+analytics/managed-gateway/organization-sign-in changes. `claude plugin validate
+--strict .agents/skills` and `make validate` both passed clean against the live
+2.1.247 CLI.
+
 ## Claude Code 2.1.246
 
 Reviewed for catalog impact, with a live 2.1.246 CLI available this run (the first
@@ -320,5 +379,6 @@ required on this catalog's side.
 | A skill's `SKILL.md` frontmatter silently does nothing | Since 2.1.233, `claude plugin validate --strict <path>` reports the parse error directly instead of the skill just not loading. This catalog runs it in CI on `.agents/skills`. |
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 | `claude plugin install <name>` exits with no output | Before 2.1.246, a missing or corrupted `~/.claude/plugins/known_marketplaces.json` made install fail silently instead of reporting an error. Fixed in 2.1.246 — on older versions, re-add the catalog with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` first if install seems to do nothing. |
+| Installing a catalog plugin in a second scope deletes the other scope's cache | Before 2.1.247, a plugin with no `version` field (true of all three plugins in this catalog) installed into a second scope could delete the first scope's cache directory. Fixed in 2.1.247 — on older versions, avoid installing the same catalog plugin into two scopes at once, or upgrade first. |
 
 More: [troubleshooting.md](../troubleshooting.md).
