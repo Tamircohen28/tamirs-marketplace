@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.247** |
+| **Validated against** | Claude Code **2.1.251** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.247 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.251 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -145,7 +145,10 @@ directly by its repo URL. Since 2.1.233, GitLab merge-request URLs are also acce
 `--worktree` and shown in the `claude agents` view (as `!N`) — orthogonal to marketplace
 installs, but relevant if you work against a GitLab mirror of a plugin repo. Since 2.1.234,
 an open GitLab MR for the current branch also shows as a badge in the footer/statusline,
-extending the same MR-awareness to the session UI.
+extending the same MR-awareness to the session UI. Since 2.1.251, `--worktree --tmux`
+against a `gitlab.com`-origin repo fetches the GitLab ref directly instead of first
+attempting a doomed GitHub-style fetch — a startup-latency fix for anyone driving a
+GitLab mirror of a plugin repo this way.
 
 Since Claude Code 2.1.238, a **url-typed marketplace** or a catalog/`archive`-source entry
 can declare a `headersHelper` — a local command that mints HTTP headers (for example a
@@ -158,7 +161,9 @@ fork of this catalog) needs a private or token-gated archive/catalog source. Sep
 since 2.1.238 an MCP server's own `headersHelper` (in a project `.mcp.json`, a plugin, or
 an agent file) requires trust-dialog acceptance and runs without inherited credential
 env vars — relevant to `tamirs-superpowers`' MCP server stubs if any of them add header-based
-auth, though none currently do.
+auth, though none currently do. Since 2.1.248, a `headersHelper` that supplies the
+`Authorization` header no longer falls into OAuth discovery on a 401 — the helper is
+re-run and the call retried, matching how this was always documented to behave.
 
 ## Uninstall
 
@@ -199,6 +204,51 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.248 – 2.1.251
+
+Reviewed for catalog impact, with a live 2.1.251 CLI available this run (the third
+consecutive run with direct CLI validation). 2.1.249 and 2.1.250 published no
+changelog specifics beyond "bug fixes and reliability improvements." Three items
+from 2.1.251 are directly about marketplace/catalog/worktree behavior and were
+checked for real against this repo:
+
+- **Plugin-command path-traversal rejection.** A marketplace entry's declared
+  command that points outside the plugin directory is now rejected at load with a
+  clear error, instead of being followed. Checked directly against
+  `.claude-plugin/marketplace.json`: none of this catalog's three plugin entries
+  (`tamirs-superpowers`, `jose-claudinho`, `headhunter`) declare a `commands` field
+  at all — this catalog never exercised the vulnerable path, and nothing here
+  changes.
+- **Marketplace-refresh-race plugin-skills fix.** Before 2.1.251, a background
+  session could start with **zero plugin skills loaded — and stay that way** — if
+  another Claude Code process happened to be refreshing the plugin marketplace at
+  the same moment. This is directly relevant to anyone running several Claude Code
+  sessions against plugins installed from this catalog at once. Fixed in 2.1.251 —
+  documented below in Troubleshooting.
+- **GitLab `--worktree --tmux` fetch fix.** A `gitlab.com`-origin worktree no
+  longer tries a doomed GitHub-style fetch first before fetching the GitLab ref
+  directly — a startup-latency fix noted above in the plugin-sources section
+  alongside the existing GitLab marketplace/worktree guidance.
+
+Also checked from 2.1.248: the MCP `headersHelper`-with-`Authorization`
+OAuth-discovery-on-401 fix (the helper is now re-run and the call retried on a
+401, matching what this guide always documented — noted above alongside the
+existing `headersHelper` coverage), and the new `experimental.cacheTtl`
+agent-frontmatter setting — not applicable, this catalog ships no agent
+definitions of its own, only the `run-plugins-catalog` contributor skill.
+
+Everything else in 2.1.248–2.1.251 is host/CLI/session-side with no
+marketplace-manifest surface, reviewed and confirmed: `--restricted` mode; the
+`PreModelSwitch`/`PostModelSwitch` hook events; live subagent tool-call streaming
+to Remote Control; the `/usage` spend-limit bar and per-session prompt-cache line
+on `/cost`; `claude --help`'s `attach`/`logs`/`stop`/`respawn`/`rm`; the symlink,
+Grep/Glob deny-rule, Workflow `scriptPath`, and sandbox security fixes (none touch
+plugin/marketplace loading); self-hosted-runner and `claude agents` UI/reliability
+fixes; cross-session messaging on Bedrock/Vertex/Foundry; Remote Control and
+cloud-session fixes; and the analytics/gateway/sandbox-settings changes. `claude
+plugin validate --strict .agents/skills` and `make validate` both passed clean
+against the live 2.1.251 CLI.
 
 ## Claude Code 2.1.247
 
@@ -380,5 +430,6 @@ required on this catalog's side.
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 | `claude plugin install <name>` exits with no output | Before 2.1.246, a missing or corrupted `~/.claude/plugins/known_marketplaces.json` made install fail silently instead of reporting an error. Fixed in 2.1.246 — on older versions, re-add the catalog with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` first if install seems to do nothing. |
 | Installing a catalog plugin in a second scope deletes the other scope's cache | Before 2.1.247, a plugin with no `version` field (true of all three plugins in this catalog) installed into a second scope could delete the first scope's cache directory. Fixed in 2.1.247 — on older versions, avoid installing the same catalog plugin into two scopes at once, or upgrade first. |
+| A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment the background session started. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
 
 More: [troubleshooting.md](../troubleshooting.md).
