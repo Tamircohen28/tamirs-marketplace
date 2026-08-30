@@ -7,7 +7,7 @@ enforced by `scripts/check-platform-targets.sh`.
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.233 | 2.1.233 | [claude-code.md](../../user/install/claude-code.md) |
-| Cursor | 3.16.17 | 3.16.17 | 3.16.17 | [cursor.md](../../user/install/cursor.md) |
+| Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
@@ -17,7 +17,7 @@ nightly review) — CI now also runs `claude plugin validate --strict .agents/sk
 adopting 2.1.233's native skill-frontmatter check. Codex was revalidated against the
 **0.147.0** release on **2026-08-09** by comparing the official release delta with this
 catalog's `.agents/plugins/marketplace.json` installation surface. Cursor was
-revalidated against **3.16.17** on **2026-08-17**, which is also the most recent
+revalidated against **3.18.9** on **2026-08-19** (changelog through date-only **2026-08-19**), which is also the most recent
 verification of any target and therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
 
@@ -27,7 +27,7 @@ Both of these were fiction before 2026-08-03:
 
 - **Cursor `0.45.0`** predates Cursor's plugin system entirely — a 0.x release could never
   have imported a team marketplace. Cursor's docs state **no** minimum version for plugins,
-  so the floor is now the version this catalog was actually validated on (3.16.17) rather
+  so the floor is now the version this catalog was actually validated on (3.18.9) rather
   than a guess.
 - **Codex `0.40.0`** is kept as the floor because that is the earliest release this catalog
   has claimed `.agents/plugins/marketplace.json` support for. The catalog was exercised on
