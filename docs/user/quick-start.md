@@ -5,7 +5,7 @@ Get plugins installed in under 5 minutes. Pick your platform below.
 | Target | Minimum | Validated against | Detailed guide |
 |--------|---------|-------------------|----------------|
 | Claude Code | 2.0.0 | 2.1.233 | [install/claude-code.md](install/claude-code.md) |
-| Cursor | 3.16.29 | 3.16.29 | [install/cursor.md](install/cursor.md) |
+| Cursor | 3.18.9 | 3.18.9 | [install/cursor.md](install/cursor.md) |
 | Codex | 0.40.0 | 0.146.0 | [install/codex.md](install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | [install/opencode.md](install/opencode.md) |
 
@@ -94,8 +94,8 @@ In the Codex app: **Settings → Plugins → + Add More…** → paste `https://
 
 ### Prerequisites
 
-- Cursor ≥ 3.16.29 (**Cursor → About Cursor**). Cursor documents no minimum for plugins;
-  3.16.29 is what this catalog was validated on.
+- Cursor ≥ 3.18.9 (**Cursor → About Cursor**). Cursor documents no minimum for plugins;
+  3.18.9 is what this catalog was validated on.
 
 ### Team marketplace (Teams / Enterprise)
 

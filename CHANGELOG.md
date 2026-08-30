@@ -22,6 +22,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   into CI is a one-job follow-up for a human edit.
 
 ### Changed
+- **Cursor 3.11 (+2026-08-27):** advance desktop/`validated_against` **3.16.29 → 3.18.9** and `changelog_date` **2026-08-19 → 2026-08-27**. Document Cloud Agent **Start from scratch**, Origin **Create repo**, **browser preview**, and optional **Vercel publish**. Cursor-only.
 - **Cursor 3.11 (+2026-08-19) / desktop 3.16.29:** cumulative rolling window from **3.16.17 → 3.16.29** and changelog **2026-08-17 → 2026-08-19**. Adopt cloud-agent **Subscriptions**, **Custom Modes** (skill → mode via ⌥⏎), **subagents on isolated VMs**, Agent Window **`/goal`** (+ CreateGoal/UpdateGoal), and **non-interruptive steering**. Keep Origin CLI/integrations docs. Cursor-only pins; other platform nightlies untouched.
 - **Platform target: Claude Code 2.1.233** (from 2.1.232). Docs-only bump plus the
   `make validate-skills` addition above. The 2.1.233 delta reviewed against the catalog surface:
