@@ -216,16 +216,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   a future nightly run can read the 2.1.236 delta.
 - **Platform target: Claude Code 2.1.234** (from 2.1.233). Docs-only bump. The 2.1.234
   delta reviewed against the catalog surface: `.claude-plugin/marketplace.json` stays
-  valid as `github` sources, no schema change, nothing removed is relied on. One entry
-  extends documentation already in the install guide: the **GitLab MR footer/statusline
-  badge** — an open GitLab MR for the current branch now also shows as a badge in the
-  footer/statusline, alongside the 2.1.233 `--worktree`/`claude agents` MR support
-  already documented. The rest of the delta (`CLAUDE_CODE_PROJECT_DIR_NAME`,
-  `selection:clear` keybinding, auto-continue on usage-limit reset,
-  account-email-only identification, Windows NT-namespace path-read hardening, Remote
-  Control cross-session/org-switch sync, claude-api skill context reduction,
-  `/permissions`/`/add-dir` usable mid-turn, `/goal` improvements, removal of the
-  "Default teammate model" setting, and background-task notifications moving to
+  valid as `github` sources, no schema change, nothing removed is relied on, and no
+  marketplace-facing behavior changed. One entry extends documentation already in the
+  install guide: the **GitLab MR footer/statusline badge** — an open GitLab MR for the
+  current branch now also shows as a badge in the footer/statusline, alongside the
+  2.1.233 `--worktree`/`claude agents` MR support already documented. The rest of the
+  delta (`CLAUDE_CODE_PROJECT_DIR_NAME`, `selection:clear` keybinding, auto-continue on
+  usage-limit reset, account-email-only identification, Windows NT-namespace path-read
+  hardening, Remote Control cross-session/org-switch sync, claude-api skill context
+  reduction, `/permissions`/`/add-dir` usable mid-turn, `/goal` improvements, removal of
+  the "Default teammate model" setting, and background-task notifications moving to
   system-reminders) is host/session-side and touches nothing this catalog documents or
   ships.
 
