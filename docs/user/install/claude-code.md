@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.251** |
+| **Validated against** | Claude Code **2.1.252** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.251 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.252 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -204,6 +204,31 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.252
+
+Reviewed for catalog impact, with a live 2.1.252 CLI available this run (the fourth
+consecutive run with direct CLI validation). 2.1.252 shipped four bug fixes and no
+Added/Improved/Changed entries — all host/CLI-side with zero marketplace-manifest
+surface:
+
+- **Bash "task output swap refused (tasks dir moved or linked)" fix** — a macOS-specific
+  Bash-tool internals fix; no plugin or marketplace surface.
+- **"always allow" not saving in a project with no `.claude/settings.local.json` yet** —
+  a host permission-settings persistence fix; this catalog ships no
+  `.claude/settings.local.json` of its own and the fix changes nothing about how
+  plugins or marketplaces are installed or cached.
+- **Remote Control sessions hosted by Claude Desktop or VS Code stalling for minutes**
+  — a Remote Control connection-handling fix; unrelated to catalog install.
+- **Background task notifications with very large failure output exceeding the API
+  request size limit** — a notification-payload fix; unrelated to catalog install.
+
+Re-checked directly against `.claude-plugin/marketplace.json` rather than assumed: the
+2.1.251 plugin-command path-traversal rejection is still not applicable — none of this
+catalog's three plugin entries (`tamirs-superpowers`, `jose-claudinho`, `headhunter`)
+declare a `commands` field. `claude plugin validate --strict .agents/skills` and `make
+validate` both passed clean against the live 2.1.252 CLI. No install-guide or
+Troubleshooting changes were needed for this delta.
 
 ## Claude Code 2.1.248 – 2.1.251
 

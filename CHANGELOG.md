@@ -71,6 +71,24 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code 2.1.252 — `validated_against` and `latest_known`
+  both 2.1.252**, real direct CLI check for the fourth run in a row (`claude
+  --version` on this run's runner reports 2.1.252). `claude plugin validate
+  --strict .agents/skills` and a full `make validate` (regenerate + validate
+  manifests, 3 plugins in sync, no drift) both passed clean against the live
+  2.1.252 CLI. The 2.1.252 changelog delta — four bug fixes, no Added/Improved/
+  Changed entries — was reviewed line-by-line against the catalog surface and
+  found to have **zero marketplace-manifest impact**: the Bash "task output swap
+  refused (tasks dir moved or linked)" fix (macOS Bash-tool internals), the
+  "always allow" not saving in a project with no `.claude/settings.local.json`
+  yet (host permission-settings persistence), the Remote Control stalling fix for
+  Claude Desktop/VS Code-hosted sessions, and the background-task-notification
+  API-request-size-limit fix are all host/CLI-side with no plugin, marketplace,
+  or skill-loading surface. Re-confirmed still not applicable: the 2.1.251
+  plugin-command path-traversal rejection — checked again directly against
+  `.claude-plugin/marketplace.json`, none of this catalog's three plugin entries
+  declare a `commands` field. No new Troubleshooting rows or install-guide
+  sections were needed for this delta.
 - **Platform target: Claude Code 2.1.251 — `validated_against` and `latest_known`
   both 2.1.251**, real direct CLI check for the third run in a row (`claude
   --version` on this run's runner reports 2.1.251). `claude plugin validate
@@ -198,16 +216,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   a future nightly run can read the 2.1.236 delta.
 - **Platform target: Claude Code 2.1.234** (from 2.1.233). Docs-only bump. The 2.1.234
   delta reviewed against the catalog surface: `.claude-plugin/marketplace.json` stays
-  valid as `github` sources, no schema change, nothing removed is relied on, and no
-  marketplace-facing behavior changed. One entry extends documentation already in the
-  install guide: the **GitLab MR footer/statusline badge** — an open GitLab MR for the
-  current branch now also shows as a badge in the footer/statusline, alongside the
-  2.1.233 `--worktree`/`claude agents` MR support already documented. The rest of the
-  delta (`CLAUDE_CODE_PROJECT_DIR_NAME`, `selection:clear` keybinding, auto-continue on
-  usage-limit reset, account-email-only identification, Windows NT-namespace path-read
-  hardening, Remote Control cross-session/org-switch sync, claude-api skill context
-  reduction, `/permissions`/`/add-dir` usable mid-turn, `/goal` improvements, removal of
-  the "Default teammate model" setting, and background-task notifications moving to
+  valid as `github` sources, no schema change, nothing removed is relied on. One entry
+  extends documentation already in the install guide: the **GitLab MR footer/statusline
+  badge** — an open GitLab MR for the current branch now also shows as a badge in the
+  footer/statusline, alongside the 2.1.233 `--worktree`/`claude agents` MR support
+  already documented. The rest of the delta (`CLAUDE_CODE_PROJECT_DIR_NAME`,
+  `selection:clear` keybinding, auto-continue on usage-limit reset,
+  account-email-only identification, Windows NT-namespace path-read hardening, Remote
+  Control cross-session/org-switch sync, claude-api skill context reduction,
+  `/permissions`/`/add-dir` usable mid-turn, `/goal` improvements, removal of the
+  "Default teammate model" setting, and background-task notifications moving to
   system-reminders) is host/session-side and touches nothing this catalog documents or
   ships.
 
