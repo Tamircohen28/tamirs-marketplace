@@ -6,45 +6,39 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.251 | 2.1.251 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.252 | 2.1.252 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.16.17 | 3.16.17 | 3.16.17 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code is now
-directly CLI-validated at **2.1.251** on **2026-08-30** (`claude --version` on the
-runner reports 2.1.251) — the third consecutive run with a live CLI available, so
-`validated_against` and `latest_known` stay equal. The 2.1.248 → 2.1.251 delta (2.1.249
-and 2.1.250 published no separate changelog specifics) was reviewed against the catalog
-surface. Three items are directly about marketplace/catalog/worktree behavior and got a
-real check rather than a rubber stamp: **plugin-command path-traversal rejection**
-(2.1.251) — a marketplace entry's declared command pointing outside the plugin directory
-is now rejected at load; checked directly against `.claude-plugin/marketplace.json`, none
-of this catalog's three plugin entries declare a `commands` field at all, so not
-applicable. **The marketplace-refresh-race plugin-skills fix** (2.1.251) — a background
-session could start with zero plugin skills, and stay that way, if another Claude Code
-process refreshed the plugin marketplace at the same moment; now documented as a
-Troubleshooting row. And **the GitLab `--worktree --tmux` fetch fix** (2.1.251) — a
-`gitlab.com`-origin worktree no longer tries a doomed GitHub-style fetch first; documented
-alongside the existing GitLab marketplace/worktree guidance. Also checked: 2.1.248's MCP
-`headersHelper`-with-`Authorization` fix (the helper is now re-run and the call retried on
-a 401, instead of falling into OAuth discovery, matching what was always documented) —
-noted alongside this guide's existing `headersHelper` coverage; and 2.1.248's
-`experimental.cacheTtl` agent-frontmatter setting — not applicable, this catalog ships no
-agent definitions. Everything else in 2.1.248–2.1.251 (`--restricted`, self-hosted-runner
-and `claude agents` UI/reliability fixes, cross-session messaging on Bedrock/Vertex/
-Foundry, spend-limit/`/cost`/`/usage` UI, `PreModelSwitch`/`PostModelSwitch` hooks,
-Remote Control and cloud-session fixes, unrelated sandbox/security hardening, and
-terminal/UI polish) is host/CLI/session-side with no marketplace-manifest surface.
-`.claude-plugin/marketplace.json` itself is unchanged — nothing in 2.1.248–2.1.251
-requires a manifest schema or field change. CI still runs `claude plugin validate
---strict .agents/skills`, adopting 2.1.233's native skill-frontmatter check; it passed
-clean against the live 2.1.251 CLI on 2026-08-30, as did a full `make validate`
-(regenerate + validate manifests, 3 plugins in sync, no drift).
+directly CLI-validated at **2.1.252** on **2026-08-31** (`claude --version` on the
+runner reports 2.1.252) — the fourth consecutive run with a live CLI available, so
+`validated_against` and `latest_known` stay equal. The 2.1.252 delta is four bug fixes
+with no Added/Improved/Changed entries, and was reviewed line-by-line against the
+catalog surface with zero marketplace-manifest impact found: the Bash "task output swap
+refused" fix (macOS Bash-tool internals), the "always allow" persistence fix for a
+project with no `.claude/settings.local.json` yet (host permission-settings storage),
+the Remote Control stalling fix for Claude Desktop/VS Code-hosted sessions, and the
+background-task-notification API-request-size-limit fix are all host/CLI-side with no
+plugin, marketplace, or skill-loading surface — none touch how a marketplace or plugin
+manifest is read, cached, or validated, so no new install-guide section or
+Troubleshooting row was needed. Re-confirmed still not applicable from 2.1.251: the
+**plugin-command path-traversal rejection** — checked again directly against
+`.claude-plugin/marketplace.json`, none of this catalog's three plugin entries declare a
+`commands` field. The prior 2.1.248 → 2.1.251 review remains documented below and in the
+install guide's "Claude Code 2.1.248 – 2.1.251" section: the marketplace-refresh-race
+plugin-skills fix, the GitLab `--worktree --tmux` fetch fix, and the MCP
+`headersHelper`-with-`Authorization` OAuth-retry fix.
+`.claude-plugin/marketplace.json` itself is unchanged — nothing in 2.1.252 (or
+2.1.248–2.1.251 before it) requires a manifest schema or field change. CI still runs
+`claude plugin validate --strict .agents/skills`, adopting 2.1.233's native
+skill-frontmatter check; it passed clean against the live 2.1.252 CLI on 2026-08-31, as
+did a full `make validate` (regenerate + validate manifests, 3 plugins in sync, no drift).
 Codex was revalidated against the **0.147.0** release on **2026-08-09** by comparing the
 official release delta with this catalog's `.agents/plugins/marketplace.json`
 installation surface. Cursor was revalidated against **3.16.17** on **2026-08-17**.
-Claude Code's 2026-08-27 direct CLI validation is now the most recent review of any
+Claude Code's 2026-08-31 direct CLI validation is now the most recent review of any
 target and therefore the `last_reviewed` date. Each target's `verification_method` in
 the JSON records exactly how.
 
