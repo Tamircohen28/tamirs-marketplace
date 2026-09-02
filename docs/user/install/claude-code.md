@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.252** |
+| **Validated against** | Claude Code **2.1.257** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.252 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.257 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -163,7 +163,10 @@ an agent file) requires trust-dialog acceptance and runs without inherited crede
 env vars — relevant to `tamirs-superpowers`' MCP server stubs if any of them add header-based
 auth, though none currently do. Since 2.1.248, a `headersHelper` that supplies the
 `Authorization` header no longer falls into OAuth discovery on a 401 — the helper is
-re-run and the call retried, matching how this was always documented to behave.
+re-run and the call retried, matching how this was always documented to behave. Since
+2.1.257, MCP connection and OAuth debug/error logs also redact any credentials carried
+in a server's URL or request headers — hardening the same mechanism for whenever a
+future private/token-gated entry here does put a token in a `headersHelper` response.
 
 ## Uninstall
 
@@ -204,6 +207,43 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.257
+
+Reviewed for catalog impact, with a live 2.1.257 CLI available this run (the fifth
+consecutive run with direct CLI validation). 2.1.253–2.1.256 do not exist as public
+releases, so this covers the full 2.1.252 → 2.1.257 delta. Two items have any
+catalog-adjacent surface at all, and both were checked directly against this repo
+rather than assumed:
+
+- **Plugin symlink component-path rejection.** Claude Code now refuses, with an error,
+  a plugin's declared command, agent, skill, hooks, or other component path that turns
+  out to be a symlink escaping the plugin's own directory — broadening the 2.1.251
+  commands-only path-traversal check to every declared component-path field. Checked
+  directly against `.claude-plugin/marketplace.json` (and the generated
+  `.agents/plugins/marketplace.json` / `.cursor-plugin/marketplace.json`): none of this
+  catalog's three plugin entries (`tamirs-superpowers`, `jose-claudinho`, `headhunter`)
+  declare a `commands`, `agents`, `skills`, or `hooks` field — each carries only
+  `name`/`source`/`description`. Also re-confirmed with `find . -type l` that this
+  repository itself has no symlinks anywhere, including under
+  `.agents/skills/run-plugins-catalog`. Not applicable, on both counts.
+- **MCP connection/OAuth log credential redaction.** Debug/error logs for MCP
+  connections and OAuth now redact credentials carried in a server's URL or request
+  headers. Noted above alongside the existing `headersHelper` coverage — this catalog's
+  entries are all public `github` sources with no `headersHelper` in use today, so
+  nothing here changes, but it hardens the exact mechanism this guide already points to
+  for a future private/token-gated entry.
+
+Everything else in 2.1.257 — Claude Fable 5.1 and the Fable-5.1-default-model change,
+`timeFormat`/`timeZone` settings, the auto-mode Containment Escape rule,
+`CLAUDE_CODE_SUBAGENT_MODEL_FORCE`, `/effort s`, the stale-sandbox-mask `/doctor`
+warning, the auto-mode outside-working-directory read prompt and
+`permissions.blockReadsOutsideWorkingDirectories`, gateway `/model` picker descriptions,
+and the long list of host/session/Remote-Control/Bedrock-Vertex-Foundry/VS-Code bug
+fixes and improvements — is host/CLI/editor-side with no marketplace, plugin-source, or
+skill-loading surface. `claude plugin validate --strict .agents/skills` and `make
+validate` both passed clean against the live 2.1.257 CLI. No new Troubleshooting rows
+were needed for this delta.
 
 ## Claude Code 2.1.252
 
@@ -322,7 +362,7 @@ cloud-session permission-mode-display and container-restart fixes;
 Bedrock/Vertex/Foundry MCP-connection-failure messaging; Sonnet 5's full-1M
 auto-compact window; cross-session peer-message collapse-by-default; terminal
 hyperlink/control-character rendering; the PR-badge GitHub-recheck skip; and the
-analytics/managed-gateway/organization-sign-in changes. `claude plugin validate
+analytics/gateway/organization-sign-in changes. `claude plugin validate
 --strict .agents/skills` and `make validate` both passed clean against the live
 2.1.247 CLI.
 

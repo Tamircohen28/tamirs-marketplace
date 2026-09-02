@@ -9,6 +9,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **MCP connection/OAuth log credential redaction documented (Claude Code 2.1.257).**
+  Debug/error logs for MCP connections and OAuth now redact credentials carried in a
+  server's URL or request headers. Noted alongside the existing `headersHelper`
+  coverage in the install guide's plugin-sources section — this catalog's entries are
+  all public `github` sources with no `headersHelper` in use today, so nothing in
+  `.claude-plugin/marketplace.json` changes, but it hardens the exact mechanism already
+  documented there for a future private/token-gated entry.
 - **Marketplace-refresh-race plugin-skills fix documented (Claude Code 2.1.251).**
   Before 2.1.251, a background session could start with zero plugin skills loaded
   — and stay that way — if another Claude Code process was refreshing the plugin
@@ -71,6 +78,30 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code 2.1.257 — `validated_against` and `latest_known`
+  both 2.1.257**, real direct CLI check for the fifth run in a row (`claude
+  --version` on this run's runner reports 2.1.257). `claude plugin validate
+  --strict .agents/skills` and a full `make validate` (regenerate + validate
+  manifests, 3 plugins in sync, no drift) both passed clean against the live
+  2.1.257 CLI. 2.1.253–2.1.256 do not exist as public releases, so the reviewed
+  delta is 2.1.252 → 2.1.257 in full, reviewed line-by-line against the catalog
+  surface. Two items had any catalog-adjacent surface at all, checked directly
+  rather than assumed: the **plugin symlink component-path rejection** (2.1.257)
+  — a broadening of 2.1.251's commands-only path-traversal check to also cover a
+  plugin's declared agent, skill, and hooks paths when any of them is a symlink
+  escaping the plugin directory; checked directly against
+  `.claude-plugin/marketplace.json` and the generated manifests, none of this
+  catalog's three plugin entries declare a `commands`, `agents`, `skills`, or
+  `hooks` field, and `find . -type l` confirms this repository has no symlinks
+  anywhere — not applicable on both counts (see Added, above, for the sibling
+  headersHelper log-redaction item). Everything else in 2.1.257 (Claude Fable
+  5.1, `timeFormat`/`timeZone` settings, the auto-mode Containment Escape rule,
+  `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`, `/effort s`, the stale-sandbox-mask
+  `/doctor` warning, the auto-mode outside-working-directory read prompt, gateway
+  `/model` picker descriptions, and the long list of host/session/Remote-Control/
+  Bedrock-Vertex-Foundry/VS-Code bug fixes and improvements) is host/CLI/editor-
+  side with no marketplace-manifest surface. No new `features_adopted` entry —
+  nothing catalog-relevant to adopt beyond the two documentation updates above.
 - **Platform target: Claude Code 2.1.252 — `validated_against` and `latest_known`
   both 2.1.252**, real direct CLI check for the fourth run in a row (`claude
   --version` on this run's runner reports 2.1.252). `claude plugin validate
