@@ -42,13 +42,13 @@
 |--------|---------|-------------------|------------------|-----------------|---------------|
 | [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.233** | **2.1.233** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
 | [Cursor](https://cursor.com/docs/plugins) | 3.16.17 | **3.16.17** | **3.16.17** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
-| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.147.0** | **0.151.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
+| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.147.0** | **0.152.1** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.11** | **1.18.15** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
 Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.233 was
 validated on 2026-08-15 from the official changelog (automated nightly review). Codex
-0.151.0 support was reviewed on 2026-08-30 against the official release deltas through the
-2026-08-29 0.151.0 release and this catalog's native `.agents/plugins/marketplace.json`
+0.152.1 support was reviewed on 2026-09-02 against the official release deltas through the
+2026-09-01 0.152.1 release and this catalog's native `.agents/plugins/marketplace.json`
 surface; direct CLI validation remains 0.147.0. Floors, verification methods, and OpenCode's
 documented capability gaps:
 [platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
