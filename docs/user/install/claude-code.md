@@ -208,6 +208,28 @@ git like this one that was mostly invisible, but if you pin marketplaces with cu
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
 
+## Claude Code 2.1.258
+
+Reviewed for catalog impact from the published changelog and npm's `latest` dist-tag
+for `@anthropic-ai/claude-code` (2.1.258, with 2.1.259 already visible as `next`) — this
+run's live CLI is still 2.1.257, so this is a changelog-reviewed bump to `latest_known`,
+not a live-CLI `validated_against` bump (see
+[platform-targets.md](../../engineering/build-and-release/platform-targets.md) for that
+distinction). 2.1.258 shipped exactly two entries, both host/session-side bug fixes with
+zero marketplace-manifest, plugin-source, or skill-loading surface:
+
+- **macOS 12 (Monterey) launch-regression fix.** Claude Code was failing to launch on
+  macOS 12 — a regression introduced in 2.1.255. Purely a startup fix on one host OS
+  version; no plugin-loading or marketplace surface.
+- **Remote/scheduled session permission-approval fix.** Remote and scheduled sessions
+  could fail with "user messages must have non-empty content" after a re-sent
+  permission approval couldn't be applied. A session-messaging fix; unrelated to
+  catalog install.
+
+No new Troubleshooting rows or other install-guide changes were needed for this delta.
+`validated_against` stays at 2.1.257 until a future run has a live 2.1.258+ CLI to check
+directly.
+
 ## Claude Code 2.1.257
 
 Reviewed for catalog impact, with a live 2.1.257 CLI available this run (the fifth
