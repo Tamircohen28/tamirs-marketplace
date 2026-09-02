@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Validated against** | Codex CLI **0.147.0** |
-| **Latest supported** | **0.151.0** |
+| **Latest supported** | **0.152.1** |
 | **Minimum supported** | **0.40.0** |
 | **Marketplace manifest** | `.agents/plugins/marketplace.json` |
 | **Official docs** | [Codex plugins](https://developers.openai.com/codex/plugins) |
@@ -14,7 +14,7 @@ Check your version:
 codex --version
 ```
 
-Codex 0.148–0.151.0 keep the portable Agent Plugin/catalog model used by this repository. The 0.148 async-command and MCP-tool hook capabilities and 0.150 `Interrupt` hook are plugin-runtime features, not catalog-schema changes. Codex 0.149 adds native session controls such as `codex agents` and `codex queue`, working-directory commands, and richer `codex doctor` diagnostics; those are host features and likewise require no catalog migration. Codex 0.149.1 adds `codex exec --thread-source <SOURCE>`. Codex 0.151 improves per-repository plugin catalog configuration and reports invalid project marketplaces without hiding valid plugins; it also adds optional-MCP discovery grace and extension-side MCP result interception, which belong to plugin runtimes rather than this catalog. The marketplace therefore remains compatible through `.agents/plugins/marketplace.json`; direct CLI validation is still recorded separately from changelog-reviewed support.
+Codex 0.148–0.152.1 keep the portable Agent Plugin/catalog model used by this repository. The 0.148 async-command and MCP-tool hook capabilities and 0.150 `Interrupt` hook are plugin-runtime features, not catalog-schema changes. Codex 0.149 adds native session controls such as `codex agents` and `codex queue`, working-directory commands, and richer `codex doctor` diagnostics; those are host features and likewise require no catalog migration. Codex 0.149.1 adds `codex exec --thread-source <SOURCE>`. Codex 0.151 improves per-repository plugin catalog configuration and reports invalid project marketplaces without hiding valid plugins. Codex 0.152 adds package-style MCP server names, per-tool `output_token_limit`, and configurable app-server shell-command timeouts, while making `update_plan` opt-in; all of those belong to plugin/runtime or host configuration rather than the marketplace schema. Codex 0.152.1 is a Guardian policy fix. The marketplace therefore remains compatible through `.agents/plugins/marketplace.json`; direct CLI validation is still recorded separately from changelog-reviewed support.
 
 ## The manifest path trips people up
 
