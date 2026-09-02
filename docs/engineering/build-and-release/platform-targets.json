@@ -93,9 +93,9 @@
       "supported_min": "0.40.0",
       "supported_min_source": "earliest release this catalog has claimed .agents/plugins/marketplace.json support for",
       "validated_against": "0.147.0",
-      "latest_known": "0.151.0",
-      "verified_on": "2026-08-30",
-      "verification_method": "official OpenAI Codex 0.148.0–0.151.0 release deltas plus catalog compatibility review; the existing .agents/plugins marketplace remains compatible. 0.150 adds task references and Interrupt hooks at the plugin/runtime layer; 0.151 improves per-repository plugin catalog configuration and invalid-marketplace isolation while adding optional-MCP discovery grace and extension-side MCP result interception without changing the catalog schema.",
+      "latest_known": "0.152.1",
+      "verified_on": "2026-09-02",
+      "verification_method": "official OpenAI Codex 0.148.0–0.152.1 release deltas plus catalog compatibility review; the existing .agents/plugins marketplace remains compatible. 0.150 adds task references and Interrupt hooks at the plugin/runtime layer; 0.151 improves per-repository plugin catalog configuration and invalid-marketplace isolation; 0.152 adds package-style MCP server names, per-tool output_token_limit and app-server shell-command timeout controls while making update_plan opt-in. None changes the catalog schema; 0.152.1 is a Guardian policy fix.",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
@@ -109,7 +109,9 @@
         "codex-0.149.1-catalog-compatibility-review",
         "codex-0.150.0-catalog-compatibility-review",
         "per-repository-plugin-catalog-config-0.151.0",
-        "invalid-marketplace-isolation-0.151.0"
+        "invalid-marketplace-isolation-0.151.0",
+        "codex-0.152.0-catalog-compatibility-review",
+        "codex-0.152.1-catalog-compatibility-review"
       ],
       "capabilities": [
         "marketplace",
