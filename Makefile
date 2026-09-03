@@ -22,11 +22,14 @@ validate: generate agent-check
 	@git diff --exit-code -- .agents/plugins/marketplace.json .cursor-plugin/marketplace.json \
 		|| (echo "Generated manifests are out of sync. Run 'make generate' and commit the results." >&2; exit 1)
 
-# Native Claude Code (2.1.233+) SKILL.md frontmatter check. Soft-skips locally if the
-# `claude` CLI isn't installed; CI (skill-validate job) installs it and runs this for real.
+# Native Claude Code (2.1.233+) SKILL.md frontmatter check, reported via the 2.1.259+
+# `--json` machine-readable report (scripts/report-skill-validation.py turns it back
+# into a readable summary and carries the real pass/fail exit code). Soft-skips locally
+# if the `claude` CLI isn't installed; CI (skill-validate job) installs it and runs this
+# for real.
 validate-skills:
 	@if command -v claude >/dev/null 2>&1; then \
-		claude plugin validate --strict .agents/skills; \
+		claude plugin validate --strict --json .agents/skills | python3 scripts/report-skill-validation.py; \
 	else \
 		echo "claude CLI not found — skipping local skill frontmatter check (CI runs this via the skill-validate job)"; \
 	fi

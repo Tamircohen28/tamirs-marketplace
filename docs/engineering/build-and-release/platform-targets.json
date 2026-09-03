@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-08-17",
+  "last_reviewed": "2026-09-03",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.233",
-      "latest_known": "2.1.233",
-      "verified_on": "2026-08-15",
-      "verification_method": "latest from registry.npmjs.org/@anthropic-ai/claude-code cross-checked against code.claude.com/docs/en/changelog (automated nightly review); catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`; skill frontmatter now also checked in CI with `claude plugin validate --strict .agents/skills`",
+      "validated_against": "2.1.259",
+      "latest_known": "2.1.259",
+      "verified_on": "2026-09-03",
+      "verification_method": "Real direct CLI check this run — `claude --version` on the runner reports `2.1.259 (Claude Code)`, the first live CLI available since 2.1.257, closing the changelog-only gap left after 2.1.258. `validated_against` and `latest_known` both advance to **2.1.259** together (no divergence this run). `claude plugin validate --strict --json .agents/skills` (piped through the new `scripts/report-skill-validation.py`) and a full `make validate` (regenerate + validate manifests, `make agent:check`; 3 plugins in sync, no drift) both passed clean against the live 2.1.259 CLI. Two 2.1.259 changelog items are directly relevant to this catalog, both checked directly rather than assumed. **`claude plugin validate --json` adopted.** The validator now accepts `--json` for a machine-readable report; `make validate-skills` now runs `--strict --json` and reports pass/fail via a small script, verified against both a clean run (`PASS`) and a deliberately broken scratch `SKILL.md` (`FAIL`, exit 1, correct warning surfaced). **Marketplace repo URL trailing-slash/dangling-`?`/`#` fix.** A `github.com` marketplace URL pasted with a trailing slash or dangling `?`/`#` (as a browser address bar shows it) could previously derive an unusable `.git` clone URL. This catalog's own install instructions always use the `Tamircohen28/tamirs-marketplace` shorthand (never affected), but the fix matters for anyone pasting this catalog's URL from a browser — documented as a new Troubleshooting row. Everything else in 2.1.259 (`managedMcpServers`, `--permission-prompts none`, `glab mr` recognition, the `~/.claude.json` concurrent-session-revert fix, the thinking-rejection-loop fix, the Remote Control Stop/background-agent fix, the workflow-resume duplicate-run fix, the blocking-Stop-hook cache-miss fix, the worktree Bash-loop/xargs fix, the `/workflows` JSON pretty-print, and the `allowedMcpServers`/`managed-mcp.json` scoping change) is host/session/UI-side or governs MCP-server/settings surfaces this catalog does not use — reviewed and found to have zero marketplace-manifest, plugin-source, or skill-loading impact. Prior 2.1.252→2.1.258 verification (the plugin symlink component-path rejection, MCP credential-log redaction, and the two 2.1.258 host-side bug fixes) still holds unchanged; see the install guide's per-version sections for that full history. Catalog install previously verified with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` followed by `claude plugin install <name>@tamirs-marketplace`.",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -32,7 +32,22 @@
         "install-refreshes-marketplace-first-2.1.232",
         "marketplace-settings-aliases-docs-2.1.232",
         "gitlab-marketplace-sources-docs-2.1.232",
-        "skill-frontmatter-ci-validation-2.1.233"
+        "skill-frontmatter-ci-validation-2.1.233",
+        "gitlab-mr-badge-docs-2.1.234",
+        "marketplace-headersHelper-docs-2.1.238",
+        "synced-plugin-non-override-docs-2.1.239",
+        "managed-connector-marker-docs-2.1.243",
+        "plugin-update-bare-name-docs-2.1.246",
+        "marketplace-install-error-docs-2.1.246",
+        "version-less-plugin-cache-second-scope-fix-docs-2.1.247",
+        "mcp-headersHelper-oauth-retry-fix-docs-2.1.248",
+        "plugin-command-path-traversal-check-2.1.251",
+        "marketplace-refresh-race-skills-fix-docs-2.1.251",
+        "gitlab-worktree-tmux-fetch-fix-docs-2.1.251",
+        "plugin-symlink-component-path-check-docs-2.1.257",
+        "mcp-oauth-log-redaction-docs-2.1.257",
+        "plugin-validate-json-2.1.259",
+        "marketplace-url-trailing-slash-fix-docs-2.1.259"
       ],
       "capabilities": [
         "marketplace",
