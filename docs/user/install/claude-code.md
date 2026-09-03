@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.257** |
+| **Validated against** | Claude Code **2.1.259** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.257 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.259 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -148,7 +148,15 @@ an open GitLab MR for the current branch also shows as a badge in the footer/sta
 extending the same MR-awareness to the session UI. Since 2.1.251, `--worktree --tmux`
 against a `gitlab.com`-origin repo fetches the GitLab ref directly instead of first
 attempting a doomed GitHub-style fetch — a startup-latency fix for anyone driving a
-GitLab mirror of a plugin repo this way.
+GitLab mirror of a plugin repo this way. Since 2.1.259, adding a marketplace by pasting
+its `github.com` repo URL directly (instead of the `owner/repo` shorthand this guide's
+Install section uses) no longer breaks if the pasted URL has a trailing slash or a
+dangling `?`/`#` — for example a URL copied straight from a browser address bar. Before
+2.1.259 that could produce an unusable `.git` clone URL and a failed `marketplace add`.
+This catalog's own install instructions always use the `Tamircohen28/tamirs-marketplace`
+shorthand, which was never affected, but the fix helps anyone who instead pastes the
+full `https://github.com/Tamircohen28/tamirs-marketplace/` URL (trailing slash and all,
+as a browser address bar would show it) into `claude plugin marketplace add`.
 
 Since Claude Code 2.1.238, a **url-typed marketplace** or a catalog/`archive`-source entry
 can declare a `headersHelper` — a local command that mints HTTP headers (for example a
@@ -207,6 +215,51 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+## Claude Code 2.1.259
+
+Reviewed for catalog impact with a **live 2.1.259 CLI** available this run (`claude
+--version` on the runner reports `2.1.259 (Claude Code)`) — the first run since
+2.1.257 with direct CLI access, closing the changelog-only gap left after 2.1.258.
+Both `validated_against` and `latest_known` move to **2.1.259** together (no
+divergence this time). Two items are directly relevant to this catalog and were
+checked for real, not assumed:
+
+- **`claude plugin validate --json` adopted.** The validator now accepts `--json` for
+  a machine-readable report alongside (or instead of) its text output. `make
+  validate-skills` was updated to run `claude plugin validate --strict --json
+  .agents/skills` piped through a new `scripts/report-skill-validation.py`, which
+  prints a short pass/fail summary and exits non-zero on failure — same soft-skip
+  behavior as before when `claude` isn't installed locally. Verified directly: a clean
+  run against `.agents/skills` reports `PASS`, and a deliberately broken `SKILL.md`
+  (no frontmatter) in a scratch directory reports `FAIL` with the specific warning,
+  exit code `1`. Documented above under "Skill frontmatter validation."
+- **Marketplace repo URL trailing-slash/dangling-`?`/`#` fix.** A `github.com`
+  marketplace URL pasted into `claude plugin marketplace add` with a trailing slash or
+  a dangling `?`/`#` — exactly what a browser address bar produces — could derive an
+  unusable `.git` clone URL. This catalog's own instructions always use the
+  `Tamircohen28/tamirs-marketplace` shorthand (never affected), but the fix matters for
+  anyone who instead copy-pastes this catalog's URL from a browser. Documented above in
+  the plugin-sources section and as a new Troubleshooting row.
+
+Everything else in 2.1.259 was checked and found host/session-side with no
+marketplace-manifest, plugin-source, or skill-loading surface: the `managedMcpServers`
+managed setting (an org-level admin control — this is a personal public catalog with no
+managed settings of its own); `--permission-prompts none` for unattended headless hosts
+(a CLI invocation flag, not a catalog artifact); `glab mr` subcommand recognition
+(GitLab CLI integration, orthogonal to the GitLab marketplace/worktree notes already
+documented above); the `~/.claude.json` concurrent-session-revert fix, the
+thinking-rejection-loop fix, the Remote Control Stop-doesn't-stop-background-agents fix,
+the workflow-resume duplicate-agent-runs fix, the blocking-Stop-hook cache-miss fix, the
+worktree-isolated-session Bash-loop/xargs/launcher fix, and the `/workflows` JSON
+pretty-print — all host/session/UI-side, and this catalog ships no plugin source, hooks,
+or workflow scripts of its own for any of them to touch; and the `allowedMcpServers` /
+`managed-mcp.json` scoping change (governs which MCP servers a *user* can add vs. which
+a managed config loads regardless — this catalog's plugins are installed as marketplace
+plugins, not configured as MCP servers in a settings file, so nothing here changes).
+`claude plugin validate --strict --json .agents/skills` and a full `make validate`
+(regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) both
+passed clean against the live 2.1.259 CLI.
 
 ## Claude Code 2.1.258
 
@@ -448,7 +501,7 @@ marketplace — this catalog already documents that fix in the troubleshooting t
 under 2.1.232, where it first shipped, so no change was needed here. 2.1.238 also fixes
 output styles drifting back to default voice mid-session, fixes stdio MCP servers receiving
 `server/discover` before `initialize`, and changes
-`claude mcp list`/`claude mcp get` to show disabled servers as `⊘ Disabled`. The one
+`claude mcp list`/`claude mcp get` to show disabled servers as `⊬ Disabled`. The one
 catalog-facing item — marketplace/catalog `headersHelper`, plus the related MCP
 `headersHelper` trust-dialog requirement — is documented above in the plugin-sources
 section. **2.1.237** adds a built-in "Concise" output style and fixes prompt caching for
@@ -504,6 +557,18 @@ that defines skills under `skills/*/SKILL.md` — this catalog's skill lives in 
 so this bug never applied here either. Both are host-CLI fixes with no manifest change
 required on this catalog's side.
 
+Since Claude Code 2.1.259, `claude plugin validate` also accepts `--json`, printing the
+same check as a machine-readable report instead of (or combined with, as `--strict
+--json`) human-readable text. `make validate-skills` now runs
+`claude plugin validate --strict --json .agents/skills` piped through
+`scripts/report-skill-validation.py`, which turns the JSON report back into a short
+pass/fail summary for a terminal and exits non-zero on failure — the same soft-skip
+behavior as before when the `claude` CLI isn't installed locally. This is preparation
+as much as it is a local-DX improvement: the JSON shape is exactly what the still-blocked
+`skill-validate` CI job described in
+[testing.md](../../agent-guidelines/testing.md) will eventually consume once this
+catalog's automation token gets `workflows` scope.
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -518,5 +583,6 @@ required on this catalog's side.
 | `claude plugin install <name>` exits with no output | Before 2.1.246, a missing or corrupted `~/.claude/plugins/known_marketplaces.json` made install fail silently instead of reporting an error. Fixed in 2.1.246 — on older versions, re-add the catalog with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` first if install seems to do nothing. |
 | Installing a catalog plugin in a second scope deletes the other scope's cache | Before 2.1.247, a plugin with no `version` field (true of all three plugins in this catalog) installed into a second scope could delete the first scope's cache directory. Fixed in 2.1.247 — on older versions, avoid installing the same catalog plugin into two scopes at once, or upgrade first. |
 | A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment the background session started. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
+| `claude plugin marketplace add <pasted URL>` fails with an unusable clone URL | Before 2.1.259, a `github.com` marketplace URL pasted with a trailing slash or a dangling `?`/`#` (as a browser address bar shows it) could produce a broken `.git` clone URL. Fixed in 2.1.259 — on older versions, use the `Tamircohen28/tamirs-marketplace` shorthand from this guide's Install section instead of a pasted URL, or strip the trailing slash/`?`/`#` by hand. |
 
 More: [troubleshooting.md](../troubleshooting.md).
