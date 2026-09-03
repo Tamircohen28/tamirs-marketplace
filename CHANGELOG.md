@@ -9,6 +9,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **`claude plugin validate --json` adopted for skill validation (Claude Code
+  2.1.259).** `make validate-skills` now runs `claude plugin validate --strict --json
+  .agents/skills` piped through a new `scripts/report-skill-validation.py`, which
+  turns the machine-readable report into a short pass/fail summary and carries the
+  real pass/fail status as its exit code — same soft-skip behavior as before when the
+  `claude` CLI isn't installed locally. Verified against both a clean pass and a
+  deliberately broken scratch `SKILL.md` (correct `FAIL`, warning text, and exit 1).
+  Documented in the install guide's "Skill frontmatter validation" section and in
+  `AGENTS.md`/`docs/agent-guidelines/testing.md`.
+- **Marketplace repo URL trailing-slash/dangling-`?`/`#` fix documented (Claude Code
+  2.1.259).** A `github.com` marketplace URL pasted into `claude plugin marketplace
+  add` with a trailing slash or a dangling `?`/`#` — exactly what a browser address
+  bar produces — could previously derive an unusable `.git` clone URL. This catalog's
+  own instructions always use the `Tamircohen28/tamirs-marketplace` shorthand (never
+  affected), but the fix is documented for anyone who instead pastes the URL.
+  Documented in the install guide's plugin-sources section and as a new
+  Troubleshooting row.
 - **MCP connection/OAuth log credential redaction documented (Claude Code 2.1.257).**
   Debug/error logs for MCP connections and OAuth now redact credentials carried in a
   server's URL or request headers. Noted alongside the existing `headersHelper`
@@ -78,6 +95,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code `validated_against` and `latest_known` both
+  2.1.259** (from `validated_against` 2.1.257 / `latest_known` 2.1.258), real direct
+  CLI check — `claude --version` on this run's runner reports `2.1.259 (Claude
+  Code)`, the first live CLI available since 2.1.257, closing the changelog-only gap
+  left after 2.1.258. No divergence this run: both fields land on 2.1.259 together.
+  `claude plugin validate --strict --json .agents/skills` (via the new
+  `scripts/report-skill-validation.py`) and a full `make validate` both passed clean
+  against the live 2.1.259 CLI. Two 2.1.259 changelog items are catalog-relevant —
+  `claude plugin validate --json` (adopted, see Added above) and the marketplace URL
+  trailing-slash/dangling-`?`/`#` fix (documented, see Added above) — both checked
+  directly. Everything else in 2.1.259 (`managedMcpServers`, `--permission-prompts
+  none`, `glab mr` recognition, and a run of host/session/UI-side bug fixes) is
+  reviewed and confirmed to touch nothing this catalog's manifests, skills, or
+  install flow rely on. The prior 2.1.258 changelog (two host/session-side bug
+  fixes, no catalog surface) and the 2.1.252 → 2.1.257 review (documented below)
+  remain unchanged by this run's confirmation.
 - **Platform target: Claude Code `latest_known` 2.1.258** (from 2.1.257;
   `validated_against` stays 2.1.257 — this run's live `claude --version` still reports
   2.1.257, so the bump advances only the changelog-and-npm-reviewed figure rather than
