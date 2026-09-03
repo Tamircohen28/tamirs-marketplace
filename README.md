@@ -15,7 +15,7 @@
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
   </a>
   <img src="https://img.shields.io/badge/version-1.3.0-blue" alt="Version 1.3.0" />
-  <img src="https://img.shields.io/badge/Claude%20Code-2.1.257-blueviolet" alt="Claude Code 2.1.257" />
+  <img src="https://img.shields.io/badge/Claude%20Code-2.1.259-blueviolet" alt="Claude Code 2.1.259" />
   <img src="https://img.shields.io/badge/Cursor-3.16.17-000000" alt="Cursor 3.16.17" />
   <img src="https://img.shields.io/badge/Codex-0.147.0-412991" alt="Codex 0.147.0" />
   <img src="https://img.shields.io/badge/OpenCode-1.18.11-fab283" alt="OpenCode 1.18.11" />
@@ -40,13 +40,13 @@
 
 | Target | Minimum | Validated against | Catalog install | Install guide |
 |--------|---------|-------------------|-----------------|---------------|
-| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.257** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
+| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.259** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
 | [Cursor](https://cursor.com/docs/plugins) | 3.16.17 | **3.16.17** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
 | [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.147.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.11** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
-Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.257 was
-validated on 2026-09-02 directly from `claude --version` on the runner. Codex
+Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.259 was
+validated on 2026-09-03 directly from `claude --version` on the runner. Codex
 0.147.0 was revalidated on 2026-08-09 against the official release delta and this
 catalog's native `.agents/plugins/marketplace.json` surface. Floors, verification
 methods, and OpenCode's documented capability gaps:
