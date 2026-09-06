@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Cursor 3.11 (+2026-09-02):** advance desktop/`validated_against` **3.18.9** (already pending on this rolling PR) and `changelog_date` **2026-08-27 → 2026-09-02**. Document Cursor **Self-Hosted Machines** / Team Pools / partner sandboxes / computer use, distinct from GitHub Actions self-hosted runners. Cursor-only.
 ### Added
 - **`make validate-skills`: native skill frontmatter validation (Claude Code
   2.1.233).** 2.1.233 makes `claude plugin validate` check bare `.claude/skills`

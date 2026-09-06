@@ -141,3 +141,8 @@ Then **Developer: Reload Window**.
 | Expected Claude worktree hooks didn't fire | Those hooks are Claude-shaped; Cursor uses a different hooks schema. See the plugin's Cursor install guide. |
 
 More: [troubleshooting.md](../troubleshooting.md).
+
+## Self-Hosted Machines (2026-09-02)
+
+Cursor can run Cloud Agent tool execution on **My Machines**, **Team Pools**, or partner sandboxes, with **computer use** on Linux/Mac ([docs](https://cursor.com/docs/cloud-agent/self-hosted)). This catalog remains installable from GitHub-hosted `ubuntu-latest` CI — Cursor Self-Hosted Machines are **not** GitHub Actions self-hosted runners and do not change this repo's runner policy.
+
