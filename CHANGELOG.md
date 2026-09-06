@@ -319,6 +319,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   into CI is a one-job follow-up for a human edit.
 
 ### Changed
+- **Docs: generalized the internal-references guardrails.** The four places that
+  named a specific former employer — the `AGENTS.md` off-limits list,
+  `docs/agent-guidelines/security.md`, the contributor requirements in
+  `docs/CONTRIBUTING.md`, and the plugin-request checkbox in
+  `.github/ISSUE_TEMPLATE/feature_request.yml` — now say `employer-internal`
+  instead. The rules themselves are unchanged: no internal URLs, registries,
+  credentials, or proprietary IP in this personal, public catalog.
 - **Platform target: Claude Code 2.1.233** (from 2.1.232). Docs-only bump plus the
   `make validate-skills` addition above. The 2.1.233 delta reviewed against the catalog surface:
   `.claude-plugin/marketplace.json` stays valid as `github` sources, no schema
