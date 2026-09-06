@@ -9,6 +9,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Claude apps gateway `userPluginMarketplacesEnabled`/`userPluginUploadsEnabled`
+  documented (Claude Code 2.1.260).** New `desktop` policy keys let an org admin block
+  end users from adding their own plugin marketplaces (or uploading local plugins) in
+  Claude Desktop. Documented in the install guide's "Managed (enterprise) environments"
+  section alongside the existing `strictKnownMarketplaces`/`allowedMarketplaces`
+  guidance — an admin who sets `userPluginMarketplacesEnabled: false` blocks users from
+  adding this catalog via Desktop's marketplace-add flow regardless of any allowlist.
+- **`@synced`-plugin/managed-`enabledPlugins` marketplace-clone-fallback fix documented
+  (Claude Code 2.1.261).** Before 2.1.261, a cloud session could discard a plugin
+  already synced from claude.ai when managed settings force-enabled that same plugin
+  via `enabledPlugins`, then fall back to cloning it from a marketplace — a fallback
+  that could itself fail. Documented as an addendum to the install guide's existing
+  "Plugins synced from claude.ai" section, which already covers the `name@synced` vs.
+  `name@tamirs-marketplace` coexistence rule this fix touches. No managed
+  `enabledPlugins` configuration exists for this personal catalog today.
+- **`/reload-plugins` in headless sessions documented (Claude Code 2.1.260).**
+  `/reload-plugins` now appears in the Claude Code Desktop and SDK command lists, not
+  just interactive terminal sessions. Noted in the install guide's Update section
+  alongside the existing "`/reload-plugins` does not re-fetch from GitHub" caveat, which
+  applies the same way headlessly.
 - **`claude plugin validate --json` adopted for skill validation (Claude Code
   2.1.259).** `make validate-skills` now runs `claude plugin validate --strict --json
   .agents/skills` piped through a new `scripts/report-skill-validation.py`, which
@@ -95,6 +115,42 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Platform target: Claude Code `validated_against` and `latest_known` both
+  2.1.263** (from 2.1.259), real direct CLI check — `claude --version` on this run's
+  runner reports `2.1.263 (Claude Code)`, continuing the run of live-CLI validation
+  since 2.1.257. Covers the 2.1.260 → 2.1.263 delta. 2.1.263 is fix-only with no
+  itemized changelog entries — reviewed, nothing to adopt, matching the
+  2.1.226/.../2.1.258 fix-only precedent. Adopted/documented above under Added: the
+  gateway `userPluginMarketplacesEnabled`/`userPluginUploadsEnabled` policy keys
+  (2.1.260), the `@synced`/`enabledPlugins` marketplace-clone-fallback fix (2.1.261),
+  and `/reload-plugins`'s headless availability (2.1.260). Reviewed and not applicable,
+  checked directly rather than assumed: `/skill-doctor` (2.1.261) — a runtime tool for
+  pruning unused *loaded* skills in a live session, a different problem from `make
+  validate-skills`'s static `SKILL.md` frontmatter check, so it doesn't fold into that
+  target; `bashOutputMaxChars`/`taskOutputMaxChars` and
+  `--append-subagent-system-prompt-file` (2.1.261) — this repo's `check-*.sh` scripts
+  and `report-skill-validation.py` produce small, bounded output well under any default
+  limit, and no script here invokes `claude` with a subagent system prompt; the
+  reverted 2.1.259 `Read()`-deny-rule-on-Bash-args change (2.1.260) — this repo
+  documents no `Read(...)`/`Edit(...)` permission-rule examples anywhere, checked via
+  `grep`; the "marketplace entry path does not stay inside the marketplace directory"
+  fix for a **URL-typed** marketplace stored as a directory by a host app (2.1.260) —
+  this catalog is always added as a `github` shorthand
+  (`Tamircohen28/tamirs-marketplace`), never a raw URL-typed marketplace source;
+  model switching staying blocked after a plugin hook load failure, and separately
+  after an organization-managed plugin's marketplace failed to load (both 2.1.260) —
+  no hooks and no managed-org marketplace configured for this personal catalog; and
+  managed `skillOverrides`-alias / `Skill(name)`-deny-rule-on-nested-skill fixes
+  (2.1.260) — this catalog's own skill lives at the bare path
+  `.agents/skills/run-plugins-catalog`, not behind a plugin-bundled `<dir>:name` alias,
+  so neither bug ever applied here. Everything else in the 2.1.260/2.1.261 delta
+  (`/diff` panel, `/cost` cache-miss cause, `/advisor` text form,
+  `oidc.scope_on_refresh`, and a long run of terminal/Remote-Control/VSCode/Bedrock/
+  Vertex/model-picker fixes) is host/session/UI-side with zero marketplace-manifest,
+  plugin-source, or skill-loading surface. `claude plugin validate --strict --json
+  .agents/skills` (via `scripts/report-skill-validation.py`) and a full `make validate`
+  (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift)
+  both passed clean against the live 2.1.263 CLI.
 - **Platform target: Claude Code `validated_against` and `latest_known` both
   2.1.259** (from `validated_against` 2.1.257 / `latest_known` 2.1.258), real direct
   CLI check — `claude --version` on this run's runner reports `2.1.259 (Claude

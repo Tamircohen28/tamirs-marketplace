@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.259** |
+| **Validated against** | Claude Code **2.1.263** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.259 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.263 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -82,7 +82,10 @@ claude plugin update tamirs-superpowers@tamirs-marketplace
 > **Claude Code caches installed plugins by the `version` field in the plugin's
 > `plugin.json`.** If a plugin release did not bump its version, `plugin update` is a no-op
 > — you stay on the cached copy. `/reload-plugins` does **not** re-fetch from GitHub; it
-> only reloads what is already cached.
+> only reloads what is already cached. Since 2.1.260, `/reload-plugins` also appears in
+> the Claude Code Desktop app and SDK command lists, not just interactive terminal
+> sessions — the "reloads cache, doesn't re-fetch" caveat above applies there the same
+> way.
 
 Since Claude Code 2.1.246, `claude plugin update <name>` also works given just the
 plugin's **bare name** — before, only the fully-qualified `name@marketplace` form
@@ -110,6 +113,14 @@ a connector whose authentication your organization controls centrally. That mark
 about *auth management*, not install source — a plugin installed from this catalog via
 `/plugin install <name>@tamirs-marketplace` is a plain marketplace install either way, and
 never shows as `managed` on that basis alone.
+
+Before Claude Code 2.1.261, a cloud session could **discard** a plugin already synced from
+claude.ai when managed settings force-enabled that same plugin by name via `enabledPlugins`
+— the session then fell back to cloning it from a marketplace instead, and that fallback
+clone could itself fail, leaving the plugin missing either way. Fixed in 2.1.261. No
+managed `enabledPlugins` configuration exists for this personal catalog today, so this
+was never exercised here, but it's worth knowing if any of these three plugins are ever
+force-enabled by name inside an organization that also syncs plugins from claude.ai.
 
 ## Installing a plugin standalone instead
 
@@ -215,6 +226,101 @@ silently inherit another tier's custom headers — for a catalog fetched over pl
 git like this one that was mostly invisible, but if you pin marketplaces with custom
 HTTP headers in one tier and redefine the same entry in another, 2.1.228 is where
 the two stop bleeding into each other.
+
+Since Claude Code 2.1.260, the Claude apps gateway's `desktop` policy block accepts two
+newer Claude Desktop keys: **`userPluginMarketplacesEnabled`** and
+**`userPluginUploadsEnabled`**. An admin who sets `userPluginMarketplacesEnabled: false`
+blocks end users from adding their *own* plugin marketplaces (including this one) via
+Claude Desktop's marketplace-add flow, regardless of any `strictKnownMarketplaces`/
+`allowedMarketplaces` allowlist; `userPluginUploadsEnabled: false` similarly blocks
+uploading a local plugin. This catalog sets neither key itself — they live in the
+consuming organization's own gateway policy — but they're the relevant switch if a
+managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
+themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
+gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.263
+
+Reviewed for catalog impact, with a live 2.1.263 CLI available this run (`claude
+--version` on the runner reports `2.1.263 (Claude Code)`). 2.1.263 shipped only "bug
+fixes and reliability improvements," with no itemized changelog entries — reviewed,
+nothing to adopt, matching the 2.1.226/2.1.240/.../2.1.258 fix-only precedent. Both
+`validated_against` and `latest_known` advance to **2.1.263** together (no divergence).
+`claude plugin validate --strict --json .agents/skills` and a full `make validate`
+(regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) both
+passed clean against the live 2.1.263 CLI.
+
+## Claude Code 2.1.261
+
+Reviewed for catalog impact, with a live CLI available this run. One item is directly
+relevant to this catalog and is documented above rather than assumed:
+
+- **`@synced`-plugin/managed-`enabledPlugins` marketplace-clone-fallback fix.** Before
+  2.1.261, a cloud session could discard a plugin already synced from claude.ai when
+  managed settings force-enabled that same plugin via `enabledPlugins`, then fall back
+  to cloning it from a marketplace — a fallback that could itself fail. Documented above
+  in "Plugins synced from claude.ai." No managed `enabledPlugins` configuration exists
+  for this personal catalog today, so this was never exercised here.
+
+Also reviewed and found not applicable, checked directly rather than assumed: **`/skill-
+doctor`**, which lists which *loaded* skills a running session isn't using and what they
+cost in context so they can be pruned — a runtime, per-session tool solving a different
+problem than `make validate-skills`'s static `SKILL.md` frontmatter check documented
+below, so it doesn't fold into that target or this repo's CI; **`bashOutputMaxChars`** /
+**`taskOutputMaxChars`** and **`--append-subagent-system-prompt-file`** — this repo's
+`check-*.sh` scripts and `scripts/report-skill-validation.py` all produce small, bounded
+output well under any default inline limit, and no script here invokes `claude` with a
+subagent system prompt at all, let alone one large enough to need a file. Everything else
+in 2.1.261 — the "Organization policy" line in `/status`/`claude doctor`, typed-character
+ordering, `/add-dir` on `/net` automounts, the Bedrock setup wizard, the inline-image-chip
+deletion fix, resumed-session hook-output loss, the long run of Remote Control fixes,
+`gcpAuthRefresh`, claude.ai connector retry, background-agent CPU usage, `/usage` weekly-
+limit rows, `claude -p --resume` session-ID handling, the terminal progress indicator,
+the model-picker/Vertex-AI/streaming/`rm`-safety/API-timeout improvements, and the full
+VSCode list — is host/session/UI-side with zero marketplace-manifest, plugin-source, or
+skill-loading surface. `claude plugin validate --strict --json .agents/skills` and `make
+validate` both passed clean against the live 2.1.261 CLI. No new Troubleshooting rows
+were needed for this delta.
+
+## Claude Code 2.1.260
+
+Reviewed for catalog impact, with a live CLI available this run. Three items are
+directly relevant to this catalog:
+
+- **Claude apps gateway `userPluginMarketplacesEnabled`/`userPluginUploadsEnabled`.**
+  New `desktop` policy keys for admin control over whether end users can add their own
+  plugin marketplaces or upload local plugins in Claude Desktop. Documented above under
+  "Managed (enterprise) environments."
+- **`/reload-plugins` in headless sessions.** Now available in the Claude Code Desktop
+  app and SDK command lists, not just interactive terminals. Documented above in the
+  Update section.
+- **Reverted the 2.1.259 `Read()`-deny-rule-on-Bash-args change.** 2.1.259 had started
+  applying `Read()` permission deny rules to Bash command arguments, which incorrectly
+  denied things like `npm run build` under a `Read(./**/build/**)` rule in every mode.
+  Reverted in 2.1.260. This repo documents no `Read(...)`/`Edit(...)` permission-rule
+  examples anywhere (checked via `grep`), so neither the 2.1.259 regression nor this
+  revert ever had anything to affect here.
+
+Also reviewed and found not applicable, checked directly rather than assumed: the
+**URL-typed-marketplace-stored-as-a-directory path-containment fix** ("marketplace entry
+path does not stay inside the marketplace directory," hit when a host app like Claude
+Desktop stores a **URL-typed** marketplace as a directory) — this catalog is always added
+as the `Tamircohen28/tamirs-marketplace` `github` shorthand, never a raw URL-typed
+marketplace source, so the affected code path is never exercised from here; **model
+switching staying blocked for the rest of the session after a plugin hook load
+failure**, and separately **after an organization-managed plugin's marketplace could not
+be loaded** — no hooks and no managed-org marketplace configured for this personal
+catalog; and the **managed `skillOverrides`-alias fix** and the **`Skill(name)`-deny-
+rule-on-nested-`<dir>:name`-skill fix** — this catalog's own skill lives at the bare path
+`.agents/skills/run-plugins-catalog`, not behind a plugin-bundled `<dir>:name` alias, so
+neither bug ever applied here. Everything else in 2.1.260 — the `/diff` panel, `/cost`
+cache-miss cause, `/advisor` text form, `oidc.scope_on_refresh`, the Bedrock-certificate/
+zsh-permission/`blockReadsOutsideWorkingDirectories`/managed-settings fixes, the Fable
+5.1 fixes, the worktree/background-session/agent-teams reliability fixes, and the full
+VSCode list — is host/session/UI-side with zero marketplace-manifest, plugin-source, or
+skill-loading surface. `claude plugin validate --strict --json .agents/skills` and `make
+validate` both passed clean against the live 2.1.260 CLI. No new Troubleshooting rows
+were needed for this delta.
 
 ## Claude Code 2.1.259
 
