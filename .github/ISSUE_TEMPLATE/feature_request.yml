@@ -41,5 +41,5 @@ body:
           required: true
         - label: The repo contains a `.claude-plugin/` directory with a valid `plugin.json`
           required: true
-        - label: The plugin contains no Wix-internal references or credentials
+        - label: The plugin contains no employer-internal references or credentials
           required: true

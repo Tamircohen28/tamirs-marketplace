@@ -78,5 +78,5 @@ or OpenCode).
 - **Never add plugin source code here** — plugins live in their own repos.
 - **Never hand-edit generated manifests** (`.agents/plugins/`, `.cursor-plugin/`) — regenerate instead.
 - **Never change `"source": "github"`** in the Claude manifest — it's the only supported source type.
-- **Never add Wix-internal URLs, registries, or credentials.** This is a personal, public catalog.
+- **Never add employer-internal URLs, registries, or credentials.** This is a personal, public catalog.
 - **Never commit secrets or tokens.**
