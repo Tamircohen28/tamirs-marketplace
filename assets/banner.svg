@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="280" viewBox="0 0 1200 280">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="400" viewBox="0 0 1600 400">
+  <title>tamirs-marketplace: one catalog, four coding-agent targets</title>
+  <desc>A single hub node — the tamirs-marketplace plugin catalog — fans out along four connector paths to four destination nodes representing Claude Code, Cursor, Codex, and OpenCode. The motif is literal: one marketplace install, four agent targets.</desc>
+
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#0d1117"/>
@@ -10,44 +13,50 @@
     </linearGradient>
   </defs>
 
-  <!-- Background -->
-  <rect width="1200" height="280" fill="url(#bg)" rx="12"/>
+  <!-- Background card -->
+  <rect width="1600" height="400" fill="url(#bg)" rx="20" stroke="#30363d" stroke-width="1.5"/>
 
-  <!-- Top accent bar -->
-  <rect width="1200" height="3" fill="url(#accent)" rx="0"/>
+  <!-- Top / bottom accent bars -->
+  <rect width="1600" height="4" fill="url(#accent)"/>
+  <rect y="396" width="1600" height="4" fill="url(#accent)"/>
 
-  <!-- Terminal dots -->
+  <!-- Terminal window dots -->
   <circle cx="40" cy="40" r="7" fill="#ff5f57"/>
   <circle cx="64" cy="40" r="7" fill="#febc2e"/>
   <circle cx="88" cy="40" r="7" fill="#28c840"/>
 
-  <!-- Plugin icon grid (decorative) -->
-  <rect x="960" y="60" width="48" height="48" rx="10" fill="#7c3aed" opacity="0.2"/>
-  <rect x="1020" y="60" width="48" height="48" rx="10" fill="#3b82f6" opacity="0.2"/>
-  <rect x="1080" y="60" width="48" height="48" rx="10" fill="#10b981" opacity="0.2"/>
-  <rect x="960" y="120" width="48" height="48" rx="10" fill="#3b82f6" opacity="0.2"/>
-  <rect x="1020" y="120" width="48" height="48" rx="10" fill="#10b981" opacity="0.2"/>
-  <rect x="1080" y="120" width="48" height="48" rx="10" fill="#7c3aed" opacity="0.2"/>
+  <!-- Wordmark -->
+  <text x="40" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="56" font-weight="700" fill="#f0f6fc" letter-spacing="-1">tamirs-marketplace</text>
+  <text x="42" y="146" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" fill="#9ca3af">One catalog. Four coding-agent targets.</text>
 
-  <!-- Plugin icons text -->
-  <text x="984" y="92" font-family="monospace" font-size="20" fill="#7c3aed" opacity="0.7">⚡</text>
-  <text x="1044" y="92" font-family="monospace" font-size="20" fill="#3b82f6" opacity="0.7">⚽</text>
-  <text x="1104" y="92" font-family="monospace" font-size="20" fill="#10b981" opacity="0.7">🎯</text>
-  <text x="984" y="152" font-family="monospace" font-size="20" fill="#3b82f6" opacity="0.7">🔌</text>
-  <text x="1044" y="152" font-family="monospace" font-size="20" fill="#10b981" opacity="0.7">🛠</text>
-  <text x="1104" y="152" font-family="monospace" font-size="20" fill="#7c3aed" opacity="0.7">📦</text>
+  <!-- Catalog hub -->
+  <circle cx="260" cy="290" r="64" fill="url(#accent)" stroke="#30363d" stroke-width="2"/>
+  <circle cx="260" cy="290" r="48" fill="#0d1117"/>
+  <rect x="239" y="269" width="16" height="16" rx="3" fill="#7c3aed"/>
+  <rect x="265" y="269" width="16" height="16" rx="3" fill="#3b82f6"/>
+  <rect x="239" y="295" width="16" height="16" rx="3" fill="#10b981"/>
+  <rect x="265" y="295" width="16" height="16" rx="3" fill="#d97757"/>
+  <circle cx="326" cy="290" r="5" fill="#8b5cf6"/>
 
-  <!-- Prompt prefix -->
-  <text x="40" y="130" font-family="monospace" font-size="16" fill="#7c3aed" font-weight="bold">$</text>
-  <text x="60" y="130" font-family="monospace" font-size="16" fill="#6b7280">/plugin marketplace add</text>
-  <text x="296" y="130" font-family="monospace" font-size="16" fill="#e5e7eb"> Tamircohen28/tamirs-marketplace</text>
+  <!-- Fan-out connectors: one catalog to four targets -->
+  <path d="M326,290 C650,290 950,70 1386,70" fill="none" stroke="#d97757" stroke-width="3" stroke-opacity="0.55"/>
+  <path d="M326,290 C650,290 950,163 1386,163" fill="none" stroke="#3b82f6" stroke-width="3" stroke-opacity="0.55"/>
+  <path d="M326,290 C650,290 950,257 1386,257" fill="none" stroke="#10b981" stroke-width="3" stroke-opacity="0.55"/>
+  <path d="M326,290 C650,290 950,350 1386,350" fill="none" stroke="#7c3aed" stroke-width="3" stroke-opacity="0.55"/>
 
-  <!-- Main title -->
-  <text x="40" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="54" font-weight="700" fill="#f9fafb" letter-spacing="-1">tamirs-marketplace</text>
+  <!-- Destination: Claude Code -->
+  <circle cx="1430" cy="70" r="44" fill="#d97757" stroke="#30363d" stroke-width="2"/>
+  <rect x="1416" y="61" width="28" height="18" rx="6" fill="#0d1117"/>
 
-  <!-- Subtitle -->
-  <text x="42" y="220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" fill="#9ca3af">Unified multi-platform plugin marketplace for Claude Code · Cursor · Codex</text>
+  <!-- Destination: Cursor -->
+  <circle cx="1430" cy="163" r="44" fill="#3b82f6" stroke="#30363d" stroke-width="2"/>
+  <polygon points="1420,145 1420,169 1426,164 1430,172 1435,170 1429,161 1437,161" fill="#0d1117"/>
 
-  <!-- Bottom accent -->
-  <rect y="277" width="1200" height="3" fill="url(#accent)" rx="0"/>
+  <!-- Destination: Codex -->
+  <circle cx="1430" cy="257" r="44" fill="#10b981" stroke="#30363d" stroke-width="2"/>
+  <path d="M1418,247 L1410,257 L1418,267 M1442,247 L1450,257 L1442,267" fill="none" stroke="#0d1117" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Destination: OpenCode -->
+  <circle cx="1430" cy="350" r="44" fill="#7c3aed" stroke="#30363d" stroke-width="2"/>
+  <polygon points="1430,336 1442,343 1442,357 1430,364 1418,357 1418,343" fill="#0d1117"/>
 </svg>

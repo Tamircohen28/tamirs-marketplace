@@ -9,6 +9,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Capability registry (`core/capabilities/platforms.json`).** A single source of truth
+  for what this catalog actually does on each of its four targets, with a validation
+  command behind every `native` claim. Surfaces the repo does not ship are recorded as
+  unverified rather than asserted, and the 14 capabilities this catalog never exercises
+  (hooks, MCP, statusline, subagents, and the rest) say so explicitly instead of
+  describing the vendor product. The registry's supported-surface set is checked against
+  `platform-targets.json`, so the two files can no longer disagree silently.
+- **`core/capabilities/schema.json`** describing that registry's shape.
 - **`skill-validate` CI job: `make validate-skills` now runs for real on every push
   and pull request.** The job installs `@anthropic-ai/claude-code` on the runner and
   calls `make validate-skills`, so a `SKILL.md` frontmatter error fails the build
@@ -122,7 +130,37 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   plugin, or an agent file) requires trust-dialog acceptance and runs without
   inherited credential env vars.
 
+### Fixed
+- **Codex version sync never ran.** `check-platform-targets.sh --sync` stripped only a
+  bare leading `v` from the upstream tag, but Codex tags releases as `rust-v<semver>`,
+  so the semver guard on the next line rejected every tag and the sync skipped Codex
+  without reporting anything. `codex.latest_known` had been frozen at 0.147.0 while
+  `.codex-version` said 0.153.4 — two sources of truth disagreeing with nothing
+  comparing them. The prefix is now stripped with `sed -E 's/^(rust-)?v//'`.
+
 ### Changed
+- **Vendored standards contract synced 1.3.0 -> 1.7.0.** The vendored copy had drifted
+  four minor versions behind canonical and was reporting two findings that no longer
+  exist: `S4-03` is retired upstream, and `S4-06` read the legacy branch-protection
+  endpoint while hardcoding a required check literally named `CI`. This repo is governed
+  by rulesets, so that endpoint 404s and the gate reported "missing required CI status
+  check" against a branch that in fact requires four. Both were false positives from the
+  stale copy. `check-readme-branding.sh` is now vendored alongside the rest.
+- **Codex revalidated to 0.153.4** (from 0.147.0) across `platform-targets.json`, its
+  human mirror, the README badge and table, and the Codex install guide. Reviewed every
+  release from 0.148.0 through 0.153.4 for plugin/marketplace changes: 0.153.0 added
+  remote-marketplace support to the `codex plugin` CLI (#42150) and Git-marketplace
+  upgrades from merged configuration (#42149), and #41953's marketplace source policy
+  binds only OpenAI-curated plugins. The portable `.agents/plugins/marketplace.json`
+  shape is unchanged, so the delta widens how this catalog can be consumed rather than
+  narrowing it. `verification_method` now states plainly that Codex is validated
+  documentarily, because the Codex CLI is not installed on the review machine.
+- **README banner redesigned** from a wordmark on a rectangle into the catalog's actual
+  motif: one hub node fanning along four connectors into four target nodes, each
+  connector coloured to match the target it feeds. Emoji artwork is gone (it rendered as
+  tofu wherever the font was missing), and the SVG now carries a `<title>`/`<desc>`.
+- **README badge anchors collapsed onto single lines** — a newline inside an `<a>`
+  wrapping a badge `<img>` renders as an underlined gap between badges.
 - **OpenCode revalidated against 1.18.29** (was 1.18.11), which unblocks
   `make repo-standards-gate` — the strict `--assert-current` step had been failing on a
   stale OpenCode target. Verified by the method the target itself documents:

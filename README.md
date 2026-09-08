@@ -5,19 +5,13 @@
 <h1 align="center">tamirs-marketplace</h1>
 
 <p align="center">
-  <a href="https://github.com/Tamircohen28">
-    <img src="https://img.shields.io/badge/author-Tamir%20Cohen-181717?logo=github" alt="Tamir Cohen" />
-  </a>
-  <a href="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml">
-    <img src="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml/badge.svg" alt="CI" />
-  </a>
-  <a href="LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
-  </a>
+  <a href="https://github.com/Tamircohen28"><img src="https://img.shields.io/badge/author-Tamir%20Cohen-181717?logo=github" alt="Tamir Cohen" /></a>
+  <a href="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml"><img src="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/version-1.3.0-blue" alt="Version 1.3.0" />
   <img src="https://img.shields.io/badge/Claude%20Code-2.1.263-blueviolet" alt="Claude Code 2.1.263" />
   <img src="https://img.shields.io/badge/Cursor-3.18.9-000000" alt="Cursor 3.18.9" />
-  <img src="https://img.shields.io/badge/Codex-0.147.0-412991" alt="Codex 0.147.0" />
+  <img src="https://img.shields.io/badge/Codex-0.153.4-412991" alt="Codex 0.153.4" />
   <img src="https://img.shields.io/badge/OpenCode-1.18.29-fab283" alt="OpenCode 1.18.29" />
 </p>
 
@@ -42,13 +36,13 @@
 |--------|---------|-------------------|-----------------|---------------|
 | [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.263** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
 | [Cursor](https://cursor.com/docs/plugins) | 3.18.9 | **3.18.9** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
-| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.147.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
+| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.153.4** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.29** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
 Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.263 was
 validated on 2026-09-06 directly from `claude --version` on the runner. Codex
-0.147.0 was revalidated on 2026-08-09 against the official release delta and this
-catalog's native `.agents/plugins/marketplace.json` surface. Floors, verification
+0.153.4 was revalidated on 2026-09-08 against the 0.148.0 → 0.153.4 release delta and
+this catalog's native `.agents/plugins/marketplace.json` surface. Floors, verification
 methods, and OpenCode's documented capability gaps:
 [platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
 
