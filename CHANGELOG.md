@@ -123,6 +123,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **OpenCode revalidated against 1.18.29** (was 1.18.11), which unblocks
+  `make repo-standards-gate` — the strict `--assert-current` step had been failing on a
+  stale OpenCode target. Verified by the method the target itself documents:
+  `opencode --version` reported `1.18.29`, and `opencode debug skill` with `skills.paths`
+  pointed at `.agents/skills` resolved `run-plugins-catalog` to its `SKILL.md`. The
+  1.18.12 → 1.18.29 release notes contain one skills entry (a docs path fix, #42337) and
+  no marketplace/plugin-manifest concept, so both OpenCode capability gaps stand.
+- **`skills.urls` documented as *not* catalog support.** OpenCode's config schema exposes
+  `skills.urls` for fetching skills from a `.well-known/skills/` endpoint; it serves
+  individual skills rather than a plugin manifest, so it does not close the marketplace
+  gap. Noted in the OpenCode install guide so it is not misread as catalog support.
+- **Cursor install guide: fixed a broken `.cursor-version` link and a stale date.** The
+  link resolved to `docs/.cursor-version` (one `../` short of the repo root), and the
+  "changelog covered through" date still said 2026-08-27 while `.cursor-version` had
+  already advanced to 2026-09-02.
 - **Cursor 3.11 (+2026-09-02):** advance desktop/`validated_against` **3.18.9** (already pending on this rolling PR) and `changelog_date` **2026-08-27 → 2026-09-02**. Document Cursor **Self-Hosted Machines** / Team Pools / partner sandboxes / computer use, distinct from GitHub Actions self-hosted runners. Cursor-only.
 - **Platform target: Claude Code `validated_against` and `latest_known` both
   2.1.263** (from 2.1.259), real direct CLI check — `claude --version` on this run's

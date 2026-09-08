@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-09-06",
+  "last_reviewed": "2026-09-08",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -151,10 +151,10 @@
     "opencode": {
       "supported_min": "1.16.2",
       "supported_min_source": "oldest version on which `skills.paths` discovery of a catalog plugin's skills was verified with `opencode debug skill`",
-      "validated_against": "1.18.11",
-      "latest_known": "1.18.15",
-      "verified_on": "2026-08-03",
-      "verification_method": "opencode --version on the maintainer machine; latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed \u2014 each plugin repo is cloned and its skills verified with `opencode debug skill`",
+      "validated_against": "1.18.29",
+      "latest_known": "1.18.29",
+      "verified_on": "2026-09-08",
+      "verification_method": "`opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",
@@ -169,7 +169,7 @@
         "per-plugin-clone"
       ],
       "capability_gaps": {
-        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly \u2014 clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
         "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
       }
     }
