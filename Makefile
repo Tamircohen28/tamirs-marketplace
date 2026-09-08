@@ -1,9 +1,10 @@
 .PHONY: help install update uninstall generate validate validate-skills agent\:check agent-polish-gate \
-	check-agent-drift check-feature-equivalence check-platform-targets \
+	check-agent-drift check-feature-equivalence check-platform-targets check-action-pinning \
 	platform-targets-sync platform-targets-assert assert-contract repo-standards-gate
 
 help:
 	@echo "install update uninstall generate validate agent\:check repo-standards-gate"
+	@echo "  check-action-pinning    — every workflow action pinned to a commit SHA"
 
 install:
 	@bash scripts/install.sh
@@ -17,7 +18,7 @@ uninstall:
 generate:
 	python3 scripts/generate-marketplaces.py
 
-validate: generate agent-check
+validate: generate agent-check check-action-pinning
 	python3 scripts/validate-marketplaces.py
 	@git diff --exit-code -- .agents/plugins/marketplace.json .cursor-plugin/marketplace.json \
 		|| (echo "Generated manifests are out of sync. Run 'make generate' and commit the results." >&2; exit 1)
@@ -42,6 +43,12 @@ check-feature-equivalence:
 
 check-platform-targets:
 	bash scripts/check-platform-targets.sh .
+
+# A movable tag (`actions/checkout@v7`) is a third party's write access to this CI.
+# --self-test is not optional: it proves the detector still fires before trusting a pass.
+check-action-pinning:
+	@echo "--- GitHub Actions pinned to commit SHAs ---"
+	@bash scripts/check-action-pinning.sh . --self-test
 
 platform-targets-sync:
 	bash scripts/check-platform-targets.sh . --sync
