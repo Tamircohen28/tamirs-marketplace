@@ -5,15 +5,9 @@
 <h1 align="center">tamirs-marketplace</h1>
 
 <p align="center">
-  <a href="https://github.com/Tamircohen28">
-    <img src="https://img.shields.io/badge/author-Tamir%20Cohen-181717?logo=github" alt="Tamir Cohen" />
-  </a>
-  <a href="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml">
-    <img src="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml/badge.svg" alt="CI" />
-  </a>
-  <a href="LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" />
-  </a>
+  <a href="https://github.com/Tamircohen28"><img src="https://img.shields.io/badge/author-Tamir%20Cohen-181717?logo=github" alt="Tamir Cohen" /></a>
+  <a href="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml"><img src="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/version-1.3.0-blue" alt="Version 1.3.0" />
   <img src="https://img.shields.io/badge/Claude%20Code-2.1.263-blueviolet" alt="Claude Code 2.1.263" />
   <img src="https://img.shields.io/badge/Cursor-3.18.9-000000" alt="Cursor 3.18.9" />
