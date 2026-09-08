@@ -42,8 +42,17 @@
 # WHAT IS EXEMPT, AND WHY
 #   ./path            a local action in this same repository — it moves only when
 #                     this repo moves, so there is nothing external to pin.
-#   docker://...      reported, not failed: a digest-pinned image is the right fix
-#                     but the syntax is different and none exist here today.
+#   docker://...@sha256:<64 hex>
+#                     a digest-pinned image — immutable, same guarantee as a
+#                     commit SHA, so it passes. Any other docker ref
+#                     (`docker://img:v1`, `docker://img:latest`) is a movable
+#                     tag and FAILS. It is not exempt; the earlier version of
+#                     this header said "reported, not failed" while the code
+#                     reported unconditionally and every finding exits 1 — so a
+#                     correctly digest-pinned ref was told to pin by digest. A
+#                     check whose correction does not clear it is what drives
+#                     someone to add the path-shaped carve-out warned about
+#                     below.
 #   action-pin-ok:    an explicit, readable waiver — but only in the comment
 #                     part of the line, after a `#`. A path-shaped carve-out is
 #                     how the mutable ref creeps back; a waiver that matches
@@ -56,6 +65,8 @@ set -uo pipefail
 
 ROOT="."
 SELF_TEST=0
+# Resolved before any cd, because the self-test re-invokes this script.
+case "$0" in /*) SELF="$0" ;; *) SELF="$PWD/$0" ;; esac
 for arg in "$@"; do
   case "$arg" in
     --self-test) SELF_TEST=1 ;;
@@ -71,7 +82,7 @@ done
 # scan <dir> — every "path:line:ref" whose ref is not a 40-hex SHA.
 # Prints nothing when clean. Never fails the shell; the caller decides.
 scan() {
-  local dir="$1" f line trimmed n ref md fence
+  local dir="$1" f line trimmed n ref md fence digest
   [ -d "$dir" ] || return 0
   while IFS= read -r f; do
     n=0; fence=0
@@ -112,7 +123,19 @@ scan() {
       [ -n "$ref" ] || continue
       case "$ref" in
         ./*|.\\*) continue ;;                    # local action: nothing external
-        docker://*) printf '%s:%s:%s (docker ref — pin by digest)\n' "$f" "$n" "$ref"; continue ;;
+        # A docker image is pinned the same way an action is, by an immutable
+        # identifier; only the syntax differs (`@sha256:<64 hex>`, not a
+        # 40-char commit SHA). Route it through that test rather than
+        # reporting every docker ref -- an unconditional report fails a ref
+        # that is already correct, and tells you to do the thing you just did.
+        docker://*)
+          digest="${ref##*@sha256:}"
+          if [ "$digest" != "$ref" ] && [ ${#digest} -eq 64 ] \
+             && [ -z "$(printf '%s' "$digest" | tr -d 'a-f0-9')" ]; then
+            continue
+          fi
+          printf '%s:%s:%s (docker ref — pin by @sha256:<digest>)\n' "$f" "$n" "$ref"
+          continue ;;
       esac
       case "$ref" in
         *@*) : ;;
@@ -132,7 +155,7 @@ scan() {
 # A checker that has never been shown to fail is indistinguishable from one that
 # cannot. This builds both a violating workflow and its corrected twin.
 self_test() {
-  local tmp rc=0 out
+  local tmp rc=0 out planted_rc
   tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' RETURN
   mkdir -p "$tmp/bad" "$tmp/good"
 
@@ -146,6 +169,8 @@ jobs:
       - uses: some/act@1111111111111111111111111111111111111111 # v1.2.3
       - uses: waived/act@v2 # action-pin-ok: vendor publishes no SHA
       - uses: docker://ghcr.io/owner/action-pin-ok:v1
+      - uses: docker://ghcr.io/owner/pinned@sha256:2222222222222222222222222222222222222222222222222222222222222222
+      - uses: docker://ghcr.io/owner/shortdigest@sha256:abc123
 YML
   out="$(scan "$tmp/bad")"
   [ "$(printf '%s\n' "$out" | grep -c 'checkout@v7')" = 1 ] \
@@ -164,6 +189,17 @@ YML
   # the assertion would pass with fix 4 reverted.
   [ "$(printf '%s\n' "$out" | grep -c 'owner/action-pin-ok')" = 1 ] \
     || { echo "  self-test: waiver token in the ref itself waived the line" >&2; rc=1; }
+  # The docker branch used to print unconditionally, so a ref that is already
+  # digest-pinned was reported and told to pin by digest. A check whose own
+  # correction does not clear it teaches people to carve out paths instead.
+  [ "$(printf '%s\n' "$out" | grep -c 'owner/pinned')" = 0 ] \
+    || { echo "  self-test: digest-pinned docker ref wrongly flagged" >&2; rc=1; }
+  # ...and the digest test must be the real one: 64 lowercase hex, not merely
+  # the presence of the literal '@sha256:'. A truncated digest is not a pin.
+  [ "$(printf '%s\n' "$out" | grep -c 'owner/shortdigest')" = 1 ] \
+    || { echo "  self-test: truncated docker digest accepted as a pin" >&2; rc=1; }
+  [ "$(printf '%s\n' "$out" | grep -c 'docker ref')" = 2 ] \
+    || { echo "  self-test: docker findings not reported as docker refs" >&2; rc=1; }
 
   # --- cases the fixtures did not have, and the real tree did -----------------
   # Each of these three was a live false positive or blind spot, found by running
@@ -215,6 +251,34 @@ jobs:
 YML
   [ -z "$(scan "$tmp/good")" ] \
     || { echo "  self-test: corrected workflow still flagged" >&2; rc=1; }
+
+  # Everything above calls scan() directly, so none of it exercises the ROOT the
+  # top level actually scans: revert `scan "."` to `scan ".github/workflows"` and
+  # every assertion so far stays green. That is exactly the half that hid 18
+  # mutable refs in the scaffold templates, so it needs an end-to-end case --
+  # re-run this script against a planted tree whose only unpinned ref lives
+  # outside .github, and require it to fail.
+  #
+  # `bash`, not `sh`: this script uses process substitution, which POSIX sh
+  # cannot parse -- and written as `if sh "$SELF" ...`, the syntax error would
+  # read as "the ref was found" and the case would pass for the wrong reason.
+  # Assert the exact code too: exit 2 is a usage/environment error, not a finding.
+  mkdir -p "$tmp/tree/.github/workflows" "$tmp/tree/templates"
+  cat > "$tmp/tree/.github/workflows/ci.yml" <<'YML'
+jobs:
+  a:
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+YML
+  cat > "$tmp/tree/templates/scaffold.yml.tmpl" <<'TMPL'
+jobs:
+  a:
+    steps:
+      - uses: outside/dot-github@v1
+TMPL
+  bash "$SELF" "$tmp/tree" >/dev/null 2>&1; planted_rc=$?
+  [ "$planted_rc" -eq 1 ] \
+    || { echo "  self-test: top-level scan root misses refs outside .github (exit $planted_rc)" >&2; rc=1; }
 
   [ "$rc" -eq 0 ] && echo "  self-test passed (detector fires, and goes quiet when fixed)"
   return "$rc"
