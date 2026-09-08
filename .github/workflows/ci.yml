@@ -7,16 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  CI:
-    name: CI
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: Agent and manifest validation
-        run: |
-          make validate
-          make agent:check
-
   validate:
     name: Validate marketplace.json
     runs-on: ubuntu-latest
@@ -28,6 +18,24 @@ jobs:
 
       - name: Regenerate and verify platform manifests
         run: make validate
+
+  skill-validate:
+    name: Validate skill frontmatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate .agents/skills frontmatter
+        run: |
+          claude --version
+          make validate-skills
 
   secret-scan:
     name: Secret scan

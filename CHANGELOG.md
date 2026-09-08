@@ -9,6 +9,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **`skill-validate` CI job: `make validate-skills` now runs for real on every push
+  and pull request.** The job installs `@anthropic-ai/claude-code` on the runner and
+  calls `make validate-skills`, so a `SKILL.md` frontmatter error fails the build
+  instead of passing silently through the local soft-skip. This closes the follow-up
+  that `docs/agent-guidelines/testing.md` had been carrying since the target was added:
+  the automation token had no `workflows` scope, so the job had to be added by hand.
+  The duplicate `CI` job (which ran the same `make validate` + `make agent:check` as
+  the `validate` job) was removed at the same time — the gate ran twice per push.
 - **Claude apps gateway `userPluginMarketplacesEnabled`/`userPluginUploadsEnabled`
   documented (Claude Code 2.1.260).** New `desktop` policy keys let an org admin block
   end users from adding their own plugin marketplaces (or uploading local plugins) in
