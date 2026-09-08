@@ -27,7 +27,7 @@ instead. See [platform-equivalence.md](docs/agent-guidelines/platform-equivalenc
 | `make uninstall` | Print how to remove installed plugins (no local artifacts here) |
 | `make generate` | Regenerate Codex + Cursor manifests from the Claude manifest |
 | `make validate` | Run `generate`, validate all manifests, and fail if generated files are out of sync |
-| `make validate-skills` | Native `claude plugin validate --strict` on `.agents/skills` (2.1.233+); soft-skips if the CLI isn't installed locally. Not yet wired into CI — see `docs/agent-guidelines/testing.md` |
+| `make validate-skills` | Native `claude plugin validate --strict --json` on `.agents/skills` (2.1.233+ frontmatter check, 2.1.259+ JSON report), summarized by `scripts/report-skill-validation.py`; soft-skips if the CLI isn't installed locally. Not yet wired into CI — see `docs/agent-guidelines/testing.md` |
 | `make agent:check` | Agent drift + feature equivalence + platform targets |
 | `make repo-standards-gate` | Full pre-PR gate (agents + validate + contract) |
 
