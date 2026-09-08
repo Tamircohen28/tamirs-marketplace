@@ -38,7 +38,7 @@ make generate && make validate
 - Plugin must contain a `.claude-plugin/` directory with a valid `plugin.json`
 - Plugin must contain a `.cursor-plugin/plugin.json` for Cursor installs
 - Plugin must contain a `.codex-plugin/plugin.json` for Codex installs
-- Plugin must not contain Wix-internal references, credentials, or proprietary IP
+- Plugin must not contain employer-internal references, credentials, or proprietary IP
 - Description must be one sentence, 10–100 characters
 
 ## Code of Conduct
