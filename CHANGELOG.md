@@ -115,6 +115,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   inherited credential env vars.
 
 ### Changed
+- **Cursor 3.11 (+2026-09-02):** advance desktop/`validated_against` **3.18.9** (already pending on this rolling PR) and `changelog_date` **2026-08-27 → 2026-09-02**. Document Cursor **Self-Hosted Machines** / Team Pools / partner sandboxes / computer use, distinct from GitHub Actions self-hosted runners. Cursor-only.
 - **Platform target: Claude Code `validated_against` and `latest_known` both
   2.1.263** (from 2.1.259), real direct CLI check — `claude --version` on this run's
   runner reports `2.1.263 (Claude Code)`, continuing the run of live-CLI validation
@@ -375,6 +376,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   into CI is a one-job follow-up for a human edit.
 
 ### Changed
+- **Cursor 3.11 (+2026-08-27):** advance desktop/`validated_against` **3.16.29 → 3.18.9** and `changelog_date` **2026-08-19 → 2026-08-27**. Document Cloud Agent **Start from scratch**, Origin **Create repo**, **browser preview**, and optional **Vercel publish**. Cursor-only.
+- **Cursor 3.11 (+2026-08-19) / desktop 3.16.29:** cumulative rolling window from **3.16.17 → 3.16.29** and changelog **2026-08-17 → 2026-08-19**. Adopt cloud-agent **Subscriptions**, **Custom Modes** (skill → mode via ⌥⏎), **subagents on isolated VMs**, Agent Window **`/goal`** (+ CreateGoal/UpdateGoal), and **non-interruptive steering**. Keep Origin CLI/integrations docs. Cursor-only pins; other platform nightlies untouched.
 - **Docs: generalized the internal-references guardrails.** The four places that
   named a specific former employer — the `AGENTS.md` off-limits list,
   `docs/agent-guidelines/security.md`, the contributor requirements in
