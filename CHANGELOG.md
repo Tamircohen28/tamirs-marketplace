@@ -8,6 +8,69 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+- **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
+  look, trusted a waiver that could waive itself, and failed a ref that was already
+  correctly pinned.** Five defects, all found by running the checker against a real
+  tree rather than against its own fixtures:
+  1. `uses:` was matched as a substring anywhere on the line, so the prose
+     `**Common errors and their causes:**` parsed as a step named `ca-uses:` and was
+     reported as an unpinned ref. The key is now required at the start of the line
+     (after optional indentation and a `- ` list marker).
+  2. Only `.github/workflows` was scanned, and only `*.yml`/`*.yaml` within it. A list
+     of places to look is only as complete as its author's memory; in the sibling
+     `tamirs-superpowers` repo that omission hid 18 mutable refs in a scaffold
+     templates directory while the checker printed "all action refs are SHA-pinned".
+     The scan is now the whole tree — `*.yml`, `*.yaml`, `*.tmpl` and `*.md`, pruning
+     `.git`, `node_modules` and `.venv`. Waivers are by `action-pin-ok:` comment,
+     never by path. Coverage in this repo goes from 2 files to 28.
+  3. With `.md` scanned, prose *explaining* that a movable tag is a movable tag became
+     a finding. In Markdown only, fenced blocks are configuration and everything else
+     is prose about configuration, so only fenced lines are considered.
+  4. The waiver was the same substring match as defect 1 — the token was honoured
+     anywhere on the line, so a ref carrying it waived itself and was never reported.
+     `docker://ghcr.io/owner/action-pin-ok:v1` is the shape that does it: the docker
+     `name:tag` syntax supplies the colon. Only the comment part, after the first
+     `#`, can waive now.
+  5. The `docker://` branch printed a finding unconditionally, before any digest
+     handling — and every finding exits 1. So `docker://img@sha256:<64 hex>`, already
+     immutably pinned, failed the check and was told to pin by digest. A gate whose
+     own remedy does not clear it is what drives someone to add the path-shaped
+     carve-out the header warns against. Docker refs now go through a real digest
+     test (`@sha256:` plus exactly 64 lowercase hex); anything else is a movable tag
+     and fails. The header said `docker://` was "reported, not failed" — never true,
+     since a finding is a failure — and now states the digest rule instead.
+
+  The four are order-dependent and ship as one commit. Widening the roots to `.md`
+  before the key-anchored match is in place turns the gate red on prose — verified:
+  fix 2 alone reports three findings from this changelog entry's own text.
+
+  Three of the five sit in the code paths whose job is to make findings disappear —
+  the waiver and the exemptions — which are under-tested by nature: a bug there is
+  silent.
+
+  The self-test gained a fixture per defect (unfenced prose, fenced block, a
+  `causes:`-ending `run:` line, a `.yml.tmpl`, a docker ref carrying the waiver token,
+  a digest-pinned docker ref, and a *truncated* digest `@sha256:abc123` — the last
+  because a check for the literal `@sha256:` with no length or charset test passes
+  everything else in the suite),
+  and each was verified by reverting its fix and confirming the self-test goes red with
+  a distinct message.
+
+  It also gained an **end-to-end case for the scan root itself**. Every other
+  assertion calls `scan()` directly, so nothing exercised the root the top level
+  actually passes it: reverting `scan "."` to `scan ".github/workflows"` — the exact
+  defect that hid 18 refs in the sibling repo — left the whole suite green. The
+  coverage bug was invisible to the test written to catch coverage bugs. The script
+  now re-invokes itself against a planted tree whose only unpinned ref sits outside
+  `.github`, and requires exit 1 exactly: `bash`, because the script uses process
+  substitution that POSIX `sh` cannot parse, and an exact code, because exit 2 is a
+  usage error rather than a finding. `$0` is resolved before any `cd` for that
+  re-invocation. `--help` also no
+  longer prints a hardcoded line range that truncates as the header grows.
+
+  No action ref in this repo was ever unpinned — the checker was broken, not the CI.
+
 ## [2.0.0] — 2026-09-08
 
 ### Added
