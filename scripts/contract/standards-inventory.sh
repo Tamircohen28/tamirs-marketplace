@@ -9,6 +9,16 @@ ROOT="$(cd "$ROOT" 2>/dev/null && pwd || { echo '{"error":"not a directory"}'; e
 
 exists() { [[ -f "$1" ]] && echo true || echo false; }
 
+# exists_any — true if ANY of the given paths is a file. For a control the
+# platform reads from more than one location, asking about a single path is the
+# same defect the S4 comment below names: a gap invented from an incomplete
+# read. There it was a failed API call; here it is a location nobody checked.
+exists_any() {
+  local f
+  for f in "$@"; do [[ -f "$f" ]] && { echo true; return; }; done
+  echo false
+}
+
 readme_exists=$(exists "$ROOT/README.md")
 readme_has_badges=false
 readme_has_prereq=false
@@ -145,8 +155,19 @@ fi
 [[ -f "$ROOT/.github/pull_request_template.md" ]] && pr_template=true
 [[ -f "$ROOT/.github/dependabot.yml" ]] && dependabot=true
 
-license_file=$(exists "$ROOT/LICENSE")
-codeowners=$(exists "$ROOT/CODEOWNERS")
+# Same defect as CODEOWNERS below, one axis over: the location is root, but the
+# NAME varies. GitHub's own licence detection accepts LICENSE, LICENCE, COPYING
+# and the .md/.txt spellings of each, and S5-01 is P1 — a repo carrying
+# LICENSE.md would be told at the highest severity that it has no licence.
+license_file=$(exists_any \
+  "$ROOT/LICENSE" "$ROOT/LICENSE.md" "$ROOT/LICENSE.txt" \
+  "$ROOT/LICENCE" "$ROOT/LICENCE.md" "$ROOT/LICENCE.txt" \
+  "$ROOT/COPYING" "$ROOT/COPYING.md")
+# GitHub honours CODEOWNERS in exactly three locations, with equal weight and
+# .github/ the most common of them. Probing only the root reported a repo whose
+# .github/CODEOWNERS is present and working as having none, and the scorer
+# turned that into a P2 S4-01 gap against a compliant repo.
+codeowners=$(exists_any "$ROOT/.github/CODEOWNERS" "$ROOT/CODEOWNERS" "$ROOT/docs/CODEOWNERS")
 gitignore=$(exists "$ROOT/.gitignore")
 claude_md=$(exists "$ROOT/CLAUDE.md")
 agents_md=$(exists "$ROOT/AGENTS.md")
@@ -358,10 +379,10 @@ branding=$(bash "$(dirname "$0")/check-readme-branding.sh" "$ROOT" --json)
 # An audit is a claim about what is on the default branch, so it has to be made
 # against the default branch. Auditing a stale working copy does not merely
 # report an old version number: on 2026-09-01 a review run one commit behind
-# origin/master reported the canonical version as 3.4.0 when it was 3.5.0, which
-# in turn misstated the release-gap finding as one unreleased version instead of
-# two. The wrong number changed a finding's severity, and the report outlived the
-# session that produced it.
+# origin/master reported the canonical version as 3.4.0 when it was 3.5.0.  branch-literal-ok: prose recording a past incident, not a branch this script resolves
+# That in turn misstated the release-gap finding as one unreleased version
+# instead of two. The wrong number changed a finding's severity, and the report
+# outlived the session that produced it.
 #
 # Read-only and best-effort: `git fetch` may fail with no network, no remote or
 # no credentials, and an audit must still run offline. Unknown is reported as
