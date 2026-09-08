@@ -130,10 +130,10 @@
     "codex": {
       "supported_min": "0.40.0",
       "supported_min_source": "earliest release this catalog has claimed .agents/plugins/marketplace.json support for",
-      "validated_against": "0.147.0",
+      "validated_against": "0.153.4",
       "latest_known": "0.153.4",
-      "verified_on": "2026-08-09",
-      "verification_method": "official OpenAI Codex 0.147.0 changelog plus catalog compatibility review; the existing .agents/plugins marketplace remains compatible with portable Agent Plugin catalog discovery",
+      "verified_on": "2026-09-08",
+      "verification_method": "documentary revalidation by this repo's standing Codex method (official release notes plus catalog compatibility review; the Codex CLI is not installed on the review machine). Reviewed every openai/codex release from 0.148.0 through 0.153.4 for plugin/marketplace changes: #41208 (0.151.0) reports invalid project marketplaces without hiding valid plugins, #41953 (0.153.0) enforces a marketplace source policy for OpenAI-curated plugins only, and #42149/#42150 (0.153.0) upgrade Git marketplaces from merged configuration and add remote-marketplace support to the plugin CLI. None alter the portable Agent Plugin catalog shape, so .agents/plugins/marketplace.json remains discoverable unchanged; 0.153.0 widens how it can be consumed rather than narrowing it.",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"

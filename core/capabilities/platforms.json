@@ -1,0 +1,659 @@
+{
+  "schema_version": 2,
+  "last_reviewed": "2026-09-08",
+  "capability_definitions": {
+    "skills": {
+      "summary": "Discovers and loads SKILL.md files shipped by this repo.",
+      "degradation": "None possible — a target without skills is not a supported target."
+    },
+    "skill_auto_invocation": {
+      "summary": "Selects a skill from its description without the user naming it.",
+      "degradation": "Document the explicit invocation form (slash command or 'use the X skill') in the install guide."
+    },
+    "subagents": {
+      "summary": "Delegates a bounded task to a separate agent with its own context.",
+      "degradation": "Run the role inline in the main session, sequentially, with a narrowed scope."
+    },
+    "parallel_subagents": {
+      "summary": "Runs two or more subagents concurrently.",
+      "degradation": "Fan out sequentially; the task graph still holds, only wall-clock time changes."
+    },
+    "agent_teams": {
+      "summary": "Long-lived named agents that message each other during a session.",
+      "degradation": "Use one-shot subagents plus files under session-files/ as the message bus."
+    },
+    "hooks": {
+      "summary": "Runs THIS REPO'S declared hook scripts on that platform's lifecycle events. Like every row here, this describes this repo's artifacts on that platform, not the platform's abstract feature set: the question is 'if I install this plugin there, do my hooks run?', not 'is that product hooks-capable?'",
+      "degradation": "Move the guard into the skill body as an explicit step, and into CI as a check."
+    },
+    "mcp": {
+      "summary": "Connects Model Context Protocol servers declared by the repo.",
+      "degradation": "Use the equivalent CLI (gh, curl) through the shell capability."
+    },
+    "statusline": {
+      "summary": "Renders a repo-provided status line in the session chrome.",
+      "degradation": "Purely cosmetic — omit it. Never make a skill depend on it."
+    },
+    "shell": {
+      "summary": "Executes arbitrary shell commands in the workspace.",
+      "degradation": "Emit the commands for the user to run and wait for pasted output."
+    },
+    "git": {
+      "summary": "Git is on PATH and the workspace is a repository.",
+      "degradation": "Skip branch/commit/worktree workflows; skills that need them declare git as required."
+    },
+    "github_cli": {
+      "summary": "The gh CLI is installed and authenticated.",
+      "degradation": "Optional feature dependency. Fall back to printing the PR/issue body for the user to file manually."
+    },
+    "background_tasks": {
+      "summary": "Runs a long command detached and reports its exit later.",
+      "degradation": "Run in the foreground with a bounded timeout."
+    },
+    "worktree_isolation": {
+      "summary": "Each task gets its own git worktree so concurrent agents do not collide.",
+      "degradation": "Single checkout, one task at a time; the orchestrator serializes writes."
+    },
+    "plugin_marketplace": {
+      "summary": "Installs and updates this plugin from a hosted marketplace listing.",
+      "degradation": "Document a direct install path (git clone plus a local plugin/extension link)."
+    },
+    "extension_install": {
+      "summary": "Installs the repo directly as an extension from a git URL.",
+      "degradation": "Use the platform's own install path; this is not a universal mechanism."
+    },
+    "slash_commands": {
+      "summary": "Exposes repo-provided commands as /name.",
+      "degradation": "Users invoke the skill by describing it in prose."
+    },
+    "ask_user_question": {
+      "summary": "Presents a structured multiple-choice question mid-run.",
+      "degradation": "Ask in prose and stop for a free-text reply."
+    },
+    "artifacts": {
+      "summary": "Publishes a rendered HTML/Markdown page as a shareable artifact.",
+      "degradation": "Write the same content to a file in the repo and tell the user the path."
+    },
+    "session_transcripts": {
+      "summary": "Session history is readable on disk in a documented format.",
+      "degradation": "Usage analytics (session-report) are unavailable; say so rather than reporting zeros."
+    }
+  },
+  "platforms": {
+    "claude": {
+      "display_name": "Claude",
+      "vendor": "Anthropic",
+      "aliases": [
+        "anthropic"
+      ],
+      "primary_surface": "claude_code",
+      "doc_urls": [
+        "https://code.claude.com/docs/en/plugin-marketplaces",
+        "https://code.claude.com/docs/en/plugins-reference",
+        "https://code.claude.com/docs/en/skills"
+      ],
+      "surfaces": {
+        "claude_code": {
+          "display_name": "Claude Code",
+          "kind": "cli",
+          "support": "supported",
+          "aliases": [
+            "claude-code"
+          ],
+          "doc_urls": [
+            "https://code.claude.com/docs/en/plugins-reference",
+            "https://code.claude.com/docs/en/plugin-marketplaces",
+            "https://code.claude.com/docs/en/skills"
+          ],
+          "install": {
+            "type": "marketplace",
+            "command": "claude plugin marketplace add Tamircohen28/tamirs-marketplace && claude plugin install <name>@tamirs-marketplace",
+            "doc": "docs/user/install/claude-code.md"
+          },
+          "validation": {
+            "command": "python3 scripts/validate-marketplaces.py"
+          },
+          "capabilities": {
+            "subagents": {
+              "status": "unsupported",
+              "notes": "No agents/ directory of custom subagent definitions is shipped by this catalog.",
+              "fallback": "Run the role inline in the main session, sequentially, with a narrowed scope."
+            },
+            "parallel_subagents": {
+              "status": "unsupported",
+              "notes": "Follows subagents — none are shipped, so there is nothing to run in parallel.",
+              "fallback": "Fan out sequentially; the task graph still holds, only wall-clock time changes."
+            },
+            "agent_teams": {
+              "status": "unsupported",
+              "notes": "No agent-team / teammate-messaging configuration is shipped by this catalog.",
+              "fallback": "Use one-shot subagents plus files under session-files/ as the message bus."
+            },
+            "hooks": {
+              "status": "unsupported",
+              "notes": "No hooks.json or equivalent lifecycle script exists anywhere in this checkout (verified: no hooks directory or file at any of the platform-specific locations). This is a statement about this catalog's shipped artifacts only, not about the platform's own hook capability.",
+              "fallback": "Move the guard into the skill body as an explicit step, and into CI as a check."
+            },
+            "mcp": {
+              "status": "unsupported",
+              "notes": "No .mcp.json or platform-specific MCP config is shipped by this catalog itself; the three plugins it points to declare their own MCP servers in their own repos.",
+              "fallback": "Use the equivalent CLI (gh, curl) through the shell capability."
+            },
+            "statusline": {
+              "status": "unsupported",
+              "notes": "No repo-provided statusline script.",
+              "fallback": "Purely cosmetic — omit it. Never make a skill depend on it."
+            },
+            "shell": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog depends on shell access as a runtime capability for autonomous, unattended work. (The one shipped skill names `make` targets in its body, but it is contributor-only tooling behind disable-model-invocation: true, run by a human, not an unattended shell-driven flow.)",
+              "fallback": "Emit the commands for the user to run and wait for pasted output."
+            },
+            "git": {
+              "status": "unsupported",
+              "notes": "Contributor docs mention git commands (`git pull`, `git diff --exit-code`) as manual steps inside `make update` / `make validate`; no skill here programmatically depends on git as a runtime capability.",
+              "fallback": "Skip branch/commit/worktree workflows; skills that need them declare git as required."
+            },
+            "github_cli": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog invokes `gh`.",
+              "fallback": "Optional feature dependency. Fall back to printing the PR/issue body for the user to file manually."
+            },
+            "background_tasks": {
+              "status": "unsupported",
+              "notes": "No skill declares or requires detached/background execution.",
+              "fallback": "Run in the foreground with a bounded timeout."
+            },
+            "worktree_isolation": {
+              "status": "unsupported",
+              "notes": "No worktree-creation automation is shipped; the one contributor skill runs against a single checkout.",
+              "fallback": "Single checkout, one task at a time; the orchestrator serializes writes."
+            },
+            "ask_user_question": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog uses a structured multiple-choice prompt.",
+              "fallback": "Ask in prose and stop for a free-text reply."
+            },
+            "artifacts": {
+              "status": "unsupported",
+              "notes": "No artifact-publishing skill or workflow is shipped by this catalog.",
+              "fallback": "Write the same content to a file in the repo and tell the user the path."
+            },
+            "session_transcripts": {
+              "status": "unsupported",
+              "notes": "This catalog ships no session-report or usage-analytics tooling that reads transcripts.",
+              "fallback": "Usage analytics are unavailable; say so rather than reporting zeros."
+            },
+            "skills": {
+              "status": "native",
+              "since": "2.0.0",
+              "validation": "claude plugin validate --strict --json .agents/skills",
+              "notes": "Exactly one skill is shipped: .agents/skills/run-plugins-catalog (contributor tooling, disable-model-invocation: true, user-invocable: true). CI's skill-validate job runs this exact frontmatter check on every push (2.1.233+ check, 2.1.259+ --json report)."
+            },
+            "skill_auto_invocation": {
+              "status": "partial",
+              "notes": "Claude Code supports description-driven auto-invocation generally, but this catalog's only skill sets disable-model-invocation: true — by design it is never auto-selected, only explicitly invoked.",
+              "fallback": "Invoke it explicitly; its own SKILL.md when_to_use field documents the manual-invocation trigger."
+            },
+            "plugin_marketplace": {
+              "status": "native",
+              "since": "2.0.0",
+              "validation": "python3 scripts/validate-marketplaces.py",
+              "notes": "Canonical artifact: .claude-plugin/marketplace.json, listing 3 plugins (tamirs-superpowers, jose-claudinho, headhunter) — this catalog itself is not one of them. Install: `claude plugin marketplace add Tamircohen28/tamirs-marketplace` then `claude plugin install <name>@tamirs-marketplace`."
+            },
+            "extension_install": {
+              "status": "unsupported",
+              "notes": "Claude installs plugins via a marketplace listing, not git-URL extensions.",
+              "fallback": "Use plugin_marketplace, or --plugin-dir for local development."
+            },
+            "slash_commands": {
+              "status": "unsupported",
+              "notes": "This catalog ships no commands/ directory or slash-command manifest of its own. `/plugin marketplace add` and `/plugin install` are Claude Code built-ins, not commands this repo provides.",
+              "fallback": "Invoke the run-plugins-catalog skill by describing the task, or run the documented `make` targets directly."
+            }
+          }
+        },
+        "claude_desktop": {
+          "display_name": "Claude Desktop",
+          "kind": "desktop",
+          "support": "unverified",
+          "unverified_reason": "Desktop consumes the same Claude Code plugin/marketplace format as the CLI, but this catalog has never been added there. Every measurement recorded under claude_code was taken from the CLI, so no capability is claimed for this surface in either direction.",
+          "aliases": [
+            "claude-desktop",
+            "desktop"
+          ],
+          "doc_urls": [
+            "https://code.claude.com/docs/en/plugins-reference",
+            "https://code.claude.com/docs/en/plugin-marketplaces"
+          ]
+        }
+      }
+    },
+    "codex": {
+      "display_name": "Codex",
+      "vendor": "OpenAI",
+      "primary_surface": "codex",
+      "doc_urls": [
+        "https://developers.openai.com/codex/plugins",
+        "https://developers.openai.com/codex/config-basic",
+        "https://developers.openai.com/codex/guides/agents-md"
+      ],
+      "surfaces": {
+        "codex": {
+          "display_name": "Codex CLI",
+          "kind": "cli",
+          "support": "supported",
+          "aliases": [
+            "codex-cli",
+            "openai-codex"
+          ],
+          "doc_urls": [
+            "https://developers.openai.com/codex/plugins",
+            "https://developers.openai.com/codex/guides/agents-md",
+            "https://developers.openai.com/codex/config-basic"
+          ],
+          "install": {
+            "type": "marketplace",
+            "command": "codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins && codex plugin add <name>@tamirs-marketplace",
+            "doc": "docs/user/install/codex.md"
+          },
+          "validation": {
+            "command": "python3 scripts/validate-marketplaces.py"
+          },
+          "capabilities": {
+            "subagents": {
+              "status": "unsupported",
+              "notes": "No agents/ directory of custom subagent definitions is shipped by this catalog.",
+              "fallback": "Run the role inline in the main session, sequentially, with a narrowed scope."
+            },
+            "parallel_subagents": {
+              "status": "unsupported",
+              "notes": "Follows subagents — none are shipped, so there is nothing to run in parallel.",
+              "fallback": "Fan out sequentially; the task graph still holds, only wall-clock time changes."
+            },
+            "agent_teams": {
+              "status": "unsupported",
+              "notes": "No agent-team / teammate-messaging configuration is shipped by this catalog.",
+              "fallback": "Use one-shot subagents plus files under session-files/ as the message bus."
+            },
+            "hooks": {
+              "status": "unsupported",
+              "notes": "No hooks.json or equivalent lifecycle script exists anywhere in this checkout (verified: no hooks directory or file at any of the platform-specific locations). This is a statement about this catalog's shipped artifacts only, not about the platform's own hook capability.",
+              "fallback": "Move the guard into the skill body as an explicit step, and into CI as a check."
+            },
+            "mcp": {
+              "status": "unsupported",
+              "notes": "No .mcp.json or platform-specific MCP config is shipped by this catalog itself; the three plugins it points to declare their own MCP servers in their own repos.",
+              "fallback": "Use the equivalent CLI (gh, curl) through the shell capability."
+            },
+            "statusline": {
+              "status": "unsupported",
+              "notes": "No repo-provided statusline script.",
+              "fallback": "Purely cosmetic — omit it. Never make a skill depend on it."
+            },
+            "shell": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog depends on shell access as a runtime capability for autonomous, unattended work. (The one shipped skill names `make` targets in its body, but it is contributor-only tooling behind disable-model-invocation: true, run by a human, not an unattended shell-driven flow.)",
+              "fallback": "Emit the commands for the user to run and wait for pasted output."
+            },
+            "git": {
+              "status": "unsupported",
+              "notes": "Contributor docs mention git commands (`git pull`, `git diff --exit-code`) as manual steps inside `make update` / `make validate`; no skill here programmatically depends on git as a runtime capability.",
+              "fallback": "Skip branch/commit/worktree workflows; skills that need them declare git as required."
+            },
+            "github_cli": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog invokes `gh`.",
+              "fallback": "Optional feature dependency. Fall back to printing the PR/issue body for the user to file manually."
+            },
+            "background_tasks": {
+              "status": "unsupported",
+              "notes": "No skill declares or requires detached/background execution.",
+              "fallback": "Run in the foreground with a bounded timeout."
+            },
+            "worktree_isolation": {
+              "status": "unsupported",
+              "notes": "No worktree-creation automation is shipped; the one contributor skill runs against a single checkout.",
+              "fallback": "Single checkout, one task at a time; the orchestrator serializes writes."
+            },
+            "ask_user_question": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog uses a structured multiple-choice prompt.",
+              "fallback": "Ask in prose and stop for a free-text reply."
+            },
+            "artifacts": {
+              "status": "unsupported",
+              "notes": "No artifact-publishing skill or workflow is shipped by this catalog.",
+              "fallback": "Write the same content to a file in the repo and tell the user the path."
+            },
+            "session_transcripts": {
+              "status": "unsupported",
+              "notes": "This catalog ships no session-report or usage-analytics tooling that reads transcripts.",
+              "fallback": "Usage analytics are unavailable; say so rather than reporting zeros."
+            },
+            "skills": {
+              "status": "unknown",
+              "notes": "No Codex-specific verification exists that Codex loads this catalog's own .agents/skills/run-plugins-catalog when the repo is opened directly (this repo ships no .codex-plugin/plugin.json for itself). Only the .agents/plugins/marketplace.json distribution path — for the three OTHER plugins this catalog points to — has been verified against Codex 0.147.0.",
+              "fallback": "Document explicit invocation in docs/user/install/codex.md."
+            },
+            "skill_auto_invocation": {
+              "status": "unknown",
+              "notes": "Codex skill-selection behaviour has not been measured by this repo. The shipped skill also sets disable-model-invocation: true, so it would not auto-invoke even where Codex supports the mechanism.",
+              "fallback": "Document explicit invocation in docs/user/install/codex.md."
+            },
+            "plugin_marketplace": {
+              "status": "native",
+              "since": "0.40.0",
+              "validation": "python3 scripts/validate-marketplaces.py",
+              "notes": "Canonical artifact for Codex is .agents/plugins/marketplace.json — NOT .codex-plugin/marketplace.json (that path is for a plugin's own manifest, not a catalog's; shipping only the latter fails with 'marketplace root does not contain a supported manifest'). Generated from the Claude manifest by `make generate`. Install: `codex plugin marketplace add Tamircohen28/tamirs-marketplace --ref main --sparse .agents/plugins`, then `codex plugin add <name>@tamirs-marketplace`."
+            },
+            "extension_install": {
+              "status": "unsupported",
+              "notes": "Codex installs plugins from a marketplace manifest, not a git-URL extension.",
+              "fallback": "Use the plugin manifest install path (`codex plugin add`)."
+            },
+            "slash_commands": {
+              "status": "unsupported",
+              "notes": "This catalog ships no commands/ directory of its own; Codex custom-command support for this repo's skill has not been verified either way.",
+              "fallback": "Invoke skills in prose, or run the documented `make` targets directly."
+            }
+          }
+        },
+        "codex_ide": {
+          "display_name": "Codex IDE extension",
+          "kind": "ide",
+          "support": "unverified",
+          "unverified_reason": "The IDE extension consumes the same AGENTS.md and .agents/plugins/marketplace.json as the CLI, but this catalog has never been installed or exercised there. Every measurement recorded under codex was taken from the CLI, so no capability is claimed for this surface in either direction.",
+          "aliases": [
+            "codex-ide"
+          ],
+          "doc_urls": [
+            "https://developers.openai.com/codex/ide"
+          ]
+        }
+      }
+    },
+    "cursor": {
+      "display_name": "Cursor",
+      "vendor": "Anysphere",
+      "primary_surface": "cursor",
+      "doc_urls": [
+        "https://cursor.com/docs/plugins",
+        "https://cursor.com/docs/customize-cursor"
+      ],
+      "surfaces": {
+        "cursor": {
+          "display_name": "Cursor IDE",
+          "kind": "ide",
+          "support": "supported",
+          "doc_urls": [
+            "https://cursor.com/docs/plugins",
+            "https://cursor.com/docs/customize-cursor"
+          ],
+          "install": {
+            "type": "marketplace",
+            "command": "Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo: https://github.com/Tamircohen28/tamirs-marketplace (Teams/Enterprise); or clone + symlink a single plugin repo into ~/.cursor/plugins/local/ for any plan.",
+            "doc": "docs/user/install/cursor.md"
+          },
+          "validation": {
+            "command": "python3 scripts/validate-marketplaces.py"
+          },
+          "capabilities": {
+            "subagents": {
+              "status": "unsupported",
+              "notes": "No agents/ directory of custom subagent definitions is shipped by this catalog.",
+              "fallback": "Run the role inline in the main session, sequentially, with a narrowed scope."
+            },
+            "parallel_subagents": {
+              "status": "unsupported",
+              "notes": "Follows subagents — none are shipped, so there is nothing to run in parallel.",
+              "fallback": "Fan out sequentially; the task graph still holds, only wall-clock time changes."
+            },
+            "agent_teams": {
+              "status": "unsupported",
+              "notes": "No agent-team / teammate-messaging configuration is shipped by this catalog.",
+              "fallback": "Use one-shot subagents plus files under session-files/ as the message bus."
+            },
+            "hooks": {
+              "status": "unsupported",
+              "notes": "No hooks.json or equivalent lifecycle script exists anywhere in this checkout (verified: no hooks directory or file at any of the platform-specific locations). This is a statement about this catalog's shipped artifacts only, not about the platform's own hook capability.",
+              "fallback": "Move the guard into the skill body as an explicit step, and into CI as a check."
+            },
+            "mcp": {
+              "status": "unsupported",
+              "notes": "No .mcp.json or platform-specific MCP config is shipped by this catalog itself; the three plugins it points to declare their own MCP servers in their own repos.",
+              "fallback": "Use the equivalent CLI (gh, curl) through the shell capability."
+            },
+            "statusline": {
+              "status": "unsupported",
+              "notes": "No repo-provided statusline script.",
+              "fallback": "Purely cosmetic — omit it. Never make a skill depend on it."
+            },
+            "shell": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog depends on shell access as a runtime capability for autonomous, unattended work. (The one shipped skill names `make` targets in its body, but it is contributor-only tooling behind disable-model-invocation: true, run by a human, not an unattended shell-driven flow.)",
+              "fallback": "Emit the commands for the user to run and wait for pasted output."
+            },
+            "git": {
+              "status": "unsupported",
+              "notes": "Contributor docs mention git commands (`git pull`, `git diff --exit-code`) as manual steps inside `make update` / `make validate`; no skill here programmatically depends on git as a runtime capability.",
+              "fallback": "Skip branch/commit/worktree workflows; skills that need them declare git as required."
+            },
+            "github_cli": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog invokes `gh`.",
+              "fallback": "Optional feature dependency. Fall back to printing the PR/issue body for the user to file manually."
+            },
+            "background_tasks": {
+              "status": "unsupported",
+              "notes": "No skill declares or requires detached/background execution.",
+              "fallback": "Run in the foreground with a bounded timeout."
+            },
+            "worktree_isolation": {
+              "status": "unsupported",
+              "notes": "No worktree-creation automation is shipped; the one contributor skill runs against a single checkout.",
+              "fallback": "Single checkout, one task at a time; the orchestrator serializes writes."
+            },
+            "ask_user_question": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog uses a structured multiple-choice prompt.",
+              "fallback": "Ask in prose and stop for a free-text reply."
+            },
+            "artifacts": {
+              "status": "unsupported",
+              "notes": "No artifact-publishing skill or workflow is shipped by this catalog.",
+              "fallback": "Write the same content to a file in the repo and tell the user the path."
+            },
+            "session_transcripts": {
+              "status": "unsupported",
+              "notes": "This catalog ships no session-report or usage-analytics tooling that reads transcripts.",
+              "fallback": "Usage analytics are unavailable; say so rather than reporting zeros."
+            },
+            "skills": {
+              "status": "unknown",
+              "notes": "No Cursor-specific verification exists that Cursor loads this catalog's own .agents/skills/run-plugins-catalog directly. This repo ships no .cursor-plugin/plugin.json for itself — only .cursor-plugin/marketplace.json, which lists the three OTHER plugins.",
+              "fallback": "Name the skill explicitly, or rely on .cursor/rules/*.mdc pointing at AGENTS.md."
+            },
+            "skill_auto_invocation": {
+              "status": "partial",
+              "notes": "Cursor has CLI sticky skills (2026-08-11) and Agent Window Custom Modes (2026-08-19) that can pin a skill for a session, but automatic description-based selection across surfaces is unverified here. The shipped skill also sets disable-model-invocation: true.",
+              "fallback": "Name the skill explicitly, pin it as a Custom Mode, or rely on .cursor/rules/*.mdc."
+            },
+            "plugin_marketplace": {
+              "status": "native",
+              "since": "3.18.9",
+              "validation": "python3 scripts/validate-marketplaces.py",
+              "notes": "Canonical artifact: .cursor-plugin/marketplace.json (generated from the Claude manifest by `make generate`). Method A (Teams/Enterprise): Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo. Method B (any plan, bypasses the catalog): clone a single plugin repo and symlink it into ~/.cursor/plugins/local/."
+            },
+            "extension_install": {
+              "status": "unsupported",
+              "notes": "Cursor installs plugins, not git-URL extensions.",
+              "fallback": "Use the plugin manifest install path."
+            },
+            "slash_commands": {
+              "status": "unsupported",
+              "notes": "This catalog ships no commands/ directory of its own.",
+              "fallback": "Invoke the skill in prose."
+            }
+          }
+        },
+        "cursor_cli": {
+          "display_name": "Cursor CLI",
+          "kind": "cli",
+          "support": "unverified",
+          "unverified_reason": "The CLI shares .cursor-plugin/marketplace.json with the IDE's Dashboard-import path, and Cursor documents CLI sticky skills (2026-08-11), but no CLI run has been recorded for this catalog. The measurements under cursor were taken against an IDE install; carrying them over would be an assumption, not evidence.",
+          "aliases": [
+            "cursor-cli"
+          ],
+          "doc_urls": [
+            "https://cursor.com/docs/cli/changelog"
+          ]
+        }
+      }
+    },
+    "opencode": {
+      "display_name": "OpenCode",
+      "vendor": "SST",
+      "primary_surface": "opencode",
+      "doc_urls": [
+        "https://opencode.ai/config.json",
+        "https://opencode.ai/docs/agents/",
+        "https://opencode.ai/docs/plugins/",
+        "https://opencode.ai/docs/skills/"
+      ],
+      "surfaces": {
+        "opencode": {
+          "display_name": "OpenCode CLI",
+          "kind": "cli",
+          "support": "supported",
+          "aliases": [
+            "open-code"
+          ],
+          "doc_urls": [
+            "https://opencode.ai/docs/skills/",
+            "https://opencode.ai/docs/agents/",
+            "https://opencode.ai/config.json"
+          ],
+          "install": {
+            "type": "path",
+            "command": "OpenCode has no marketplace format, so this catalog itself cannot be installed. Point an opencode.json's skills.paths at an absolute path to a cloned plugin repo's skills/ directory instead — see the README plugin table for the repos this catalog points to.",
+            "doc": "docs/user/install/opencode.md"
+          },
+          "validation": {
+            "command": "opencode debug skill"
+          },
+          "capabilities": {
+            "subagents": {
+              "status": "unsupported",
+              "notes": "No agents/ directory of custom subagent definitions is shipped by this catalog.",
+              "fallback": "Run the role inline in the main session, sequentially, with a narrowed scope."
+            },
+            "parallel_subagents": {
+              "status": "unsupported",
+              "notes": "Follows subagents — none are shipped, so there is nothing to run in parallel.",
+              "fallback": "Fan out sequentially; the task graph still holds, only wall-clock time changes."
+            },
+            "agent_teams": {
+              "status": "unsupported",
+              "notes": "No agent-team / teammate-messaging configuration is shipped by this catalog.",
+              "fallback": "Use one-shot subagents plus files under session-files/ as the message bus."
+            },
+            "hooks": {
+              "status": "unsupported",
+              "notes": "No hooks.json or equivalent lifecycle script exists anywhere in this checkout (verified: no hooks directory or file at any of the platform-specific locations). This is a statement about this catalog's shipped artifacts only, not about the platform's own hook capability.",
+              "fallback": "Move the guard into the skill body as an explicit step, and into CI as a check."
+            },
+            "mcp": {
+              "status": "unsupported",
+              "notes": "No .mcp.json or platform-specific MCP config is shipped by this catalog itself; the three plugins it points to declare their own MCP servers in their own repos.",
+              "fallback": "Use the equivalent CLI (gh, curl) through the shell capability."
+            },
+            "statusline": {
+              "status": "unsupported",
+              "notes": "No repo-provided statusline script.",
+              "fallback": "Purely cosmetic — omit it. Never make a skill depend on it."
+            },
+            "shell": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog depends on shell access as a runtime capability for autonomous, unattended work. (The one shipped skill names `make` targets in its body, but it is contributor-only tooling behind disable-model-invocation: true, run by a human, not an unattended shell-driven flow.)",
+              "fallback": "Emit the commands for the user to run and wait for pasted output."
+            },
+            "git": {
+              "status": "unsupported",
+              "notes": "Contributor docs mention git commands (`git pull`, `git diff --exit-code`) as manual steps inside `make update` / `make validate`; no skill here programmatically depends on git as a runtime capability.",
+              "fallback": "Skip branch/commit/worktree workflows; skills that need them declare git as required."
+            },
+            "github_cli": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog invokes `gh`.",
+              "fallback": "Optional feature dependency. Fall back to printing the PR/issue body for the user to file manually."
+            },
+            "background_tasks": {
+              "status": "unsupported",
+              "notes": "No skill declares or requires detached/background execution.",
+              "fallback": "Run in the foreground with a bounded timeout."
+            },
+            "worktree_isolation": {
+              "status": "unsupported",
+              "notes": "No worktree-creation automation is shipped; the one contributor skill runs against a single checkout.",
+              "fallback": "Single checkout, one task at a time; the orchestrator serializes writes."
+            },
+            "ask_user_question": {
+              "status": "unsupported",
+              "notes": "No skill in this catalog uses a structured multiple-choice prompt.",
+              "fallback": "Ask in prose and stop for a free-text reply."
+            },
+            "artifacts": {
+              "status": "unsupported",
+              "notes": "No artifact-publishing skill or workflow is shipped by this catalog.",
+              "fallback": "Write the same content to a file in the repo and tell the user the path."
+            },
+            "session_transcripts": {
+              "status": "unsupported",
+              "notes": "This catalog ships no session-report or usage-analytics tooling that reads transcripts.",
+              "fallback": "Usage analytics are unavailable; say so rather than reporting zeros."
+            },
+            "skills": {
+              "status": "native",
+              "since": "1.16.2",
+              "validation": "opencode debug skill",
+              "notes": "Directly verified (recorded 2026-09-08 in platform-targets.json): pointing skills.paths at this repo's .agents/skills resolves run-plugins-catalog to its SKILL.md via `opencode debug skill`. Symlinks are NOT followed for discovery at any level — install with an absolute path."
+            },
+            "skill_auto_invocation": {
+              "status": "unknown",
+              "notes": "Discovery is verified; automatic description-based selection is not measured. The shipped skill also sets disable-model-invocation: true, but OpenCode 'recognises a smaller frontmatter set and ignores unknown fields' — whether it honors that field at all has not been checked, so nothing is claimed either way about auto-invocation actually being suppressed here.",
+              "fallback": "Name the skill explicitly."
+            },
+            "plugin_marketplace": {
+              "status": "unsupported",
+              "notes": "OpenCode has no plugin marketplace or manifest format at all — confirmed in this repo's own install guide (docs/user/install/opencode.md) and platform-targets.json's targets.opencode.capability_gaps.marketplace. This catalog cannot be installed on OpenCode; each plugin repo is installed directly instead.",
+              "fallback": "Install each plugin repo directly via skills.paths; the plugin table in this repo's README is the discovery surface a marketplace would otherwise provide."
+            },
+            "extension_install": {
+              "status": "unsupported",
+              "notes": "No git-URL extension install mechanism either — OpenCode's only install path is pointing skills.paths at a local clone.",
+              "fallback": "Use the path install (absolute skills.paths)."
+            },
+            "slash_commands": {
+              "status": "unsupported",
+              "notes": "This catalog ships no commands/ directory of its own; OpenCode's command surface for skills has not been verified either way.",
+              "fallback": "Invoke skills in prose."
+            }
+          }
+        },
+        "opencode_desktop": {
+          "display_name": "OpenCode desktop app",
+          "kind": "desktop",
+          "support": "unverified",
+          "unverified_reason": "OpenCode ships a desktop client alongside the terminal one. Whether it reads the same opencode.json skills.paths convention this catalog's install guide relies on has not been checked, so the skills row under opencode is not carried over here.",
+          "aliases": [
+            "opencode-desktop"
+          ],
+          "doc_urls": [
+            "https://opencode.ai/docs/"
+          ]
+        }
+      }
+    }
+  }
+}

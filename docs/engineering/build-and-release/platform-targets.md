@@ -8,7 +8,7 @@ enforced by `scripts/check-platform-targets.sh`.
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.263 | 2.1.263 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
-| Codex | 0.40.0 | 0.147.0 | 0.153.4 | [codex.md](../../user/install/codex.md) |
+| Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code is now
@@ -49,9 +49,14 @@ a live 2.1.263 CLI. `.claude-plugin/marketplace.json` itself is unchanged — no
 plugin validate --strict --json .agents/skills` (via `make validate-skills`); it passed
 clean against the live 2.1.263 CLI on 2026-09-06, as did a full `make validate`
 (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift). Codex
-was revalidated against the **0.147.0** release on **2026-08-09** by comparing the
-official release delta with this catalog's `.agents/plugins/marketplace.json`
-installation surface. Cursor was revalidated against **3.18.9** on **2026-09-06** (changelog through the
+was revalidated against the **0.153.4** release on **2026-09-08** by comparing the
+0.148.0 → 0.153.4 release delta with this catalog's `.agents/plugins/marketplace.json`
+installation surface. That delta is additive for catalogs: 0.153.0 added
+remote-marketplace support to the `codex plugin` CLI (#42150) and began upgrading Git
+marketplaces from merged configuration (#42149), while #41953's marketplace source
+policy applies only to OpenAI-curated plugins. The portable catalog shape is unchanged.
+Codex is validated documentarily — the CLI is not installed on the review machine, which
+is why `verification_method` in the JSON says so rather than implying a live run. Cursor was revalidated against **3.18.9** on **2026-09-06** (changelog through the
 date-only **2026-09-02** Self-Hosted Machines entry). Claude Code and Cursor were both
 reviewed on **2026-09-06**. OpenCode was revalidated against **1.18.29** on
 **2026-09-08** — `opencode --version` reported `1.18.29` on the maintainer machine, and
@@ -74,7 +79,7 @@ Both of these were fiction before 2026-08-03:
   than a guess.
 - **Codex `0.40.0`** is kept as the floor because that is the earliest release this catalog
   has claimed `.agents/plugins/marketplace.json` support for. The catalog was exercised on
-  0.146.0 and revalidated for 0.147.0's portable Agent Plugin catalog support.
+  0.146.0 and revalidated through 0.153.4's portable Agent Plugin catalog support.
 
 ## What "supported" means per target
 
@@ -86,7 +91,7 @@ on different hosts.
 |--------|-----------------|---------------|-------|
 | Claude Code | ✅ `claude plugin marketplace add` | `.claude-plugin/marketplace.json` | Canonical manifest — the other two are generated from it |
 | Cursor | ✅ Dashboard → Import from Repo | `.cursor-plugin/marketplace.json` | Teams/Enterprise feature; no CLI equivalent |
-| Codex | ✅ `codex plugin marketplace add` | `.agents/plugins/marketplace.json` | **Not** `.codex-plugin/marketplace.json`; compatible with 0.147.0 portable Agent Plugin catalogs |
+| Codex | ✅ `codex plugin marketplace add` | `.agents/plugins/marketplace.json` | **Not** `.codex-plugin/marketplace.json`; compatible with 0.153.4 portable Agent Plugin catalogs |
 | OpenCode | ❌ no marketplace concept | — | Install each plugin repo directly; see below |
 
 ### OpenCode

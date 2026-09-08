@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Codex CLI **0.147.0** |
+| **Validated against** | Codex CLI **0.153.4** |
 | **Minimum supported** | **0.40.0** |
 | **Marketplace manifest** | `.agents/plugins/marketplace.json` |
 | **Official docs** | [Codex plugins](https://developers.openai.com/codex/plugins) |
@@ -13,7 +13,7 @@ Check your version:
 codex --version
 ```
 
-Codex 0.147.0 expands portable Agent Plugin and catalog discovery. This catalog already uses the supported `.agents/plugins/marketplace.json` layout, so no manifest migration is required.
+Codex 0.153.4 keeps the portable Agent Plugin catalog layout this repo already uses, and 0.153.0 widened how such a catalog can be consumed: the `codex plugin` CLI gained remote-marketplace support and Git marketplaces are now upgraded from merged configuration. This catalog already uses the supported `.agents/plugins/marketplace.json` layout, so no manifest migration is required.
 
 ## The manifest path trips people up
 
@@ -71,7 +71,7 @@ codex plugin add headhunter@tamirs-marketplace        # selector form
 codex plugin add headhunter -m tamirs-marketplace     # flag form
 ```
 
-Verified against the 0.147.0 release behavior and compatibility delta.
+Verified against the 0.153.4 release behavior and the 0.148.0 → 0.153.4 compatibility delta.
 
 ## What you get
 
