@@ -8,6 +8,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.0.0] — 2026-09-08
+
 ### Added
 - **Capability registry (`core/capabilities/platforms.json`).** A single source of truth
   for what this catalog actually does on each of its four targets, with a validation
@@ -130,6 +132,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   plugin, or an agent file) requires trust-dialog acceptance and runs without
   inherited credential env vars.
 
+- **`make validate-skills`: native skill frontmatter validation (Claude Code
+  2.1.233).** 2.1.233 makes `claude plugin validate` check bare `.claude/skills`
+  directories and report `SKILL.md` files whose frontmatter fails to parse. This
+  new target runs `claude plugin validate --strict .agents/skills`, catching a
+  frontmatter regression in this catalog's contributor skill
+  (`run-plugins-catalog`) before it silently fails to load, instead of relying on
+  manual review. It soft-skips if the `claude` CLI isn't installed locally
+  (documented in `AGENTS.md` and `docs/agent-guidelines/testing.md`). **Not yet a
+  CI job** — this automation's GitHub App token has no `workflows` scope, so it
+  cannot push a `.github/workflows/*.yml` change; wiring `make validate-skills`
+  into CI is a one-job follow-up for a human edit.
+
 ### Fixed
 - **Codex version sync never ran.** `check-platform-targets.sh --sync` stripped only a
   bare leading `v` from the upstream tag, but Codex tags releases as `rust-v<semver>`,
@@ -138,7 +152,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   `.codex-version` said 0.153.4 — two sources of truth disagreeing with nothing
   comparing them. The prefix is now stripped with `sed -E 's/^(rust-)?v//'`.
 
+- **Removed Cursor adoption commits that landed on the Claude Code nightly branch.**
+  The rolling `claude-code-update` branch briefly carried the "Cursor 3.11
+  (+2026-08-03) Team MCP + Customize" doc adoption and a follow-up install-index
+  note, duplicating the separate `cursor-update` nightly PR and putting
+  cursor-scoped files in a Claude Code-scoped PR; both are reverted here and live
+  only in the cursor PR where they belong.
+
 ### Changed
+- **BREAKING — the catalog is renamed from `tamirs-plugins` to `tamirs-marketplace`, and the repo from `Tamircohen28/plugins` to `Tamircohen28/tamirs-marketplace`.** The old repo URL still resolves via GitHub's redirect, but the marketplace *identifier* changed, so plugin selectors (`<plugin>@tamirs-plugins`), the local cache path (`~/.claude/plugins/cache/tamirs-plugins/`), and any glob built on that path no longer match. Existing installs must migrate:
+
+  ```
+  /plugin marketplace remove tamirs-plugins
+  /plugin marketplace add Tamircohen28/tamirs-marketplace
+  /plugin install tamirs-superpowers@tamirs-marketplace
+  ```
+
+  Consumers that hardcode the cache path — notably `tamirs-superpowers`' statusline and Pushover hooks — are updated in that repo's matching release. The rename makes the name state what the repo is: a marketplace catalog, not a pile of plugins.
 - **Vendored standards contract synced 1.3.0 -> 1.7.0.** The vendored copy had drifted
   four minor versions behind canonical and was reporting two findings that no longer
   exist: `S4-03` is retired upstream, and `S4-06` read the legacy branch-protection
@@ -423,20 +453,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   system-reminders) is host/session-side and touches nothing this catalog documents or
   ships.
 
-### Added
-- **`make validate-skills`: native skill frontmatter validation (Claude Code
-  2.1.233).** 2.1.233 makes `claude plugin validate` check bare `.claude/skills`
-  directories and report `SKILL.md` files whose frontmatter fails to parse. This
-  new target runs `claude plugin validate --strict .agents/skills`, catching a
-  frontmatter regression in this catalog's contributor skill
-  (`run-plugins-catalog`) before it silently fails to load, instead of relying on
-  manual review. It soft-skips if the `claude` CLI isn't installed locally
-  (documented in `AGENTS.md` and `docs/agent-guidelines/testing.md`). **Not yet a
-  CI job** — this automation's GitHub App token has no `workflows` scope, so it
-  cannot push a `.github/workflows/*.yml` change; wiring `make validate-skills`
-  into CI is a one-job follow-up for a human edit.
-
-### Changed
 - **Cursor 3.11 (+2026-08-27):** advance desktop/`validated_against` **3.16.29 → 3.18.9** and `changelog_date` **2026-08-19 → 2026-08-27**. Document Cloud Agent **Start from scratch**, Origin **Create repo**, **browser preview**, and optional **Vercel publish**. Cursor-only.
 - **Cursor 3.11 (+2026-08-19) / desktop 3.16.29:** cumulative rolling window from **3.16.17 → 3.16.29** and changelog **2026-08-17 → 2026-08-19**. Adopt cloud-agent **Subscriptions**, **Custom Modes** (skill → mode via ⌥⏎), **subagents on isolated VMs**, Agent Window **`/goal`** (+ CreateGoal/UpdateGoal), and **non-interruptive steering**. Keep Origin CLI/integrations docs. Cursor-only pins; other platform nightlies untouched.
 - **Docs: generalized the internal-references guardrails.** The four places that
@@ -519,27 +535,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - **Cursor desktop pin → 3.16.17.** `.cursor-version`, cursor fields in `platform-targets.json`, README badge, and install docs track desktop **3.16.17**. Changelog feature coverage remains **3.11** / **2026-08-03**.
 - **Cursor docs: `workspaceOpen` + Agent Plugins standard.** Install guide documents the `workspaceOpen` hook and Agent Plugins open-standard support.
 
-### Fixed
-- **Removed Cursor adoption commits that landed on the Claude Code nightly branch.**
-  The rolling `claude-code-update` branch briefly carried the "Cursor 3.11
-  (+2026-08-03) Team MCP + Customize" doc adoption and a follow-up install-index
-  note, duplicating the separate `cursor-update` nightly PR and putting
-  cursor-scoped files in a Claude Code-scoped PR; both are reverted here and live
-  only in the cursor PR where they belong.
-
-## [2.0.0] — 2026-08-07
-
-### Changed
-- **BREAKING — the catalog is renamed from `tamirs-plugins` to `tamirs-marketplace`, and the repo from `Tamircohen28/plugins` to `Tamircohen28/tamirs-marketplace`.** The old repo URL still resolves via GitHub's redirect, but the marketplace *identifier* changed, so plugin selectors (`<plugin>@tamirs-plugins`), the local cache path (`~/.claude/plugins/cache/tamirs-plugins/`), and any glob built on that path no longer match. Existing installs must migrate:
-
-  ```
-  /plugin marketplace remove tamirs-plugins
-  /plugin marketplace add Tamircohen28/tamirs-marketplace
-  /plugin install tamirs-superpowers@tamirs-marketplace
-  ```
-
-  Consumers that hardcode the cache path — notably `tamirs-superpowers`' statusline and Pushover hooks — are updated in that repo's matching release. The rename makes the name state what the repo is: a marketplace catalog, not a pile of plugins.
-
 ## [1.3.0] — 2026-08-03
 
 ### Added
@@ -594,3 +589,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - CI validates all three marketplace manifests and fails on generator drift
 - Release workflow regenerates Codex and Cursor manifests when bumping version
 - Banner SVG: correct repo name (`plugins-catalog` → `plugins`) and replace hardcoded plugin list with platform description
+
+<!-- Only tagged releases get compare links; v1.2.0 and v1.1.0 predate tagging. -->
+[Unreleased]: https://github.com/Tamircohen28/tamirs-marketplace/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/Tamircohen28/tamirs-marketplace/compare/v1.3.0...v2.0.0
+[1.3.0]: https://github.com/Tamircohen28/tamirs-marketplace/releases/tag/v1.3.0
