@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | OpenCode **1.18.11** |
+| **Validated against** | OpenCode **1.18.29** |
 | **Minimum supported** | **1.16.2** |
 | **Marketplace manifest** | *none — OpenCode has no marketplace format* |
 | **Official docs** | [Skills](https://opencode.ai/docs/skills/) · [Agents](https://opencode.ai/docs/agents/) · [Config schema](https://opencode.ai/config.json) |
@@ -42,6 +42,14 @@ That works because OpenCode reads skills natively from, in order of precedence:
 - `.claude/skills/`
 - `.agents/skills/`
 - any directory listed in `skills.paths` in `opencode.json`
+
+OpenCode's config schema also exposes `skills.urls` — "URLs to fetch skills from
+(e.g. `https://example.com/.well-known/skills/`)". That is a **remote skill** fetch, not
+a plugin marketplace: it serves individual skills, not this catalog's plugin manifest, so
+it does not change the "no marketplace" gap below. This catalog publishes no
+`.well-known/skills/` endpoint, so there is nothing to point it at here — it is noted only
+so it is not mistaken for catalog support. (Verified against
+<https://opencode.ai/config.json> on 2026-09-08.)
 
 Each plugin repo ships an `opencode.json` like:
 

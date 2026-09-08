@@ -4,7 +4,7 @@
 |---|---|
 | **Validated against** | Cursor **3.18.9** |
 | **Minimum supported** | **3.18.9** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-08-27** (see [`.cursor-version`](../../.cursor-version)) |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-09-02** (see [`.cursor-version`](../../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 

@@ -9,7 +9,7 @@ enforced by `scripts/check-platform-targets.sh`.
 | Claude Code | 2.0.0 | 2.1.263 | 2.1.263 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.147.0 | 0.147.0 | [codex.md](../../user/install/codex.md) |
-| OpenCode | 1.16.2 | 1.18.11 | 1.18.15 | [opencode.md](../../user/install/opencode.md) |
+| OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code is now
 directly CLI-validated at **2.1.263** on **2026-09-06** (`claude --version` on the
@@ -53,8 +53,16 @@ was revalidated against the **0.147.0** release on **2026-08-09** by comparing t
 official release delta with this catalog's `.agents/plugins/marketplace.json`
 installation surface. Cursor was revalidated against **3.18.9** on **2026-09-06** (changelog through the
 date-only **2026-09-02** Self-Hosted Machines entry). Claude Code and Cursor were both
-reviewed on **2026-09-06**, which is therefore the `last_reviewed` date. Each target's
-`verification_method` in the JSON records exactly how.
+reviewed on **2026-09-06**. OpenCode was revalidated against **1.18.29** on
+**2026-09-08** — `opencode --version` reported `1.18.29` on the maintainer machine, and
+`opencode debug skill` with `skills.paths` pointed at this repo's `.agents/skills`
+resolved `run-plugins-catalog` to its `SKILL.md`, so native skill discovery still works
+unchanged. Reviewing the 1.18.12 → 1.18.29 release notes turned up exactly one
+skills-related entry (a docs path fix, #42337) and no plugin-marketplace or
+plugin-manifest concept, so both OpenCode capability gaps below stand as written.
+That 2026-09-08 OpenCode review is the most recent verification of any target and is
+therefore the `last_reviewed` date. Each target's `verification_method` in the JSON
+records exactly how.
 
 ## Two corrected version floors
 
