@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.263** |
+| **Validated against** | Claude Code **2.1.267** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.263 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.267 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -238,6 +238,55 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.267
+
+Reviewed for catalog impact, with a live 2.1.267 CLI available this run (`claude
+--version` on the runner reports `2.1.267 (Claude Code)`), continuing the run of
+live-CLI validation since 2.1.257 and closing the 2.1.264 → 2.1.267 gap since the
+last review. Both `validated_against` and `latest_known` advance from 2.1.263 to
+**2.1.267** together (no divergence). 2.1.264 and 2.1.266 shipped no itemized
+changelog entries beyond "bug fixes and reliability improvements" — reviewed,
+nothing to adopt, matching the 2.1.226/.../2.1.263 fix-only precedent. Items from
+2.1.265 and 2.1.267 were checked directly against this repo rather than assumed:
+
+- **`/plugin` Discover/Browse missing description for marketplace-only plugins,
+  fixed (2.1.265).** Before 2.1.265, browsing a plugin that exists only as a
+  marketplace entry (not yet installed) could show no description at all.
+  Directly relevant here — re-confirmed all three of this catalog's entries
+  (`tamirs-superpowers`, `jose-claudinho`, `headhunter`) carry a real one-line
+  `description` in `.claude-plugin/marketplace.json`, so every catalog entry
+  benefits from the fix rather than showing blank.
+- **Marketplace entry description now takes priority over the plugin's own
+  `plugin.json` description (2.1.265).** Plugin display metadata now prefers the
+  marketplace entry's own `description` field. This makes the descriptions in
+  `.claude-plugin/marketplace.json` — not whatever each plugin repo's own
+  `plugin.json` declares — the text Claude Code actually shows when browsing this
+  catalog. Noted in `docs/agent-guidelines/style.md`. Checked (via `grep`) that
+  nothing in this repo's own docs claimed the opposite — nothing needed
+  correcting.
+- **SECURITY fixes: a plugin path containing a backslash bypassing the symlink
+  containment check (2.1.265), and a marketplace entry path containing a
+  backslash bypassing the containment check (2.1.267).** Checked directly: `grep`
+  for a backslash across all three manifests (`.claude-plugin/marketplace.json`,
+  `.agents/plugins/marketplace.json`, `.cursor-plugin/marketplace.json`) found
+  zero hits, and `find . -type l` confirms this repository has no symlinks
+  anywhere. Not applicable on both counts — this catalog was never in the
+  affected path.
+- **`--plugin-dir` for multi-plugin local hot-reload (2.1.265).** A new flag
+  pointing at a folder of plugins for local dev/testing. Marginally relevant to
+  how a contributor might test this catalog's entries locally, but this repo's
+  own contributor workflow (`make install` / `make validate`) never drives Claude
+  Code against a local plugin folder, so nothing here changes.
+
+Also reviewed and found not applicable: plugin directories starting with `..`
+wrongly refused as outside root (2.1.265) — this catalog's entries are always
+`github` sources, never local directories; and a plugin's default component
+folder that can't be checked due to a symlink loop being silently skipped
+(2.1.265) — no symlinks anywhere in this repo (confirmed above). `claude plugin
+validate --strict --json .agents/skills` and a full `make validate` (regenerate +
+validate manifests, `make agent:check`, 3 plugins in sync, no drift) both passed
+clean against the live 2.1.267 CLI.
 
 ## Claude Code 2.1.263
 
