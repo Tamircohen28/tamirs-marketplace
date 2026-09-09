@@ -8,6 +8,47 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **`/plugin` Discover/Browse missing-description fix documented (Claude Code
+  2.1.265).** Before 2.1.265, browsing a plugin that exists only as a marketplace
+  entry (not yet installed) could show no description at all. Re-confirmed all
+  three catalog entries (`tamirs-superpowers`, `jose-claudinho`, `headhunter`)
+  carry a real one-line `description` in `.claude-plugin/marketplace.json`, so
+  every entry now benefits from the fix.
+- **Marketplace entry description now authoritative over `plugin.json`'s
+  (Claude Code 2.1.265).** Plugin display metadata now prefers the marketplace
+  entry's own `description` field over the plugin's own `plugin.json`
+  description. Documented in `docs/agent-guidelines/style.md` — this repo's
+  `.claude-plugin/marketplace.json` descriptions are now the text Claude Code
+  actually shows browsing this catalog, not merely informational metadata.
+  Checked via `grep` that no doc here claimed the opposite; none did.
+
+### Changed
+- **Platform target: Claude Code `validated_against` and `latest_known` both
+  2.1.267** (from 2.1.263), real direct CLI check — `claude --version` on this
+  run's runner reports `2.1.267 (Claude Code)`, continuing the run of live-CLI
+  validation since 2.1.257. Covers the 2.1.264 → 2.1.267 delta; 2.1.264 and
+  2.1.266 shipped no itemized changelog entries beyond bug fixes/reliability
+  improvements — reviewed, nothing to adopt. Adopted/documented above under
+  Added: the Discover/Browse missing-description fix and the marketplace-
+  description-authoritative change (both 2.1.265). Reviewed and not applicable,
+  checked directly rather than assumed: SECURITY fixes for a plugin path
+  containing a backslash bypassing the symlink containment check (2.1.265) and a
+  marketplace entry path containing a backslash bypassing the containment check
+  (2.1.267) — `grep` for a backslash across all three manifests found zero hits,
+  and `find . -type l` confirms no symlinks anywhere in this repo; `--plugin-dir`
+  for multi-plugin local hot-reload (2.1.265) — this repo's contributor workflow
+  never drives Claude Code against a local plugin folder; plugin directories
+  starting with `..` wrongly refused (2.1.265) — this catalog's entries are
+  always `github` sources, never local directories; and a plugin's default
+  component folder silently skipped on a symlink loop (2.1.265) — no symlinks
+  anywhere in this repo. Everything else in 2.1.264–2.1.267 is host/session/UI-
+  side with zero marketplace-manifest, plugin-source, or skill-loading surface.
+  `claude plugin validate --strict --json .agents/skills` (via
+  `scripts/report-skill-validation.py`) and a full `make validate` (regenerate +
+  validate manifests, `make agent:check`, 3 plugins in sync, no drift) both
+  passed clean against the live 2.1.267 CLI.
+
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
   look, trusted a waiver that could waive itself, and failed a ref that was already
