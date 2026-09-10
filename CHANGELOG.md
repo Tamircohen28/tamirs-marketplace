@@ -8,6 +8,75 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **`/plugin` Discover/Browse missing-description fix documented (Claude Code
+  2.1.265).** Before 2.1.265, browsing a plugin that exists only as a marketplace
+  entry (not yet installed) could show no description at all. Re-confirmed all
+  three catalog entries (`tamirs-superpowers`, `jose-claudinho`, `headhunter`)
+  carry a real one-line `description` in `.claude-plugin/marketplace.json`, so
+  every entry now benefits from the fix.
+- **Marketplace entry description now authoritative over `plugin.json`'s
+  (Claude Code 2.1.265).** Plugin display metadata now prefers the marketplace
+  entry's own `description` field over the plugin's own `plugin.json`
+  description. Documented in `docs/agent-guidelines/style.md` — this repo's
+  `.claude-plugin/marketplace.json` descriptions are now the text Claude Code
+  actually shows browsing this catalog, not merely informational metadata.
+  Checked via `grep` that no doc here claimed the opposite; none did.
+- **`--json` on `claude plugin install/uninstall/update/enable/disable`, and
+  `errorDetails`/`noteDetails` on `claude plugin list --json` rows documented
+  (Claude Code 2.1.268).** Every plugin lifecycle subcommand now has
+  machine-readable output, and a broken or noted catalog install now carries a
+  structured reason instead of only a pass/fail row. Documented in the install
+  guide's Useful-flags section and as a new Troubleshooting row.
+- **`/plugin` menu instant-apply extended to enable/disable, no
+  `/reload-plugins` needed (Claude Code 2.1.268).** Previously only a fresh
+  `/plugin install` (2.1.221) activated without a reload; enabling/disabling
+  from the menu now does too. Documented alongside the existing
+  instant-activation note.
+- **Plugin/marketplace git-source-URL secret redaction confirmed (Claude Code
+  2.1.268).** Error messages no longer echo a token or password embedded in a
+  git source URL. This catalog's three manifests already use the
+  credential-free `github`+`repo` shorthand, never a raw URL with embedded
+  credentials, so no entry here was ever exposed either way — noted in
+  `docs/agent-guidelines/security.md` as a defense-in-depth confirmation and a
+  standing rule for contributors testing a URL-form source locally.
+
+### Changed
+- **Platform target: Claude Code `validated_against` and `latest_known` both
+  2.1.268** (from 2.1.263), real direct CLI check — `claude --version` on this
+  run's runner reports `2.1.268 (Claude Code)`, continuing the run of live-CLI
+  validation since 2.1.257. Covers the 2.1.264 → 2.1.268 delta; 2.1.264 and
+  2.1.266 shipped no itemized changelog entries beyond bug fixes/reliability
+  improvements — reviewed, nothing to adopt. Adopted/documented above under
+  Added: the Discover/Browse missing-description fix and the marketplace-
+  description-authoritative change (both 2.1.265); the plugin-lifecycle
+  `--json` flags, `errorDetails`/`noteDetails` on `plugin list --json`, the
+  `/plugin` menu instant-apply extension to enable/disable, and the
+  git-source-URL secret redaction confirmation (all 2.1.268). Reviewed and not
+  applicable, checked directly rather than assumed: SECURITY fixes for a plugin
+  path containing a backslash bypassing the symlink containment check
+  (2.1.265) and a marketplace entry path containing a backslash bypassing the
+  containment check (2.1.267) — `grep` for a backslash across all three
+  manifests found zero hits, and `find . -type l` confirms no symlinks anywhere
+  in this repo; `--plugin-dir` for multi-plugin local hot-reload (2.1.265) —
+  this repo's contributor workflow never drives Claude Code against a local
+  plugin folder; plugin directories starting with `..` wrongly refused
+  (2.1.265) — this catalog's entries are always `github` sources, never local
+  directories; a plugin's default component folder silently skipped on a
+  symlink loop (2.1.265) — no symlinks anywhere in this repo; `claude plugin
+  validate` rejecting a plugin path whose directory name begins with two dots
+  (2.1.268) — same reason, no local-directory plugin paths here; and a default
+  monitors file or root `SKILL.md` silently skipped when it couldn't be checked
+  (2.1.268) — re-ran `claude plugin validate --strict --json .agents/skills`
+  live against the 2.1.268 CLI and it reports `"success": true` with an empty
+  `contents` array, so this catalog's root `SKILL.md` was already checked
+  cleanly either way. Everything else in 2.1.264–2.1.268 is host/session/UI-
+  side with zero marketplace-manifest, plugin-source, or skill-loading surface.
+  `claude plugin validate --strict --json .agents/skills` (via
+  `scripts/report-skill-validation.py`) and a full `make validate` (regenerate +
+  validate manifests, `make agent:check`, 3 plugins in sync, no drift) both
+  passed clean against the live 2.1.268 CLI.
+
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
   look, trusted a waiver that could waive itself, and failed a ref that was already

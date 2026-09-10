@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.263** |
+| **Validated against** | Claude Code **2.1.268** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.263 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.268 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -52,7 +52,10 @@ Inside an interactive session, the slash-command equivalent:
 
 Since Claude Code 2.1.221, plugins installed with `/plugin install` activate immediately
 when safe — no new session needed. On older versions (or when instant activation isn't
-safe), open a **new** session after installing — skills load at session start.
+safe), open a **new** session after installing — skills load at session start. Since
+2.1.268, installing, enabling, or disabling a plugin from the `/plugin` menu also takes
+effect as soon as you close the menu — `/reload-plugins` is no longer needed afterwards
+for any of the three, whereas before only a fresh install activated instantly.
 
 ## What you get
 
@@ -71,6 +74,15 @@ Each plugin's own repo documents its skills, commands, and integrations in detai
 - The `/plugin` Installed tab has a **Skills** section listing every skill each plugin
   contributes.
 - `claude plugin details <name>` prints a component inventory and projected token cost.
+- Since Claude Code 2.1.268, `claude plugin install`, `uninstall`, `update`, `enable`, and
+  `disable` all accept `--json` for machine-readable output — useful for a scripted
+  install smoke test instead of parsing human-readable text, e.g.:
+  ```bash
+  claude plugin install headhunter@tamirs-marketplace --json
+  ```
+  `claude plugin list --json` also gained per-row `errorDetails` and `noteDetails` fields
+  in 2.1.268, surfacing why a specific plugin failed to load or has a note attached
+  without re-running `/doctor` or reading terminal output by hand.
 
 ## Update
 
@@ -238,6 +250,101 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.268
+
+Reviewed for catalog impact, with a live 2.1.268 CLI available this run (`claude
+--version` on the runner reports `2.1.268 (Claude Code)`), continuing the run of
+live-CLI validation since 2.1.257. `validated_against` and `latest_known` both advance
+from 2.1.267 to **2.1.268** together (no divergence), covering the single-release
+2.1.267 → 2.1.268 delta. Three items are directly relevant and documented:
+
+- **`--json` added to `claude plugin install`, `uninstall`, `update`, `enable`, and
+  `disable`.** Every plugin lifecycle subcommand now has machine-readable output, not
+  just `claude plugin validate` (2.1.259) and `claude plugin list` (already JSON-capable
+  for longer). Documented above in Useful flags, since a contributor scripting a catalog
+  install smoke test can now check a structured result instead of parsing text.
+- **`errorDetails`/`noteDetails` added to each `claude plugin list --json` row.** Gives a
+  specific, structured reason when a catalog plugin fails to load or carries a note,
+  instead of only a pass/fail row. Documented above in Useful flags and added as a new
+  Troubleshooting row.
+- **`/plugin` install/enable/disable now take effect on menu close, with no
+  `/reload-plugins` needed afterwards.** Before 2.1.268, only a fresh `/plugin install`
+  activated instantly (since 2.1.221); enabling or disabling a plugin from the menu could
+  still need a reload. Documented above alongside the existing instant-activation note.
+
+Also reviewed and found not applicable, each checked directly rather than assumed:
+`claude plugin validate` rejecting a plugin path whose directory name begins with two
+dots — this catalog's entries are always `github` sources, never local directories, so no
+plugin path here can begin with dots; a default monitors file or root `SKILL.md` silently
+skipped when it couldn't be checked — re-ran `claude plugin validate --strict --json
+.agents/skills` live against the 2.1.268 CLI and it reports `"success": true` with an
+empty `contents` array, so this catalog's root `SKILL.md` was already checked cleanly
+either way, before and after the fix; **SECURITY: plugin and marketplace errors no longer
+show a token or password from a git source URL** — noted in
+`docs/agent-guidelines/security.md` as a defense-in-depth confirmation, since this
+catalog's three manifests already use the credential-free `github`+`repo` shorthand
+rather than a raw clone URL, so no entry here was ever exposed either way; the Claude
+apps gateway `pricing:` and `gatewayInternalNetworks` additions and `claude
+self-hosted-runner --remove-session-state` — no gateway or self-hosted runner is
+configured for this personal catalog; and `configDirectory` added to `claude auth status
+--json` — no script here calls `claude auth status`. Everything else in 2.1.268 (Fable
+long-context 429 messaging, workload identity federation, MCP OAuth port binding,
+`/compact` summary and resume-ordering fixes, terminal/VSCode/Slack/Chrome/Remote-Control
+UI polish) is host/session/UI-side with zero marketplace-manifest, plugin-source, or
+skill-loading surface. `claude plugin validate --strict --json .agents/skills` (piped
+through `scripts/report-skill-validation.py`) and a full `make validate` (regenerate +
+validate manifests, `make agent:check`; 3 plugins in sync, no drift) both passed clean
+against the live 2.1.268 CLI. No new manifest schema or field change was required.
+
+## Claude Code 2.1.267
+
+Reviewed for catalog impact, with a live 2.1.267 CLI available this run (`claude
+--version` on the runner reports `2.1.267 (Claude Code)`), continuing the run of
+live-CLI validation since 2.1.257 and closing the 2.1.264 → 2.1.267 gap since the
+last review. Both `validated_against` and `latest_known` advance from 2.1.263 to
+**2.1.267** together (no divergence). 2.1.264 and 2.1.266 shipped no itemized
+changelog entries beyond "bug fixes and reliability improvements" — reviewed,
+nothing to adopt, matching the 2.1.226/.../2.1.263 fix-only precedent. Items from
+2.1.265 and 2.1.267 were checked directly against this repo rather than assumed:
+
+- **`/plugin` Discover/Browse missing description for marketplace-only plugins,
+  fixed (2.1.265).** Before 2.1.265, browsing a plugin that exists only as a
+  marketplace entry (not yet installed) could show no description at all.
+  Directly relevant here — re-confirmed all three of this catalog's entries
+  (`tamirs-superpowers`, `jose-claudinho`, `headhunter`) carry a real one-line
+  `description` in `.claude-plugin/marketplace.json`, so every catalog entry
+  benefits from the fix rather than showing blank.
+- **Marketplace entry description now takes priority over the plugin's own
+  `plugin.json` description (2.1.265).** Plugin display metadata now prefers the
+  marketplace entry's own `description` field. This makes the descriptions in
+  `.claude-plugin/marketplace.json` — not whatever each plugin repo's own
+  `plugin.json` declares — the text Claude Code actually shows when browsing this
+  catalog. Noted in `docs/agent-guidelines/style.md`. Checked (via `grep`) that
+  nothing in this repo's own docs claimed the opposite — nothing needed
+  correcting.
+- **SECURITY fixes: a plugin path containing a backslash bypassing the symlink
+  containment check (2.1.265), and a marketplace entry path containing a
+  backslash bypassing the containment check (2.1.267).** Checked directly: `grep`
+  for a backslash across all three manifests (`.claude-plugin/marketplace.json`,
+  `.agents/plugins/marketplace.json`, `.cursor-plugin/marketplace.json`) found
+  zero hits, and `find . -type l` confirms this repository has no symlinks
+  anywhere. Not applicable on both counts — this catalog was never in the
+  affected path.
+- **`--plugin-dir` for multi-plugin local hot-reload (2.1.265).** A new flag
+  pointing at a folder of plugins for local dev/testing. Marginally relevant to
+  how a contributor might test this catalog's entries locally, but this repo's
+  own contributor workflow (`make install` / `make validate`) never drives Claude
+  Code against a local plugin folder, so nothing here changes.
+
+Also reviewed and found not applicable: plugin directories starting with `..`
+wrongly refused as outside root (2.1.265) — this catalog's entries are always
+`github` sources, never local directories; and a plugin's default component
+folder that can't be checked due to a symlink loop being silently skipped
+(2.1.265) — no symlinks anywhere in this repo (confirmed above). `claude plugin
+validate --strict --json .agents/skills` and a full `make validate` (regenerate +
+validate manifests, `make agent:check`, 3 plugins in sync, no drift) both passed
+clean against the live 2.1.267 CLI.
 
 ## Claude Code 2.1.263
 
@@ -690,5 +797,6 @@ catalog's automation token gets `workflows` scope.
 | Installing a catalog plugin in a second scope deletes the other scope's cache | Before 2.1.247, a plugin with no `version` field (true of all three plugins in this catalog) installed into a second scope could delete the first scope's cache directory. Fixed in 2.1.247 — on older versions, avoid installing the same catalog plugin into two scopes at once, or upgrade first. |
 | A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment the background session started. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
 | `claude plugin marketplace add <pasted URL>` fails with an unusable clone URL | Before 2.1.259, a `github.com` marketplace URL pasted with a trailing slash or a dangling `?`/`#` (as a browser address bar shows it) could produce a broken `.git` clone URL. Fixed in 2.1.259 — on older versions, use the `Tamircohen28/tamirs-marketplace` shorthand from this guide's Install section instead of a pasted URL, or strip the trailing slash/`?`/`#` by hand. |
+| A catalog plugin shows as broken in `claude plugin list` but the reason isn't clear | Since 2.1.268, `claude plugin list --json` includes per-row `errorDetails`/`noteDetails` fields — inspect that row's JSON for the specific cause instead of guessing from `/doctor` output alone. |
 
 More: [troubleshooting.md](../troubleshooting.md).
