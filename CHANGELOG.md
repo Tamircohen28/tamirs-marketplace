@@ -8,6 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Cursor 3.11 (+2026-09-10 / desktop 3.20.17):** cover Cursor **Projects** and bump desktop pin **3.18.9 → 3.20.17**. Feature **3.11**. Cursor-only (`Tamircohen28/plugins` redirects here).
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
   look, trusted a waiver that could waive itself, and failed a ref that was already
