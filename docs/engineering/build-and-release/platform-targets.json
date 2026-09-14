@@ -1,1 +1,185 @@
-PLACEHOLDER
+{
+  "schema_version": 2,
+  "last_reviewed": "2026-09-14",
+  "reviewed_by_skill": "tamirs-superpowers@1.12.0",
+  "supported_targets": [
+    "claude_code",
+    "cursor",
+    "codex",
+    "opencode"
+  ],
+  "targets": {
+    "claude_code": {
+      "supported_min": "2.0.0",
+      "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
+      "validated_against": "2.1.270",
+      "latest_known": "2.1.270",
+      "verified_on": "2026-09-14",
+      "verification_method": "Real direct CLI check this run — `claude --version` on the runner reports `2.1.270 (Claude Code)`, continuing the run of live-CLI validation since 2.1.257. `validated_against` and `latest_known` both advance from 2.1.268 to **2.1.270** together (no divergence), covering the 2.1.269 → 2.1.270 delta. 2.1.270 is a compatibility-only bump: it ships exactly one fix (read-only git commands in Bash unexpectedly re-asking for permission after a long-running session, a 2.1.269 regression) with no marketplace-manifest, plugin-source, or skill-loading surface. Two items from 2.1.269 are directly relevant and documented: **`claude plugin eval`** — a new subcommand that runs a plugin's own eval suite against Claude Code and produces a scored, reproducible JSON+HTML report — noted in the install guide's Useful-flags section as the way a contributor (here, or in one of the three plugin repos this catalog points at) could smoke-test a listed plugin, though none of the three plugins in this catalog ship an eval suite of their own today; and **SECURITY: plugin archives extracted for a session could be readable by other local users, keep world-writable bits, or leave stale files surviving re-extraction** — documented in `docs/agent-guidelines/security.md` as a defense-in-depth note alongside the existing git-source-URL redaction rule, since this catalog's three manifests use only `github` sources (never `archive` sources), so no plugin installed from here was ever exposed, but the note stands for any future `archive`-source entry. Reviewed and not applicable, checked directly rather than assumed: a deny/ask permission rule starting with a bare `!` leaking beyond its settings source (2.1.269 fix) — this catalog documents no `Read()`/`Edit()`/permission-rule examples anywhere (checked via `grep`), matching the precedent set for the 2.1.259/2.1.260 permission-rule items; organization plugins via managed settings not loading in headless sessions (2.1.269 fix) — no managed-org marketplace or `enabledPlugins` configuration exists for this personal catalog, matching the existing 2.1.261 `@synced`-plugin note; plugin `headersHelper` consent prompts showing a misleading URL path (2.1.269 fix) — none of this catalog's three manifests use `headersHelper` today (checked via `grep`), so the display fix changes nothing here, though the install guide's existing `headersHelper` section covers the mechanism generally for a future private/token-gated entry; plugin errors showing `[redacted URL]` for Windows paths starting with `@` (2.1.269 fix) — this catalog ships no Windows-specific paths or scripts; the `Edit()`/write-path/`tee` permission-interaction fix (2.1.269) — no plugin source lives in this repo for that fix to touch; the attribution-reminder-overriding-CLAUDE.md fix (2.1.269) — this repo's own `CLAUDE.md`/`AGENTS.md` attribution guidance was never affected since no managed-settings attribution override is configured here; and skills synced from claude.ai in cloud sessions now named `anthropic-skills:<name>` (2.1.269 change) — this catalog's own skill (`.agents/skills/run-plugins-catalog`) is a plain repo skill, not an Anthropic-authored skill and never cloud-synced, so the new naming convention doesn't apply to it, and neither `docs/agent-guidelines/style.md` nor the install guide claimed otherwise. `/ultrareview --post` posting a PR comment directly (2.1.269) and the other 2.1.269 Added items (`/output-style` over Remote Control, Bash file-change diff, the new OTEL/gateway/workflow-concurrency env vars, the `/focus` spinner tip) are host/session/CI-side with zero marketplace-manifest, plugin-source, or skill-loading surface. `claude plugin validate --strict --json .agents/skills` (piped through `scripts/report-skill-validation.py`) and a full `make validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) both passed clean against the live 2.1.270 CLI, confirmed again on a fresh clone of the final branch state.",
+      "install_doc": "docs/user/install/claude-code.md",
+      "doc_urls": [
+        "https://code.claude.com/docs/en/plugin-marketplaces",
+        "https://code.claude.com/docs/en/plugins-reference"
+      ],
+      "features_adopted": [
+        "plugin-marketplace",
+        "marketplace-cross-dependencies",
+        "instant-plugin-activation-2.1.221",
+        "marketplace-refresh-on-install-2.1.221",
+        "owner-wildcard-managed-allowlist-2.1.223",
+        "settings-tier-whole-entry-merge-2.1.228",
+        "command-plugin-sources-docs-2.1.229",
+        "install-refreshes-marketplace-first-2.1.232",
+        "marketplace-settings-aliases-docs-2.1.232",
+        "gitlab-marketplace-sources-docs-2.1.232",
+        "skill-frontmatter-ci-validation-2.1.233",
+        "gitlab-mr-badge-docs-2.1.234",
+        "marketplace-headersHelper-docs-2.1.238",
+        "synced-plugin-non-override-docs-2.1.239",
+        "managed-connector-marker-docs-2.1.243",
+        "plugin-update-bare-name-docs-2.1.246",
+        "marketplace-install-error-docs-2.1.246",
+        "version-less-plugin-cache-second-scope-fix-docs-2.1.247",
+        "mcp-headersHelper-oauth-retry-fix-docs-2.1.248",
+        "plugin-command-path-traversal-check-2.1.251",
+        "marketplace-refresh-race-skills-fix-docs-2.1.251",
+        "gitlab-worktree-tmux-fetch-fix-docs-2.1.251",
+        "plugin-symlink-component-path-check-docs-2.1.257",
+        "mcp-oauth-log-redaction-docs-2.1.257",
+        "plugin-validate-json-2.1.259",
+        "marketplace-url-trailing-slash-fix-docs-2.1.259",
+        "gateway-user-plugin-marketplace-policy-docs-2.1.260",
+        "reload-plugins-headless-docs-2.1.260",
+        "synced-plugin-managed-enabledplugins-clone-fallback-fix-docs-2.1.261",
+        "marketplace-only-plugin-description-fix-docs-2.1.265",
+        "marketplace-description-authoritative-docs-2.1.265",
+        "plugin-lifecycle-json-flags-docs-2.1.268",
+        "plugin-list-json-error-note-details-docs-2.1.268",
+        "plugin-menu-instant-enable-disable-docs-2.1.268",
+        "plugin-marketplace-secret-redaction-docs-2.1.268",
+        "plugin-eval-docs-2.1.269",
+        "plugin-archive-extraction-security-docs-2.1.269"
+      ],
+      "capabilities": [
+        "marketplace",
+        "catalog-install"
+      ]
+    },
+    "cursor": {
+      "supported_min": "3.18.9",
+      "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
+      "validated_against": "3.18.9",
+      "latest_known": "3.18.9",
+      "changelog_feature": "3.11",
+      "changelog_date": "2026-09-02",
+      "verified_on": "2026-09-06",
+      "verification_method": "latest desktop build from official Cursor download links (3.18.9, 2026-08-30 stable) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-09-02 Self-Hosted Machines / Team Pools / partner sandboxes / computer use); team-marketplace import is a Dashboard flow",
+      "install_doc": "docs/user/install/cursor.md",
+      "doc_urls": [
+        "https://cursor.com/docs/plugins",
+        "https://cursor.com/docs/customize-cursor",
+        "https://cursor.com/blog/builds",
+        "https://cursor.com/docs/origin",
+        "https://cursor.com/codebase",
+        "https://cursor.com/docs/origin/cli",
+        "https://cursor.com/docs/origin/integrations",
+        "https://cursor.com/docs/cloud-agent/self-hosted",
+        "https://cursor.com/docs/cloud-agent"
+      ],
+      "features_adopted": [
+        "team-marketplace",
+        "cursor-plugin-manifest",
+        "customize-page-3.9",
+        "team-mcp-marketplace-3.10",
+        "org-group-marketplace-access-3.10",
+        "google-workspace-plugins-optional-2026-08-03",
+        "side-chats-docs-3.11",
+        "automations-github-triggers-docs-3.8",
+        "multi-pr-sessions-docs-2026-07-29",
+        "third-party-hooks-pointer",
+        "workspace-open-hook-docs",
+        "agent-plugins-standard-docs",
+        "automations-memory-delete-docs",
+        "cloud-agent-builds-docs-2026-08-13",
+        "cli-plugin-hooks-docs-2026-08-11",
+        "cli-sticky-skills-docs-2026-08-11",
+        "cloud-agent-builds-aug17-default-readiness",
+        "builds-team-env-secrets-docs",
+        "cli-steer-and-goal-docs-2026-08-11",
+        "builds-skipped-and-staleness-24h-docs",
+        "builds-install-start-terminals-docs",
+        "grok-4.6-docs-2026-08-14",
+        "builds-t1-default-readiness-2026-08-16",
+        "origin-git-forge-docs-2026-08-17",
+        "builds-now-default-2026-08-17",
+        "origin-cli-and-integrations-docs-2026-08-18",
+        "cloud-agent-subscriptions-2026-08-19",
+        "custom-modes-from-skills-2026-08-19",
+        "subagents-isolated-vms-2026-08-19",
+        "agent-window-goal-2026-08-19",
+        "non-interruptive-steering-2026-08-19",
+        "native-create-goal-tools-docs-2026-08-19",
+        "desktop-cli-pin-3.18.9",
+        "cloud-agent-start-from-scratch-2026-08-27",
+        "origin-create-repo-from-scratch-2026-08-27",
+        "cloud-agent-browser-preview-2026-08-27",
+        "cloud-agent-vercel-publish-2026-08-27",
+        "self-hosted-machines-2026-09-02",
+        "team-pools-dynamic-scheduling-2026-09-02",
+        "partner-sandbox-workers-2026-09-02",
+        "computer-use-linux-mac-self-hosted-2026-09-02",
+        "self-hosted-vs-gha-runners-docs-2026-09-02"
+      ],
+      "capabilities": [
+        "marketplace",
+        "catalog-install"
+      ]
+    },
+    "codex": {
+      "supported_min": "0.40.0",
+      "supported_min_source": "earliest release this catalog has claimed .agents/plugins/marketplace.json support for",
+      "validated_against": "0.153.4",
+      "latest_known": "0.153.4",
+      "verified_on": "2026-09-08",
+      "verification_method": "documentary revalidation by this repo's standing Codex method (official release notes plus catalog compatibility review; the Codex CLI is not installed on the review machine). Reviewed every openai/codex release from 0.148.0 through 0.153.4 for plugin/marketplace changes: #41208 (0.151.0) reports invalid project marketplaces without hiding valid plugins, #41953 (0.153.0) enforces a marketplace source policy for OpenAI-curated plugins only, and #42149/#42150 (0.153.0) upgrade Git marketplaces from merged configuration and add remote-marketplace support to the plugin CLI. None alter the portable Agent Plugin catalog shape, so .agents/plugins/marketplace.json remains discoverable unchanged; 0.153.0 widens how it can be consumed rather than narrowing it.",
+      "install_doc": "docs/user/install/codex.md",
+      "doc_urls": [
+        "https://developers.openai.com/codex/plugins"
+      ],
+      "features_adopted": [
+        "plugin-marketplace",
+        "sparse-marketplace-checkout",
+        "portable-agent-plugin-catalogs-0.147.0"
+      ],
+      "capabilities": [
+        "marketplace",
+        "catalog-install"
+      ]
+    },
+    "opencode": {
+      "supported_min": "1.16.2",
+      "supported_min_source": "oldest version on which `skills.paths` discovery of a catalog plugin's skills was verified with `opencode debug skill`",
+      "validated_against": "1.18.29",
+      "latest_known": "1.18.29",
+      "verified_on": "2026-09-08",
+      "verification_method": "`opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
+      "install_doc": "docs/user/install/opencode.md",
+      "doc_urls": [
+        "https://opencode.ai/docs/skills/",
+        "https://opencode.ai/docs/agents/",
+        "https://opencode.ai/config.json"
+      ],
+      "features_adopted": [
+        "native-skill-discovery",
+        "skills-paths-config"
+      ],
+      "capabilities": [
+        "per-plugin-clone"
+      ],
+      "capability_gaps": {
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
+      }
+    }
+  }
+}
