@@ -8,6 +8,120 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- **`/plugin` Discover/Browse missing-description fix documented (Claude Code
+  2.1.265).** Before 2.1.265, browsing a plugin that exists only as a marketplace
+  entry (not yet installed) could show no description at all. Re-confirmed all
+  three catalog entries (`tamirs-superpowers`, `jose-claudinho`, `headhunter`)
+  carry a real one-line `description` in `.claude-plugin/marketplace.json`, so
+  every entry now benefits from the fix.
+- **Marketplace entry description now authoritative over `plugin.json`'s
+  (Claude Code 2.1.265).** Plugin display metadata now prefers the marketplace
+  entry's own `description` field over the plugin's own `plugin.json`
+  description. Documented in `docs/agent-guidelines/style.md` — this repo's
+  `.claude-plugin/marketplace.json` descriptions are now the text Claude Code
+  actually shows browsing this catalog, not merely informational metadata.
+  Checked via `grep` that no doc here claimed the opposite; none did.
+- **`--json` on `claude plugin install/uninstall/update/enable/disable`, and
+  `errorDetails`/`noteDetails` on `claude plugin list --json` rows documented
+  (Claude Code 2.1.268).** Every plugin lifecycle subcommand now has
+  machine-readable output, and a broken or noted catalog install now carries a
+  structured reason instead of only a pass/fail row. Documented in the install
+  guide's Useful-flags section and as a new Troubleshooting row.
+- **`/plugin` menu instant-apply extended to enable/disable, no
+  `/reload-plugins` needed (Claude Code 2.1.268).** Previously only a fresh
+  `/plugin install` (2.1.221) activated without a reload; enabling/disabling
+  from the menu now does too. Documented alongside the existing
+  instant-activation note.
+- **Plugin/marketplace git-source-URL secret redaction confirmed (Claude Code
+  2.1.268).** Error messages no longer echo a token or password embedded in a
+  git source URL. This catalog's three manifests already use the
+  credential-free `github`+`repo` shorthand, never a raw URL with embedded
+  credentials, so no entry here was ever exposed either way — noted in
+  `docs/agent-guidelines/security.md` as a defense-in-depth confirmation and a
+  standing rule for contributors testing a URL-form source locally.
+- **`claude plugin eval` documented (Claude Code 2.1.269).** A new subcommand that runs
+  a plugin's own eval suite against Claude Code and produces a scored, reproducible
+  JSON+HTML report. Documented in the install guide's Useful-flags section as a way to
+  smoke-test a listed plugin — none of this catalog's three plugins ship an eval suite
+  of their own yet, but this is the mechanism to point a future one at.
+- **Plugin archive extraction hardening noted (Claude Code 2.1.269).** Before 2.1.269, a
+  plugin archive extracted for a session could be readable by other local users, keep
+  world-writable bits, or leave stale files surviving re-extraction. This catalog's
+  three manifests use only `github` sources (never `archive` sources), so no plugin
+  installed from here was ever exposed either way — documented in
+  `docs/agent-guidelines/security.md` as a defense-in-depth entry alongside the
+  existing git-source-URL redaction rule.
+- **`--accept-command <sha256>` on `claude plugin install`/`update` documented (Claude
+  Code 2.1.271).** Accepts exactly the command a previous `--json` run displayed,
+  instead of the broader `-y`. Documented in the install guide's Useful-flags section
+  alongside the existing 2.1.268 `--json` note, a natural pairing for a contributor
+  scripting a catalog install smoke test.
+
+### Changed
+- **Platform target: Claude Code `validated_against` and `latest_known` both
+  2.1.272** (from 2.1.263), reviewed against the published changelog — the live
+  `claude` CLI on this run's runner already reports `2.1.273 (Claude Code)`, one
+  release ahead of 2.1.272, so it was used only to re-run `claude plugin
+  validate --strict --json .agents/skills` and `make validate` as a regression
+  check, not as live evidence about 2.1.271/2.1.272 behavior specifically (see
+  the 2.1.258 precedent for that distinction). Covers the full 2.1.264 →
+  2.1.272 delta across four runs: 2.1.264 and 2.1.266 shipped no itemized
+  changelog entries beyond bug fixes/reliability improvements — reviewed,
+  nothing to adopt; 2.1.270 and 2.1.272 are likewise compatibility-only bug-fix
+  releases with nothing to adopt beyond the version bump (2.1.270's one fix was
+  a 2.1.269 regression where read-only git commands in Bash unexpectedly
+  re-asked for permission in a long-running session). Adopted/documented above
+  under Added: the Discover/Browse missing-description fix and the marketplace-
+  description-authoritative change (both 2.1.265); the plugin-lifecycle
+  `--json` flags, `errorDetails`/`noteDetails` on `plugin list --json`, the
+  `/plugin` menu instant-apply extension to enable/disable, and the
+  git-source-URL secret redaction confirmation (all 2.1.268); `claude
+  plugin eval` plus the plugin-archive-extraction security hardening note
+  (both 2.1.269); and `--accept-command <sha256>` on `claude plugin
+  install`/`update` (2.1.271). Reviewed and not applicable, checked directly rather than
+  assumed: an enterprise `managed-mcp.json` parse-failure fix (2.1.271) — no
+  `managed-mcp.json` or managed MCP servers are configured for this personal
+  catalog; `omitClaudeMd` agent frontmatter / `--agents` JSON (2.1.271) — this
+  catalog ships no custom or plugin subagents; per-command `allowed_domains` on
+  Bash/PowerShell/Monitor in auto mode with sandboxing (2.1.271) — this
+  catalog's scripts declare no network-domain requirements and this guide
+  documents no Bash permission-rule examples; a `modelPricing` multiplier above
+  1 (2.1.271) — no gateway/chargeback configuration exists here; SECURITY fixes for a plugin path containing a backslash bypassing
+  the symlink containment check (2.1.265) and a marketplace entry path
+  containing a backslash bypassing the containment check (2.1.267) — `grep`
+  for a backslash across all three manifests found zero hits, and `find . -type
+  l` confirms no symlinks anywhere in this repo; `--plugin-dir` for
+  multi-plugin local hot-reload (2.1.265) — this repo's contributor workflow
+  never drives Claude Code against a local plugin folder; plugin directories
+  starting with `..` wrongly refused (2.1.265) — this catalog's entries are
+  always `github` sources, never local directories; a plugin's default
+  component folder silently skipped on a symlink loop (2.1.265) — no symlinks
+  anywhere in this repo; `claude plugin validate` rejecting a plugin path whose
+  directory name begins with two dots (2.1.268) — same reason, no
+  local-directory plugin paths here; a default monitors file or root
+  `SKILL.md` silently skipped when it couldn't be checked (2.1.268) — re-ran
+  `claude plugin validate --strict --json .agents/skills` live against the
+  2.1.268 CLI and it reports `"success": true` with an empty `contents` array,
+  so this catalog's root `SKILL.md` was already checked cleanly either way; a
+  bare-`!` deny/ask permission rule leaking beyond its settings source
+  (2.1.269) — this catalog documents no `Read()`/`Edit()` permission-rule
+  examples anywhere; organization plugins via managed settings not loading in
+  headless sessions (2.1.269) — no managed-org marketplace or
+  `enabledPlugins` configuration exists here; plugin `headersHelper` consent
+  prompts showing a misleading URL path (2.1.269) — none of this catalog's
+  three manifests use `headersHelper`; plugin errors showing `[redacted URL]`
+  for Windows paths starting with `@` (2.1.269) — no Windows-specific paths or
+  scripts here; and skills synced from claude.ai now named
+  `anthropic-skills:<name>` (2.1.269) — this catalog's own skill is a plain
+  repo skill, never cloud-synced. Everything else in 2.1.264–2.1.272 is
+  host/session/UI-side with zero marketplace-manifest, plugin-source, or
+  skill-loading surface. `claude plugin validate --strict --json
+  .agents/skills` (via `scripts/report-skill-validation.py`) and a full `make
+  validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in
+  sync, no drift) both passed clean, run against the 2.1.273 CLI available on
+  this run's runner as a regression check for the catalog's own tooling.
+
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
   look, trusted a waiver that could waive itself, and failed a ref that was already
