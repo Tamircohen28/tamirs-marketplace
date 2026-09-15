@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.270** |
+| **Validated against** | Claude Code **2.1.272** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.270 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.272 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -83,6 +83,14 @@ Each plugin's own repo documents its skills, commands, and integrations in detai
   `claude plugin list --json` also gained per-row `errorDetails` and `noteDetails` fields
   in 2.1.268, surfacing why a specific plugin failed to load or has a note attached
   without re-running `/doctor` or reading terminal output by hand.
+- Since Claude Code 2.1.271, `claude plugin install` and `claude plugin update` also
+  accept `--accept-command <sha256>`, which accepts exactly the command a previous
+  `--json` run displayed — pinning acceptance to the specific reviewed command instead
+  of the broader `-y`, e.g.:
+  ```bash
+  claude plugin install headhunter@tamirs-marketplace --json   # note the sha256 it prints
+  claude plugin install headhunter@tamirs-marketplace --accept-command <that sha256>
+  ```
 - Since Claude Code 2.1.269, `claude plugin eval` runs a plugin's own eval suite against
   Claude Code and produces a scored, reproducible report (JSON and HTML — see `claude
   plugin eval --help`). None of this catalog's three plugins ship an eval suite of their
@@ -257,6 +265,68 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.272
+
+Reviewed for catalog impact against the published changelog. `validated_against` and
+`latest_known` both advance from 2.1.270 to **2.1.272** together (no divergence). This
+run's runner has a live `claude` CLI, but it already reports `2.1.273 (Claude Code)` —
+one release ahead of this target — so it was used only to re-run `claude plugin validate
+--strict --json .agents/skills` and a full `make validate` as a regression check (both
+passed clean), not as live evidence about 2.1.271/2.1.272 behavior specifically; that
+review is changelog-based, following the same distinction the 2.1.258 entry below draws
+between a changelog-reviewed `latest_known` bump and a live-CLI `validated_against` one.
+2.1.272 itself shipped only "bug fixes and reliability improvements," with no itemized
+changelog entries — reviewed, nothing to adopt, matching the
+2.1.226/.../2.1.263/2.1.264/2.1.266 fix-only precedent.
+
+## Claude Code 2.1.271
+
+Reviewed for catalog impact against the published changelog (see the 2.1.272 entry above
+for why this wasn't a live-CLI run at the exact target version). One item is directly
+relevant and documented:
+
+- **`--accept-command <sha256>` added to `claude plugin install` and `claude plugin
+  update`.** Accepts exactly the command a previous `--json` run displayed, instead of
+  the broader `-y`. Documented above in Useful flags, alongside the existing 2.1.268
+  `--json` note this pairs with naturally — a contributor scripting a catalog install
+  smoke test can review the exact command once and then pin acceptance to it.
+
+Reviewed and found not applicable to this catalog, each checked directly rather than
+assumed:
+
+- **Enterprise `managed-mcp.json` parse-failure fix.** An unreadable or unparseable
+  `managed-mcp.json` now keeps exclusive MCP control (user, project, and plugin servers
+  don't load) and warns at startup, instead of being silently ignored. This personal
+  catalog configures no `managed-mcp.json` and no managed MCP servers at all (checked via
+  `grep` — the only existing mention of `managed-mcp.json` anywhere in this repo's docs
+  is the unrelated 2.1.259 `allowedMcpServers` scoping note above), so neither the old
+  silent-ignore bug nor the new warn-and-keep-control behavior was ever exercised here.
+- **`omitClaudeMd` added to agent frontmatter and `--agents` JSON.** Lets a custom or
+  plugin subagent run without loading user/project/local `CLAUDE.md` files. This catalog
+  ships no custom or plugin subagents of its own — only the `run-plugins-catalog`
+  contributor skill — so there is no agent frontmatter here for the new field to apply
+  to.
+- **Per-command `allowed_domains` on Bash, PowerShell, and Monitor in auto mode with
+  sandboxing.** This catalog's own scripts (`scripts/*.sh`, `scripts/*.py`) run local
+  checks only and declare no network-domain requirements of their own, and this guide
+  documents no Bash permission-rule examples for a consuming user to update either.
+- **`modelPricing`/gateway `pricing` multiplier above 1, up to 10.** No gateway or
+  internal-chargeback configuration exists for this personal catalog.
+
+Everything else in 2.1.271 — Remote/self-hosted-runner fast mode and
+`--drain-marker-file`, `/config` panel mouse support, the org-policy-cache and
+tool-list-refresh fixes, the `ANTHROPIC_UNIX_SOCKET` local-proxy fix, the cloud-session
+subagent hand-back schema-validation fix, the `/fast` fixes, the long run of
+Bash-permission-check/`git`/sandbox fixes (none touch this repo's own
+permission-rule-free docs), the MCP OAuth/tool-search/reconnect fixes, cross-session
+delivery notices, the background-command double-start fix, the
+`/model`/`/reload-skills`/`/resume`/`/teleport`/`--resume` fixes, the artifact-watching
+and Markdown-artifact-rendering improvements (this catalog publishes no artifacts of its
+own), terminal/rendering/spinner/hook-feedback polish, dynamic-workflow pause/resume,
+the Claude in Chrome messaging fix, and `claude mcp serve` progress pings — is
+host/session/CI-side with zero marketplace-manifest, plugin-source, or skill-loading
+surface.
 
 ## Claude Code 2.1.270
 
@@ -678,7 +748,7 @@ against the live 2.1.251 CLI.
 
 Reviewed for catalog impact, with a live 2.1.247 CLI available this run (the second
 consecutive run with direct CLI validation). Two items are directly about
-marketplace/catalog behavior and were checked for real against this repo, not
+marketplace/catalog behavior and got a real check against this repo, not
 assumed:
 
 - **Version-less marketplace plugin cache directory fix.** Before 2.1.247, installing
