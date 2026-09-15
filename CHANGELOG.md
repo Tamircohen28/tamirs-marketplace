@@ -52,25 +52,42 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   installed from here was ever exposed either way — documented in
   `docs/agent-guidelines/security.md` as a defense-in-depth entry alongside the
   existing git-source-URL redaction rule.
+- **`--accept-command <sha256>` on `claude plugin install`/`update` documented (Claude
+  Code 2.1.271).** Accepts exactly the command a previous `--json` run displayed,
+  instead of the broader `-y`. Documented in the install guide's Useful-flags section
+  alongside the existing 2.1.268 `--json` note, a natural pairing for a contributor
+  scripting a catalog install smoke test.
 
 ### Changed
 - **Platform target: Claude Code `validated_against` and `latest_known` both
-  2.1.270** (from 2.1.263), real direct CLI check — `claude --version` on this
-  run's runner reports `2.1.270 (Claude Code)`, continuing the run of live-CLI
-  validation since 2.1.257. Covers the full 2.1.264 → 2.1.270 delta across three
-  runs: 2.1.264 and 2.1.266 shipped no itemized changelog entries beyond bug
-  fixes/reliability improvements — reviewed, nothing to adopt; 2.1.270 is itself
-  a compatibility-only bug fix (a 2.1.269 regression where read-only git commands
-  in Bash unexpectedly re-asked for permission in a long-running session) —
-  reviewed, nothing to adopt beyond the version bump. Adopted/documented above
+  2.1.272** (from 2.1.263), reviewed against the published changelog — the live
+  `claude` CLI on this run's runner already reports `2.1.273 (Claude Code)`, one
+  release ahead of 2.1.272, so it was used only to re-run `claude plugin
+  validate --strict --json .agents/skills` and `make validate` as a regression
+  check, not as live evidence about 2.1.271/2.1.272 behavior specifically (see
+  the 2.1.258 precedent for that distinction). Covers the full 2.1.264 →
+  2.1.272 delta across four runs: 2.1.264 and 2.1.266 shipped no itemized
+  changelog entries beyond bug fixes/reliability improvements — reviewed,
+  nothing to adopt; 2.1.270 and 2.1.272 are likewise compatibility-only bug-fix
+  releases with nothing to adopt beyond the version bump (2.1.270's one fix was
+  a 2.1.269 regression where read-only git commands in Bash unexpectedly
+  re-asked for permission in a long-running session). Adopted/documented above
   under Added: the Discover/Browse missing-description fix and the marketplace-
   description-authoritative change (both 2.1.265); the plugin-lifecycle
   `--json` flags, `errorDetails`/`noteDetails` on `plugin list --json`, the
   `/plugin` menu instant-apply extension to enable/disable, and the
-  git-source-URL secret redaction confirmation (all 2.1.268); and `claude
+  git-source-URL secret redaction confirmation (all 2.1.268); `claude
   plugin eval` plus the plugin-archive-extraction security hardening note
-  (both 2.1.269). Reviewed and not applicable, checked directly rather than
-  assumed: SECURITY fixes for a plugin path containing a backslash bypassing
+  (both 2.1.269); and `--accept-command <sha256>` on `claude plugin
+  install`/`update` (2.1.271). Reviewed and not applicable, checked directly rather than
+  assumed: an enterprise `managed-mcp.json` parse-failure fix (2.1.271) — no
+  `managed-mcp.json` or managed MCP servers are configured for this personal
+  catalog; `omitClaudeMd` agent frontmatter / `--agents` JSON (2.1.271) — this
+  catalog ships no custom or plugin subagents; per-command `allowed_domains` on
+  Bash/PowerShell/Monitor in auto mode with sandboxing (2.1.271) — this
+  catalog's scripts declare no network-domain requirements and this guide
+  documents no Bash permission-rule examples; a `modelPricing` multiplier above
+  1 (2.1.271) — no gateway/chargeback configuration exists here; SECURITY fixes for a plugin path containing a backslash bypassing
   the symlink containment check (2.1.265) and a marketplace entry path
   containing a backslash bypassing the containment check (2.1.267) — `grep`
   for a backslash across all three manifests found zero hits, and `find . -type
@@ -97,12 +114,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   for Windows paths starting with `@` (2.1.269) — no Windows-specific paths or
   scripts here; and skills synced from claude.ai now named
   `anthropic-skills:<name>` (2.1.269) — this catalog's own skill is a plain
-  repo skill, never cloud-synced. Everything else in 2.1.264–2.1.270 is
+  repo skill, never cloud-synced. Everything else in 2.1.264–2.1.272 is
   host/session/UI-side with zero marketplace-manifest, plugin-source, or
   skill-loading surface. `claude plugin validate --strict --json
   .agents/skills` (via `scripts/report-skill-validation.py`) and a full `make
   validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in
-  sync, no drift) both passed clean against the live 2.1.270 CLI.
+  sync, no drift) both passed clean, run against the 2.1.273 CLI available on
+  this run's runner as a regression check for the catalog's own tooling.
 
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
