@@ -6,25 +6,35 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.272 | 2.1.272 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.273 | 2.1.273 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code now
-tracks **2.1.272**, reviewed on **2026-09-15** against the published changelog for
-2.1.271 and 2.1.272. This is a changelog-based bump, not a live-CLI validation of the
-exact target release — see the Claude Code 2.1.258 section of
-[claude-code.md](../../user/install/claude-code.md) for the precedent that distinction
-follows. The runner this run has a live `claude` CLI, but
-it already reports `2.1.273 (Claude Code)` — one release ahead of 2.1.272 — so it was
-used only to re-run `claude plugin validate --strict --json .agents/skills` and a full
-`make validate` as a regression check against this catalog's own tooling (both passed
-clean), not as evidence about 2.1.271/2.1.272-specific behavior. `validated_against` and
-`latest_known` both land on **2.1.272** together this run — no divergence, covering the
-2.1.270 → 2.1.272 delta. **2.1.272** shipped only "bug fixes and reliability
-improvements" with no itemized entries — reviewed, nothing to adopt, matching the
-2.1.263/2.1.264/2.1.266 fix-only precedent. **2.1.271** is the substantive delta:
+tracks **2.1.273**, validated live on **2026-09-16** — the runner's `claude --version`
+reports `2.1.273 (Claude Code)`, matching the target exactly (the prior run, on
+2026-09-15, landed one release behind the runner's live CLI and had to fall back to a
+changelog-based review for 2.1.271/2.1.272 — see the Claude Code 2.1.258 section of
+[claude-code.md](../../user/install/claude-code.md) for that precedent). `validated_against`
+and `latest_known` both land on **2.1.273** together this run — no divergence, covering
+the 2.1.272 → 2.1.273 delta. Reviewed the full published 2.1.273 changelog entry
+line by line: every New-Features line restates or extends an item from the 2.1.271
+delta already reviewed below (gateway hint headers, MCP-disconnect notification,
+`--remote-control` session forking, Remote Control fast mode, `/config` panel mouse
+support, `--drain-marker-file`, per-command `allowed_domains`, `omitClaudeMd`,
+`--accept-command <sha256>`, the `modelPricing` multiplier, and a spinner tip) — nothing
+new to adopt or exempt on a second look. None of 2.1.273's Bug Fixes, Improvements, or
+Changes entries touch marketplace-manifest, plugin-source, or skill-loading behavior;
+checked directly for the closest candidates: skills synced from claude.ai staying
+available after an org disables Skills (this catalog's own skill is a plain repo skill,
+never cloud-synced) and 'sign-in with a Claude account also requests access to your
+claude.ai plugins' (an account-scope change, not a marketplace or install-flow change).
+2.1.273's Platform-Specific entries (VSCode, Windows, Claude Code on the web, Claude Tag,
+Code Review) are all host/editor/chat-app-side with zero surface here. **2.1.272**
+shipped only "bug fixes and reliability improvements" with no itemized entries —
+reviewed, nothing to adopt, matching the 2.1.263/2.1.264/2.1.266 fix-only precedent.
+**2.1.271** is the most recent substantive delta:
 
 - **`--accept-command <sha256>` added to `claude plugin install` and `claude plugin
   update`.** Lets a script accept exactly the command a previous `--json` run
@@ -56,11 +66,11 @@ plugin-source, or skill-loading surface. The prior 2.1.270 review (2.1.269's `cl
 plugin eval` and archive-extraction security items, both documented; 2.1.270 itself a
 pure compatibility bump) and everything from 2.1.252 through 2.1.269 remain documented
 in the install guide's per-version sections; nothing about those prior reviews changes
-now. `.claude-plugin/marketplace.json` itself is unchanged — nothing from 2.1.271 or
-2.1.272 requires a manifest schema or field change. CI still runs `claude plugin
+now. `.claude-plugin/marketplace.json` itself is unchanged — nothing from 2.1.271 through
+2.1.273 requires a manifest schema or field change. CI still runs `claude plugin
 validate --strict --json .agents/skills` (via `make validate-skills`); it passed clean
-on this run (against a 2.1.273 CLI, per the caveat above), as did a full `make validate`
-(regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift). Codex
+on this run against the live 2.1.273 CLI, as did a full `make validate` (regenerate +
+validate manifests, `make agent:check`, 3 plugins in sync, no drift). Codex
 was revalidated against the **0.153.4** release on **2026-09-08** by comparing the
 0.148.0 → 0.153.4 release delta with this catalog's `.agents/plugins/marketplace.json`
 installation surface. That delta is additive for catalogs: 0.153.0 added
@@ -76,7 +86,7 @@ maintainer machine, and `opencode debug skill` with `skills.paths` pointed at th
 discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release notes turned up
 exactly one skills-related entry (a docs path fix, #42337) and no plugin-marketplace or
 plugin-manifest concept, so both OpenCode capability gaps below stand as written.
-Claude Code's **2026-09-15** review (above) is the most recent verification of any
+Claude Code's **2026-09-16** review (above) is the most recent verification of any
 target and is therefore the `last_reviewed` date. Each target's `verification_method` in
 the JSON records exactly how.
 
