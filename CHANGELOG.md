@@ -60,13 +60,28 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 - **Platform target: Claude Code `validated_against` and `latest_known` both
-  2.1.272** (from 2.1.263), reviewed against the published changelog — the live
-  `claude` CLI on this run's runner already reports `2.1.273 (Claude Code)`, one
-  release ahead of 2.1.272, so it was used only to re-run `claude plugin
-  validate --strict --json .agents/skills` and `make validate` as a regression
-  check, not as live evidence about 2.1.271/2.1.272 behavior specifically (see
-  the 2.1.258 precedent for that distinction). Covers the full 2.1.264 →
-  2.1.272 delta across four runs: 2.1.264 and 2.1.266 shipped no itemized
+  2.1.273** (from 2.1.263), validated live — the `claude` CLI on this run's
+  runner reports `2.1.273 (Claude Code)`, matching the target exactly (the
+  prior run in this same rolling window landed one release behind the live
+  CLI and fell back to a changelog-based review for 2.1.271/2.1.272; see the
+  2.1.258 precedent for that distinction). Reviewed the full 2.1.273 changelog
+  entry line by line: every New-Features line restates or extends an item
+  already reviewed in the 2.1.271 delta below (gateway hint headers,
+  MCP-disconnect notification, `--remote-control` session forking, Remote
+  Control fast mode, `/config` panel mouse support, `--drain-marker-file`,
+  per-command `allowed_domains`, `omitClaudeMd`, `--accept-command <sha256>`
+  — already adopted and documented, the `modelPricing` multiplier, and a
+  spinner tip) — nothing new to adopt on a second look. None of 2.1.273's Bug
+  Fixes, Improvements, or Changes entries touch marketplace-manifest,
+  plugin-source, or skill-loading behavior; checked directly for the closest
+  candidates: skills synced from claude.ai staying available after an org
+  disables Skills (this catalog's own skill is a plain repo skill, never
+  cloud-synced) and sign-in with a Claude account now also requesting access
+  to claude.ai plugins (an account-scope change, not a marketplace or
+  install-flow change). 2.1.273's VSCode/Windows/Claude-Code-on-the-web/
+  Claude-Tag/Code-Review platform-specific entries are all host/editor/
+  chat-app-side with zero surface here. Covers the full 2.1.264 →
+  2.1.273 delta across five runs: 2.1.264 and 2.1.266 shipped no itemized
   changelog entries beyond bug fixes/reliability improvements — reviewed,
   nothing to adopt; 2.1.270 and 2.1.272 are likewise compatibility-only bug-fix
   releases with nothing to adopt beyond the version bump (2.1.270's one fix was
@@ -114,13 +129,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   for Windows paths starting with `@` (2.1.269) — no Windows-specific paths or
   scripts here; and skills synced from claude.ai now named
   `anthropic-skills:<name>` (2.1.269) — this catalog's own skill is a plain
-  repo skill, never cloud-synced. Everything else in 2.1.264–2.1.272 is
+  repo skill, never cloud-synced. Everything else in 2.1.264–2.1.273 is
   host/session/UI-side with zero marketplace-manifest, plugin-source, or
   skill-loading surface. `claude plugin validate --strict --json
   .agents/skills` (via `scripts/report-skill-validation.py`) and a full `make
   validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in
-  sync, no drift) both passed clean, run against the 2.1.273 CLI available on
-  this run's runner as a regression check for the catalog's own tooling.
+  sync, no drift) both passed clean against the live 2.1.273 CLI.
 
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
