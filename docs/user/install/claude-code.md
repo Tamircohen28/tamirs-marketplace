@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.272** |
+| **Validated against** | Claude Code **2.1.273** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.272 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.273 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -265,6 +265,54 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.273
+
+Reviewed for catalog impact, with a **live 2.1.273 CLI** available this run (`claude
+--version` on the runner reports `2.1.273 (Claude Code)`) — matching the target exactly,
+unlike the prior run (see the 2.1.272 entry below), which was one release behind the
+runner's live CLI and had to fall back to a changelog-based review. `validated_against`
+and `latest_known` both advance from 2.1.272 to **2.1.273** together (no divergence).
+
+Every item in 2.1.273's New Features section restates or extends something already
+reviewed in the 2.1.271 delta below — gateway hint request headers
+(`x-claude-code-request-class` etc.), an MCP-server-disconnect notification, forking a
+`--remote-control`/`/remote-control` session, Remote Control fast mode, `/config` panel
+mouse support, `claude self-hosted-runner --drain-marker-file`, per-command
+`allowed_domains` on Bash/PowerShell/Monitor in auto mode, `omitClaudeMd`,
+`--accept-command <sha256>` (already adopted and documented above in Useful flags as of
+2.1.271), the `modelPricing`/gateway `pricing` multiplier, and a Bedrock/Vertex/
+Foundry/gateway spinner tip. None of these are new surface for this personal,
+manifest-only catalog — checked again rather than assumed, the same reasoning from the
+2.1.271 review below still applies (no managed MCP config, no custom/plugin subagents, no
+Bash permission-rule examples in this repo's docs, no gateway/chargeback pricing).
+
+None of 2.1.273's Bug Fixes, Improvements, or Changes entries touch marketplace-manifest,
+plugin-source, or skill-loading behavior. Checked directly for the two closest
+candidates:
+
+- **Skills synced from claude.ai staying available after an organization turns Skills
+  off (now moved to the recoverable trash).** This catalog's own skill
+  (`.agents/skills/run-plugins-catalog`) is a plain repo skill, never synced from
+  claude.ai — matching the existing 2.1.269 `anthropic-skills:<name>` finding above — so
+  this fix changes nothing here.
+- **Sign-in with a Claude account now also requests access to your claude.ai plugins.**
+  An account-authorization-scope change with no marketplace-manifest or install-flow
+  effect: it governs what a signed-in *session* can reach on claude.ai, not what this
+  catalog publishes or how `claude plugin marketplace add` resolves it.
+
+Everything else in 2.1.273 — the reverted 2.1.268 Read/Edit-deny-rule-on-unanalyzable-
+Bash-lines change, the context-meter/auto-compact miscount fix, the doubled-ellipsis
+spinner fix, `/tui` restart fix, scheduled-task worktree-copy fix, SDK/stream-json
+subagent-backgrounding fix, `/login`/`/upgrade`/Bedrock-Vertex-Foundry credential-message
+improvements, `OTEL_LOG_TOOL_DETAILS` real-name tagging, `/bug`/`/feedback` payload
+trimming, the auto-mode local-classifier default on Bedrock/Vertex/Foundry, and the full
+VSCode/Windows/Claude-Code-on-the-web/Claude-Tag/Code-Review platform-specific list — is
+host/session/editor/chat-app-side with zero marketplace-manifest, plugin-source, or
+skill-loading surface. `claude plugin validate --strict --json .agents/skills` (piped
+through `scripts/report-skill-validation.py`) and a full `make validate` (regenerate +
+validate manifests, `make agent:check`, 3 plugins in sync, no drift) both passed clean
+against the live 2.1.273 CLI. Nothing to adopt beyond the version bump.
 
 ## Claude Code 2.1.272
 
