@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.273** |
+| **Validated against** | Claude Code **2.1.274** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.273 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.274 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -265,6 +265,38 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.274
+
+Reviewed for catalog impact, with a **live 2.1.274 CLI** available this run (`claude
+--version` on the runner reports `2.1.274 (Claude Code)`) — matching the target exactly.
+`validated_against` and `latest_known` both advance from 2.1.273 to **2.1.274** together
+(no divergence). 2.1.274 shipped exactly four changelog entries; reviewed all of them
+directly for catalog surface:
+
+- **Git LFS files in plugin/marketplace clones now stay pointers instead of
+  downloading.** This catalog carries no LFS-tracked assets — checked via `git lfs
+  ls-files` (empty output) and confirmed there is no `.gitattributes` file in the repo —
+  so this change has no effect here.
+- **Fixed a plugin loaded from a `.zip` being served from a stale extraction after
+  overlapping reloads.** Every plugin entry in `.claude-plugin/marketplace.json` uses
+  `"source": "github"` — AGENTS.md's Off-limits section forbids changing that — so the
+  `.zip`/archive install path this bug affected is never exercised by this catalog.
+- **Fixed plugins with a top-level `$schema` key in `hooks/hooks.json` wrongly showing an
+  'unknown key' notice.** Checked directly: this repo ships no `hooks.json` file
+  anywhere (confirmed with a GitHub code search and a repo-wide `find`). The
+  `run-plugins-catalog` skill's own frontmatter carries an empty `hooks: {}` map, a
+  different and unrelated field, so this fix has nothing to touch here.
+- **Added `CLAUDE_CODE_MCP_STARTUP_WAIT_MS`.** Tunes how long Claude Code waits for an
+  MCP server to finish starting before giving up. This catalog defines no MCP servers of
+  its own — the "MCP server stubs" mentioned in the plugin table above belong to the
+  `tamirs-superpowers` plugin's own repository, not to this manifest-only catalog.
+
+None of the four touch marketplace-manifest, plugin-source, or skill-loading behavior in
+a way this catalog can act on. `claude plugin validate --strict --json .agents/skills`
+(piped through `scripts/report-skill-validation.py`) and a full `make validate`
+(regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) both
+passed clean against the live 2.1.274 CLI. Nothing to adopt beyond the version bump.
 
 ## Claude Code 2.1.273
 
