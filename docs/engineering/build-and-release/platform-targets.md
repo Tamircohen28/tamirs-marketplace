@@ -6,35 +6,48 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.273 | 2.1.273 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.274 | 2.1.274 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code now
-tracks **2.1.273**, validated live on **2026-09-16** — the runner's `claude --version`
-reports `2.1.273 (Claude Code)`, matching the target exactly (the prior run, on
-2026-09-15, landed one release behind the runner's live CLI and had to fall back to a
-changelog-based review for 2.1.271/2.1.272 — see the Claude Code 2.1.258 section of
-[claude-code.md](../../user/install/claude-code.md) for that precedent). `validated_against`
-and `latest_known` both land on **2.1.273** together this run — no divergence, covering
-the 2.1.272 → 2.1.273 delta. Reviewed the full published 2.1.273 changelog entry
-line by line: every New-Features line restates or extends an item from the 2.1.271
-delta already reviewed below (gateway hint headers, MCP-disconnect notification,
-`--remote-control` session forking, Remote Control fast mode, `/config` panel mouse
-support, `--drain-marker-file`, per-command `allowed_domains`, `omitClaudeMd`,
-`--accept-command <sha256>`, the `modelPricing` multiplier, and a spinner tip) — nothing
-new to adopt or exempt on a second look. None of 2.1.273's Bug Fixes, Improvements, or
-Changes entries touch marketplace-manifest, plugin-source, or skill-loading behavior;
-checked directly for the closest candidates: skills synced from claude.ai staying
-available after an org disables Skills (this catalog's own skill is a plain repo skill,
-never cloud-synced) and 'sign-in with a Claude account also requests access to your
-claude.ai plugins' (an account-scope change, not a marketplace or install-flow change).
-2.1.273's Platform-Specific entries (VSCode, Windows, Claude Code on the web, Claude Tag,
-Code Review) are all host/editor/chat-app-side with zero surface here. **2.1.272**
-shipped only "bug fixes and reliability improvements" with no itemized entries —
-reviewed, nothing to adopt, matching the 2.1.263/2.1.264/2.1.266 fix-only precedent.
-**2.1.271** is the most recent substantive delta:
+tracks **2.1.274**, validated live on **2026-09-17** — the runner's `claude --version`
+reports `2.1.274 (Claude Code)`, matching the target exactly. `validated_against` and
+`latest_known` both land on **2.1.274** together this run — no divergence, covering the
+2.1.273 → 2.1.274 delta. Reviewed the full published 2.1.274 changelog entry line by
+line, all four items:
+
+- **Git LFS files in plugin/marketplace clones now stay pointers instead of
+  downloading.** This catalog carries no LFS-tracked assets — checked via `git lfs
+  ls-files` (empty) and the absence of any `.gitattributes` file — so nothing changes
+  here.
+- **A plugin loaded from a `.zip` could be served from a stale extraction after
+  overlapping reloads (fixed).** Every plugin in `.claude-plugin/marketplace.json` uses
+  `"source": "github"` exclusively — AGENTS.md's Off-limits section forbids changing
+  that — so the `.zip`/archive source path this fix touches is never exercised by this
+  catalog.
+- **Plugins with a top-level `$schema` key in `hooks/hooks.json` wrongly showed an
+  'unknown key' notice (fixed).** Checked directly: this repo ships no `hooks.json`
+  anywhere (confirmed via GitHub code search and a repo-wide `find`). The
+  `run-plugins-catalog` skill's frontmatter has an empty `hooks: {}` map, which is a
+  different, unrelated field.
+- **New `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` environment variable.** Tunes how long Claude
+  Code waits for an MCP server to start. This catalog defines no MCP servers of its
+  own — the "MCP server stubs" mentioned in the README belong to the
+  `tamirs-superpowers` plugin's own repository, out of scope for a manifest-only
+  catalog.
+
+None of 2.1.274's four entries touch marketplace-manifest, plugin-source, or
+skill-loading behavior in a way this catalog can act on. `claude plugin validate
+--strict --json .agents/skills` and a full `make validate` (regenerate + validate
+manifests, `make agent:check`, 3 plugins in sync, no drift) both passed clean against
+the live 2.1.274 CLI. **2.1.273** shipped nothing new either (every New-Features line
+restated or extended the 2.1.271 delta below; no Bug-Fix/Improvement/Change entries
+touched catalog surface) and **2.1.272** shipped only "bug fixes and reliability
+improvements" with no itemized entries — both reviewed previously, nothing to adopt,
+matching the 2.1.263/2.1.264/2.1.266 fix-only precedent. **2.1.271** remains the most
+recent substantive delta:
 
 - **`--accept-command <sha256>` added to `claude plugin install` and `claude plugin
   update`.** Lets a script accept exactly the command a previous `--json` run
@@ -67,9 +80,9 @@ plugin eval` and archive-extraction security items, both documented; 2.1.270 its
 pure compatibility bump) and everything from 2.1.252 through 2.1.269 remain documented
 in the install guide's per-version sections; nothing about those prior reviews changes
 now. `.claude-plugin/marketplace.json` itself is unchanged — nothing from 2.1.271 through
-2.1.273 requires a manifest schema or field change. CI still runs `claude plugin
+2.1.274 requires a manifest schema or field change. CI still runs `claude plugin
 validate --strict --json .agents/skills` (via `make validate-skills`); it passed clean
-on this run against the live 2.1.273 CLI, as did a full `make validate` (regenerate +
+on this run against the live 2.1.274 CLI, as did a full `make validate` (regenerate +
 validate manifests, `make agent:check`, 3 plugins in sync, no drift). Codex
 was revalidated against the **0.153.4** release on **2026-09-08** by comparing the
 0.148.0 → 0.153.4 release delta with this catalog's `.agents/plugins/marketplace.json`
@@ -86,7 +99,7 @@ maintainer machine, and `opencode debug skill` with `skills.paths` pointed at th
 discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release notes turned up
 exactly one skills-related entry (a docs path fix, #42337) and no plugin-marketplace or
 plugin-manifest concept, so both OpenCode capability gaps below stand as written.
-Claude Code's **2026-09-16** review (above) is the most recent verification of any
+Claude Code's **2026-09-17** review (above) is the most recent verification of any
 target and is therefore the `last_reviewed` date. Each target's `verification_method` in
 the JSON records exactly how.
 
