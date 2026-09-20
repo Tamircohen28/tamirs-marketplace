@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Cursor 3.11 (+2026-09-10 / desktop 3.21.13):** bump desktop pin **3.18.9 → 3.21.13** (covers open rolling PR that advanced through **3.20.17** / **2026-09-10** Projects, plus tonight's download line **3.21.13** and CLI **2026-08-26** `agent persist`). Feature write-up remains **3.11**. Cursor-only; other platform nightlies untouched.
 - **`/plugin` Discover/Browse missing-description fix documented (Claude Code
   2.1.265).** Before 2.1.265, browsing a plugin that exists only as a marketplace
   entry (not yet installed) could show no description at all. Re-confirmed all

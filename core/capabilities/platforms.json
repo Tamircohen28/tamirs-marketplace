@@ -481,7 +481,7 @@
             },
             "plugin_marketplace": {
               "status": "native",
-              "since": "3.18.9",
+              "since": "3.21.13",
               "validation": "python3 scripts/validate-marketplaces.py",
               "notes": "Canonical artifact: .cursor-plugin/marketplace.json (generated from the Claude manifest by `make generate`). Method A (Teams/Enterprise): Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo. Method B (any plan, bypasses the catalog): clone a single plugin repo and symlink it into ~/.cursor/plugins/local/."
             },
