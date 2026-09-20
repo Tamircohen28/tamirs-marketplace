@@ -57,11 +57,44 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   instead of the broader `-y`. Documented in the install guide's Useful-flags section
   alongside the existing 2.1.268 `--json` note, a natural pairing for a contributor
   scripting a catalog install smoke test.
+- **`claude plugin install`/`/plugin install --marketplace <source>` documented (Claude
+  Code 2.1.275).** Names the marketplace explicitly instead of relying on the
+  `name@marketplace` suffix. Documented in the install guide's Useful-flags section as
+  the way to disambiguate a plugin install once both this catalog and a plugin's own
+  standalone marketplace are added.
+- **Terminal-session syncing of claude.ai skills/plugins documented (Claude Code
+  2.1.275).** The `@synced` behavior documented under 2.1.239 (cloud sessions only)
+  now also applies to terminal sessions, with `syncClaudeAiSkills: false` /
+  `syncClaudeAiPlugins: false` opt-outs. Documented alongside the existing 2.1.239
+  section in the install guide.
+- **AGENTS.md-as-CLAUDE.md-fallback noted (Claude Code 2.1.277).** In a project with no
+  CLAUDE.md, Claude Code now reads AGENTS.md directly. This repo ships both (`CLAUDE.md`
+  imports `AGENTS.md`), so nothing changes here, but AGENTS.md now documents that it is
+  also read directly by Claude Code on any project lacking a CLAUDE.md of its own.
+- **TaskOutput tool removal reviewed (Claude Code 2.1.277).** A breaking change —
+  searched every skill, doc, and script in this repo (`search_code` for `TaskOutput`)
+  and found zero references, so nothing here is affected.
 
 ### Changed
 - **Platform target: Claude Code `validated_against` and `latest_known` both
-  2.1.274** (from 2.1.263), validated live — the `claude` CLI on this run's
-  runner reports `2.1.274 (Claude Code)`, matching the target exactly. Reviewed
+  2.1.278** (from 2.1.263), reviewed by changelog for the 2.1.275 → 2.1.278 delta
+  (no `claude` CLI on this run's runner; see below for the prior run's live
+  2.1.274 verification). 2.1.276 shipped no itemized entries beyond bug fixes —
+  reviewed, nothing to adopt. 2.1.278 changed Auto mode's default classifier for
+  API/Enterprise/Bedrock/Vertex/Foundry/gateway users to the server-side one
+  (`CLAUDE_CODE_AUTO_MODE_SERVER=0` to opt out) plus a new `/status` row — a
+  billing/runtime change with no marketplace-manifest, plugin-source, or
+  skill-loading surface here. `scripts/validate-marketplaces.py` (JSON schema +
+  plugin-name parity across the three generated manifests) was run locally
+  against the updated files and passed; `claude plugin validate --strict --json
+  .agents/skills` could not be re-run live this cycle (no CLI on the runner) —
+  CI's `skill-validate` job runs it for real on every push. The
+  2.1.275/2.1.277 items adopted above (`--marketplace <source>`, terminal-session
+  claude.ai sync, the AGENTS.md fallback note, and the TaskOutput removal review)
+  are the only new catalog-facing surface in the 2.1.275 → 2.1.278 delta. Prior to
+  this run, `validated_against` and `latest_known` reached 2.1.274, validated
+  live — the `claude` CLI on that run's runner reported `2.1.274 (Claude Code)`,
+  matching the target exactly. Reviewed
   the full 2.1.274 changelog entry line by line, all four items: Git LFS files
   in plugin/marketplace clones now stay pointers instead of downloading — this
   catalog has no LFS-tracked assets (`git lfs ls-files` is empty, no
