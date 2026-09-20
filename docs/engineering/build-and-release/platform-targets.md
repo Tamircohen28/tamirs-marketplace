@@ -7,7 +7,7 @@ enforced by `scripts/check-platform-targets.sh`.
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.273 | 2.1.273 | [claude-code.md](../../user/install/claude-code.md) |
-| Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
+| Cursor | 3.21.13 | 3.21.13 | 3.21.13 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
@@ -78,8 +78,8 @@ remote-marketplace support to the `codex plugin` CLI (#42150) and began upgradin
 marketplaces from merged configuration (#42149), while #41953's marketplace source
 policy applies only to OpenAI-curated plugins. The portable catalog shape is unchanged.
 Codex is validated documentarily — the CLI is not installed on the review machine, which
-is why `verification_method` in the JSON says so rather than implying a live run. Cursor was revalidated against **3.18.9** on **2026-09-06** (changelog through the
-date-only **2026-09-02** Self-Hosted Machines entry). OpenCode was revalidated against
+is why `verification_method` in the JSON says so rather than implying a live run. Cursor was revalidated against **3.21.13** on **2026-09-20** (changelog through the
+date-only **2026-09-10** Projects entry; desktop **3.21.13**; CLI through **2026-08-26**). OpenCode was revalidated against
 **1.18.29** on **2026-09-08** — `opencode --version` reported `1.18.29` on the
 maintainer machine, and `opencode debug skill` with `skills.paths` pointed at this repo's
 `.agents/skills` resolved `run-plugins-catalog` to its `SKILL.md`, so native skill
@@ -96,7 +96,7 @@ Both of these were fiction before 2026-08-03:
 
 - **Cursor `0.45.0`** predates Cursor's plugin system entirely — a 0.x release could never
   have imported a team marketplace. Cursor's docs state **no** minimum version for plugins,
-  so the floor is now the version this catalog was actually validated on (3.18.9) rather
+  so the floor is now the version this catalog was actually validated on (3.21.13) rather
   than a guess.
 - **Codex `0.40.0`** is kept as the floor because that is the earliest release this catalog
   has claimed `.agents/plugins/marketplace.json` support for. The catalog was exercised on

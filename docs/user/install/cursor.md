@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.18.9** |
-| **Minimum supported** | **3.18.9** |
+| **Validated against** | Cursor **3.21.13** |
+| **Minimum supported** | **3.21.13** |
 | **Changelog covered through** | feature **3.11** + date-only entries to **2026-09-02** (see [`.cursor-version`](../../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
@@ -16,7 +16,7 @@ cursor --version
 
 ## About the version floor
 
-Cursor's documentation states **no minimum version** for plugins. The 3.18.9 floor here is
+Cursor's documentation states **no minimum version** for plugins. The 3.21.13 floor here is
 simply the version this catalog was actually validated on, not a limit Cursor imposes. The
 previous floor in this repo was `0.45.0`, which predates Cursor's plugin system entirely —
 it could never have worked.
@@ -83,10 +83,16 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
-## Working tips (3.11 → 2026-08-27; desktop CLI 3.18.9; Grok 4.6)
+
+## Projects (2026-09-10)
+
+Cursor **Projects** (left nav) suit multi-week catalog / multi-plugin work. A **coordinator** plans and delegates (does not write code); **shared context** syncs across cloud and local agents; **subscriptions** can watch Slack, schedules, or all PRs. Prefer a Project when validating marketplace + plugin repos together across days; keep one-shot `make validate` / docs edits as ordinary Agent chats. Complements Self-Hosted Machines (2026-09-02) and Cloud Agents ([changelog](https://cursor.com/changelog)).
+
+## Working tips (3.11 → 2026-09-10; desktop CLI 3.21.13; CLI 2026-08-26)
 - **Start from scratch / no SCM (2026-08-27)** — Cloud Agents can begin without a connected GitHub repo: pick **Start from scratch**, prompt, then **Create repo** into Origin. Use **browser port-forward preview**; optional **Vercel publish**. GitHub remains canonical for marketplace installs and CI.
 
-- **Desktop CLI patch line** — pin is **3.18.9** (download line 2026-08-18; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-19** (cloud-agent subscriptions / custom modes / isolated subagent VMs / `/goal` / steering).
+- **Desktop CLI patch line** — pin is **3.21.13** (download line 2026-08-18; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 26). Newest feature write-up remains **3.11**; newest date-only entry **2026-09-10** (Projects) (cloud-agent subscriptions / custom modes / isolated subagent VMs / `/goal` / steering).
+- **CLI persistent sessions (2026-08-26)** — `agent persist` / `/detach` / `agent persist attach` keep long `make validate` / marketplace checks alive across disconnects ([CLI changelog](https://cursor.com/docs/cli/changelog)).
 - **Custom Modes (2026-08-19)** — from `/`, pick a skill and press ⌥⏎ / Alt+Enter → **Use as Mode** to keep a catalogued plugin skill pinned for the chat (always-on playbook). Prefer for long install/verify sessions.
 - **`/goal` + non-interruptive steering (2026-08-19)** — long-lived objectives with `/goal`; Cloud Agents also expose native **CreateGoal** / **UpdateGoal** tools. Follow-ups wait for the next tool call (Send now, or ⏎ twice). CLI Aug 11 steer/`/goal` still apply for `agent` runs.
 - **Subscriptions (Cloud Agents, 2026-08-19)** — wake on PR / Slack / schedule; agents auto-subscribe to PRs they create. Use for unattended catalog CI triage Automations.

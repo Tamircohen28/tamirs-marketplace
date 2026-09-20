@@ -15,7 +15,7 @@
       "validated_against": "2.1.273",
       "latest_known": "2.1.273",
       "verified_on": "2026-09-16",
-      "verification_method": "Live CLI validation: this run's runner reports `claude --version` as `2.1.273 (Claude Code)`, matching the target exactly (the previous run, on 2026-09-15, was one release behind the runner's live CLI and had to fall back to a changelog-based review for the 2.1.271/2.1.272 delta — see the 2.1.258 precedent in platform-targets.md for that distinction). `validated_against` and `latest_known` both advance from 2.1.272 to **2.1.273** together (no divergence). Reviewed the full published 2.1.273 changelog entry line by line for catalog surface. Every New-Features line in 2.1.273 (gateway hint request headers, an MCP-disconnect notification, forking a `--remote-control` session, Remote Control fast mode, `/config` panel mouse support, `claude self-hosted-runner --drain-marker-file`, per-command `allowed_domains` on Bash/PowerShell/Monitor in auto mode, `omitClaudeMd`, `--accept-command <sha256>`, the `modelPricing`/gateway `pricing` multiplier, and the Bedrock/Vertex/Foundry/gateway spinner tip) restates or extends items already reviewed in the 2.1.271 delta (see the `-2.1.271` suffixed `features_adopted` entry below) — `--accept-command <sha256>` was already adopted and documented there, and the rest were already checked and found not applicable to this personal, manifest-only catalog (no managed MCP config, no custom/plugin subagents, no Bash permission-rule examples, no gateway/chargeback pricing); nothing changed on a second look. None of the 2.1.273 Bug Fixes, Improvements, or Changes entries touch marketplace-manifest, plugin-source, or skill-loading behavior either — checked directly for the closest candidates: the fix for skills synced from claude.ai staying available after an org turns Skills off (this catalog's own skill is a plain repo skill, never cloud-synced, matching the existing 2.1.269 `anthropic-skills:<name>` finding); `allowManagedMcpServersOnly`/`deniedMcpServers`/`disableClaudeAiConnectors` under MDM (no managed settings configured for this personal catalog); and 'sign-in with a Claude account also requests access to your claude.ai plugins' (an account-scope change with no marketplace-manifest or install-flow effect on this catalog). Platform-Specific (VSCode/Windows/web/Claude Tag/Code Review) entries are all host/editor/chat-app-side with zero surface here. `claude plugin validate --strict --json .agents/skills` (piped through `scripts/report-skill-validation.py`) and a full `make validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) both passed clean against the live 2.1.273 CLI. Nothing to adopt beyond the version bump — the prior 2.1.271 review (`--accept-command <sha256>`, documented) and 2.1.272 (pure compatibility bump) remain the most recent substantive and itemized deltas respectively; full per-version history remains in the install guide's per-version sections.",
+      "verification_method": "Live CLI validation: this run's runner reports `claude --version` as `2.1.273 (Claude Code)`, matching the target exactly (the previous run, on 2026-09-15, was one release behind the runner's live CLI and had to fall back to a changelog-based review for the 2.1.271/2.1.272 delta \u2014 see the 2.1.258 precedent in platform-targets.md for that distinction). `validated_against` and `latest_known` both advance from 2.1.272 to **2.1.273** together (no divergence). Reviewed the full published 2.1.273 changelog entry line by line for catalog surface. Every New-Features line in 2.1.273 (gateway hint request headers, an MCP-disconnect notification, forking a `--remote-control` session, Remote Control fast mode, `/config` panel mouse support, `claude self-hosted-runner --drain-marker-file`, per-command `allowed_domains` on Bash/PowerShell/Monitor in auto mode, `omitClaudeMd`, `--accept-command <sha256>`, the `modelPricing`/gateway `pricing` multiplier, and the Bedrock/Vertex/Foundry/gateway spinner tip) restates or extends items already reviewed in the 2.1.271 delta (see the `-2.1.271` suffixed `features_adopted` entry below) \u2014 `--accept-command <sha256>` was already adopted and documented there, and the rest were already checked and found not applicable to this personal, manifest-only catalog (no managed MCP config, no custom/plugin subagents, no Bash permission-rule examples, no gateway/chargeback pricing); nothing changed on a second look. None of the 2.1.273 Bug Fixes, Improvements, or Changes entries touch marketplace-manifest, plugin-source, or skill-loading behavior either \u2014 checked directly for the closest candidates: the fix for skills synced from claude.ai staying available after an org turns Skills off (this catalog's own skill is a plain repo skill, never cloud-synced, matching the existing 2.1.269 `anthropic-skills:<name>` finding); `allowManagedMcpServersOnly`/`deniedMcpServers`/`disableClaudeAiConnectors` under MDM (no managed settings configured for this personal catalog); and 'sign-in with a Claude account also requests access to your claude.ai plugins' (an account-scope change with no marketplace-manifest or install-flow effect on this catalog). Platform-Specific (VSCode/Windows/web/Claude Tag/Code Review) entries are all host/editor/chat-app-side with zero surface here. `claude plugin validate --strict --json .agents/skills` (piped through `scripts/report-skill-validation.py`) and a full `make validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) both passed clean against the live 2.1.273 CLI. Nothing to adopt beyond the version bump \u2014 the prior 2.1.271 review (`--accept-command <sha256>`, documented) and 2.1.272 (pure compatibility bump) remain the most recent substantive and itemized deltas respectively; full per-version history remains in the install guide's per-version sections.",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -67,14 +67,14 @@
       ]
     },
     "cursor": {
-      "supported_min": "3.18.9",
+      "supported_min": "3.21.13",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.18.9",
-      "latest_known": "3.18.9",
+      "validated_against": "3.21.13",
+      "latest_known": "3.21.13",
       "changelog_feature": "3.11",
-      "changelog_date": "2026-09-02",
-      "verified_on": "2026-09-06",
-      "verification_method": "latest desktop build from official Cursor download links (3.18.9, 2026-08-30 stable) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-09-02 Self-Hosted Machines / Team Pools / partner sandboxes / computer use); team-marketplace import is a Dashboard flow",
+      "changelog_date": "2026-09-10",
+      "verified_on": "2026-09-20",
+      "verification_method": "latest desktop build from official Cursor download API (3.21.13, 2026-09-18) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-09-10 Projects; prior Self-Hosted Machines 2026-09-02); CLI changelog through 2026-08-26 (agent persist); team-marketplace import is a Dashboard flow",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -120,7 +120,7 @@
         "agent-window-goal-2026-08-19",
         "non-interruptive-steering-2026-08-19",
         "native-create-goal-tools-docs-2026-08-19",
-        "desktop-cli-pin-3.18.9",
+        "desktop-cli-pin-3.21.13",
         "cloud-agent-start-from-scratch-2026-08-27",
         "origin-create-repo-from-scratch-2026-08-27",
         "cloud-agent-browser-preview-2026-08-27",
@@ -129,7 +129,13 @@
         "team-pools-dynamic-scheduling-2026-09-02",
         "partner-sandbox-workers-2026-09-02",
         "computer-use-linux-mac-self-hosted-2026-09-02",
-        "self-hosted-vs-gha-runners-docs-2026-09-02"
+        "self-hosted-vs-gha-runners-docs-2026-09-02",
+        "cursor-projects-2026-09-10",
+        "project-coordinator-agent-2026-09-10",
+        "project-shared-context-2026-09-10",
+        "project-subscriptions-2026-09-10",
+        "cli-persist-sessions-2026-08-26",
+        "desktop-cli-patch-3.21.13"
       ],
       "capabilities": [
         "marketplace",
@@ -163,7 +169,7 @@
       "validated_against": "1.18.29",
       "latest_known": "1.18.29",
       "verified_on": "2026-09-08",
-      "verification_method": "`opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
+      "verification_method": "`opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed \u2014 skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",
@@ -178,7 +184,7 @@
         "per-plugin-clone"
       ],
       "capability_gaps": {
-        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly \u2014 clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
         "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
       }
     }
