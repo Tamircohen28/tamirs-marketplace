@@ -40,9 +40,9 @@
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.29** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
 Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.278 was
-reviewed on 2026-09-20 against the published changelog covering the 2.1.274 → 2.1.278
-delta (no `claude` CLI on this run's runner; the prior run's live 2.1.274 verification
-stands for that baseline). Codex 0.153.4 was revalidated on 2026-09-08 against the
+reviewed by changelog on 2026-09-20 for the 2.1.274 → 2.1.278 delta, then confirmed live
+on 2026-09-21 — that run's runner had the `claude` CLI installed and `claude --version`
+reported `2.1.278 (Claude Code)`, matching the target exactly. Codex 0.153.4 was revalidated on 2026-09-08 against the
 0.148.0 → 0.153.4 release delta and this catalog's native `.agents/plugins/marketplace.json`
 surface. Floors, verification methods, and OpenCode's documented capability gaps:
 [platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
