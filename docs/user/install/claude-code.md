@@ -284,10 +284,14 @@ gateway sends (also since 2.1.260); older desktops ignore it.
 
 ## Claude Code 2.1.275 – 2.1.278
 
-Reviewed for catalog impact against the published changelog (no `claude` CLI available
-on this run's runner, unlike the prior 2.1.274 run — see that entry below for the last
-live-CLI verification). `validated_against` and `latest_known` both advance from 2.1.274
-to **2.1.278** together (no divergence).
+Reviewed for catalog impact against the published changelog on 2026-09-20 (no `claude`
+CLI on that run's runner). Confirmed live the following run, 2026-09-21 — that runner had
+the `claude` CLI installed and `claude --version` reported `2.1.278 (Claude Code)`,
+matching the target exactly; `make validate` (regenerate + validate manifests,
+`make agent:check`, 3 plugins in sync, no drift) and `claude plugin validate --strict
+--json .agents/skills` (via `make validate-skills`) both passed clean against that live
+CLI. `validated_against` and `latest_known` both advance from 2.1.274 to **2.1.278**
+together (no divergence).
 
 - **2.1.275** added `/plugin install <plugin> --marketplace <source>` for explicit
   marketplace targeting — documented above in Useful flags. It also extended syncing of
