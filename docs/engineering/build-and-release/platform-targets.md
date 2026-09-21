@@ -12,9 +12,12 @@ enforced by `scripts/check-platform-targets.sh`.
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 Claude Code now tracks **2.1.278**, reviewed on **2026-09-20** by changelog (no `claude`
-CLI on this run's runner; the prior run's live 2.1.274 verification stands for the
-2.1.274 baseline). `validated_against` and `latest_known` both land on **2.1.278**
-together this run — no divergence, covering the 2.1.274 → 2.1.278 delta:
+CLI on that run's runner; the prior run's live 2.1.274 verification stood for the
+2.1.274 baseline). Confirmed live the following run, **2026-09-21** — that runner had the
+`claude` CLI installed and `claude --version` reported `2.1.278 (Claude Code)`, matching
+the target exactly; `make validate` and `make validate-skills` both passed clean against
+it. `validated_against` and `latest_known` both land on **2.1.278** together — no
+divergence, covering the 2.1.274 → 2.1.278 delta:
 
 - **2.1.275:** Added `/plugin install <plugin> --marketplace <source>` for explicit
   marketplace targeting — documented in the install guide's Useful-flags section, useful
@@ -70,8 +73,8 @@ pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `S
 so native skill discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release
 notes turned up exactly one skills-related entry (a docs path fix, #42337) and no
 plugin-marketplace or plugin-manifest concept, so both OpenCode capability gaps below
-stand as written. Claude Code's **2026-09-20** review (above) is the most recent
-verification of any target and is therefore the `last_reviewed` date. Each target's
+stand as written. Claude Code's **2026-09-21** live-CLI confirmation (above) is the most
+recent verification of any target and is therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
 
 ## Two corrected version floors
