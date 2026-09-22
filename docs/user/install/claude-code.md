@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.278** |
+| **Validated against** | Claude Code **2.1.280** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.278 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.280 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -130,6 +130,15 @@ when a plugin name might exist in more than one marketplace you've added.
 
 Updating the *catalog* (`marketplace update`) refreshes the plugin list — which plugins
 exist and where they point. Updating a *plugin* fetches its source.
+
+> **Before Claude Code 2.1.280,** updating a plugin installed from a GitHub repository
+> (as all three of this catalog's plugins are) could leave `installed_plugins.json`
+> pointing at the **install-time commit** instead of the commit `plugin update` actually
+> fetched — so the recorded commit could silently lag what you're really running. Fixed
+> in 2.1.280. This never changed what code Claude Code loaded, only what commit the
+> lockfile-style record claimed; on an older CLI, don't rely on `installed_plugins.json`
+> alone to know which commit of `tamirs-superpowers`, `jose-claudinho`, or `headhunter`
+> you're on after an update — re-check with `claude plugin list --json`, or upgrade.
 
 ### Plugins synced from claude.ai (2.1.239+, terminal sessions since 2.1.275)
 
@@ -281,6 +290,42 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.280
+
+Reviewed for catalog impact against the published changelog, then confirmed live —
+this run's runner has the `claude` CLI installed and `claude --version` reports
+`2.1.280 (Claude Code)`, matching the target exactly. `make validate` (regenerate +
+validate manifests, `make agent:check`, 3 plugins in sync, no drift) and
+`make validate-skills` (`claude plugin validate --strict --json .agents/skills`) were
+both re-run against that live CLI and passed clean, as was
+`scripts/check-platform-targets.sh --assert-current`. `validated_against` and
+`latest_known` both advance from 2.1.278 to **2.1.280** together — no divergence.
+2.1.279 shipped no published changelog entry, so the reviewed delta is 2.1.278 → 2.1.280
+directly.
+
+- Added **Claude Opus 5.5** as the new default Opus model, and mouse support to more
+  lists including `/skills list` and the `/plugin` skill state options — both host/model
+  changes with no marketplace-manifest, plugin-source, or skill-loading surface here.
+- Fixed `installed_plugins.json` keeping the **install-time commit** after updating a
+  plugin installed from a GitHub repository — documented above in Update, since all
+  three of this catalog's plugins use `github` sources and are exactly the install shape
+  this fix applies to.
+- Fixed skills in `~/.claude/skills/` being wrongly moved to `.trash/` when a
+  `manifest.json` listed their names. Checked this repo end to end: no `manifest.json`
+  exists anywhere in this tree (`.agents/skills/run-plugins-catalog/` ships only a
+  `SKILL.md`, and none of the three plugin manifests this catalog points to are
+  `manifest.json`-named), so this catalog itself never triggered the bug — but it's
+  worth flagging for anyone packaging a plugin skill with a `manifest.json` alongside it
+  (see `docs/agent-guidelines/security.md`).
+- Fixed a disabled skill showing the same red ✘ as a failed-to-load plugin — a disabled
+  skill now shows a dim ◯ instead, distinguishing "you turned this off" from "this
+  failed to load." Fixed `/plugin`/`/skills`/`/mcp` search-box and `⚠`-vs-`△` icon
+  display inconsistencies. All four are terminal-UI-only fixes with nothing for this
+  catalog's docs to change — this guide never depicted or relied on those glyphs.
+
+Nothing in 2.1.280 requires a manifest schema or field change, and nothing new was
+adopted beyond documenting the `installed_plugins.json` commit fix above.
 
 ## Claude Code 2.1.275 – 2.1.278
 
