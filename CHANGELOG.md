@@ -79,6 +79,22 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   runner has `claude` 2.1.278 installed, so `claude --version` now confirms the target
   live, and `make validate` plus `make validate-skills` (`claude plugin validate
   --strict --json .agents/skills`) were both re-run against it and passed clean.
+- **`installed_plugins.json` commit-staleness fix noted (Claude Code 2.1.280).** Before
+  2.1.280, updating a plugin installed from a GitHub repository could leave
+  `installed_plugins.json` recording the install-time commit instead of the commit the
+  update actually fetched. Directly relevant since all three of this catalog's plugins
+  use `github` sources — documented in the install guide's Update section.
+- **`manifest.json` skill-trash bug reviewed (Claude Code 2.1.280).** Before 2.1.280, a
+  `manifest.json` listing a skill's name could cause Claude Code to wrongly move that
+  skill in `~/.claude/skills/` into `.trash/`. Searched this repo end to end and found
+  no `manifest.json` anywhere, so this catalog never triggered it — noted as a
+  defense-in-depth entry in `docs/agent-guidelines/security.md` for anyone developing a
+  plugin skill locally.
+- **Claude Code 2.1.280 live-CLI confirmation.** This run's runner has `claude` 2.1.280
+  installed and `claude --version` confirms it live, continuing from the prior 2.1.278
+  live confirmation (2.1.279 shipped no published changelog entry). `make validate`,
+  `make validate-skills`, and `scripts/check-platform-targets.sh --assert-current` were
+  all re-run against it and passed clean.
 
 ### Changed
 - **Platform target: Claude Code `validated_against` and `latest_known` both
@@ -96,7 +112,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   the live 2.1.278 CLI and passed clean. The
   2.1.275/2.1.277 items adopted above (`--marketplace <source>`, terminal-session
   claude.ai sync, the AGENTS.md fallback note, and the TaskOutput removal review)
-  are the only new catalog-facing surface in the 2.1.275 → 2.1.278 delta. Prior to
+  are the only new catalog-facing surface in the 2.1.275 → 2.1.278 delta.
+- **Platform target: Claude Code `validated_against` and `latest_known` both
+  2.1.280** (from 2.1.278), confirmed live this run — the runner's `claude --version`
+  reports `2.1.280 (Claude Code)`, matching the target exactly. 2.1.279 shipped no
+  published changelog entry, so the reviewed delta is 2.1.278 → 2.1.280 directly:
+  Claude Opus 5.5 as the default Opus model and more list mouse support (no manifest
+  surface); the `installed_plugins.json` commit-staleness fix and the `manifest.json`
+  skill-trash fix (both noted above, in Update and in `security.md` respectively); and
+  a disabled-skill icon fix plus `/plugin`/`/skills`/`/mcp` icon-consistency fixes
+  (terminal-UI-only). `make validate`, `make validate-skills`
+  (`claude plugin validate --strict --json .agents/skills`), and
+  `scripts/check-platform-targets.sh --assert-current` were all re-run against the
+  live 2.1.280 CLI and passed clean. Prior to
   this run, `validated_against` and `latest_known` reached 2.1.274, validated
   live — the `claude` CLI on that run's runner reported `2.1.274 (Claude Code)`,
   matching the target exactly. Reviewed
