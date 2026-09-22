@@ -6,18 +6,19 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.278 | 2.1.278 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.280 | 2.1.280 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
-Claude Code now tracks **2.1.278**, reviewed on **2026-09-20** by changelog (no `claude`
-CLI on that run's runner; the prior run's live 2.1.274 verification stood for the
-2.1.274 baseline). Confirmed live the following run, **2026-09-21** — that runner had the
-`claude` CLI installed and `claude --version` reported `2.1.278 (Claude Code)`, matching
-the target exactly; `make validate` and `make validate-skills` both passed clean against
-it. `validated_against` and `latest_known` both land on **2.1.278** together — no
-divergence, covering the 2.1.274 → 2.1.278 delta:
+Claude Code now tracks **2.1.280**, reviewed live on **2026-09-22** — this run's runner
+has the `claude` CLI installed and `claude --version` reported `2.1.280 (Claude Code)`,
+matching the target exactly, continuing the live-CLI confirmation from the prior
+2.1.278 run (2026-09-21). `make validate`, `make validate-skills`, and
+`scripts/check-platform-targets.sh --assert-current` all passed clean against it.
+`validated_against` and `latest_known` both land on **2.1.280** together — no
+divergence. 2.1.279 shipped no published changelog entry, so the reviewed delta is
+2.1.278 → 2.1.280 directly:
 
 - **2.1.275:** Added `/plugin install <plugin> --marketplace <source>` for explicit
   marketplace targeting — documented in the install guide's Useful-flags section, useful
@@ -51,13 +52,24 @@ divergence, covering the 2.1.274 → 2.1.278 delta:
   overhead), with `CLAUDE_CODE_AUTO_MODE_SERVER=0` to opt out, plus a new "Auto mode
   server" `/status` row. A billing/runtime behavior with zero marketplace-manifest,
   plugin-source, or skill-loading surface for this catalog.
+- **2.1.280:** Added Claude Opus 5.5 as the default Opus model and mouse support to more
+  lists (`/skills list`, `/plugin` skill state options) — host/model changes with no
+  manifest surface. Fixed `installed_plugins.json` keeping the install-time commit after
+  updating a plugin installed from a GitHub repository — relevant since all three of
+  this catalog's plugins use `github` sources; documented in the install guide's Update
+  section. Fixed skills in `~/.claude/skills/` being wrongly moved to `.trash/` when a
+  `manifest.json` listed their names — checked this repo end to end and found no
+  `manifest.json` anywhere, so this catalog never triggered it, but noted in
+  `docs/agent-guidelines/security.md` for anyone developing a plugin skill locally.
+  Also fixed a disabled skill sharing the same red ✘ as a failed-to-load plugin (now a
+  dim ◯) and `/plugin`/`/skills`/`/mcp` search-box-border and `⚠`-vs-`△` icon
+  inconsistencies — terminal-UI-only, no doc surface.
 
-None of the 2.1.275 → 2.1.278 delta requires a manifest schema or field change.
-`claude plugin validate --strict --json .agents/skills` could not be re-run live this
-cycle (no CLI on the runner) — CI's `skill-validate` job runs it for real on every push —
-but the structural checks (`scripts/validate-marketplaces.py`: JSON schema and
-plugin-name parity across the three generated manifests) were run locally against the
-updated files and passed. Codex was revalidated against the **0.153.4** release on
+None of the 2.1.275 → 2.1.280 delta requires a manifest schema or field change.
+`claude plugin validate --strict --json .agents/skills` (via `make validate-skills`) and
+the structural checks (`scripts/validate-marketplaces.py`: JSON schema and plugin-name
+parity across the three generated manifests) were both re-run live against the 2.1.280
+CLI and passed. Codex was revalidated against the **0.153.4** release on
 **2026-09-08** by comparing the 0.148.0 → 0.153.4 release delta with this catalog's
 `.agents/plugins/marketplace.json` installation surface. That delta is additive for
 catalogs: 0.153.0 added remote-marketplace support to the `codex plugin` CLI (#42150)
@@ -73,7 +85,7 @@ pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `S
 so native skill discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release
 notes turned up exactly one skills-related entry (a docs path fix, #42337) and no
 plugin-marketplace or plugin-manifest concept, so both OpenCode capability gaps below
-stand as written. Claude Code's **2026-09-21** live-CLI confirmation (above) is the most
+stand as written. Claude Code's **2026-09-22** live-CLI confirmation (above) is the most
 recent verification of any target and is therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
 

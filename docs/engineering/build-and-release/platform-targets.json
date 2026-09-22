@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-09-21",
+  "last_reviewed": "2026-09-22",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.278",
-      "latest_known": "2.1.278",
-      "verified_on": "2026-09-21",
-      "verification_method": "Changelog-based revalidation on 2026-09-20 covering the 2.1.275 → 2.1.278 delta on top of the prior run's live-CLI 2.1.274 review, then confirmed live on 2026-09-21 — that run's runner had the `claude` CLI installed and `claude --version` reported `2.1.278 (Claude Code)`, matching the target exactly. `validated_against` and `latest_known` both advance from 2.1.274 to **2.1.278** together (no divergence). Reviewed each release: 2.1.275 added `/plugin install <plugin> --marketplace <source>` for explicit marketplace targeting when a plugin name exists in more than one added marketplace — documented in the install guide's Useful-flags section; also added syncing of skills/plugins enabled on the claude.ai account into terminal sessions (previously cloud-session-only), opt-out via `syncClaudeAiSkills: false` / `syncClaudeAiPlugins: false` — extends the existing 2.1.239 `@synced` documentation to terminal sessions, noted there; a plugin/marketplace secret-in-URL leak fix and a `marketplace update` fetch-failure-deletes-local-copy fix are both reviewed and inapplicable (this catalog's manifests use the credential-free `github`+`repo` shorthand, never a raw URL, and no consumer has reported a failed `marketplace update` against this repo). 2.1.276 shipped no itemized changelog entries beyond bug fixes — reviewed, nothing to adopt, matching the 2.1.264/2.1.266/2.1.270/2.1.272 fix-only precedent. 2.1.277 added AGENTS.md as a CLAUDE.md fallback for projects with no CLAUDE.md — this repo ships both, so contributors here are unaffected, but noted in AGENTS.md as now being read directly by Claude Code (not just imported via CLAUDE.md) on any project that lacks a CLAUDE.md of its own; **removed the deprecated TaskOutput tool** — searched the full repo (`search_code` for `TaskOutput`) and found zero references in any skill, doc, or script, so this breaking change has no effect here; the batch of `claude plugin install`-related bug fixes (reinstall-in-use, `/plugin` control-char stripping, property-named-plugin crashes, uninstalled plugins reappearing as failed rows, missing commit recording in `installed_plugins.json`, stale unpacked reload-preview copies) are reviewed and are host-side install-flow fixes with no manifest or skill surface for a catalog to act on. 2.1.278 changed Auto mode's default classifier for API/Enterprise/Bedrock/Vertex/Foundry/gateway users to the server-side one, with `CLAUDE_CODE_AUTO_MODE_SERVER=0` to opt out, and added an \"Auto mode server\" `/status` row — a billing/runtime behavior with no marketplace-manifest, plugin-source, or skill-loading surface for this catalog. `claude plugin validate --strict --json .agents/skills` (via `make validate-skills`) and a full `make validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) were both re-run against the live 2.1.278 CLI on 2026-09-21 and passed clean.",
+      "validated_against": "2.1.280",
+      "latest_known": "2.1.280",
+      "verified_on": "2026-09-22",
+      "verification_method": "Live-CLI revalidation on 2026-09-22 — this run's runner has the `claude` CLI installed and `claude --version` reports `2.1.280 (Claude Code)`, matching the target exactly, continuing the live-CLI confirmation from the prior 2.1.278 run. `validated_against` and `latest_known` both advance from 2.1.278 to **2.1.280** together (no divergence). 2.1.279 shipped no published changelog entry, so the reviewed delta is 2.1.278 → 2.1.280 directly: added Claude Opus 5.5 as the default Opus model and mouse support to more lists (`/skills list`, `/plugin` skill state options) — host/model changes with zero manifest surface; fixed `installed_plugins.json` keeping the install-time commit after updating a plugin from a GitHub repository — directly relevant since all three of this catalog's plugins use `github` sources, documented in the install guide's Update section; fixed skills in `~/.claude/skills/` being wrongly moved to `.trash/` when a `manifest.json` listed their names — checked this repo end to end (`find . -iname manifest.json`) and found none anywhere, so this catalog never triggered it, but noted in `docs/agent-guidelines/security.md` as a defense-in-depth entry for anyone developing a plugin skill locally; fixed a disabled skill showing the same red ✘ as a failed-to-load plugin (now a dim ◯) and fixed `/plugin`/`/skills`/`/mcp` search-box-border and `⚠`-vs-`△` icon inconsistencies — all terminal-UI-only fixes with no doc or manifest surface. `claude plugin validate --strict --json .agents/skills` (via `make validate-skills`), a full `make validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift), and `scripts/check-platform-targets.sh --assert-current` were all re-run against the live 2.1.280 CLI on 2026-09-22 and passed clean.",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -63,7 +63,9 @@
         "plugin-install-explicit-marketplace-flag-docs-2.1.275",
         "sync-claude-ai-terminal-sessions-docs-2.1.275",
         "agents-md-fallback-noted-2.1.277",
-        "taskoutput-removal-reviewed-2.1.277"
+        "taskoutput-removal-reviewed-2.1.277",
+        "installed-plugins-commit-staleness-fix-docs-2.1.280",
+        "manifest-json-skill-trash-fix-reviewed-2.1.280"
       ],
       "capabilities": [
         "marketplace",
