@@ -6,89 +6,103 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.273 | 2.1.273 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.281 | 2.1.281 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
-All four versions were read from the CLIs themselves on 2026-08-03. Claude Code now
-tracks **2.1.273**, validated live on **2026-09-16** — the runner's `claude --version`
-reports `2.1.273 (Claude Code)`, matching the target exactly (the prior run, on
-2026-09-15, landed one release behind the runner's live CLI and had to fall back to a
-changelog-based review for 2.1.271/2.1.272 — see the Claude Code 2.1.258 section of
-[claude-code.md](../../user/install/claude-code.md) for that precedent). `validated_against`
-and `latest_known` both land on **2.1.273** together this run — no divergence, covering
-the 2.1.272 → 2.1.273 delta. Reviewed the full published 2.1.273 changelog entry
-line by line: every New-Features line restates or extends an item from the 2.1.271
-delta already reviewed below (gateway hint headers, MCP-disconnect notification,
-`--remote-control` session forking, Remote Control fast mode, `/config` panel mouse
-support, `--drain-marker-file`, per-command `allowed_domains`, `omitClaudeMd`,
-`--accept-command <sha256>`, the `modelPricing` multiplier, and a spinner tip) — nothing
-new to adopt or exempt on a second look. None of 2.1.273's Bug Fixes, Improvements, or
-Changes entries touch marketplace-manifest, plugin-source, or skill-loading behavior;
-checked directly for the closest candidates: skills synced from claude.ai staying
-available after an org disables Skills (this catalog's own skill is a plain repo skill,
-never cloud-synced) and 'sign-in with a Claude account also requests access to your
-claude.ai plugins' (an account-scope change, not a marketplace or install-flow change).
-2.1.273's Platform-Specific entries (VSCode, Windows, Claude Code on the web, Claude Tag,
-Code Review) are all host/editor/chat-app-side with zero surface here. **2.1.272**
-shipped only "bug fixes and reliability improvements" with no itemized entries —
-reviewed, nothing to adopt, matching the 2.1.263/2.1.264/2.1.266 fix-only precedent.
-**2.1.271** is the most recent substantive delta:
+Claude Code now tracks **2.1.281**, reviewed live on **2026-09-23** — this run's runner
+has the `claude` CLI installed and `claude --version` reported `2.1.281 (Claude Code)`,
+matching the target exactly, continuing the live-CLI confirmation from the prior
+2.1.280 run (2026-09-22). `make validate`, `make validate-skills`, and
+`scripts/check-platform-targets.sh --assert-current` all passed clean against it.
+`validated_against` and `latest_known` both land on **2.1.281** together — no
+divergence. 2.1.279 shipped no published changelog entry, so the reviewed delta since
+2.1.278 is:
 
-- **`--accept-command <sha256>` added to `claude plugin install` and `claude plugin
-  update`.** Lets a script accept exactly the command a previous `--json` run
-  displayed, instead of the broader `-y`. Documented in the install guide's Useful-flags
-  section alongside the existing 2.1.268 `--json` note.
-- Reviewed and found not applicable, each checked directly: **enterprise
-  `managed-mcp.json` parse-failure fix** (an unreadable/unparseable file now keeps
-  exclusive MCP control and warns at startup instead of being silently ignored) — this
-  personal catalog configures no `managed-mcp.json` and no managed MCP servers (checked
-  via `grep`; the only existing mention of `managed-mcp.json` in this repo's docs is the
-  unrelated 2.1.259 `allowedMcpServers` scoping note); **`omitClaudeMd`** agent
-  frontmatter / `--agents` JSON field — this catalog ships no custom or plugin subagents,
-  only the `run-plugins-catalog` contributor skill; **per-command `allowed_domains` on
-  Bash/PowerShell/Monitor in auto mode with sandboxing** — this catalog's own scripts run
-  local checks only, with no network-domain requirements, and this repo documents no
-  Bash permission-rule examples for a consuming user to update either; **`modelPricing`
-  multiplier above 1** — no gateway or chargeback configuration exists here.
+- **2.1.275:** Added `/plugin install <plugin> --marketplace <source>` for explicit
+  marketplace targeting — documented in the install guide's Useful-flags section, useful
+  when a plugin name exists in more than one marketplace you've added. Added syncing of
+  skills/plugins enabled on the claude.ai account into **terminal** sessions (previously
+  cloud-session-only), opt-out via `syncClaudeAiSkills: false` / `syncClaudeAiPlugins:
+  false` — this extends the existing `@synced` behavior documented under 2.1.239 to
+  terminal sessions too, noted there. A plugin/marketplace secret-in-URL leak fix and a
+  `marketplace update` fetch-failure-deletes-local-copy fix are both reviewed and
+  inapplicable: this catalog's manifests use the credential-free `github`+`repo`
+  shorthand, never a raw URL with embedded credentials.
+- **2.1.276:** Shipped no itemized changelog entries beyond bug fixes — reviewed,
+  nothing to adopt, matching the 2.1.264/2.1.266/2.1.270/2.1.272 fix-only precedent.
+- **2.1.277:** Added **AGENTS.md as a CLAUDE.md fallback** — in a project with no
+  CLAUDE.md, Claude Code now reads AGENTS.md instead. This repo ships both `AGENTS.md`
+  and `CLAUDE.md` (the latter just imports the former), so contributors working in this
+  repo are unaffected either way, but it's now documented in `AGENTS.md` that the file is
+  read directly by Claude Code on any project that lacks its own CLAUDE.md, not only via
+  the `@AGENTS.md` import this repo's CLAUDE.md uses. **Removed the deprecated TaskOutput
+  tool** — a breaking change for anything referencing it. Searched the full repo
+  (`search_code` for `TaskOutput` across every skill, doc, and script) and found zero
+  references, so nothing here breaks. Also shipped a batch of `claude plugin
+  install`-related bug fixes (reinstalling a plugin version already in use, `/plugin`
+  stripping terminal control characters, property-named plugins/skills crashing
+  `/plugin`, uninstalled plugins reappearing as failed rows, plugins not recording their
+  commit in `installed_plugins.json`, plugin reload previews leaving unpacked copies
+  behind) — all host-side install-flow fixes with no marketplace-manifest or
+  skill-loading surface for a catalog to act on.
+- **2.1.278:** Changed Auto mode's default classifier for API/Enterprise/Bedrock/
+  Vertex/Foundry/gateway users to the server-side one (no billing for classifier
+  overhead), with `CLAUDE_CODE_AUTO_MODE_SERVER=0` to opt out, plus a new "Auto mode
+  server" `/status` row. A billing/runtime behavior with zero marketplace-manifest,
+  plugin-source, or skill-loading surface for this catalog.
+- **2.1.280:** Added Claude Opus 5.5 as the default Opus model and mouse support to more
+  lists (`/skills list`, `/plugin` skill state options) — host/model changes with no
+  manifest surface. Fixed `installed_plugins.json` keeping the install-time commit after
+  updating a plugin installed from a GitHub repository — relevant since all three of
+  this catalog's plugins use `github` sources; documented in the install guide's Update
+  section. Fixed skills in `~/.claude/skills/` being wrongly moved to `.trash/` when a
+  `manifest.json` listed their names — checked this repo end to end and found no
+  `manifest.json` anywhere, so this catalog never triggered it, but noted in
+  `docs/agent-guidelines/security.md` for anyone developing a plugin skill locally.
+  Also fixed a disabled skill sharing the same red ✘ as a failed-to-load plugin (now a
+  dim ◯) and `/plugin`/`/skills`/`/mcp` search-box-border and `⚠`-vs-`△` icon
+  inconsistencies — terminal-UI-only, no doc surface.
+- **2.1.281:** `claude plugin update` now resolves the scope a plugin is installed at
+  when `--scope` is omitted (previously it assumed user, failing for project-scoped
+  plugins) — documented in the install guide's Update section. `claude plugin validate`
+  gained a warning when a shell-form hook leaves `${CLAUDE_PLUGIN_ROOT}` unquoted, MCP
+  server checks on `.mcp.json` (silently-dropped entries, undeclared `${user_config.*}`
+  references, insecure URLs), and stopped flagging `privacyPolicyUrl`/`supportUrl` and
+  other listing metadata in `plugin.json` as unknown — documented in
+  `docs/agent-guidelines/testing.md`. This catalog ships no `hooks.json`, `.mcp.json` or
+  `plugin.json`, so none of those checks has anything to flag here (confirmed by
+  `claude plugin validate --strict .`); they do apply to the three plugin repos this
+  catalog points at. The remaining 2.1.281 entries (Claude apps gateway, auto mode,
+  session-resume and prompt-cache fixes, `--channels`/`--plugin-dir` fixes,
+  `"attribution": false`, `--agents` JSON files, `mcp_tool` hooks, `/batch` with
+  WorktreeCreate, `/plugin` and list UI polish, and the VSCode/web/Claude Tag/Code
+  Review items) are host/session/UI-side with no marketplace-manifest surface.
 
-Everything else in 2.1.271 (Remote/self-hosted-runner fast mode and
-`--drain-marker-file`, `/config` panel mouse support, org-policy-cache/tool-list-refresh
-fixes, `ANTHROPIC_UNIX_SOCKET` proxy fix, cloud-session subagent schema-validation fix,
-`/fast` fixes, the Bash-permission-check/`git`/sandbox fixes, MCP OAuth/tool-search/
-reconnect fixes, cross-session-message delivery notices, background-command double-start
-fix, `/model`/`/reload-skills`/`/resume`/`/teleport`/`--resume` fixes,
-artifact-watching/Markdown-artifact-rendering improvements, terminal/rendering/spinner/
-hook-feedback polish, dynamic-workflow pause/resume, Claude in Chrome messaging, and
-`claude mcp serve` progress pings) is host/session/CI-side with zero marketplace-manifest,
-plugin-source, or skill-loading surface. The prior 2.1.270 review (2.1.269's `claude
-plugin eval` and archive-extraction security items, both documented; 2.1.270 itself a
-pure compatibility bump) and everything from 2.1.252 through 2.1.269 remain documented
-in the install guide's per-version sections; nothing about those prior reviews changes
-now. `.claude-plugin/marketplace.json` itself is unchanged — nothing from 2.1.271 through
-2.1.273 requires a manifest schema or field change. CI still runs `claude plugin
-validate --strict --json .agents/skills` (via `make validate-skills`); it passed clean
-on this run against the live 2.1.273 CLI, as did a full `make validate` (regenerate +
-validate manifests, `make agent:check`, 3 plugins in sync, no drift). Codex
-was revalidated against the **0.153.4** release on **2026-09-08** by comparing the
-0.148.0 → 0.153.4 release delta with this catalog's `.agents/plugins/marketplace.json`
-installation surface. That delta is additive for catalogs: 0.153.0 added
-remote-marketplace support to the `codex plugin` CLI (#42150) and began upgrading Git
-marketplaces from merged configuration (#42149), while #41953's marketplace source
-policy applies only to OpenAI-curated plugins. The portable catalog shape is unchanged.
-Codex is validated documentarily — the CLI is not installed on the review machine, which
-is why `verification_method` in the JSON says so rather than implying a live run. Cursor was revalidated against **3.18.9** on **2026-09-06** (changelog through the
-date-only **2026-09-02** Self-Hosted Machines entry). OpenCode was revalidated against
-**1.18.29** on **2026-09-08** — `opencode --version` reported `1.18.29` on the
-maintainer machine, and `opencode debug skill` with `skills.paths` pointed at this repo's
-`.agents/skills` resolved `run-plugins-catalog` to its `SKILL.md`, so native skill
-discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release notes turned up
-exactly one skills-related entry (a docs path fix, #42337) and no plugin-marketplace or
-plugin-manifest concept, so both OpenCode capability gaps below stand as written.
-Claude Code's **2026-09-16** review (above) is the most recent verification of any
-target and is therefore the `last_reviewed` date. Each target's `verification_method` in
-the JSON records exactly how.
+None of the 2.1.275 → 2.1.281 delta requires a manifest schema or field change.
+`claude plugin validate --strict --json .agents/skills` (via `make validate-skills`) and
+the structural checks (`scripts/validate-marketplaces.py`: JSON schema and plugin-name
+parity across the three generated manifests) were both re-run live against the 2.1.281
+CLI and passed. Codex was revalidated against the **0.153.4** release on
+**2026-09-08** by comparing the 0.148.0 → 0.153.4 release delta with this catalog's
+`.agents/plugins/marketplace.json` installation surface. That delta is additive for
+catalogs: 0.153.0 added remote-marketplace support to the `codex plugin` CLI (#42150)
+and began upgrading Git marketplaces from merged configuration (#42149), while #41953's
+marketplace source policy applies only to OpenAI-curated plugins. The portable catalog
+shape is unchanged. Codex is validated documentarily — the CLI is not installed on the
+review machine, which is why `verification_method` in the JSON says so rather than
+implying a live run. Cursor was revalidated against **3.18.9** on **2026-09-06**
+(changelog through the date-only **2026-09-02** Self-Hosted Machines entry). OpenCode
+was revalidated against **1.18.29** on **2026-09-08** — `opencode --version` reported
+`1.18.29` on the maintainer machine, and `opencode debug skill` with `skills.paths`
+pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `SKILL.md`,
+so native skill discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release
+notes turned up exactly one skills-related entry (a docs path fix, #42337) and no
+plugin-marketplace or plugin-manifest concept, so both OpenCode capability gaps below
+stand as written. Claude Code's **2026-09-23** live-CLI confirmation (above) is the most
+recent verification of any target and is therefore the `last_reviewed` date. Each target's
+`verification_method` in the JSON records exactly how.
 
 ## Two corrected version floors
 

@@ -57,31 +57,126 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   instead of the broader `-y`. Documented in the install guide's Useful-flags section
   alongside the existing 2.1.268 `--json` note, a natural pairing for a contributor
   scripting a catalog install smoke test.
+- **`claude plugin install`/`/plugin install --marketplace <source>` documented (Claude
+  Code 2.1.275).** Names the marketplace explicitly instead of relying on the
+  `name@marketplace` suffix. Documented in the install guide's Useful-flags section as
+  the way to disambiguate a plugin install once both this catalog and a plugin's own
+  standalone marketplace are added.
+- **Terminal-session syncing of claude.ai skills/plugins documented (Claude Code
+  2.1.275).** The `@synced` behavior documented under 2.1.239 (cloud sessions only)
+  now also applies to terminal sessions, with `syncClaudeAiSkills: false` /
+  `syncClaudeAiPlugins: false` opt-outs. Documented alongside the existing 2.1.239
+  section in the install guide.
+- **AGENTS.md-as-CLAUDE.md-fallback noted (Claude Code 2.1.277).** In a project with no
+  CLAUDE.md, Claude Code now reads AGENTS.md directly. This repo ships both (`CLAUDE.md`
+  imports `AGENTS.md`), so nothing changes here, but AGENTS.md now documents that it is
+  also read directly by Claude Code on any project lacking a CLAUDE.md of its own.
+- **TaskOutput tool removal reviewed (Claude Code 2.1.277).** A breaking change —
+  searched every skill, doc, and script in this repo (`search_code` for `TaskOutput`)
+  and found zero references, so nothing here is affected.
+- **Claude Code 2.1.278 live-CLI confirmation.** The 2.1.275 → 2.1.278 delta below was
+  first reviewed by changelog only (no `claude` CLI on that run's runner); this run's
+  runner has `claude` 2.1.278 installed, so `claude --version` now confirms the target
+  live, and `make validate` plus `make validate-skills` (`claude plugin validate
+  --strict --json .agents/skills`) were both re-run against it and passed clean.
+- **`installed_plugins.json` commit-staleness fix noted (Claude Code 2.1.280).** Before
+  2.1.280, updating a plugin installed from a GitHub repository could leave
+  `installed_plugins.json` recording the install-time commit instead of the commit the
+  update actually fetched. Directly relevant since all three of this catalog's plugins
+  use `github` sources — documented in the install guide's Update section.
+- **`manifest.json` skill-trash bug reviewed (Claude Code 2.1.280).** Before 2.1.280, a
+  `manifest.json` listing a skill's name could cause Claude Code to wrongly move that
+  skill in `~/.claude/skills/` into `.trash/`. Searched this repo end to end and found
+  no `manifest.json` anywhere, so this catalog never triggered it — noted as a
+  defense-in-depth entry in `docs/agent-guidelines/security.md` for anyone developing a
+  plugin skill locally.
+- **Claude Code 2.1.280 live-CLI confirmation.** This run's runner has `claude` 2.1.280
+  installed and `claude --version` confirms it live, continuing from the prior 2.1.278
+  live confirmation (2.1.279 shipped no published changelog entry). `make validate`,
+  `make validate-skills`, and `scripts/check-platform-targets.sh --assert-current` were
+  all re-run against it and passed clean.
+- **`claude plugin update` scope resolution documented (Claude Code 2.1.281).** Without
+  `--scope`, the command now resolves the scope a plugin is installed at instead of
+  assuming user, so project-scoped installs update without `--scope project`. Documented
+  in the install guide's Update section, with the older-CLI workaround.
+- **New `claude plugin validate` hook/MCP checks documented (Claude Code 2.1.281).** A
+  warning for an unquoted `${CLAUDE_PLUGIN_ROOT}` in shell-form hooks, `.mcp.json` checks
+  (silently-dropped entries, undeclared `${user_config.*}`, insecure URLs), and no more
+  unknown-field reports for `privacyPolicyUrl`/`supportUrl`. Added a testing-guide bullet
+  for validating the plugin repos this catalog lists. This repo itself ships no
+  `hooks.json`, `.mcp.json` or `plugin.json` and carries no `privacyPolicyUrl`/`supportUrl`
+  workaround, so its own `claude plugin validate --strict .` run has nothing to flag.
+- **Claude Code 2.1.281 live-CLI confirmation.** This run's runner has `claude` 2.1.281
+  installed; `make validate`, `make validate-skills`,
+  `scripts/check-platform-targets.sh --assert-current` and
+  `claude plugin validate --strict .` all passed clean against it.
 
 ### Changed
 - **Platform target: Claude Code `validated_against` and `latest_known` both
-  2.1.273** (from 2.1.263), validated live — the `claude` CLI on this run's
-  runner reports `2.1.273 (Claude Code)`, matching the target exactly (the
-  prior run in this same rolling window landed one release behind the live
-  CLI and fell back to a changelog-based review for 2.1.271/2.1.272; see the
-  2.1.258 precedent for that distinction). Reviewed the full 2.1.273 changelog
-  entry line by line: every New-Features line restates or extends an item
-  already reviewed in the 2.1.271 delta below (gateway hint headers,
-  MCP-disconnect notification, `--remote-control` session forking, Remote
-  Control fast mode, `/config` panel mouse support, `--drain-marker-file`,
-  per-command `allowed_domains`, `omitClaudeMd`, `--accept-command <sha256>`
-  — already adopted and documented, the `modelPricing` multiplier, and a
-  spinner tip) — nothing new to adopt on a second look. None of 2.1.273's Bug
-  Fixes, Improvements, or Changes entries touch marketplace-manifest,
-  plugin-source, or skill-loading behavior; checked directly for the closest
-  candidates: skills synced from claude.ai staying available after an org
-  disables Skills (this catalog's own skill is a plain repo skill, never
-  cloud-synced) and sign-in with a Claude account now also requesting access
-  to claude.ai plugins (an account-scope change, not a marketplace or
-  install-flow change). 2.1.273's VSCode/Windows/Claude-Code-on-the-web/
-  Claude-Tag/Code-Review platform-specific entries are all host/editor/
-  chat-app-side with zero surface here. Covers the full 2.1.264 →
-  2.1.273 delta across five runs: 2.1.264 and 2.1.266 shipped no itemized
+  2.1.278** (from 2.1.263), reviewed by changelog for the 2.1.275 → 2.1.278 delta,
+  then confirmed live this run — the runner's `claude --version` reports `2.1.278
+  (Claude Code)`, matching the target exactly (see below for the prior run's live
+  2.1.274 verification). 2.1.276 shipped no itemized entries beyond bug fixes —
+  reviewed, nothing to adopt. 2.1.278 changed Auto mode's default classifier for
+  API/Enterprise/Bedrock/Vertex/Foundry/gateway users to the server-side one
+  (`CLAUDE_CODE_AUTO_MODE_SERVER=0` to opt out) plus a new `/status` row — a
+  billing/runtime change with no marketplace-manifest, plugin-source, or
+  skill-loading surface here. `scripts/validate-marketplaces.py` (JSON schema +
+  plugin-name parity across the three generated manifests), `make validate`, and
+  `claude plugin validate --strict --json .agents/skills` were all re-run against
+  the live 2.1.278 CLI and passed clean. The
+  2.1.275/2.1.277 items adopted above (`--marketplace <source>`, terminal-session
+  claude.ai sync, the AGENTS.md fallback note, and the TaskOutput removal review)
+  are the only new catalog-facing surface in the 2.1.275 → 2.1.278 delta.
+- **Platform target: Claude Code `validated_against` and `latest_known` both
+  2.1.281** (from 2.1.278), confirmed live this run — the runner's `claude --version`
+  reports `2.1.281 (Claude Code)`, matching the target exactly. 2.1.279 shipped no
+  published changelog entry, so the reviewed delta is 2.1.278 → 2.1.281 directly. In
+  2.1.281: the `claude plugin update` scope fix and the new `claude plugin validate`
+  hook/MCP checks (both adopted above); the `--plugin-dir`, `--channels`, `plugin
+  uninstall`, `known_marketplaces.json`, `"attribution": false`, `--agents`,
+  `mcp_tool`-hook and `/batch` items, the claude.ai-skill short-name display, and all
+  gateway, auto mode, session-resume, `/plugin` UI and platform-specific (VSCode/web/
+  Claude Tag/Code Review) entries have no marketplace-manifest, plugin-source, or
+  skill-loading surface here. In 2.1.280: Claude Opus 5.5 as the default Opus model and
+  more list mouse support (no manifest surface); the `installed_plugins.json`
+  commit-staleness fix and the `manifest.json` skill-trash fix (both noted above, in
+  Update and in `security.md` respectively); and a disabled-skill icon fix plus
+  `/plugin`/`/skills`/`/mcp` icon-consistency fixes (terminal-UI-only). `make validate`,
+  `make validate-skills` (`claude plugin validate --strict --json .agents/skills`), and
+  `scripts/check-platform-targets.sh --assert-current` were all re-run against the
+  live 2.1.281 CLI and passed clean. Prior to
+  this run, `validated_against` and `latest_known` reached 2.1.274, validated
+  live — the `claude` CLI on that run's runner reported `2.1.274 (Claude Code)`,
+  matching the target exactly. Reviewed
+  the full 2.1.274 changelog entry line by line, all four items: Git LFS files
+  in plugin/marketplace clones now stay pointers instead of downloading — this
+  catalog has no LFS-tracked assets (`git lfs ls-files` is empty, no
+  `.gitattributes`); a fix for a plugin loaded from a `.zip` being served from a
+  stale extraction after overlapping reloads — every plugin here uses
+  `"source": "github"`, never `.zip`/archive; a fix for plugins with a top-level
+  `$schema` key in `hooks/hooks.json` wrongly showing an 'unknown key' notice —
+  this repo ships no `hooks.json` anywhere; and the new
+  `CLAUDE_CODE_MCP_STARTUP_WAIT_MS` env var — this catalog defines no MCP
+  servers of its own. None of the four touch marketplace-manifest,
+  plugin-source, or skill-loading behavior in a way this catalog can act on.
+  2.1.273 was reviewed line by line the prior run: every New-Features line
+  restated or extended an item already reviewed in the 2.1.271 delta below
+  (gateway hint headers, MCP-disconnect notification, `--remote-control`
+  session forking, Remote Control fast mode, `/config` panel mouse support,
+  `--drain-marker-file`, per-command `allowed_domains`, `omitClaudeMd`,
+  `--accept-command <sha256>` — already adopted and documented, the
+  `modelPricing` multiplier, and a spinner tip) — nothing new to adopt on a
+  second look. None of 2.1.273's Bug Fixes, Improvements, or Changes entries
+  touch marketplace-manifest, plugin-source, or skill-loading behavior;
+  checked directly for the closest candidates: skills synced from claude.ai
+  staying available after an org disables Skills (this catalog's own skill is
+  a plain repo skill, never cloud-synced) and sign-in with a Claude account now
+  also requesting access to claude.ai plugins (an account-scope change, not a
+  marketplace or install-flow change). 2.1.273's VSCode/Windows/Claude-Code-on-
+  the-web/Claude-Tag/Code-Review platform-specific entries are all
+  host/editor/chat-app-side with zero surface here. Covers the full 2.1.264 →
+  2.1.274 delta across six runs: 2.1.264 and 2.1.266 shipped no itemized
   changelog entries beyond bug fixes/reliability improvements — reviewed,
   nothing to adopt; 2.1.270 and 2.1.272 are likewise compatibility-only bug-fix
   releases with nothing to adopt beyond the version bump (2.1.270's one fix was
@@ -129,12 +224,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   for Windows paths starting with `@` (2.1.269) — no Windows-specific paths or
   scripts here; and skills synced from claude.ai now named
   `anthropic-skills:<name>` (2.1.269) — this catalog's own skill is a plain
-  repo skill, never cloud-synced. Everything else in 2.1.264–2.1.273 is
+  repo skill, never cloud-synced. Everything else in 2.1.264–2.1.274 is
   host/session/UI-side with zero marketplace-manifest, plugin-source, or
   skill-loading surface. `claude plugin validate --strict --json
   .agents/skills` (via `scripts/report-skill-validation.py`) and a full `make
   validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in
-  sync, no drift) both passed clean against the live 2.1.273 CLI.
+  sync, no drift) both passed clean against the live 2.1.274 CLI.
 
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.273** |
+| **Validated against** | Claude Code **2.1.281** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.273 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.281 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -98,6 +98,14 @@ Each plugin's own repo documents its skills, commands, and integrations in detai
   contributor could add to any of the three plugin repos (or a future catalog entry) for
   a real, repeatable "does this plugin actually work" check, rather than eyeballing
   `claude plugin list` after a manual install.
+- Since Claude Code 2.1.275, `claude plugin install`/`/plugin install` accepts
+  `--marketplace <source>` to name the marketplace explicitly instead of relying on the
+  `name@marketplace` suffix, e.g. `claude plugin install headhunter --marketplace
+  tamirs-marketplace`. Useful once you've also added `Tamircohen28/headhunter`'s own
+  standalone marketplace (see "Installing a plugin standalone instead" below) — with
+  both added, a bare `headhunter` install could otherwise resolve ambiguously; naming
+  `--marketplace tamirs-marketplace` (or `--marketplace headhunter`) picks the source
+  without needing the fully-qualified `name@marketplace` form.
 
 ## Update
 
@@ -120,10 +128,26 @@ resolved, and `claude plugin update tamirs-superpowers` (without `@tamirs-market
 failed. Both forms now work; the fully-qualified form above stays the recommended one
 when a plugin name might exist in more than one marketplace you've added.
 
+Since Claude Code 2.1.281, `claude plugin update` without `--scope` resolves the scope
+the plugin is actually installed at instead of assuming user scope. Before that, updating
+a **project-scoped** install (for example one committed via a repo's
+`.claude/settings.json`) failed unless you passed `--scope project` explicitly. On an
+older CLI, pass `--scope project` (or `--scope local`) for those installs; on 2.1.281+
+the bare form works.
+
 Updating the *catalog* (`marketplace update`) refreshes the plugin list — which plugins
 exist and where they point. Updating a *plugin* fetches its source.
 
-### Plugins synced from claude.ai (2.1.239+)
+> **Before Claude Code 2.1.280,** updating a plugin installed from a GitHub repository
+> (as all three of this catalog's plugins are) could leave `installed_plugins.json`
+> pointing at the **install-time commit** instead of the commit `plugin update` actually
+> fetched — so the recorded commit could silently lag what you're really running. Fixed
+> in 2.1.280. This never changed what code Claude Code loaded, only what commit the
+> lockfile-style record claimed; on an older CLI, don't rely on `installed_plugins.json`
+> alone to know which commit of `tamirs-superpowers`, `jose-claudinho`, or `headhunter`
+> you're on after an update — re-check with `claude plugin list --json`, or upgrade.
+
+### Plugins synced from claude.ai (2.1.239+, terminal sessions since 2.1.275)
 
 Since Claude Code 2.1.239, a plugin synced into a cloud session from claude.ai shows up
 as `name@synced` — a distinct install source from `name@tamirs-marketplace` — and it
@@ -134,6 +158,14 @@ cloud session also syncs a plugin named `tamirs-superpowers` from claude.ai, the
 coexist as separate entries (`tamirs-superpowers@tamirs-marketplace` and
 `tamirs-superpowers@synced`) rather than one silently replacing the other. Nothing to do
 here — just don't be surprised to see both listed in `claude plugin list`.
+
+Since Claude Code 2.1.275, this syncing is no longer cloud-session-only: skills and
+plugins enabled on your claude.ai account now also sync into **terminal** sessions the
+same way, showing up with the same `@synced` suffix and the same non-override guarantee
+above. If you don't want that — for example to keep a terminal session limited to what
+this catalog installs — opt out per-machine with `syncClaudeAiSkills: false` and/or
+`syncClaudeAiPlugins: false` in settings. This catalog does not set either key itself;
+it's a personal preference for how you want claude.ai account state to show up locally.
 
 Since Claude Code 2.1.243, `/mcp` and `/plugins` also show a **`managed`** marker next to
 a connector whose authentication your organization controls centrally. That marker is
@@ -265,6 +297,182 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.281
+
+Reviewed for catalog impact against the published changelog, then confirmed live —
+this run's runner has the `claude` CLI installed and `claude --version` reports
+`2.1.281 (Claude Code)`, matching the target exactly. `make validate` (regenerate +
+validate manifests, `make agent:check`, 3 plugins in sync, no drift),
+`make validate-skills` (`claude plugin validate --strict --json .agents/skills`), and
+`scripts/check-platform-targets.sh --assert-current` were all re-run against that live
+CLI and passed clean, as did `claude plugin validate --strict .` on the marketplace
+manifest. `validated_against` and `latest_known` both advance from 2.1.280 to **2.1.281**
+together — no divergence.
+
+- Fixed `claude plugin update` failing for project-scoped plugins when `--scope` is
+  omitted — it now resolves the scope the plugin is installed at. Documented above in
+  Update.
+- Added **`claude plugin validate` checks** relevant to anyone maintaining one of the
+  three catalog plugins: a warning when a shell-form hook leaves `${CLAUDE_PLUGIN_ROOT}`
+  unquoted (it breaks on plugin paths with spaces; quote it or use exec form
+  `{"command": ..., "args": [...]}`), MCP server checks on `.mcp.json` (entries silently
+  dropped at load, undeclared `${user_config.*}` references, insecure URLs), and
+  `privacyPolicyUrl`/`supportUrl`/other listing metadata in `plugin.json` are no longer
+  reported as unknown fields. Plugin hook-failure errors also now name the offending
+  plugin. This catalog ships no `hooks.json`, `.mcp.json` or `plugin.json` (checked with
+  a repo-wide `find`) and its manifest carries no `privacyPolicyUrl`/`supportUrl`
+  workaround, so nothing here is flagged — the checks apply to the plugin repos. See
+  `docs/agent-guidelines/testing.md`.
+- Fixed `--plugin-dir` on a folder of plugins that also has a
+  `.claude-plugin/marketplace.json` loading one empty plugin, and `--channels` plugin
+  entries now requiring the installed plugin's name to match as well as its marketplace.
+  This catalog is added with `marketplace add`, not `--plugin-dir`, so neither changes
+  its install flow; anyone testing it locally with `--plugin-dir` on a checkout should
+  use 2.1.281+.
+- Fixed `claude plugin uninstall` refusing to remove a disabled project-scope plugin, and
+  `known_marketplaces.json` recording a marketplace as refreshed when its remote was
+  unreachable and `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` kept the old clone —
+  host-side lifecycle fixes with no manifest surface.
+- Skills synced from claude.ai now show by short name (not `anthropic-skills:<name>`) in
+  `/`, `/skills`, `/context` and `/plugin` when no other command uses it — display only;
+  this catalog's own skill is a plain repo skill.
+- Added `"attribution": false` in `settings.json`, `--agents` JSON-file support,
+  `mcp_tool` hooks waiting for MCP connect on blocking events, and `/batch` with a
+  WorktreeCreate hook. Reviewed: this repo commits no Claude Code settings (its commit
+  convention keeps the `Co-Authored-By` trailer), ships no subagents and no hooks, so
+  nothing to adopt here.
+
+The rest of 2.1.281 (Claude apps gateway `assume_role`/`guardrail`/telemetry config,
+auto mode and dangerous-`rm` changes, session-resume and prompt-cache fixes, `/plugin`
+and list-UI polish, vim mode, and the VSCode/web/Claude Tag/Code Review items) is
+host/session/UI-side with zero marketplace-manifest, plugin-source, or skill-loading
+surface. Nothing in 2.1.281 requires a manifest schema or field change.
+
+## Claude Code 2.1.280
+
+Reviewed for catalog impact against the published changelog, then confirmed live —
+this run's runner has the `claude` CLI installed and `claude --version` reports
+`2.1.280 (Claude Code)`, matching the target exactly. `make validate` (regenerate +
+validate manifests, `make agent:check`, 3 plugins in sync, no drift) and
+`make validate-skills` (`claude plugin validate --strict --json .agents/skills`) were
+both re-run against that live CLI and passed clean, as was
+`scripts/check-platform-targets.sh --assert-current`. `validated_against` and
+`latest_known` both advance from 2.1.278 to **2.1.280** together — no divergence.
+2.1.279 shipped no published changelog entry, so the reviewed delta is 2.1.278 → 2.1.280
+directly.
+
+- Added **Claude Opus 5.5** as the new default Opus model, and mouse support to more
+  lists including `/skills list` and the `/plugin` skill state options — both host/model
+  changes with no marketplace-manifest, plugin-source, or skill-loading surface here.
+- Fixed `installed_plugins.json` keeping the **install-time commit** after updating a
+  plugin installed from a GitHub repository — documented above in Update, since all
+  three of this catalog's plugins use `github` sources and are exactly the install shape
+  this fix applies to.
+- Fixed skills in `~/.claude/skills/` being wrongly moved to `.trash/` when a
+  `manifest.json` listed their names. Checked this repo end to end: no `manifest.json`
+  exists anywhere in this tree (`.agents/skills/run-plugins-catalog/` ships only a
+  `SKILL.md`, and none of the three plugin manifests this catalog points to are
+  `manifest.json`-named), so this catalog itself never triggered the bug — but it's
+  worth flagging for anyone packaging a plugin skill with a `manifest.json` alongside it
+  (see `docs/agent-guidelines/security.md`).
+- Fixed a disabled skill showing the same red ✘ as a failed-to-load plugin — a disabled
+  skill now shows a dim ◯ instead, distinguishing "you turned this off" from "this
+  failed to load." Fixed `/plugin`/`/skills`/`/mcp` search-box and `⚠`-vs-`△` icon
+  display inconsistencies. All four are terminal-UI-only fixes with nothing for this
+  catalog's docs to change — this guide never depicted or relied on those glyphs.
+
+Nothing in 2.1.280 requires a manifest schema or field change, and nothing new was
+adopted beyond documenting the `installed_plugins.json` commit fix above.
+
+## Claude Code 2.1.275 – 2.1.278
+
+Reviewed for catalog impact against the published changelog on 2026-09-20 (no `claude`
+CLI on that run's runner). Confirmed live the following run, 2026-09-21 — that runner had
+the `claude` CLI installed and `claude --version` reported `2.1.278 (Claude Code)`,
+matching the target exactly; `make validate` (regenerate + validate manifests,
+`make agent:check`, 3 plugins in sync, no drift) and `claude plugin validate --strict
+--json .agents/skills` (via `make validate-skills`) both passed clean against that live
+CLI. `validated_against` and `latest_known` both advance from 2.1.274 to **2.1.278**
+together (no divergence).
+
+- **2.1.275** added `/plugin install <plugin> --marketplace <source>` for explicit
+  marketplace targeting — documented above in Useful flags. It also extended syncing of
+  skills/plugins enabled on the claude.ai account from cloud-session-only to **terminal**
+  sessions too, with `syncClaudeAiSkills`/`syncClaudeAiPlugins` opt-outs — documented
+  above alongside the existing 2.1.239 `@synced` section. Two more 2.1.275 fixes were
+  reviewed and found not applicable: a fix for plugin/marketplace messages leaking
+  secrets or tokens embedded in URLs (this catalog's manifests use the credential-free
+  `github`+`repo` shorthand, never a raw URL with embedded credentials — the same
+  reasoning as the 2.1.268 git-source-URL redaction finding) and a fix for `claude plugin
+  marketplace update` deleting the local copy of a marketplace on a failed fetch (no
+  report of this affecting `tamirs-marketplace` specifically; the fix is a pure
+  reliability improvement to a command this guide's Update section already documents).
+- **2.1.276** shipped no itemized changelog entries beyond bug fixes and reliability
+  improvements — reviewed, nothing to adopt, matching the
+  2.1.264/2.1.266/2.1.270/2.1.272 fix-only precedent noted in earlier entries below.
+- **2.1.277** added **AGENTS.md as a fallback for CLAUDE.md** — in a project with no
+  CLAUDE.md, Claude Code now reads AGENTS.md instead. This repo ships both: `AGENTS.md`
+  is canonical and `CLAUDE.md` imports it with `@AGENTS.md` (see AGENTS.md's own header),
+  so nothing changes for contributors working in this repo — CLAUDE.md is present and
+  still wins — but it's worth knowing that AGENTS.md is now read directly by Claude Code
+  on any project that has no CLAUDE.md of its own, not only via an explicit import. 2.1.277
+  also **removed the deprecated TaskOutput tool**, a breaking change for any skill, hook,
+  or agent still referencing it. Searched this catalog's entire tree (`search_code` for
+  `TaskOutput` across every file) and found zero references — the `run-plugins-catalog`
+  skill and every doc here are unaffected. The remaining 2.1.277 entries are a batch of
+  `claude plugin install`-related bug fixes (reinstalling a plugin version already in
+  use, `/plugin` stripping terminal control characters, property-named plugins/skills
+  crashing `/plugin`, an uninstalled plugin reappearing as a failed row, a plugin's
+  commit not being recorded in `installed_plugins.json`, and a plugin reload preview
+  leaving an unpacked copy behind) — all host-side install-flow fixes with no
+  marketplace-manifest or skill-loading surface for this catalog to act on.
+- **2.1.278** changed Auto mode's default classifier for API/Enterprise/Bedrock/Vertex/
+  Foundry/gateway users to the server-side one (removing billing for classifier
+  overhead), with `CLAUDE_CODE_AUTO_MODE_SERVER=0` as an opt-out on Bedrock/Vertex/
+  Foundry/gateways, plus a new "Auto mode server" row in `/status`. A billing/runtime
+  change with zero marketplace-manifest, plugin-source, or skill-loading surface for a
+  manifest-only catalog like this one.
+
+None of 2.1.275 through 2.1.278 requires a manifest schema or field change.
+`claude plugin validate --strict --json .agents/skills` could not be re-run live this
+cycle (no CLI on the runner) — CI's `skill-validate` job runs it for real on every push —
+so this run instead re-ran the structural checks (`scripts/validate-marketplaces.py`:
+JSON schema plus plugin-name parity across the three generated manifests) locally
+against the updated files, and they passed. Nothing to adopt beyond the documented
+`--marketplace` flag and the terminal-sync opt-out above.
+
+## Claude Code 2.1.274
+
+Reviewed for catalog impact, with a **live 2.1.274 CLI** available this run (`claude
+--version` on the runner reports `2.1.274 (Claude Code)`) — matching the target exactly.
+`validated_against` and `latest_known` both advance from 2.1.273 to **2.1.274** together
+(no divergence). 2.1.274 shipped exactly four changelog entries; reviewed all of them
+directly for catalog surface:
+
+- **Git LFS files in plugin/marketplace clones now stay pointers instead of
+  downloading.** This catalog carries no LFS-tracked assets — checked via `git lfs
+  ls-files` (empty output) and confirmed there is no `.gitattributes` file in the repo —
+  so this change has no effect here.
+- **Fixed a plugin loaded from a `.zip` being served from a stale extraction after
+  overlapping reloads.** Every plugin entry in `.claude-plugin/marketplace.json` uses
+  `"source": "github"` — AGENTS.md's Off-limits section forbids changing that — so the
+  `.zip`/archive install path this bug affected is never exercised by this catalog.
+- **Fixed plugins with a top-level `$schema` key in `hooks/hooks.json` wrongly showing an
+  'unknown key' notice.** Checked directly: this repo ships no `hooks.json` file
+  anywhere (confirmed with a GitHub code search and a repo-wide `find`). The
+  `run-plugins-catalog` skill's own frontmatter carries an empty `hooks: {}` map, a
+  different and unrelated field, so this fix has nothing to touch here.
+- **Added `CLAUDE_CODE_MCP_STARTUP_WAIT_MS`.** Tunes how long Claude Code waits for an
+  MCP server to finish starting before giving up. This catalog defines no MCP servers of
+  its own — the "MCP server stubs" mentioned in the plugin table above belong to the
+  `tamirs-superpowers` plugin's own repository, not to this manifest-only catalog.
+
+None of the four touch marketplace-manifest, plugin-source, or skill-loading behavior in
+a way this catalog can act on. `claude plugin validate --strict --json .agents/skills`
+(piped through `scripts/report-skill-validation.py`) and a full `make validate`
+(regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift) both
+passed clean against the live 2.1.274 CLI. Nothing to adopt beyond the version bump.
 
 ## Claude Code 2.1.273
 

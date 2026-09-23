@@ -26,3 +26,11 @@ See [AGENTS.md](../../AGENTS.md) for the canonical off-limits list.
   future entry here (or a fork) does distribute a plugin as an `archive`
   source, treat the extracted directory as sensitive on any older CLI and
   prefer a Claude Code build 2.1.269 or later.
+- **Watch for a stray `manifest.json` next to a skill directory.** Before Claude Code
+  2.1.280, a `manifest.json` that listed a skill's name could cause Claude Code to
+  wrongly move that skill in `~/.claude/skills/` into `.trash/`. Fixed in 2.1.280. This
+  repo's own `.agents/skills/run-plugins-catalog/` ships only a `SKILL.md` and no
+  `manifest.json`, so this catalog never triggered it — but if you're developing a
+  plugin skill for `tamirs-superpowers`, `jose-claudinho`, or `headhunter` locally with
+  a `manifest.json` alongside it, prefer a Claude Code build 2.1.280 or later, or drop
+  the stray file.
