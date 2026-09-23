@@ -417,6 +417,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   since 2.1.238, an MCP server's own `headersHelper` (in a project `.mcp.json`, a
   plugin, or an agent file) requires trust-dialog acceptance and runs without
   inherited credential env vars.
+
 - **`make validate-skills`: native skill frontmatter validation (Claude Code
   2.1.233).** 2.1.233 makes `claude plugin validate` check bare `.claude/skills`
   directories and report `SKILL.md` files whose frontmatter fails to parse. This
