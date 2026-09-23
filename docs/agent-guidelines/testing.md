@@ -19,3 +19,13 @@ There is no application to run; "tests" here mean manifest validation.
   `@anthropic-ai/claude-code` on the runner and then calls `make validate-skills`,
   so a `SKILL.md` frontmatter error fails the build rather than passing silently
   through the local soft-skip.
+- **Validating a plugin repo this catalog points at.** This repo ships no `plugin.json`,
+  `hooks.json` or `.mcp.json`, so `claude plugin validate --strict .` here only checks the
+  marketplace manifest. When working on one of the listed plugins (`tamirs-superpowers`,
+  `jose-claudinho`, `headhunter`), run `claude plugin validate` against its
+  `.claude-plugin/plugin.json` too: since Claude Code 2.1.281 it warns when a shell-form
+  hook leaves `${CLAUDE_PLUGIN_ROOT}` unquoted (breaks on plugin paths with spaces —
+  quote it or use exec form), and checks `.mcp.json` for entries that would be silently
+  dropped, undeclared `${user_config.*}` references, and insecure URLs. It also no longer
+  reports `privacyPolicyUrl`/`supportUrl` as unknown `plugin.json` fields, so there is no
+  need to strip them to get a clean run on 2.1.281+.
