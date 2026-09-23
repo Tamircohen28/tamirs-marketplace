@@ -95,6 +95,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   live confirmation (2.1.279 shipped no published changelog entry). `make validate`,
   `make validate-skills`, and `scripts/check-platform-targets.sh --assert-current` were
   all re-run against it and passed clean.
+- **`claude plugin update` scope resolution documented (Claude Code 2.1.281).** Without
+  `--scope`, the command now resolves the scope a plugin is installed at instead of
+  assuming user, so project-scoped installs update without `--scope project`. Documented
+  in the install guide's Update section, with the older-CLI workaround.
+- **New `claude plugin validate` hook/MCP checks documented (Claude Code 2.1.281).** A
+  warning for an unquoted `${CLAUDE_PLUGIN_ROOT}` in shell-form hooks, `.mcp.json` checks
+  (silently-dropped entries, undeclared `${user_config.*}`, insecure URLs), and no more
+  unknown-field reports for `privacyPolicyUrl`/`supportUrl`. Added a testing-guide bullet
+  for validating the plugin repos this catalog lists. This repo itself ships no
+  `hooks.json`, `.mcp.json` or `plugin.json` and carries no `privacyPolicyUrl`/`supportUrl`
+  workaround, so its own `claude plugin validate --strict .` run has nothing to flag.
+- **Claude Code 2.1.281 live-CLI confirmation.** This run's runner has `claude` 2.1.281
+  installed; `make validate`, `make validate-skills`,
+  `scripts/check-platform-targets.sh --assert-current` and
+  `claude plugin validate --strict .` all passed clean against it.
 
 ### Changed
 - **Platform target: Claude Code `validated_against` and `latest_known` both
@@ -114,17 +129,23 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   claude.ai sync, the AGENTS.md fallback note, and the TaskOutput removal review)
   are the only new catalog-facing surface in the 2.1.275 → 2.1.278 delta.
 - **Platform target: Claude Code `validated_against` and `latest_known` both
-  2.1.280** (from 2.1.278), confirmed live this run — the runner's `claude --version`
-  reports `2.1.280 (Claude Code)`, matching the target exactly. 2.1.279 shipped no
-  published changelog entry, so the reviewed delta is 2.1.278 → 2.1.280 directly:
-  Claude Opus 5.5 as the default Opus model and more list mouse support (no manifest
-  surface); the `installed_plugins.json` commit-staleness fix and the `manifest.json`
-  skill-trash fix (both noted above, in Update and in `security.md` respectively); and
-  a disabled-skill icon fix plus `/plugin`/`/skills`/`/mcp` icon-consistency fixes
-  (terminal-UI-only). `make validate`, `make validate-skills`
-  (`claude plugin validate --strict --json .agents/skills`), and
+  2.1.281** (from 2.1.278), confirmed live this run — the runner's `claude --version`
+  reports `2.1.281 (Claude Code)`, matching the target exactly. 2.1.279 shipped no
+  published changelog entry, so the reviewed delta is 2.1.278 → 2.1.281 directly. In
+  2.1.281: the `claude plugin update` scope fix and the new `claude plugin validate`
+  hook/MCP checks (both adopted above); the `--plugin-dir`, `--channels`, `plugin
+  uninstall`, `known_marketplaces.json`, `"attribution": false`, `--agents`,
+  `mcp_tool`-hook and `/batch` items, the claude.ai-skill short-name display, and all
+  gateway, auto mode, session-resume, `/plugin` UI and platform-specific (VSCode/web/
+  Claude Tag/Code Review) entries have no marketplace-manifest, plugin-source, or
+  skill-loading surface here. In 2.1.280: Claude Opus 5.5 as the default Opus model and
+  more list mouse support (no manifest surface); the `installed_plugins.json`
+  commit-staleness fix and the `manifest.json` skill-trash fix (both noted above, in
+  Update and in `security.md` respectively); and a disabled-skill icon fix plus
+  `/plugin`/`/skills`/`/mcp` icon-consistency fixes (terminal-UI-only). `make validate`,
+  `make validate-skills` (`claude plugin validate --strict --json .agents/skills`), and
   `scripts/check-platform-targets.sh --assert-current` were all re-run against the
-  live 2.1.280 CLI and passed clean. Prior to
+  live 2.1.281 CLI and passed clean. Prior to
   this run, `validated_against` and `latest_known` reached 2.1.274, validated
   live — the `claude` CLI on that run's runner reported `2.1.274 (Claude Code)`,
   matching the target exactly. Reviewed
@@ -396,7 +417,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   since 2.1.238, an MCP server's own `headersHelper` (in a project `.mcp.json`, a
   plugin, or an agent file) requires trust-dialog acceptance and runs without
   inherited credential env vars.
-
 - **`make validate-skills`: native skill frontmatter validation (Claude Code
   2.1.233).** 2.1.233 makes `claude plugin validate` check bare `.claude/skills`
   directories and report `SKILL.md` files whose frontmatter fails to parse. This
