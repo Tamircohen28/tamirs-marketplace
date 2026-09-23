@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-09-22",
+  "last_reviewed": "2026-09-23",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.280",
-      "latest_known": "2.1.280",
-      "verified_on": "2026-09-22",
-      "verification_method": "Live-CLI revalidation on 2026-09-22 — this run's runner has the `claude` CLI installed and `claude --version` reports `2.1.280 (Claude Code)`, matching the target exactly, continuing the live-CLI confirmation from the prior 2.1.278 run. `validated_against` and `latest_known` both advance from 2.1.278 to **2.1.280** together (no divergence). 2.1.279 shipped no published changelog entry, so the reviewed delta is 2.1.278 → 2.1.280 directly: added Claude Opus 5.5 as the default Opus model and mouse support to more lists (`/skills list`, `/plugin` skill state options) — host/model changes with zero manifest surface; fixed `installed_plugins.json` keeping the install-time commit after updating a plugin from a GitHub repository — directly relevant since all three of this catalog's plugins use `github` sources, documented in the install guide's Update section; fixed skills in `~/.claude/skills/` being wrongly moved to `.trash/` when a `manifest.json` listed their names — checked this repo end to end (`find . -iname manifest.json`) and found none anywhere, so this catalog never triggered it, but noted in `docs/agent-guidelines/security.md` as a defense-in-depth entry for anyone developing a plugin skill locally; fixed a disabled skill showing the same red ✘ as a failed-to-load plugin (now a dim ◯) and fixed `/plugin`/`/skills`/`/mcp` search-box-border and `⚠`-vs-`△` icon inconsistencies — all terminal-UI-only fixes with no doc or manifest surface. `claude plugin validate --strict --json .agents/skills` (via `make validate-skills`), a full `make validate` (regenerate + validate manifests, `make agent:check`, 3 plugins in sync, no drift), and `scripts/check-platform-targets.sh --assert-current` were all re-run against the live 2.1.280 CLI on 2026-09-22 and passed clean.",
+      "validated_against": "2.1.281",
+      "latest_known": "2.1.281",
+      "verified_on": "2026-09-23",
+      "verification_method": "Live-CLI revalidation on 2026-09-23 — this run's runner has the `claude` CLI installed and `claude --version` reports `2.1.281 (Claude Code)`, matching the target exactly. `validated_against` and `latest_known` both advance from 2.1.280 to **2.1.281** together (no divergence). Reviewed the full published 2.1.281 changelog entry for catalog surface. Adopted/documented: `claude plugin update` now resolves the scope a plugin is installed at when `--scope` is omitted instead of assuming user (fixes project-scoped plugins) — documented in the install guide's Update section; the new `claude plugin validate` checks (a warning when a shell-form hook leaves `${CLAUDE_PLUGIN_ROOT}` unquoted, MCP server checks on `.mcp.json` for silently-dropped entries, undeclared `${user_config.*}` references and insecure URLs, and no longer flagging `privacyPolicyUrl`/`supportUrl`/other listing metadata as unknown `plugin.json` fields) — documented in `docs/agent-guidelines/testing.md` and the install guide, and used to audit the three catalog plugins' own repos (findings recorded in the PR, not changed here because no plugin source lives in this catalog). Reviewed and found no catalog surface: this repo ships no `hooks.json`, `.mcp.json`, or `plugin.json` (checked with a repo-wide `find`), and its manifests carry no `privacyPolicyUrl`/`supportUrl` workaround to remove; `claude plugin validate --strict .` on the marketplace manifest passes with no findings. Also reviewed with no action needed: `--plugin-dir` on a folder holding a `marketplace.json` (this repo is installed via `marketplace add`, not `--plugin-dir`), `--channels` plugin-name matching, `claude plugin uninstall` project-scope fix, the `known_marketplaces.json` refresh-recording fix, `\"attribution\": false` in `settings.json` (this repo commits no Claude Code settings and its commit convention keeps the `Co-Authored-By` trailer), `--agents` JSON-file support and empty `prompt` (no custom subagents here), `mcp_tool` hooks on blocking events waiting for MCP connect (no hooks here), `/batch` with WorktreeCreate hooks, skills shown by short name in `/skills`/`/context`, and the gateway (`assume_role`, `guardrail`, `telemetry.resource_attributes`), auto mode, session-resume, prompt-cache, vim-mode, `/plugin` UI, and platform-specific (VSCode/web/Claude Tag/Code Review) items — all host/session/UI-side. `make validate`, `make validate-skills` (`claude plugin validate --strict --json .agents/skills`), and `scripts/check-platform-targets.sh --assert-current` were re-run against the live 2.1.281 CLI on 2026-09-23 and passed clean. Prior verification (2026-09-22): 2.1.280 was confirmed live and reviewed for the 2.1.278 → 2.1.280 delta (Claude Opus 5.5 default and list mouse support; the `installed_plugins.json` commit-staleness fix, documented in the install guide's Update section; the `manifest.json` skill-trash fix, noted in `docs/agent-guidelines/security.md`; terminal-UI icon fixes) — see the install guide's per-version sections for full history.",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -65,7 +65,9 @@
         "agents-md-fallback-noted-2.1.277",
         "taskoutput-removal-reviewed-2.1.277",
         "installed-plugins-commit-staleness-fix-docs-2.1.280",
-        "manifest-json-skill-trash-fix-reviewed-2.1.280"
+        "manifest-json-skill-trash-fix-reviewed-2.1.280",
+        "plugin-update-scope-resolution-docs-2.1.281",
+        "plugin-validate-hook-mcp-checks-docs-2.1.281"
       ],
       "capabilities": [
         "marketplace",
