@@ -28,4 +28,13 @@ There is no application to run; "tests" here mean manifest validation.
   quote it or use exec form), and checks `.mcp.json` for entries that would be silently
   dropped, undeclared `${user_config.*}` references, and insecure URLs. It also no longer
   reports `privacyPolicyUrl`/`supportUrl` as unknown `plugin.json` fields, so there is no
-  need to strip them to get a clean run on 2.1.281+.
+  need to strip them to get a clean run on 2.1.281+. Since Claude Code 2.1.283, the same
+  command also fails a `marketplace.json` entry that names a plugin or marketplace Claude
+  Code can't actually install (previously accepted silently), and warns when a plugin's
+  `outputStyles`/`themes`/`monitors`/`lspServers` paths are missing or point outside its
+  own directory — check a listed plugin repo's own `plugin.json` against these when it
+  ships any of those four fields.
+- **This catalog's own `claude plugin validate --strict .`** re-runs clean on 2.1.283+'s
+  marketplace-name check (all three entries use plain lowercase-hyphen names); the
+  `outputStyles`/`themes`/`monitors`/`lspServers` check has no surface on this repo's own
+  manifest, which declares none of those fields.
