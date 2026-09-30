@@ -34,3 +34,10 @@ See [AGENTS.md](../../AGENTS.md) for the canonical off-limits list.
   plugin skill for `tamirs-superpowers`, `jose-claudinho`, or `headhunter` locally with
   a `manifest.json` alongside it, prefer a Claude Code build 2.1.280 or later, or drop
   the stray file.
+- **Setting a bundled `.mcpb` MCP server's own secrets (e.g. `headhunter`'s Gmail/
+  Calendar/Notion/Todoist integrations, if bundled that way).** Since Claude Code 2.1.285,
+  prefer `claude plugin install <name>@tamirs-marketplace --config <server>.<key>=<value>`
+  or `claude plugin configure <name>@tamirs-marketplace --values-stdin` over typing a
+  secret value into the interactive Configure prompt or a shell command a history file
+  could capture. Neither flag is specific to this catalog's own manifests — it's install-
+  time guidance for anyone setting up one of the three listed plugins.
