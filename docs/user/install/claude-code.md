@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.281** |
+| **Validated against** | Claude Code **2.1.286** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.281 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.286 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -65,7 +65,10 @@ for any of the three, whereas before only a fresh install activated instantly.
 | `jose-claudinho` | Fantasy World Cup 2026 manager — market/team/league MCP tools |
 | `headhunter` | Job-search CRM — pipeline, interviews, Gmail/Calendar/Notion/Todoist |
 
-Each plugin's own repo documents its skills, commands, and integrations in detail.
+Each plugin's own repo documents its skills, commands, and integrations in detail. If a
+plugin bundles a `.mcpb` MCP server (for example the integrations `headhunter` connects
+to), see the `--config` flag under Useful flags below to set that server's own settings
+at install time instead of a separate `/plugin` → Configure step.
 
 ## Useful flags (2.1.163+)
 
@@ -106,6 +109,23 @@ Each plugin's own repo documents its skills, commands, and integrations in detai
   both added, a bare `headhunter` install could otherwise resolve ambiguously; naming
   `--marketplace tamirs-marketplace` (or `--marketplace headhunter`) picks the source
   without needing the fully-qualified `name@marketplace` form.
+- Since Claude Code 2.1.285, `claude plugin install` accepts
+  `--config <server>.<key>=<value>` (repeatable) to set a bundled `.mcpb` MCP server's
+  own settings at install time, so it starts right away instead of needing a separate
+  `/plugin` → Configure visit afterward. Relevant to `headhunter`'s Gmail/Calendar/
+  Notion/Todoist integrations if that plugin bundles its MCP servers as `.mcpb`, e.g.:
+  ```bash
+  claude plugin install headhunter@tamirs-marketplace --config gmail.account=you@example.com
+  ```
+  Also since 2.1.285, `claude plugin configure <plugin>` shows a plugin's options and
+  which are still unset, or — paired with `--config` above for scripting — saves new
+  values read from stdin with `--values-stdin` instead of the interactive form:
+  ```bash
+  claude plugin configure headhunter@tamirs-marketplace
+  echo '{"gmail.account":"you@example.com"}' | claude plugin configure headhunter@tamirs-marketplace --values-stdin
+  ```
+  Prefer `--values-stdin` or `--config` over typing a secret value where your shell
+  history could capture it.
 
 ## Update
 
@@ -253,6 +273,13 @@ claude plugin uninstall headhunter@tamirs-marketplace
 claude plugin marketplace remove tamirs-marketplace
 ```
 
+> **Before Claude Code 2.1.282,** uninstalling a plugin whose settings file still
+> enabled it, or that couldn't be read, could silently delete that plugin's saved
+> options and secrets anyway. Fixed in 2.1.282 — `claude plugin uninstall` now stops and
+> names the offending file instead. On an older CLI, check `/plugin` → Manage (or the
+> settings file `claude plugin uninstall` would have touched) before assuming an
+> uninstall that reported success actually cleared a plugin's saved config cleanly.
+
 ## Managed (enterprise) environments
 
 Since Claude Code 2.1.223, the `strictKnownMarketplaces` and `blockedMarketplaces`
@@ -297,6 +324,70 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.282 – 2.1.286
+
+Reviewed for catalog impact against the published changelog, then confirmed live —
+this run's runner has the `claude` CLI installed and `claude --version` reports
+`2.1.286 (Claude Code)`, matching the target exactly. `validated_against` and
+`latest_known` both advance from 2.1.281 to **2.1.286** together — no divergence,
+covering five releases in one pass. `make validate` (regenerate + validate manifests,
+`make agent:check`, 3 plugins in sync, no drift), `make validate-skills` (`claude plugin
+validate --strict --json .agents/skills`), `scripts/check-platform-targets.sh
+--assert-current`, and `claude plugin validate --strict .` on the marketplace manifest
+all passed clean against the live 2.1.286 CLI.
+
+- **2.1.282:** Fixed `claude plugin uninstall` silently deleting a plugin's saved
+  options/secrets when its settings file still enabled it or couldn't be read. Documented
+  above under Uninstall and as a new troubleshooting row.
+- **2.1.283:** Added two `claude plugin validate` checks: a `marketplace.json` entry
+  naming a plugin/marketplace Claude Code can't actually install now fails validation
+  instead of passing silently, and a plugin declaring `outputStyles`/`themes`/`monitors`/
+  `lspServers` paths that are missing or outside its own directory is now caught too.
+  Re-ran `claude plugin validate --strict .` against this catalog's own manifest (clean)
+  and, as an audit, against all three listed plugin repos' `plugin.json` (read-only
+  clones; no findings — none declare those fields). Documented in
+  `docs/agent-guidelines/testing.md` and as a new troubleshooting row. Also fixed
+  `claude plugin details` showing 0 MCP servers for a plugin that declares them in
+  `plugin.json`, `claude plugin marketplace remove` now listing which installed plugins
+  it removed, and plugins with no `version` field (all three of this catalog's) restoring
+  at their source's newest commit rather than the installed one when the cache is
+  missing — all host-lifecycle behavior already matching how this catalog's plugins
+  track their source branch, so nothing changed in practice.
+- **2.1.284:** Improved `claude plugin marketplace add` to say when it replaces a
+  marketplace already added under the same name from a different source, and how to undo
+  it — documented as a new troubleshooting row. Also fixed a `sparsePaths` marketplace
+  cloning empty and replacing a working local copy on older git (this catalog's manifest
+  sets no `sparsePaths` — checked via `grep`) and a failed first `claude plugin install`
+  leaving the plugin enabled when a dependency's version range couldn't be met (this
+  catalog's one cross-marketplace dependency, `allowCrossMarketplaceDependenciesOn:
+  [superpowers-dev]`, has never hit this path in review).
+- **2.1.285:** Added **`claude plugin install --config <server>.<key>=<value>`** and
+  **`claude plugin configure <plugin>`**, documented above in Useful flags — the most
+  directly useful addition in this range, since it lets a bundled `.mcpb` MCP server's
+  settings be set at install time instead of a separate Configure step, and
+  `--values-stdin` gives a non-interactive, shell-history-safe way to set them. Noted in
+  `docs/agent-guidelines/security.md`. Also fixed plugin/marketplace installs over SSH
+  ignoring `GIT_SSH`/`core.sshCommand` (new troubleshooting row), `claude plugin disable`/
+  `enable` with a full `name@marketplace` id touching a settings entry in the wrong
+  letter case (this catalog's own name and all three plugin names are already
+  consistently lowercase), and improved marketplace git-address-refused and
+  git-URL-validation error messages (this catalog's sources are the credential-free
+  `github`+`repo` shorthand, never a raw URL, so these messages were never triggered by
+  this catalog's own entries either way).
+- **2.1.286:** Fixed plugin errors for a marketplace Claude Code refuses to load to say
+  why and how to fix it instead of "not found" — a refinement of the existing
+  `Marketplace file not found` troubleshooting row above. Changed plugin installs to
+  refuse npm sources that are git repositories or folders and to install plugin
+  dependencies only from registry packages — this catalog's manifests use only `github`
+  sources (AGENTS.md: "Never change `source: github`"), so unaffected.
+
+The remaining 2.1.282 – 2.1.286 entries (Claude Sonnet 5.5's later refinements, the
+permission-prompt/list/scrollbar and `/hooks`/`/theme` UI polish, retry/fallback/
+auth/MCP-connection fixes, Remote Control, sandbox, vim mode, and the VSCode/Cloud
+sessions/Claude Tag/Code Review platform-specific items) are host/session/UI-side with
+zero marketplace-manifest, plugin-source, or skill-loading surface. Nothing in this range
+requires a manifest schema or field change.
 
 ## Claude Code 2.1.281
 
@@ -1195,5 +1286,9 @@ catalog's automation token gets `workflows` scope.
 | A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment the background session started. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
 | `claude plugin marketplace add <pasted URL>` fails with an unusable clone URL | Before 2.1.259, a `github.com` marketplace URL pasted with a trailing slash or a dangling `?`/`#` (as a browser address bar shows it) could produce a broken `.git` clone URL. Fixed in 2.1.259 — on older versions, use the `Tamircohen28/tamirs-marketplace` shorthand from this guide's Install section instead of a pasted URL, or strip the trailing slash/`?`/`#` by hand. |
 | A catalog plugin shows as broken in `claude plugin list` but the reason isn't clear | Since 2.1.268, `claude plugin list --json` includes per-row `errorDetails`/`noteDetails` fields — inspect that row's JSON for the specific cause instead of guessing from `/doctor` output alone. |
+| `claude plugin marketplace add Tamircohen28/tamirs-marketplace` seems to do nothing, or a stale copy stays around | Before 2.1.284, adding a marketplace already registered under the same name from a different source (e.g. a manual local clone added before the GitHub shorthand) could silently replace it with no explanation. Since 2.1.284, the add now says it's replacing an existing entry and how to undo it — re-run the add and read the notice. |
+| `claude plugin marketplace add`/`claude plugin install` fails for this catalog or a listed plugin only over SSH | Before 2.1.285, marketplace and plugin installs/updates over SSH ignored the ssh program set in `GIT_SSH` or your git config's `core.sshCommand`. Fixed in 2.1.285 — on an older CLI, unset a custom `GIT_SSH`/`core.sshCommand` before adding this catalog, or upgrade. |
+| Uninstalling a plugin here seems to have also wiped its saved options/secrets unexpectedly | Before 2.1.282, `claude plugin uninstall` could delete a plugin's saved config even when its settings file still enabled it or couldn't be read. Fixed in 2.1.282 — see the note under Uninstall above. |
+| `claude plugin validate --strict` newly fails on a `marketplace.json` entry that worked before | Since 2.1.283, an entry naming a plugin or marketplace Claude Code can't actually install now fails validation instead of passing silently. This catalog's own manifest passes clean; if you fork this catalog and add an entry, re-run `claude plugin validate --strict .` after any name change. |
 
 More: [troubleshooting.md](../troubleshooting.md).
