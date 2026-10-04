@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.22.7** |
-| **Minimum supported** | **3.22.7** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-09-02** (see [`.cursor-version`](../../../.cursor-version)) |
+| **Validated against** | Cursor **3.23.12** |
+| **Minimum supported** | **3.23.12** |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-09-23**; desktop **3.23.12** (see [`.cursor-version`](../../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -16,7 +16,7 @@ cursor --version
 
 ## About the version floor
 
-Cursor's documentation states **no minimum version** for plugins. The 3.22.7 floor here is
+Cursor's documentation states **no minimum version** for plugins. The 3.23.12 floor here is
 simply the version this catalog was actually validated on, not a limit Cursor imposes. The
 previous floor in this repo was `0.45.0`, which predates Cursor's plugin system entirely —
 it could never have worked.
@@ -36,7 +36,7 @@ the plugins in their in-editor marketplace panel.
 4. Under **Marketplace Settings**:
    - Enable **Auto Refresh** so pushes to `main` re-index the catalog
    - Optionally restrict **Marketplace Access** to [Organization Groups](https://cursor.com/docs/enterprise/organization-groups) (Cursor **3.10**) — members outside those groups will not see the catalog
-5. Save, then assign distribution groups / installation modes (Default Off / Default On / Required)
+5. Save, then assign distribution groups / installation modes (Default Off / Default On). **Desktop 3.23 removed applying team marketplace Required plugins** — do not rely on Required as an enforceable install mode; use Default On + Organization Groups instead
 
 Developers: open **Customize** in the Cursor sidebar and install the plugins you want from
 the team marketplace (and the team leaderboard of popular plugins/skills/MCPs, Cursor **3.9**).
@@ -88,11 +88,12 @@ the agent. Never commit Workspace credentials into this repo or any catalogued p
 
 Cursor **Projects** (left nav) suit multi-week catalog / multi-plugin work. A **coordinator** plans and delegates (does not write code); **shared context** syncs across cloud and local agents; **subscriptions** can watch Slack, schedules, or all PRs. Prefer a Project when validating marketplace + plugin repos together across days; keep one-shot `make validate` / docs edits as ordinary Agent chats. Complements Self-Hosted Machines (2026-09-02) and Cloud Agents ([changelog](https://cursor.com/changelog)).
 
-## Working tips (3.11 → 2026-09-23; desktop CLI 3.22.7; CLI 2026-08-26)
+## Working tips (3.11 → 2026-09-23; desktop CLI 3.23.12; CLI 2026-08-26)
+- **Desktop 3.23.12 (2026-10-01):** team/org **MCP allowlists** (import/export + builtin tool listing; Origin MCP at `api.origin.cursor.com/mcp`), **service tokens**, xAI account linking. **Compat:** applying team marketplace **Required** plugins was removed — catalog install guidance above uses Default On / groups only. Prefer allowlists so Team MCP servers linked beside this catalog stay permitted.
 - **Security Review + Rollouts (2026-09-23):** Teams/Enterprise [Automations](https://cursor.com/automations) bots ([docs](https://cursor.com/docs/security-agents)). Useful when reviewing PRs that change this catalog's manifests; Rollouts is optional (catalog has no deploy). `/review-security` before push.
 - **Start from scratch / no SCM (2026-08-27)** — Cloud Agents can begin without a connected GitHub repo: pick **Start from scratch**, prompt, then **Create repo** into Origin. Use **browser port-forward preview**; optional **Vercel publish**. GitHub remains canonical for marketplace installs and CI.
 
-- **Desktop CLI patch line** — pin is **3.22.7** (download line 2026-08-18; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 26). Newest feature write-up remains **3.11**; newest date-only entry **2026-09-10** (Projects) (cloud-agent subscriptions / custom modes / isolated subagent VMs / `/goal` / steering).
+- **Desktop CLI patch line** — pin is **3.23.12** (download line 2026-10-01; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 26). Newest feature write-up remains **3.11**; newest date-only entry **2026-09-10** (Projects) (cloud-agent subscriptions / custom modes / isolated subagent VMs / `/goal` / steering).
 - **CLI persistent sessions (2026-08-26)** — `agent persist` / `/detach` / `agent persist attach` keep long `make validate` / marketplace checks alive across disconnects ([CLI changelog](https://cursor.com/docs/cli/changelog)).
 - **Custom Modes (2026-08-19)** — from `/`, pick a skill and press ⌥⏎ / Alt+Enter → **Use as Mode** to keep a catalogued plugin skill pinned for the chat (always-on playbook). Prefer for long install/verify sessions.
 - **`/goal` + non-interruptive steering (2026-08-19)** — long-lived objectives with `/goal`; Cloud Agents also expose native **CreateGoal** / **UpdateGoal** tools. Follow-ups wait for the next tool call (Send now, or ⏎ twice). CLI Aug 11 steer/`/goal` still apply for `agent` runs.

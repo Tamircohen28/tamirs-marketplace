@@ -67,14 +67,14 @@
       ]
     },
     "cursor": {
-      "supported_min": "3.22.7",
+      "supported_min": "3.23.12",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.22.7",
-      "latest_known": "3.22.7",
+      "validated_against": "3.23.12",
+      "latest_known": "3.23.12",
       "changelog_feature": "3.11",
       "changelog_date": "2026-09-23",
-      "verified_on": "2026-09-27",
-      "verification_method": "latest desktop build from official Cursor download API (3.22.7, 2026-09-27) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-09-23 Rollouts + Security Review; prior Projects 2026-09-10); CLI changelog through 2026-08-26 (agent persist); team-marketplace import is a Dashboard flow",
+      "verified_on": "2026-10-04",
+      "verification_method": "latest desktop build from official Cursor download API (3.23.12, 2026-10-04) cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-09-23 Rollouts + Security Review) and desktop 3.23.x notes (team/org MCP allowlists, service tokens, Origin MCP at api.origin.cursor.com/mcp, removal of applying team marketplace required plugins); CLI changelog through 2026-08-26; team-marketplace import is a Dashboard flow",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -120,7 +120,7 @@
         "agent-window-goal-2026-08-19",
         "non-interruptive-steering-2026-08-19",
         "native-create-goal-tools-docs-2026-08-19",
-        "desktop-cli-pin-3.22.7",
+        "desktop-cli-pin-3.23.12",
         "cloud-agent-start-from-scratch-2026-08-27",
         "origin-create-repo-from-scratch-2026-08-27",
         "cloud-agent-browser-preview-2026-08-27",
@@ -135,9 +135,14 @@
         "project-shared-context-2026-09-10",
         "project-subscriptions-2026-09-10",
         "cli-persist-sessions-2026-08-26",
-        "desktop-cli-patch-3.22.7",
+        "desktop-cli-patch-3.23.12",
         "security-review-bot-2026-09-23",
-        "rollouts-bot-2026-09-23"
+        "rollouts-bot-2026-09-23",
+        "team-org-mcp-allowlists-3.23",
+        "service-tokens-3.23",
+        "origin-mcp-endpoint-3.23",
+        "required-team-marketplace-plugins-removed-3.23",
+        "xai-account-linking-3.23"
       ],
       "capabilities": [
         "marketplace",
