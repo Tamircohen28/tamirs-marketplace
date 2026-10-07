@@ -291,6 +291,48 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   clean. No manifest schema or field change was needed anywhere in this range. Prior
   to this run, `validated_against` and `latest_known` reached 2.1.281 — see above for
   that delta and the install guide's per-version sections for the full history.
+- **Platform target: Claude Code `validated_against` and `latest_known` both advance
+  to 2.1.293** (from 2.1.286), confirmed live this run — the runner's `claude
+  --version` reports `2.1.293 (Claude Code)`, matching the target exactly, covering
+  seven releases (2.1.287 → 2.1.293) in one pass. **2.1.287:** Claude Mods, a new
+  plugin component type that runs in-process on Claude Code and the Desktop Code tab.
+  This catalog ships no `plugin.json` of its own and so cannot carry one directly, but
+  `tamirs-superpowers` already does (`mod/register.tsx`) — confirmed live by
+  re-cloning that repo and running `claude plugin test .`: 21/21 mod tests pass.
+  Documented in the install guide's What-you-get section. **2.1.289:** fixed `claude
+  plugin validate` silently skipping a plugin folder that also held a marketplace
+  manifest — directly relevant, since all three listed plugin repos ship both
+  `plugin.json` and `marketplace.json` side by side for their standalone install path.
+  Re-ran `claude plugin validate --strict --json` against each on the fixed CLI:
+  `headhunter` still has its 3 pre-existing unknown-field warnings; `tamirs-superpowers`
+  and `jose-claudinho` are clean — and, as part of this re-run, confirmed that
+  `tamirs-superpowers`' previously-flagged 27 unquoted-`${CLAUDE_PLUGIN_ROOT}` hooks.json
+  warnings are now fixed upstream (zero warnings). **2.1.290:** added `claude plugin
+  validate --json`'s `gatingHooks` report; run against `tamirs-superpowers`' mod as an
+  audit, surfacing 4 gating hooks with no `.catch` — flagged below under Future
+  opportunities for that repo's own nightly, since the fix belongs there, not here.
+  **2.1.292:** plugin/skill names over 256 characters are now ignored (checked — the
+  longest name anywhere in this catalog or its three plugins is 19 characters);
+  `claude plugin test` now reports a mod's `expect` failures instead of passing
+  silently (re-verified via the 2.1.287 test run above); and `claude plugin install
+  --marketplace <source>` now adds that marketplace first if needed, collapsing
+  `marketplace add` + `install` into one command — documented in the install guide's
+  Useful-flags section. Reviewed with no catalog surface: 2.1.287's MCP elicitation and
+  `alwaysLoad:false` change (no `.mcp.json` here); 2.1.288's `$.ui.selection()` mod API,
+  built-in `gh api`, and `--max-findings` (host/mod-dev-side); 2.1.289's teammate
+  `agent.spawn` and idle/waiting agent states (mod API only) and the Bash deny/ask
+  bypass fix (host security); 2.1.290's `tool.check` `agentId`/`ceiling` and
+  `ThemeKey`/`Color` mod-hook typings (mod-dev surface only); 2.1.291 (bug fixes only);
+  2.1.292's `prompt.autocomplete` mod event and workflow-agent `agent.spawn` support
+  (mod API only) and the stdio MCP protocol-negotiation default (no `.mcp.json` here);
+  and 2.1.293's Claude Haiku 5.5, `subagentStatusLine` `agentType`, `isDeferred` on
+  `$.tool.register` for mods (relevant to a mod registering its own tools —
+  `tamirs-superpowers`' mod registers none today), and the HTTP MCP memory-leak fix
+  (none of this catalog's three plugins run an HTTP-type MCP server — all three are
+  `stdio`, checked via their own `.mcp.json`). `make validate`, `make validate-skills`,
+  `make assert-contract`, `scripts/check-platform-targets.sh --assert-current`, and
+  `claude plugin validate --strict .` all passed clean against the live 2.1.293 CLI.
+  No manifest schema or field change was needed anywhere in this range.
 
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
