@@ -6,76 +6,61 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.286 | 2.1.286 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.293 | 2.1.293 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
-Claude Code now tracks **2.1.286**, reviewed live on **2026-09-30** — this run's runner
-has the `claude` CLI installed and `claude --version` reported `2.1.286 (Claude Code)`,
+Claude Code now tracks **2.1.293**, reviewed live on **2026-10-07** — this run's runner
+has the `claude` CLI installed and `claude --version` reported `2.1.293 (Claude Code)`,
 matching the target exactly, continuing the live-CLI confirmation from the prior
-2.1.281 run (2026-09-23). `make validate`, `make validate-skills`, and
-`scripts/check-platform-targets.sh --assert-current` all passed clean against it.
-`validated_against` and `latest_known` both land on **2.1.286** together — no
-divergence, covering five releases (2.1.282 → 2.1.286) in one pass. The reviewed delta:
+2.1.286 run (2026-09-30). `make validate`, `make validate-skills`, `make assert-contract`,
+and `scripts/check-platform-targets.sh --assert-current` all passed clean against it.
+`validated_against` and `latest_known` both land on **2.1.293** together — no
+divergence, covering seven releases (2.1.287 → 2.1.293) in one pass. The reviewed delta:
 
-- **2.1.282:** `claude plugin uninstall` now stops and names the settings file instead
-  of silently deleting a plugin's saved options/secrets when that file still enables the
-  plugin or can't be read, in either direction (before or after the uninstall list write)
-  — host-lifecycle hardening with no manifest surface, noted as a new troubleshooting row
-  in the install guide.
-- **2.1.283:** `claude plugin validate` gained two checks relevant to a catalog
-  maintainer: a `marketplace.json` entry naming a plugin/marketplace Claude Code can't
-  actually install now **fails** validation instead of passing silently, and a plugin
-  declaring `outputStyles`/`themes`/`monitors`/`lspServers` paths that are missing or
-  point outside its own directory is now caught too. Re-ran `claude plugin validate
-  --strict .` against this catalog's own manifest (clean — plain lowercase-hyphen names)
-  and against all three listed plugin repos as an audit (read-only clones; no findings).
-  Also fixed: `claude plugin details` showing 0 MCP servers for a plugin that declares
-  them in `plugin.json`, `claude plugin marketplace remove` now listing which installed
-  plugins it removed, and plugins with no `version` field restoring at their source's
-  newest commit (not the installed one) when their cache is missing — the last one
-  already describes all three of this catalog's plugins, which have tracked their source
-  branch head all along, so behavior here is unchanged, not newly exposed.
-- **2.1.284:** `claude plugin marketplace add` now says when it replaces a marketplace
-  already added under the same name from a different source, and how to undo it —
-  documented as a new troubleshooting row. Also fixed a `sparsePaths` marketplace cloning
-  empty and replacing a working local copy on older git (this catalog's manifest sets no
-  `sparsePaths`) and a failed first `claude plugin install` leaving the plugin enabled
-  when a dependency's version range couldn't be met (this catalog's one cross-marketplace
-  dependency, `allowCrossMarketplaceDependenciesOn: [superpowers-dev]`, has never hit
-  this path in review).
-- **2.1.285:** Added **`claude plugin install --config <server>.<key>=<value>`**, which
-  sets a bundled `.mcpb` MCP server's own settings at install time so it starts without a
-  manual `/plugin` → Configure visit, and **`claude plugin configure <plugin>`**, which
-  shows a plugin's options and which are unset or saves new values from stdin with
-  `--values-stdin`. Both documented in the install guide's Useful-flags section —
-  directly relevant to `headhunter`, whose Gmail/Calendar/Notion/Todoist integrations are
-  exactly the kind of bundled MCP server `--config` targets, and noted in
-  `docs/agent-guidelines/security.md` as the preferred, non-interactive way to set a
-  bundled server's secrets. Also fixed plugin/marketplace installs over SSH ignoring the
-  `GIT_SSH`/`core.sshCommand` program, `claude plugin disable`/`enable` with a full
-  `name@marketplace` id touching a settings entry in the wrong letter case (this
-  catalog's own name and all three plugin names are already consistently lowercase), and
-  improved marketplace git-address-refused and git-URL-validation error messages (this
-  catalog's sources are the credential-free `github`+`repo` shorthand, never a raw URL).
-- **2.1.286:** Fixed plugin errors for a marketplace Claude Code refuses to load to say
-  why and how to fix it instead of "not found" — a refinement to this guide's existing
-  "Marketplace file not found" troubleshooting row. Changed plugin installs to refuse npm
-  sources that are git repositories or folders and to install plugin dependencies only
-  from registry packages — this catalog's manifests use only `github` sources, per
-  AGENTS.md's "Never change `source: github`" rule, so unaffected either way.
-
-None of the 2.1.282 → 2.1.286 delta requires a manifest schema or field change.
+- **2.1.287:** Added **Claude Mods** — a new plugin component type that runs in-process
+  on Claude Code and the Desktop Code tab (panes, the band above the prompt, reacting to
+  pushed state). This catalog ships no `plugin.json` of its own, so it cannot carry a mod
+  directly, but `tamirs-superpowers` already ships one (`mod/register.tsx`) — confirmed
+  live by re-cloning that repo and running `claude plugin test .`: 21/21 mod tests pass on
+  2.1.293. Documented in the install guide's What-you-get row.
+- **2.1.289:** Fixed `claude plugin validate` silently **skipping** a plugin folder that
+  also held a marketplace manifest. Directly relevant here — all three listed plugin
+  repos ship both `plugin.json` and `marketplace.json` side by side for standalone
+  installs. Re-ran `claude plugin validate --strict --json` against each on this fixed
+  CLI: `headhunter` still has its 3 pre-existing unknown-field warnings
+  (`engines`/`peerDependencies`/`requiredEnvVars`), `tamirs-superpowers` and
+  `jose-claudinho` are clean. Also: as part of this audit, the `tamirs-superpowers`
+  hooks.json issue flagged in the 2.1.286 pass (27 unquoted-`${CLAUDE_PLUGIN_ROOT}`
+  warnings) is **confirmed fixed upstream** — zero warnings now.
+- **2.1.290:** Added `claude plugin validate --json`'s `gatingHooks` report (each gating
+  hook and whether it has a `.catch`). Empty for this catalog's own manifest (no
+  `plugin.json` here); run as a deeper audit against `tamirs-superpowers`' mod, which
+  surfaced 4 gating hooks (`agent.spawn`, `prompt.submit`, `tool.call`,
+  `session.compact`) with no `.catch` — flagged below under Future opportunities for
+  that repo's own nightly.
+- **2.1.292:** Three catalog-relevant changes. (1) Plugin/skill names over 256 characters
+  are now ignored — checked every name in this catalog's and all three plugin repos'
+  manifests; the longest is `tamirs-superpowers` at 19 characters, far under the cap.
+  (2) `claude plugin test` now reports a mod's `expect` failures instead of passing
+  silently — re-ran it live against `tamirs-superpowers`' mod suite (21 pass, 0 fail).
+  (3) `claude plugin install --marketplace <source>` now adds the marketplace first if
+  it isn't already added, instead of only selecting among already-added ones — a genuine
+  one-step alternative to `marketplace add` + `install`, documented in the install
+  guide's Useful-flags section.
+None of the 2.1.287 → 2.1.293 delta requires a manifest schema or field change.
 `claude plugin validate --strict --json .agents/skills` (via `make validate-skills`) and
 the structural checks (`scripts/validate-marketplaces.py`: JSON schema and plugin-name
-parity across the three generated manifests) were both re-run live against the 2.1.286
-CLI and passed. The full 2.1.264 → 2.1.281 history (2.1.275's `--marketplace <source>`
+parity across the three generated manifests) were both re-run live against the 2.1.293
+CLI and passed. The full 2.1.264 → 2.1.286 history (2.1.275's `--marketplace <source>`
 and terminal-session claude.ai sync, 2.1.277's AGENTS.md fallback and TaskOutput removal,
 2.1.278's auto-mode classifier change, 2.1.280's `installed_plugins.json` and
-`manifest.json` fixes, and 2.1.281's `claude plugin update` scope fix and hook/MCP
-validate checks) remains documented in the install guide's per-version sections; nothing
-about those prior reviews changes now. Codex was revalidated against the **0.153.4**
+`manifest.json` fixes, 2.1.281's `claude plugin update` scope fix and hook/MCP validate
+checks, 2.1.282's uninstall settings-safety fix, 2.1.283's validate checks, 2.1.284's
+marketplace-add replace-notice, 2.1.285's `--config`/`configure`, and 2.1.286's npm
+install restriction) remains documented in the install guide's per-version sections;
+nothing about those prior reviews changes now. Codex was revalidated against the **0.153.4**
 release on
 **2026-09-08** by comparing the 0.148.0 → 0.153.4 release delta with this catalog's
 `.agents/plugins/marketplace.json` installation surface. That delta is additive for
@@ -92,7 +77,7 @@ pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `S
 so native skill discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release
 notes turned up exactly one skills-related entry (a docs path fix, #42337) and no
 plugin-marketplace or plugin-manifest concept, so both OpenCode capability gaps below
-stand as written. Claude Code's **2026-09-30** live-CLI confirmation (above) is the most
+stand as written. Claude Code's **2026-10-07** live-CLI confirmation (above) is the most
 recent verification of any target and is therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
 

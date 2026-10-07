@@ -41,3 +41,12 @@ See [AGENTS.md](../../AGENTS.md) for the canonical off-limits list.
   secret value into the interactive Configure prompt or a shell command a history file
   could capture. Neither flag is specific to this catalog's own manifests — it's install-
   time guidance for anyone setting up one of the three listed plugins.
+- **Mods (Claude Code 2.1.287+) run in-process and can gate a tool call or a prompt.**
+  `tamirs-superpowers` ships one (`mod/register.tsx`); its own header documents it as
+  additive — every bash-hook guard it overlaps with keeps running as the fallback, and
+  the mod itself makes no network call. `claude plugin validate --json`'s `gatingHooks`
+  report (2.1.290+) shows 4 of its hooks (`agent.spawn`, `prompt.submit`, `tool.call`,
+  `session.compact`) register without a `.catch` — an unhandled exception in one of
+  those hooks fails open or closed depending on the mod runtime's own default, not a
+  choice this catalog's manifest controls. Worth a fix in that repo; tracked under
+  Future opportunities, not actionable from this manifest-only catalog.
