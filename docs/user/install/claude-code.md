@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.286** |
+| **Validated against** | Claude Code **2.1.293** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.286 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.293 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -61,7 +61,7 @@ for any of the three, whereas before only a fresh install activated instantly.
 
 | Plugin | What it adds |
 |--------|--------------|
-| `tamirs-superpowers` | 26 skills, worktree hooks, statusline, MCP server stubs |
+| `tamirs-superpowers` | 26 skills, worktree hooks, statusline, MCP server stubs, and a Mod |
 | `jose-claudinho` | Fantasy World Cup 2026 manager — market/team/league MCP tools |
 | `headhunter` | Job-search CRM — pipeline, interviews, Gmail/Calendar/Notion/Todoist |
 
@@ -69,6 +69,15 @@ Each plugin's own repo documents its skills, commands, and integrations in detai
 plugin bundles a `.mcpb` MCP server (for example the integrations `headhunter` connects
 to), see the `--config` flag under Useful flags below to set that server's own settings
 at install time instead of a separate `/plugin` → Configure step.
+
+**`tamirs-superpowers` ships a Claude Mod (2.1.287+).** Mods are a plugin component that
+runs in-process on Claude Code and the Claude Desktop Code tab — unlike a bash hook, a
+mod can draw a pane, draw the band above the prompt, and react to state the host pushes
+mid-session. `tamirs-superpowers`' mod (`mod/register.tsx`) adds an `/objective` pane,
+a rate-limit warning band, a Desktop usage line, and optional semantic skill suggestion.
+It is additive: every bash hook it overlaps with keeps running as the fallback on an
+older CLI, `--safe-mode`, or a host (Codex, Cursor) that has no mod runtime. Nothing to
+configure — it loads automatically once the plugin is installed on 2.1.287+.
 
 ## Useful flags (2.1.163+)
 
@@ -96,11 +105,11 @@ at install time instead of a separate `/plugin` → Configure step.
   ```
 - Since Claude Code 2.1.269, `claude plugin eval` runs a plugin's own eval suite against
   Claude Code and produces a scored, reproducible report (JSON and HTML — see `claude
-  plugin eval --help`). None of this catalog's three plugins ship an eval suite of their
-  own today, so there is nothing to run against them yet, but it's the mechanism a
-  contributor could add to any of the three plugin repos (or a future catalog entry) for
-  a real, repeatable "does this plugin actually work" check, rather than eyeballing
-  `claude plugin list` after a manual install.
+  plugin eval --help`). `tamirs-superpowers` and `jose-claudinho` now ship `evals/`
+  directories under some of their skills; `headhunter` still ships none. Separately,
+  `claude plugin test [dir]` runs a **mod's** own test suite (not a skill eval) —
+  `tamirs-superpowers`' `mod/mods.test.tsx` passes 21/21 live against 2.1.293, and since
+  2.1.292 a failing `expect` inside a hook test is reported instead of silently passing.
 - Since Claude Code 2.1.275, `claude plugin install`/`/plugin install` accepts
   `--marketplace <source>` to name the marketplace explicitly instead of relying on the
   `name@marketplace` suffix, e.g. `claude plugin install headhunter --marketplace
@@ -108,7 +117,15 @@ at install time instead of a separate `/plugin` → Configure step.
   standalone marketplace (see "Installing a plugin standalone instead" below) — with
   both added, a bare `headhunter` install could otherwise resolve ambiguously; naming
   `--marketplace tamirs-marketplace` (or `--marketplace headhunter`) picks the source
-  without needing the fully-qualified `name@marketplace` form.
+  without needing the fully-qualified `name@marketplace` form. **Since Claude Code
+  2.1.292**, `--marketplace <source>` also adds that marketplace first if it isn't
+  already added (under the same checks as `plugin marketplace add`), so a first-time
+  install collapses to one command instead of two:
+  ```bash
+  claude plugin install headhunter --marketplace Tamircohen28/tamirs-marketplace
+  ```
+  No prior `claude plugin marketplace add` needed — this is now the shortest path from
+  nothing installed to one plugin running.
 - Since Claude Code 2.1.285, `claude plugin install` accepts
   `--config <server>.<key>=<value>` (repeatable) to set a bundled `.mcpb` MCP server's
   own settings at install time, so it starts right away instead of needing a separate
@@ -324,6 +341,73 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.287 – 2.1.293
+
+Reviewed for catalog impact against the published changelog, then confirmed live —
+this run's runner has the `claude` CLI installed and `claude --version` reports
+`2.1.293 (Claude Code)`, matching the target exactly. `validated_against` and
+`latest_known` both advance from 2.1.286 to **2.1.293** together — no divergence,
+covering seven releases in one pass. `make validate`, `make validate-skills`, `make
+assert-contract`, `scripts/check-platform-targets.sh --assert-current`, and `claude
+plugin validate --strict .` on the marketplace manifest all passed clean against the
+live 2.1.293 CLI.
+
+- **2.1.287: Claude Mods.** A new plugin component type — a mod runs in-process on
+  Claude Code and the Claude Desktop Code tab, able to draw a pane or the band above
+  the prompt and react to state the host pushes, none of which a bash hook can do.
+  This catalog ships no `plugin.json` of its own, so it cannot carry a mod directly,
+  but `tamirs-superpowers` already does (`mod/register.tsx`). Re-cloned that repo
+  (read-only) and ran `claude plugin test .` live: **21/21 mod tests pass** on
+  2.1.293. Documented above under What you get. The same release's MCP server URL
+  prompts/elicitation (`bareElicitationCapability`) and `alwaysLoad:false` semantics
+  change have no surface here — this catalog ships no `.mcp.json`.
+- **2.1.289: `claude plugin validate` no longer skips a plugin folder that also holds
+  a marketplace manifest.** This is directly relevant to all three listed plugin
+  repos — each ships both `.claude-plugin/plugin.json` and
+  `.claude-plugin/marketplace.json` side by side, for the standalone install path
+  documented below. Re-ran `claude plugin validate --strict --json` against each repo
+  on this fixed CLI: `headhunter` still carries its 3 pre-existing unknown-field
+  warnings (`engines`/`peerDependencies`/`requiredEnvVars`, unchanged from the last
+  pass); `tamirs-superpowers` and `jose-claudinho` are clean. As part of the same
+  audit, the `tamirs-superpowers` hooks.json issue flagged as a Future opportunity in
+  the prior (2.1.282 – 2.1.286) pass below — 27 warnings for an unquoted
+  `${CLAUDE_PLUGIN_ROOT}` — is now **confirmed fixed upstream**: zero warnings.
+- **2.1.290: `claude plugin validate --json` gating-hooks report.** Each gating hook a
+  plugin registers now lists whether it has a `.catch`. Empty for this catalog's own
+  manifest (no `plugin.json` here); run as a deeper audit against
+  `tamirs-superpowers`' mod, which surfaced **4 gating hooks with no `.catch`**
+  (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) — flagged below
+  under Future opportunities, since the fix belongs in that repo, not this one.
+- **2.1.292: three catalog-relevant changes.**
+  1. Plugin/skill names over 256 characters are now ignored at load time. Checked
+     every name in this catalog's manifest and all three plugin repos' own manifests
+     — the longest is `tamirs-superpowers` at 19 characters, far under the cap.
+  2. `claude plugin test` now fails when an `expect` inside a mod's hook test fails,
+     instead of passing silently — re-ran it live against `tamirs-superpowers`' mod
+     suite (the only one of the three with a mod): 21 pass, 0 fail.
+  3. `claude plugin install --marketplace <source>` now adds that marketplace first
+     if it isn't already added, instead of only selecting among marketplaces already
+     added. Documented above in Useful flags as a new one-step install path.
+  Reviewed with no catalog surface: the `prompt.autocomplete` mod event, prompt
+  caching in `$.model.complete`, workflow agents in the `agent.spawn` mod hook (all
+  mod-dev-only), and the stdio MCP protocol-negotiation default change (no `.mcp.json`
+  here).
+- **2.1.293:** Reviewed with no catalog surface: Claude Haiku 5.5 and `agentType` in
+  `subagentStatusLine` (host/session-side); `isDeferred` on `$.tool.register` for mods
+  (relevant to a mod registering its own tools — `tamirs-superpowers`' mod registers
+  none today); the HTTP MCP memory-leak fix (this catalog ships no `.mcp.json`
+  anywhere, and none of the three listed plugins' own manifests declare an HTTP MCP
+  server either, per a `grep` of their `plugin.json`/`.mcp.json` files during this
+  pass).
+- **2.1.288 and 2.1.291:** reviewed, no catalog-facing entries. 2.1.288 added
+  `$.ui.selection()` (mod API), built-in `gh api` for cloud sessions, and
+  `--max-findings` for `/code-review` — all host/mod-dev-side. 2.1.291 shipped bug
+  fixes only.
+
+Codex, Cursor, and OpenCode values in this shared platform-target file are untouched
+by this pass. See `docs/engineering/build-and-release/platform-targets.md` for the
+machine-readable `verification_method` this section summarizes.
 
 ## Claude Code 2.1.282 – 2.1.286
 
@@ -1290,5 +1374,8 @@ catalog's automation token gets `workflows` scope.
 | `claude plugin marketplace add`/`claude plugin install` fails for this catalog or a listed plugin only over SSH | Before 2.1.285, marketplace and plugin installs/updates over SSH ignored the ssh program set in `GIT_SSH` or your git config's `core.sshCommand`. Fixed in 2.1.285 — on an older CLI, unset a custom `GIT_SSH`/`core.sshCommand` before adding this catalog, or upgrade. |
 | Uninstalling a plugin here seems to have also wiped its saved options/secrets unexpectedly | Before 2.1.282, `claude plugin uninstall` could delete a plugin's saved config even when its settings file still enabled it or couldn't be read. Fixed in 2.1.282 — see the note under Uninstall above. |
 | `claude plugin validate --strict` newly fails on a `marketplace.json` entry that worked before | Since 2.1.283, an entry naming a plugin or marketplace Claude Code can't actually install now fails validation instead of passing silently. This catalog's own manifest passes clean; if you fork this catalog and add an entry, re-run `claude plugin validate --strict .` after any name change. |
+| `claude plugin validate --strict` run against one of the three listed plugin repos reported nothing, even though its `plugin.json` has real warnings | Before 2.1.289, validate silently skipped a plugin folder that also held a marketplace manifest — true of all three listed plugins, which ship both for their standalone install path. Fixed in 2.1.289 — re-run on 2.1.289+ to see real results (confirmed live: `headhunter` has 3 pre-existing unknown-field warnings; `tamirs-superpowers` and `jose-claudinho` are clean). |
+| A fork's plugin or marketplace name silently stops showing up after adding more characters to it | Since 2.1.292, a plugin or skill `name` over 256 characters is ignored at load time instead of partially working. This catalog's own name and all three plugin names are 19 characters or fewer, so unaffected — a consideration only if you fork and rename. |
+| `claude plugin test` on a plugin's mod directory used to pass even though a hook's `expect` failed | Before 2.1.292, a failing `expect` inside a mod's hook test could pass silently. Fixed in 2.1.292 — re-run `claude plugin test <dir>` on the current CLI. `tamirs-superpowers`' mod suite passes 21/21 live on 2.1.293. |
 
 More: [troubleshooting.md](../troubleshooting.md).
