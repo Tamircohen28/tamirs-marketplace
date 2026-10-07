@@ -9,7 +9,7 @@
   <a href="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml"><img src="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/version-2.0.0-blue" alt="Version 2.0.0" />
-  <img src="https://img.shields.io/badge/Claude%20Code-2.1.286-blueviolet" alt="Claude Code 2.1.286" />
+  <img src="https://img.shields.io/badge/Claude%20Code-2.1.293-blueviolet" alt="Claude Code 2.1.293" />
   <img src="https://img.shields.io/badge/Cursor-3.18.9-000000" alt="Cursor 3.18.9" />
   <img src="https://img.shields.io/badge/Codex-0.153.4-412991" alt="Codex 0.153.4" />
   <img src="https://img.shields.io/badge/OpenCode-1.18.29-fab283" alt="OpenCode 1.18.29" />
@@ -34,15 +34,15 @@
 
 | Target | Minimum | Validated against | Catalog install | Install guide |
 |--------|---------|-------------------|-----------------|---------------|
-| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.286** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
+| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.293** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
 | [Cursor](https://cursor.com/docs/plugins) | 3.18.9 | **3.18.9** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
 | [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.153.4** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.29** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
-Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.286 was
-confirmed live on 2026-09-30 — this run's runner has the `claude` CLI installed and
-`claude --version` reports `2.1.286 (Claude Code)`, matching the target exactly, covering
-the 2.1.282 → 2.1.286 delta on top of the prior 2.1.281 live confirmation. Codex 0.153.4 was revalidated on 2026-09-08 against the
+Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.293 was
+confirmed live on 2026-10-07 — this run's runner has the `claude` CLI installed and
+`claude --version` reports `2.1.293 (Claude Code)`, matching the target exactly, covering
+the 2.1.287 → 2.1.293 delta on top of the prior 2.1.286 live confirmation. Codex 0.153.4 was revalidated on 2026-09-08 against the
 0.148.0 → 0.153.4 release delta and this catalog's native `.agents/plugins/marketplace.json`
 surface. Floors, verification methods, and OpenCode's documented capability gaps:
 [platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
@@ -51,7 +51,7 @@ surface. Floors, verification methods, and OpenCode's documented capability gaps
 
 | Plugin | Repo | Description |
 |--------|------|-------------|
-| `tamirs-superpowers` | [Tamircohen28/tamirs-superpowers](https://github.com/Tamircohen28/tamirs-superpowers) | 26 skills, smart worktree hooks, statusline, and MCP stubs for a full dev workflow. |
+| `tamirs-superpowers` | [Tamircohen28/tamirs-superpowers](https://github.com/Tamircohen28/tamirs-superpowers) | 26 skills, smart worktree hooks, statusline, MCP stubs, and a Claude Code 2.1.287+ Mod (objective pane, rate-limit band) for a full dev workflow. |
 | `jose-claudinho` | [Tamircohen28/jose-claudinho](https://github.com/Tamircohen28/jose-claudinho) | AI manager for Sport5 Fantasy World Cup 2026. |
 | `headhunter` | [Tamircohen28/headhunter](https://github.com/Tamircohen28/headhunter) | Job-search CRM with Gmail/Calendar/Notion/Todoist integrations. |
 
