@@ -1,12 +1,8 @@
-# Changelog
-
-All notable changes to the tamirs-marketplace catalog are documented here.
-
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-
----
-
 ## [Unreleased]
+
+### Changed
+- **Cursor desktop pin 3.23.12 → 3.24.12** (feature changelog still 3.11 / 2026-09-23). Catalog install docs note IDE 3.24 MCP OAuth hosted-callback reliability and auto-review risky-delete behavior for marketplace consumers.
+
 
 ### Added
 - **Cursor 3.11 (+2026-09-23 / desktop 3.23.12):** bump desktop pin **3.22.7 → 3.23.12** (stable download API 2026-10-01; public feature changelog still **3.11** / **2026-09-23**). Document desktop **3.23** team/org MCP allowlists, service tokens, Origin MCP endpoint, xAI linking; note removal of applying team marketplace **Required** plugins. Feature pin remains **3.11**. CLI still **2026-08-26**. Cursor-only; other platform nightlies untouched.
