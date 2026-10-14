@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.293** |
+| **Validated against** | Claude Code **2.1.300** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.293 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.300 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -79,6 +79,14 @@ It is additive: every bash hook it overlaps with keeps running as the fallback o
 older CLI, `--safe-mode`, or a host (Codex, Cursor) that has no mod runtime. Nothing to
 configure — it loads automatically once the plugin is installed on 2.1.287+.
 
+> **Since Claude Code 2.1.299, a gating hook that throws or can't answer now blocks the
+> action instead of letting it through.** `tamirs-superpowers`' mod registers 4 gating
+> hooks (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) with no `.catch`
+> — previously an unhandled exception there could fail open or closed depending on the
+> mod runtime's own default; as of 2.1.299 it fails **closed** (the call is refused).
+> Safer by default, but worth knowing if one of those hooks ever throws unexpectedly —
+> see `docs/agent-guidelines/security.md` and Future opportunities below.
+
 ## Useful flags (2.1.163+)
 
 - `/plugin` has a **search bar** when browsing the marketplace — type instead of scrolling.
@@ -108,7 +116,7 @@ configure — it loads automatically once the plugin is installed on 2.1.287+.
   plugin eval --help`). `tamirs-superpowers` and `jose-claudinho` now ship `evals/`
   directories under some of their skills; `headhunter` still ships none. Separately,
   `claude plugin test [dir]` runs a **mod's** own test suite (not a skill eval) —
-  `tamirs-superpowers`' `mod/mods.test.tsx` passes 21/21 live against 2.1.293, and since
+  `tamirs-superpowers`' `mod/mods.test.tsx` passes 21/21 live against 2.1.300, and since
   2.1.292 a failing `expect` inside a hook test is reported instead of silently passing.
 - Since Claude Code 2.1.275, `claude plugin install`/`/plugin install` accepts
   `--marketplace <source>` to name the marketplace explicitly instead of relying on the
@@ -341,6 +349,80 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+## Claude Code 2.1.294 – 2.1.300
+
+Reviewed for catalog impact against the published changelog, then confirmed live —
+this run's runner has the `claude` CLI installed and `claude --version` reports
+`2.1.300 (Claude Code)`, matching the target exactly. `validated_against` and
+`latest_known` both advance from 2.1.293 to **2.1.300** together — no divergence,
+covering seven releases (2.1.294 → 2.1.300; 2.1.297 and 2.1.298 do not exist as public
+releases). `make validate`, `make validate-skills`, `make assert-contract`,
+`scripts/check-platform-targets.sh --assert-current`, and `claude plugin validate
+--strict .` on the marketplace manifest all passed clean against the live 2.1.300 CLI.
+
+- **2.1.294 – 2.1.299: a hook-failure semantics change spanning three releases.** This
+  catalog ships no `hooks.json`/`plugin.json` of its own, so the audit ran against the
+  sibling plugin repos instead. **2.1.295** added `onFailure: "block"` for command/HTTP
+  hooks — a hook that can't start, times out, or exits with an unexpected code now
+  blocks the action under that explicit setting, instead of letting it through.
+  **2.1.299** then changed the **unset default itself**: an action a plugin hook can
+  block is now *refused*, not let through, when the hook can't be handed the call or
+  can't hand back an answer. **2.1.294** separately fixed `prompt`/`agent` hooks written
+  as natural-language instructions (e.g. "Block commands that...") allowing what they
+  should have blocked, and improved how Stop/SubagentStop instruction-style hooks are
+  judged. Re-ran `claude plugin validate --strict --json` against all three listed
+  plugin repos on the live 2.1.300 CLI as a deeper audit: `tamirs-superpowers`' mod
+  (`mod/register.tsx`) still registers its 4 gating hooks (`agent.spawn`,
+  `prompt.submit`, `tool.call`, `session.compact`) with no `.catch` — previously a soft
+  finding ("fails open or closed depending on the mod runtime's own default"), now
+  **resolved by 2.1.299 to fail closed**: a safer default, but an unhandled exception in
+  any of those four hooks now blocks an action it would have let through before.
+  Documented above in What-you-get as a new warning box, and escalated below under
+  Future opportunities for that repo's own nightly — not actionable from this
+  manifest-only catalog. Separately, `tamirs-superpowers`' bash `PreToolUse` command
+  hooks (`hooks/hooks.json` — e.g. `protect-other-branches.sh` with a 15s timeout) set
+  no explicit `onFailure`, so they now also fall under 2.1.299's new fail-closed default
+  rather than the old implicit behavior; worth that repo re-checking each hook's timeout
+  against its own tolerance for a now-blocking failure.
+- **New, undated finding:** `claude plugin validate --strict --json` on the live 2.1.300
+  CLI reports a "CLAUDE.md at the plugin root is not loaded as project context" warning
+  for all three listed plugin repos (each ships a root `CLAUDE.md` beside
+  `.claude-plugin/plugin.json`), which was not present in the 2026-10-07 audit on
+  2.1.293 and is not tied to a specific numbered changelog entry in this range.
+  `headhunter` still separately carries its 3 pre-existing unknown-field warnings
+  (`engines`/`peerDependencies`/`requiredEnvVars`, unchanged); `jose-claudinho` is
+  otherwise clean. Flagged for those repos' own maintenance, not actionable here.
+- **2.1.300:** Re-ran `claude plugin test .` against `tamirs-superpowers`' mod suite
+  live: **21/21 pass**, unchanged from the 2.1.293 run (re-confirmed above in Useful
+  flags). Reviewed with no catalog surface: `virtualText` mod decorations,
+  `$.ui.view({agentId})`, the new `prompt.change` mod hook (raised when the prompt box's
+  text changes without a typed edit), and `updatedInput` from PreToolUse/
+  PermissionRequest hooks now being validated like Claude's own input (all mod-dev/hooks
+  surface relevant to `tamirs-superpowers`' own mod and hooks, not to this manifest-only
+  catalog — worth that repo's own review) — and the removal of the no-op
+  `--sandbox`/`--no-sandbox` flags from `claude remote-control` (this catalog's scripts
+  never invoke `claude remote-control`).
+- **Reviewed with no catalog surface, the rest of the range:** 2.1.295's Program Status
+  Protocol (OSC 7501), `$.ui.notify` and mod-`Button` children (mod-dev/terminal-UI
+  only), the MCP tool-description cut raised from 2,048 to 16,384 characters and
+  claude.ai connectors negotiating MCP protocol 2026-07-28 by default (no `.mcp.json`
+  here), and the new `claude plugin validate` advice when a plugin's README has no
+  install line (this catalog's own README already has one — confirmed clean, no
+  `--strict` exit-code effect either way). 2.1.296's `code` key on the Claude apps
+  gateway's `managed.policies[]`, `autoCompactWindow` for subagent frontmatter, the
+  default MCP description/instruction limit rising from 2,048 to 4,096 characters, and
+  Sonnet 5.5 cache-read repricing (no gateway, subagents, `.mcp.json`, or billing surface
+  in this personal, manifest-only catalog). 2.1.299's `$.prompt.media` and
+  `$.session.identity()` for managed-settings mods, idle compaction in the terminal,
+  `UserPromptSubmit` hooks now running before skill/custom-command expansion, and MCP
+  allow rules matching only the exact named server instead of any prefix (no `.mcp.json`
+  and no Bash/MCP permission-rule examples anywhere in this catalog's docs — checked
+  directly, same reasoning as every prior permission-rule review in this history).
+  Platform-specific and host/session/UI-only entries throughout 2.1.294 → 2.1.300 not
+  named above have zero marketplace-manifest, plugin-source, or skill-loading surface.
+
+None of the 2.1.294 → 2.1.300 delta requires a manifest schema or field change.
 
 ## Claude Code 2.1.287 – 2.1.293
 
