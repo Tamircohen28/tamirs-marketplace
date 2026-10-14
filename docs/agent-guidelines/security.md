@@ -26,3 +26,36 @@ See [AGENTS.md](../../AGENTS.md) for the canonical off-limits list.
   future entry here (or a fork) does distribute a plugin as an `archive`
   source, treat the extracted directory as sensitive on any older CLI and
   prefer a Claude Code build 2.1.269 or later.
+- **Watch for a stray `manifest.json` next to a skill directory.** Before Claude Code
+  2.1.280, a `manifest.json` that listed a skill's name could cause Claude Code to
+  wrongly move that skill in `~/.claude/skills/` into `.trash/`. Fixed in 2.1.280. This
+  repo's own `.agents/skills/run-plugins-catalog/` ships only a `SKILL.md` and no
+  `manifest.json`, so this catalog never triggered it — but if you're developing a
+  plugin skill for `tamirs-superpowers`, `jose-claudinho`, or `headhunter` locally with
+  a `manifest.json` alongside it, prefer a Claude Code build 2.1.280 or later, or drop
+  the stray file.
+- **Setting a bundled `.mcpb` MCP server's own secrets (e.g. `headhunter`'s Gmail/
+  Calendar/Notion/Todoist integrations, if bundled that way).** Since Claude Code 2.1.285,
+  prefer `claude plugin install <name>@tamirs-marketplace --config <server>.<key>=<value>`
+  or `claude plugin configure <name>@tamirs-marketplace --values-stdin` over typing a
+  secret value into the interactive Configure prompt or a shell command a history file
+  could capture. Neither flag is specific to this catalog's own manifests — it's install-
+  time guidance for anyone setting up one of the three listed plugins.
+- **Mods (Claude Code 2.1.287+) run in-process and can gate a tool call or a prompt.**
+  `tamirs-superpowers` ships one (`mod/register.tsx`); its own header documents it as
+  additive — every bash-hook guard it overlaps with keeps running as the fallback, and
+  the mod itself makes no network call. `claude plugin validate --json`'s `gatingHooks`
+  report (2.1.290+) shows 4 of its hooks (`agent.spawn`, `prompt.submit`, `tool.call`,
+  `session.compact`) register without a `.catch`. Before Claude Code 2.1.299, an
+  unhandled exception in one of those hooks failed open or closed depending on the mod
+  runtime's own default, not a choice this catalog's manifest controls. **As of 2.1.299,
+  that ambiguity is resolved: an action a plugin hook can block is now refused, not let
+  through, when the hook can't be handed the call or can't hand back an answer** — so
+  those 4 gating hooks now fail closed by default. Safer, but it also means a bug that
+  makes any of them throw now blocks a call it would previously have let through on
+  some runtimes. Separately, `tamirs-superpowers`' bash `PreToolUse` command hooks
+  (`hooks/hooks.json`) set no explicit `onFailure`, so Claude Code 2.1.295's new
+  `onFailure: "block"` option and 2.1.299's changed default apply to them too — a
+  timeout (e.g. `protect-other-branches.sh`'s 15s budget) now blocks the tool call
+  rather than letting it through. Worth a fix/review in that repo; tracked under Future
+  opportunities, not actionable from this manifest-only catalog.
