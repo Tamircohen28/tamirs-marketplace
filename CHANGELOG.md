@@ -333,6 +333,49 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   `make assert-contract`, `scripts/check-platform-targets.sh --assert-current`, and
   `claude plugin validate --strict .` all passed clean against the live 2.1.293 CLI.
   No manifest schema or field change was needed anywhere in this range.
+- **Platform target: Claude Code `validated_against` and `latest_known` both advance
+  to 2.1.300** (from 2.1.293), confirmed live this run — the runner's `claude
+  --version` reports `2.1.300 (Claude Code)`, matching the target exactly, covering
+  seven releases (2.1.294 → 2.1.300; 2.1.297/2.1.298 do not exist as public releases)
+  in one pass. The reviewed delta centers on a **hook-failure semantics change spanning
+  three releases**, audited against the sibling plugin repos since this catalog ships
+  no `hooks.json`/`plugin.json` of its own: **2.1.295** added `onFailure: "block"` for
+  command/HTTP hooks; **2.1.299** then changed the *unset default itself* so that an
+  action a plugin hook can block is now refused, not let through, when the hook can't
+  be handed the call or can't hand back an answer; and **2.1.294** fixed `prompt`/
+  `agent` hooks written as natural-language instructions allowing what they should have
+  blocked. Re-ran `claude plugin validate --strict --json` against all three listed
+  plugin repos on the live 2.1.300 CLI: `tamirs-superpowers`' mod still registers 4
+  gating hooks (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) with no
+  `.catch` — previously a soft, runtime-dependent finding, now resolved by 2.1.299 to
+  fail **closed** (escalated under Future opportunities for that repo's own nightly,
+  and documented in the install guide and `docs/agent-guidelines/security.md` and
+  `testing.md`). Also newly observed, not tied to a numbered changelog entry: `claude
+  plugin validate --strict --json` on 2.1.300 reports a "CLAUDE.md at the plugin root is
+  not loaded as project context" warning for all three listed plugin repos, absent from
+  the 2026-10-07 audit on 2.1.293. `headhunter` still carries its 3 pre-existing
+  unknown-field warnings; `jose-claudinho` is otherwise clean. Re-ran `claude plugin
+  test .` against `tamirs-superpowers`' mod suite live: 21/21 pass, unchanged. Reviewed
+  with no further catalog surface: 2.1.295's Program Status Protocol, `$.ui.notify` and
+  mod-`Button` children (mod-dev/terminal-UI only), the MCP tool-description cut raised
+  to 16,384 characters and claude.ai-connector MCP protocol 2026-07-28 default (no
+  `.mcp.json` here), and the `claude plugin validate` README-install-line advice (this
+  catalog's README already has one); 2.1.296's `code` gateway-policy key,
+  `autoCompactWindow` for subagents, the default MCP description/instruction limit
+  rising 2,048→4,096, and Sonnet 5.5 cache-read repricing (no gateway, subagents,
+  `.mcp.json`, or billing surface here); 2.1.299's `$.prompt.media`/
+  `$.session.identity()` for managed-settings mods, idle compaction,
+  `UserPromptSubmit` now running before skill/command expansion, and MCP allow rules
+  matching only the exact named server (no `.mcp.json` or Bash permission-rule examples
+  in this catalog's docs); and 2.1.300's `virtualText` mod decorations,
+  `$.ui.view({agentId})`, the new `prompt.change` mod hook, `updatedInput` from
+  PreToolUse/PermissionRequest hooks now being validated (all mod-dev/hooks surface for
+  `tamirs-superpowers`' own mod, not this manifest-only catalog), and the removal of the
+  no-op `--sandbox`/`--no-sandbox` flags from `claude remote-control` (unused by this
+  catalog's scripts). `make validate`, `make validate-skills`, `make assert-contract`,
+  `scripts/check-platform-targets.sh --assert-current`, and `claude plugin validate
+  --strict .` all passed clean against the live 2.1.300 CLI. No manifest schema or
+  field change was needed anywhere in this range.
 
 ### Fixed
 - **`scripts/check-action-pinning.sh` decided its verdict by where it happened to
@@ -719,7 +762,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   see Added above. Also checked: the 2.1.248 MCP `headersHelper` OAuth-retry fix
   (see Added above) and 2.1.248's `experimental.cacheTtl` agent-frontmatter
   setting — this catalog ships no agent definitions of its own, only the
-  `run-plugins-catalog` contributor skill, so not applicable. Everything else in
+  `run-plugins-catalog` contributor skill. Everything else in
   2.1.248–2.1.251 (`--restricted` mode, `PreModelSwitch`/`PostModelSwitch` hooks,
   live subagent tool-call streaming to Remote Control, the `/usage` spend-limit
   bar and `/cost` prompt-cache line, `claude --help` subcommands, symlink/Grep-
@@ -727,7 +770,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   surface, self-hosted-runner and `claude agents` UI/reliability fixes,
   cross-session messaging on Bedrock/Vertex/Foundry, Remote Control and
   cloud-session fixes, and analytics/gateway/sandbox-settings changes) is
-  host/CLI/session-side with no marketplace-manifest surface.
+  host/CLI/session-side with no marketplace-manifest surface. `claude
+  plugin validate --strict .agents/skills` and `make validate` both passed clean
+  against the live 2.1.251 CLI.
 - **Platform target: Claude Code 2.1.247 — `validated_against` and `latest_known`
   both 2.1.247**, real direct CLI check for the second run in a row (`claude
   --version` on this run's runner reports 2.1.247). `claude plugin validate --strict
