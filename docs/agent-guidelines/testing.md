@@ -39,22 +39,30 @@ There is no application to run; "tests" here mean manifest validation.
   manifest — and all three listed plugin repos ship both `plugin.json` and
   `marketplace.json` side by side in `.claude-plugin/` (for their standalone install
   path). Fixed in 2.1.289. Re-run the audit above on 2.1.289+ to get real results; a
-  2026-10-07 re-run against the live 2.1.293 CLI found `headhunter` still has 3
+  2026-10-14 re-run against the live 2.1.300 CLI found `headhunter` still has 3
   pre-existing unknown-field warnings (`engines`/`peerDependencies`/`requiredEnvVars`,
-  harmless at load time) and the other two clean — including confirmation that
-  `tamirs-superpowers`' hooks.json unquoted-`${CLAUDE_PLUGIN_ROOT}` warnings (27 of them,
-  flagged in a prior pass) are now fixed upstream.
-- **`claude plugin validate --json`'s `gatingHooks` report (Claude Code 2.1.290+).**
-  Lists each gating hook a plugin's mod registers and whether it has a `.catch`. No
-  surface on this catalog's own manifest (empty — no `plugin.json` here); run as a
-  deeper audit against a listed plugin's `plugin.json` when it ships a mod.
-  `tamirs-superpowers`' mod currently has 4 gating hooks with no `.catch`
-  (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) — a finding for that
-  repo's own maintenance, not this one.
+  harmless at load time), `jose-claudinho` otherwise clean, and the
+  `tamirs-superpowers` hooks.json unquoted-`${CLAUDE_PLUGIN_ROOT}` warnings (27 of them,
+  flagged in an earlier pass) remain fixed upstream. The same 2.1.300 run turned up a
+  new, undated finding not tied to a specific changelog entry: all three repos now also
+  report a "CLAUDE.md at the plugin root is not loaded as project context" warning
+  (each ships a root `CLAUDE.md` beside `plugin.json`), absent from the 2026-10-07 audit
+  on 2.1.293 — worth each repo's own look, not actionable from this manifest-only
+  catalog.
+- **`claude plugin validate --json`'s `gatingHooks` report (Claude Code 2.1.290+), now
+  higher-stakes since 2.1.299.** Lists each gating hook a plugin's mod registers and
+  whether it has a `.catch`. No surface on this catalog's own manifest (empty — no
+  `plugin.json` here); run as a deeper audit against a listed plugin's `plugin.json`
+  when it ships a mod. `tamirs-superpowers`' mod still has 4 gating hooks with no
+  `.catch` (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) — a finding
+  for that repo's own maintenance, not this one, but **Claude Code 2.1.299 changed what
+  an uncaught exception there now does**: the action it gates is refused (fails closed)
+  instead of the previous runtime-dependent fail-open-or-closed behavior. See
+  `docs/agent-guidelines/security.md` for the full note.
 - **Mod tests (Claude Code 2.1.287+ `claude plugin test [dir]`).** Runs a plugin's mod
   test suite. `tamirs-superpowers` is the only one of the three with a mod
   (`mod/register.tsx` + `mod/mods.test.tsx`); its suite passes 21/21 live against
-  2.1.293. Since Claude Code 2.1.292, a failing `expect` inside a mod hook test is
+  2.1.300. Since Claude Code 2.1.292, a failing `expect` inside a mod hook test is
   reported instead of passing silently — re-run after any CLI upgrade if a mod-bearing
   plugin's test suite hasn't been re-checked since.
 - **Plugin/skill name length (Claude Code 2.1.292+).** A `name` over 256 characters is
