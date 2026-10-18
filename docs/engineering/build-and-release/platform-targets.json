@@ -67,14 +67,14 @@
       ]
     },
     "cursor": {
-      "supported_min": "3.24.12",
+      "supported_min": "3.25.9",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.24.12",
-      "latest_known": "3.24.12",
+      "validated_against": "3.25.9",
+      "latest_known": "3.25.9",
       "changelog_feature": "3.11",
-      "changelog_date": "2026-09-23",
-      "verified_on": "2026-10-11",
-      "verification_method": "latest desktop build from official Cursor download API (3.24.12, 2026-10-11); IDE notes cover 3.24 hook tool_use_id / auto-review risky-delete / MCP OAuth hosted callback; prior 3.23.12 review 2026-10-04 cross-checked against cursor.com/changelog (feature 3.11; date-only entries through 2026-09-23 Rollouts + Security Review) and desktop 3.23.x notes (team/org MCP allowlists, service tokens, Origin MCP at api.origin.cursor.com/mcp, removal of applying team marketplace required plugins); CLI changelog through 2026-08-26; team-marketplace import is a Dashboard flow",
+      "changelog_date": "2026-10-16",
+      "verified_on": "2026-10-18",
+      "verification_method": "latest desktop build from official Cursor download API (3.25.9, 2026-10-18); cursor.com/changelog through date-only 2026-10-16 (canvases + Environments API + 300-repo envs; prior Origin App Marketplace 2026-10-13, Remote Control 2026-10-06, Rollouts/Security Review 2026-09-23); feature pin remains 3.11; CLI changelog through 2026-08-26; documentary review only \u2014 catalog has no live Cursor IDE validation this cycle",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -120,7 +120,6 @@
         "agent-window-goal-2026-08-19",
         "non-interruptive-steering-2026-08-19",
         "native-create-goal-tools-docs-2026-08-19",
-        "desktop-cli-pin-3.24.12",
         "cloud-agent-start-from-scratch-2026-08-27",
         "origin-create-repo-from-scratch-2026-08-27",
         "cloud-agent-browser-preview-2026-08-27",
@@ -135,7 +134,6 @@
         "project-shared-context-2026-09-10",
         "project-subscriptions-2026-09-10",
         "cli-persist-sessions-2026-08-26",
-        "desktop-cli-patch-3.24.12",
         "security-review-bot-2026-09-23",
         "rollouts-bot-2026-09-23",
         "team-org-mcp-allowlists-3.23",
@@ -145,7 +143,13 @@
         "xai-account-linking-3.23",
         "hook-tool-use-id-correlation-docs-3.24",
         "auto-review-risky-delete-docs-3.24",
-        "mcp-oauth-hosted-callback-docs-3.24"
+        "mcp-oauth-hosted-callback-docs-3.24",
+        "desktop-cli-pin-3.25.9",
+        "desktop-cli-patch-3.25.9",
+        "remote-control-local-agents-docs-2026-10-06",
+        "origin-app-marketplace-distinct-from-catalog-2026-10-13",
+        "cloud-agent-canvases-docs-2026-10-16",
+        "environments-api-docs-2026-10-16"
       ],
       "capabilities": [
         "marketplace",
