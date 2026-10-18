@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.18.9** |
-| **Minimum supported** | **3.18.9** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-09-02** (see [`.cursor-version`](../../../.cursor-version)) |
+| **Validated against** | Cursor **3.25.9** |
+| **Minimum supported** | **3.25.9** |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-10-16**; desktop **3.25.9** (see [`.cursor-version`](../../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -16,7 +16,7 @@ cursor --version
 
 ## About the version floor
 
-Cursor's documentation states **no minimum version** for plugins. The 3.18.9 floor here is
+Cursor's documentation states **no minimum version** for plugins. The 3.25.9 floor here is
 simply the version this catalog was actually validated on, not a limit Cursor imposes. The
 previous floor in this repo was `0.45.0`, which predates Cursor's plugin system entirely —
 it could never have worked.
@@ -36,7 +36,7 @@ the plugins in their in-editor marketplace panel.
 4. Under **Marketplace Settings**:
    - Enable **Auto Refresh** so pushes to `main` re-index the catalog
    - Optionally restrict **Marketplace Access** to [Organization Groups](https://cursor.com/docs/enterprise/organization-groups) (Cursor **3.10**) — members outside those groups will not see the catalog
-5. Save, then assign distribution groups / installation modes (Default Off / Default On / Required)
+5. Save, then assign distribution groups / installation modes (Default Off / Default On). **Desktop 3.23 removed applying team marketplace Required plugins** — do not rely on Required as an enforceable install mode; use Default On + Organization Groups instead
 
 Developers: open **Customize** in the Cursor sidebar and install the plugins you want from
 the team marketplace (and the team leaderboard of popular plugins/skills/MCPs, Cursor **3.9**).
@@ -83,10 +83,18 @@ Cursor Marketplace plugins for Google Drive / Gmail / Calendar are unrelated to 
 catalog. Install them from Customize / Marketplace if you want inbox or Drive context in
 the agent. Never commit Workspace credentials into this repo or any catalogued plugin.
 
-## Working tips (3.11 → 2026-08-27; desktop CLI 3.18.9; Grok 4.6)
+
+## Projects (2026-09-10)
+
+Cursor **Projects** (left nav) suit multi-week catalog / multi-plugin work. A **coordinator** plans and delegates (does not write code); **shared context** syncs across cloud and local agents; **subscriptions** can watch Slack, schedules, or all PRs. Prefer a Project when validating marketplace + plugin repos together across days; keep one-shot `make validate` / docs edits as ordinary Agent chats. Complements Self-Hosted Machines (2026-09-02) and Cloud Agents ([changelog](https://cursor.com/changelog)).
+
+## Working tips (3.11 → 2026-10-16; desktop CLI 3.25.9; CLI 2026-08-26)
+- **Desktop 3.25.9 (2026-10-10/11):** IDE notes add hook **`tool_use_id`** correlation, **auto-review** approval for risky deletes, cloud-agent **OOM recognition**, and MCP OAuth **hosted callback** (helps Team MCP sign-in when local redirects fail). Retains **3.23** team/org **MCP allowlists** (Origin MCP at `api.origin.cursor.com/mcp`), **service tokens**, xAI account linking. **Compat:** applying team marketplace **Required** plugins remains removed — catalog install guidance above uses Default On / groups only. Prefer allowlists so Team MCP servers linked beside this catalog stay permitted.
+- **Security Review + Rollouts (2026-09-23):** Teams/Enterprise [Automations](https://cursor.com/automations) bots ([docs](https://cursor.com/docs/security-agents)). Useful when reviewing PRs that change this catalog's manifests; Rollouts is optional (catalog has no deploy). `/review-security` before push.
 - **Start from scratch / no SCM (2026-08-27)** — Cloud Agents can begin without a connected GitHub repo: pick **Start from scratch**, prompt, then **Create repo** into Origin. Use **browser port-forward preview**; optional **Vercel publish**. GitHub remains canonical for marketplace installs and CI.
 
-- **Desktop CLI patch line** — pin is **3.18.9** (download line 2026-08-18; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 11). Newest feature write-up remains **3.11**; newest date-only entry **2026-08-19** (cloud-agent subscriptions / custom modes / isolated subagent VMs / `/goal` / steering).
+- **Desktop CLI patch line** — pin is **3.25.9** (download line 2026-10-10/11; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 26). Newest feature write-up remains **3.11**; newest date-only entry **2026-10-16** (Remote Control / Rollouts + Security Review).
+- **CLI persistent sessions (2026-08-26)** — `agent persist` / `/detach` / `agent persist attach` keep long `make validate` / marketplace checks alive across disconnects ([CLI changelog](https://cursor.com/docs/cli/changelog)).
 - **Custom Modes (2026-08-19)** — from `/`, pick a skill and press ⌥⏎ / Alt+Enter → **Use as Mode** to keep a catalogued plugin skill pinned for the chat (always-on playbook). Prefer for long install/verify sessions.
 - **`/goal` + non-interruptive steering (2026-08-19)** — long-lived objectives with `/goal`; Cloud Agents also expose native **CreateGoal** / **UpdateGoal** tools. Follow-ups wait for the next tool call (Send now, or ⏎ twice). CLI Aug 11 steer/`/goal` still apply for `agent` runs.
 - **Subscriptions (Cloud Agents, 2026-08-19)** — wake on PR / Slack / schedule; agents auto-subscribe to PRs they create. Use for unattended catalog CI triage Automations.
@@ -146,3 +154,11 @@ More: [troubleshooting.md](../troubleshooting.md).
 
 Cursor can run Cloud Agent tool execution on **My Machines**, **Team Pools**, or partner sandboxes, with **computer use** on Linux/Mac ([docs](https://cursor.com/docs/cloud-agent/self-hosted)). This catalog remains installable from GitHub-hosted `ubuntu-latest` CI — Cursor Self-Hosted Machines are **not** GitHub Actions self-hosted runners and do not change this repo's runner policy.
 
+
+
+## Cursor currency (2026-10-16 / desktop 3.25.9)
+
+- Feature pin remains **3.11**; desktop pin **3.25.9**.
+- **Origin App Marketplace** (2026-10-13) is Cursor Origin's third-party app store — **not** this catalog. This repo remains the Claude/Cursor/Codex/OpenCode **plugin** marketplace pointing at plugin source repos.
+- Cloud Agent **canvases**, **Environments API** (beta), and **300-repo** environments (2026-10-16) do not change catalog install flows.
+- **Remote Control** (2026-10-06) is an operator convenience for local agents; catalog install still uses Cursor's plugin UI / marketplace JSON.
