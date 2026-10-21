@@ -49,22 +49,27 @@ There is no application to run; "tests" here mean manifest validation.
   (each ships a root `CLAUDE.md` beside `plugin.json`), absent from the 2026-10-07 audit
   on 2.1.293 — worth each repo's own look, not actionable from this manifest-only
   catalog.
-- **`claude plugin validate --json`'s `gatingHooks` report (Claude Code 2.1.290+), now
-  higher-stakes since 2.1.299.** Lists each gating hook a plugin's mod registers and
-  whether it has a `.catch`. No surface on this catalog's own manifest (empty — no
-  `plugin.json` here); run as a deeper audit against a listed plugin's `plugin.json`
-  when it ships a mod. `tamirs-superpowers`' mod still has 4 gating hooks with no
-  `.catch` (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) — a finding
-  for that repo's own maintenance, not this one, but **Claude Code 2.1.299 changed what
-  an uncaught exception there now does**: the action it gates is refused (fails closed)
-  instead of the previous runtime-dependent fail-open-or-closed behavior. See
-  `docs/agent-guidelines/security.md` for the full note.
+- **`claude plugin validate --json`'s `gatingHooks` report (Claude Code 2.1.290+).**
+  Lists each gating hook a plugin's mod registers and whether it has a `.catch`. No
+  surface on this catalog's own manifest (empty — no `plugin.json` here); run as a
+  deeper audit against a listed plugin's `plugin.json` when it ships a mod.
+  `tamirs-superpowers`' mod previously had 4 gating hooks with no `.catch`
+  (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) — a finding for that
+  repo's own maintenance, made higher-stakes by Claude Code 2.1.299's change to what an
+  uncaught exception there does (fails closed instead of the prior runtime-dependent
+  fail-open-or-closed behavior). **Resolved (2026-10-21):** `tamirs-superpowers`
+  5.0.0/5.0.1 added `.catch` handlers to all four, re-confirmed by a live
+  `claude plugin validate .claude-plugin/plugin.json` against 2.1.306. See
+  `docs/agent-guidelines/security.md` for the full note and the one part of the
+  original finding (bash hook `onFailure`) that's still open.
 - **Mod tests (Claude Code 2.1.287+ `claude plugin test [dir]`).** Runs a plugin's mod
   test suite. `tamirs-superpowers` is the only one of the three with a mod
-  (`mod/register.tsx` + `mod/mods.test.tsx`); its suite passes 21/21 live against
-  2.1.300. Since Claude Code 2.1.292, a failing `expect` inside a mod hook test is
-  reported instead of passing silently — re-run after any CLI upgrade if a mod-bearing
-  plugin's test suite hasn't been re-checked since.
+  (`mod/register.tsx` + `mod/mods.test.tsx`); its suite passes 56/56 live against
+  2.1.306 (37/37 mod + 19/19 guard-plugin, via that repo's own `make test-mods` target
+  which isolates the two — up from 21/21 after its 5.0.0/5.0.1 test expansion). Since
+  Claude Code 2.1.292, a failing `expect` inside a mod hook test is reported instead of
+  passing silently — re-run after any CLI upgrade if a mod-bearing plugin's test suite
+  hasn't been re-checked since.
 - **Plugin/skill name length (Claude Code 2.1.292+).** A `name` over 256 characters is
   now ignored at load time instead of partially working. Checked this catalog's own
   manifest and all three listed plugins' manifests — the longest name is

@@ -45,17 +45,22 @@ See [AGENTS.md](../../AGENTS.md) for the canonical off-limits list.
   `tamirs-superpowers` ships one (`mod/register.tsx`); its own header documents it as
   additive — every bash-hook guard it overlaps with keeps running as the fallback, and
   the mod itself makes no network call. `claude plugin validate --json`'s `gatingHooks`
-  report (2.1.290+) shows 4 of its hooks (`agent.spawn`, `prompt.submit`, `tool.call`,
-  `session.compact`) register without a `.catch`. Before Claude Code 2.1.299, an
-  unhandled exception in one of those hooks failed open or closed depending on the mod
-  runtime's own default, not a choice this catalog's manifest controls. **As of 2.1.299,
-  that ambiguity is resolved: an action a plugin hook can block is now refused, not let
-  through, when the hook can't be handed the call or can't hand back an answer** — so
-  those 4 gating hooks now fail closed by default. Safer, but it also means a bug that
-  makes any of them throw now blocks a call it would previously have let through on
-  some runtimes. Separately, `tamirs-superpowers`' bash `PreToolUse` command hooks
-  (`hooks/hooks.json`) set no explicit `onFailure`, so Claude Code 2.1.295's new
-  `onFailure: "block"` option and 2.1.299's changed default apply to them too — a
-  timeout (e.g. `protect-other-branches.sh`'s 15s budget) now blocks the tool call
-  rather than letting it through. Worth a fix/review in that repo; tracked under Future
-  opportunities, not actionable from this manifest-only catalog.
+  report (2.1.290+) previously showed 4 of its hooks (`agent.spawn`, `prompt.submit`,
+  `tool.call`, `session.compact`) registered without a `.catch`. Before Claude Code
+  2.1.299, an unhandled exception in one of those hooks failed open or closed depending
+  on the mod runtime's own default, not a choice this catalog's manifest controls. As
+  of 2.1.299, that ambiguity resolved so that an action a plugin hook can block is now
+  refused, not let through, when the hook can't be handed the call or can't hand back
+  an answer — those 4 gating hooks would have failed closed by default. **Resolved
+  (2026-10-21): `tamirs-superpowers` 5.0.0/5.0.1 added explicit
+  `.catch(($, e, next) => next(e))` handlers to all four, confirmed live by that repo's
+  own `claude plugin validate .claude-plugin/plugin.json` against the 2.1.306 CLI — a
+  thrown exception in any of the four now hits the plugin's own, intentional fail-open
+  handling rather than the host's generic fail-closed default.** Separately,
+  `tamirs-superpowers`' bash `PreToolUse` command hooks (`hooks/hooks.json`) still set
+  no explicit `onFailure`, so Claude Code 2.1.295's `onFailure: "block"` option and
+  2.1.299's changed default still apply to them — a timeout (e.g.
+  `protect-other-branches.sh`'s 15s budget) still blocks the tool call rather than
+  letting it through. That half of the original finding was never about the `.catch`
+  gap and remains open for that repo's own judgment, still tracked under Future
+  opportunities; not actionable from this manifest-only catalog.
