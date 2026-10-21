@@ -6,19 +6,39 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.300 | 2.1.300 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.306 | 2.1.306 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
-Claude Code now tracks **2.1.300**, reviewed live on **2026-10-14** — this run's runner
-has the `claude` CLI installed and `claude --version` reported `2.1.300 (Claude Code)`,
+Claude Code now tracks **2.1.306**, reviewed live on **2026-10-21** — this run's runner
+has the `claude` CLI installed and `claude --version` reported `2.1.306 (Claude Code)`,
 matching the target exactly, continuing the live-CLI confirmation from the prior
-2.1.293 run (2026-10-07). `make validate`, `make validate-skills`, `make assert-contract`,
+2.1.300 run (2026-10-14). `make validate`, `make validate-skills`, `make assert-contract`,
 and `scripts/check-platform-targets.sh --assert-current` all passed clean against it.
-`validated_against` and `latest_known` both land on **2.1.300** together — no
-divergence, covering seven releases (2.1.294 → 2.1.300; 2.1.297/2.1.298 do not exist as
-public releases) in one pass. The reviewed delta:
+`validated_against` and `latest_known` both land on **2.1.306** together — no
+divergence, covering six releases (2.1.301 → 2.1.306). The reviewed delta:
+
+- **2.1.301 – 2.1.302:** `.catch` on a mod hook now runs only on throw or timeout,
+  `$.env.set` resolves `{}`/`{ deny }`, fork subagents default on, `-p`/SDK sessions
+  start in `default` permission mode on third-party integrations or with telemetry off,
+  and MCP servers negotiating protocol 2026-07-28 without `resultType`/`ttlMs`/
+  `cacheScope` no longer show as having no tools — mod-dev/CLI surface, no manifest
+  change. 2.1.303 is bug-fixes-and-reliability-improvements only. 2.1.304 added
+  `decider: "person"`/`e.isReadOnly` on a mod's `tool.check` event and a cap of 1,024
+  hooks/16,384 matcher characters per skill source (mod-dev/skill-loading surface).
+  2.1.305 added `sandbox.allowNestedUserNamespaces` and narrowed `allowedMcpServers`
+  filtering. 2.1.306 fixed `claude -p` "Not logged in" in cloud sessions and an
+  MCP-tools-heavy "prompt is too long" false error — host-side reliability, nothing to
+  adopt. None of 2.1.301 → 2.1.306 touches a marketplace manifest.
+- **Cross-repo resolution:** the gating-hooks escalation carried in PR #40's Future
+  opportunities since the 2.1.299 cycle ("`tamirs-superpowers`' mod has 4 gating hooks
+  without a `.catch`") is now resolved upstream in `tamirs-superpowers` 5.0.0/5.0.1
+  (confirmed live by that repo's own `claude plugin validate` and `make test-mods`,
+  56/56 passing, against 2.1.306). The install guide and
+  `docs/agent-guidelines/security.md`/`testing.md` no longer carry it as an open item.
+
+Prior reviewed delta (2.1.294 → 2.1.300):
 
 - **2.1.294 – 2.1.299: a hook-failure semantics change spanning three releases.** This
   manifest-only catalog ships no `hooks.json`/`plugin.json` itself, so this was audited
