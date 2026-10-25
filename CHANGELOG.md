@@ -1,14 +1,15 @@
-# Changelog
-
-All notable changes to the tamirs-marketplace catalog are documented here.
-
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-
----
-
 ## [Unreleased]
 
+### Changed
+
+- **Cursor 3.11 (+2026-10-16 / desktop 3.27.12):** bump desktop pin through **3.27.12** (stable download API 2026-10-23). Feature pin remains **3.11**; changelog date **2026-10-16**. Document IDE **3.26**/**3.27** notes for catalog consumers (Resume-after-crash; sticky `permissions.json` Always Run; `parent_agent_id` on subagent hooks). Catalog remains manifest-only. Cursor-only; other platform nightlies untouched.
+- **Cursor desktop pin 3.23.12 → 3.24.12** (feature changelog still 3.11 / 2026-09-23). Catalog install docs note IDE 3.24 MCP OAuth hosted-callback reliability and auto-review risky-delete behavior for marketplace consumers.
+
+
 ### Added
+- **Cursor 3.11 (+2026-09-23 / desktop 3.23.12):** bump desktop pin **3.22.7 → 3.23.12** (stable download API 2026-10-01; public feature changelog still **3.11** / **2026-09-23**). Document desktop **3.23** team/org MCP allowlists, service tokens, Origin MCP endpoint, xAI linking; note removal of applying team marketplace **Required** plugins. Feature pin remains **3.11**. CLI still **2026-08-26**. Cursor-only; other platform nightlies untouched.
+- **Cursor 3.11 (+2026-09-23 / desktop 3.22.7):** bump desktop pin **3.21.13 → 3.22.7** (rolling PR previously at **3.21.13** / **2026-09-10**); `changelog_date` **2026-09-10 → 2026-09-23**. Document **Security Review** + **Rollouts**. Feature pin remains **3.11**. Cursor-only; other platform nightlies untouched.
+- **Cursor 3.11 (+2026-09-10 / desktop 3.22.7):** bump desktop pin **3.18.9 → 3.22.7** (covers open rolling PR that advanced through **3.20.17** / **2026-09-10** Projects, plus tonight's download line **3.22.7** and CLI **2026-08-26** `agent persist`). Feature write-up remains **3.11**. Cursor-only; other platform nightlies untouched.
 - **`/plugin` Discover/Browse missing-description fix documented (Claude Code
   2.1.265).** Before 2.1.265, browsing a plugin that exists only as a marketplace
   entry (not yet installed) could show no description at all. Re-confirmed all
