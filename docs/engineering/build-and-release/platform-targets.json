@@ -67,14 +67,14 @@
       ]
     },
     "cursor": {
-      "supported_min": "3.25.9",
-      "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.25.9",
-      "latest_known": "3.25.9",
+      "supported_min": "3.27.12",
+      "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. Advanced with desktop pin 3.27.12 on 2026-10-25 documentary review.",
+      "validated_against": "3.27.12",
+      "latest_known": "3.27.12",
       "changelog_feature": "3.11",
       "changelog_date": "2026-10-16",
-      "verified_on": "2026-10-18",
-      "verification_method": "latest desktop build from official Cursor download API (3.25.9, 2026-10-18); cursor.com/changelog through date-only 2026-10-16 (canvases + Environments API + 300-repo envs; prior Origin App Marketplace 2026-10-13, Remote Control 2026-10-06, Rollouts/Security Review 2026-09-23); feature pin remains 3.11; CLI changelog through 2026-08-26; documentary review only \u2014 catalog has no live Cursor IDE validation this cycle",
+      "verified_on": "2026-10-25",
+      "verification_method": "Documentary review 2026-10-25: official Cursor download API stable desktop **3.27.12**; cursor.com/changelog still through date-only **2026-10-16**; IDE notes cover 3.26/3.27 (Resume-after-crash, sticky permissions.json Always Run, parent_agent_id on subagent hooks). Catalog remains manifest-only \u2014 no Cursor runtime. Prior: latest desktop build from official Cursor download API (3.25.9, 2026-10-18); cursor.com/changelog through date-only 2026-10-16 (canvases + Environments API + 300-repo envs; prior Origin App Marketplace 2026-10-13, Remote Control 2026-10-06, Rollouts/Security Review 2026-09-23); feature pin remains 3.11; CLI changelog through 2026-08-26; documentary review only \u2014 catalog has no live Cursor IDE vali",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -149,7 +149,9 @@
         "remote-control-local-agents-docs-2026-10-06",
         "origin-app-marketplace-distinct-from-catalog-2026-10-13",
         "cloud-agent-canvases-docs-2026-10-16",
-        "environments-api-docs-2026-10-16"
+        "environments-api-docs-2026-10-16",
+        "desktop-3.27.12",
+        "ide-3.26-3.27-docs"
       ],
       "capabilities": [
         "marketplace",

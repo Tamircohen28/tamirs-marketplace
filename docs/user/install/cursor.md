@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.25.9** |
-| **Minimum supported** | **3.25.9** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-10-16**; desktop **3.25.9** (see [`.cursor-version`](../../../.cursor-version)) |
+| **Validated against** | Cursor **3.27.12** |
+| **Minimum supported** | **3.27.12** |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-10-16**; desktop **3.27.12** (see [`.cursor-version`](../../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -93,7 +93,7 @@ Cursor **Projects** (left nav) suit multi-week catalog / multi-plugin work. A **
 - **Security Review + Rollouts (2026-09-23):** Teams/Enterprise [Automations](https://cursor.com/automations) bots ([docs](https://cursor.com/docs/security-agents)). Useful when reviewing PRs that change this catalog's manifests; Rollouts is optional (catalog has no deploy). `/review-security` before push.
 - **Start from scratch / no SCM (2026-08-27)** — Cloud Agents can begin without a connected GitHub repo: pick **Start from scratch**, prompt, then **Create repo** into Origin. Use **browser port-forward preview**; optional **Vercel publish**. GitHub remains canonical for marketplace installs and CI.
 
-- **Desktop CLI patch line** — pin is **3.25.9** (download line 2026-10-10/11; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 26). Newest feature write-up remains **3.11**; newest date-only entry **2026-10-16** (Remote Control / Rollouts + Security Review).
+- **Desktop CLI patch line** — pin is **3.27.12** (download line 2026-10-23; [CLI changelog](https://cursor.com/docs/cli/changelog) Aug 26). Newest feature write-up remains **3.11**; newest date-only entry **2026-10-16** (Remote Control / Rollouts + Security Review).
 - **CLI persistent sessions (2026-08-26)** — `agent persist` / `/detach` / `agent persist attach` keep long `make validate` / marketplace checks alive across disconnects ([CLI changelog](https://cursor.com/docs/cli/changelog)).
 - **Custom Modes (2026-08-19)** — from `/`, pick a skill and press ⌥⏎ / Alt+Enter → **Use as Mode** to keep a catalogued plugin skill pinned for the chat (always-on playbook). Prefer for long install/verify sessions.
 - **`/goal` + non-interruptive steering (2026-08-19)** — long-lived objectives with `/goal`; Cloud Agents also expose native **CreateGoal** / **UpdateGoal** tools. Follow-ups wait for the next tool call (Send now, or ⏎ twice). CLI Aug 11 steer/`/goal` still apply for `agent` runs.
@@ -156,9 +156,13 @@ Cursor can run Cloud Agent tool execution on **My Machines**, **Team Pools**, or
 
 
 
-## Cursor currency (2026-10-16 / desktop 3.25.9)
+## Cursor currency (2026-10-16 / desktop 3.27.12)
 
-- Feature pin remains **3.11**; desktop pin **3.25.9**.
+- Feature pin remains **3.11**; desktop pin **3.27.12**.
 - **Origin App Marketplace** (2026-10-13) is Cursor Origin's third-party app store — **not** this catalog. This repo remains the Claude/Cursor/Codex/OpenCode **plugin** marketplace pointing at plugin source repos.
 - Cloud Agent **canvases**, **Environments API** (beta), and **300-repo** environments (2026-10-16) do not change catalog install flows.
 - **Remote Control** (2026-10-06) is an operator convenience for local agents; catalog install still uses Cursor's plugin UI / marketplace JSON.
+
+## Host currency (desktop 3.27.12)
+
+Stable download pin **3.27.12** (2026-10-23). Feature changelog still **3.11** / **2026-10-16**. IDE **3.26**/**3.27**: Resume after extension-host crash; sticky Always Run with `~/.cursor/permissions.json`; `parent_agent_id` on subagent hooks. This catalog is manifest-only — no Cursor runtime change.

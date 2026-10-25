@@ -2,7 +2,7 @@
 
 ### Changed
 
-- **Cursor 3.11 (+2026-10-16 / desktop 3.25.9):** advance `changelog_date` **2026-09-23 → 2026-10-16**; desktop CLI **3.24.12 → 3.25.9** (stable download API 2026-10-18). Public feature pin remains **3.11**. Cover date-only changelog: **Remote Control** (2026-10-06), **Origin App Marketplace** (2026-10-13), **Cloud Agent canvases + Environments API + 300-repo envs** (2026-10-16). CLI still **2026-08-26**. Cursor-only; other platform nightlies untouched.
+- **Cursor 3.11 (+2026-10-16 / desktop 3.27.12):** bump desktop pin through **3.27.12** (stable download API 2026-10-23). Feature pin remains **3.11**; changelog date **2026-10-16**. Document IDE **3.26**/**3.27** notes for catalog consumers (Resume-after-crash; sticky `permissions.json` Always Run; `parent_agent_id` on subagent hooks). Catalog remains manifest-only. Cursor-only; other platform nightlies untouched.
 - **Cursor desktop pin 3.23.12 → 3.24.12** (feature changelog still 3.11 / 2026-09-23). Catalog install docs note IDE 3.24 MCP OAuth hosted-callback reliability and auto-review risky-delete behavior for marketplace consumers.
 
 
