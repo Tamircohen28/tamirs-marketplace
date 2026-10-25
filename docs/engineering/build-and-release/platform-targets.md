@@ -86,8 +86,7 @@ maintainer machine, and `opencode debug skill` with `skills.paths` pointed at th
 discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release notes turned up
 exactly one skills-related entry (a docs path fix, #42337) and no plugin-marketplace or
 plugin-manifest concept, so both OpenCode capability gaps below stand as written.
-Claude Code's **2026-09-16** review (above) is the most recent verification of any
-target and is therefore the `last_reviewed` date. Each target's `verification_method` in
+Claude Code's **2026-09-16** review (above) remains the most recent directly verified marketplace target; the global `last_reviewed` date is now **2026-10-25** for the newer Codex changelog review. Each target's `verification_method` in
 the JSON records exactly how.
 
 ## Codex 0.164.0 compatibility review (2026-10-25)
