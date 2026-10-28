@@ -8,7 +8,7 @@ enforced by `scripts/check-platform-targets.sh`.
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.273 | 2.1.273 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
-| Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
+| Codex | 0.40.0 | 0.153.4 | 0.165.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code now
@@ -86,9 +86,16 @@ maintainer machine, and `opencode debug skill` with `skills.paths` pointed at th
 discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release notes turned up
 exactly one skills-related entry (a docs path fix, #42337) and no plugin-marketplace or
 plugin-manifest concept, so both OpenCode capability gaps below stand as written.
-Claude Code's **2026-09-16** review (above) is the most recent verification of any
-target and is therefore the `last_reviewed` date. Each target's `verification_method` in
+Claude Code's **2026-09-16** review (above) remains the most recent directly verified marketplace target; the global `last_reviewed` date is now **2026-10-25** for the newer Codex changelog review. Each target's `verification_method` in
 the JSON records exactly how.
+
+## Codex 0.165.0 compatibility review (2026-10-28)
+
+Reviewed the stable 0.165.0 release (published 2026-10-27). Native Vertex AI provider support, GPT-6.1 Terra, session repository filtering, reasoning-effort changes and memory v2 for fresh profiles are host capabilities. Experimental attached app-server forks are not a marketplace schema feature. The stricter Git marketplace URL validation rejects unsafe backslashes in HTTP(S) URL userinfo; this catalog's GitHub source URLs are ordinary URLs without userinfo, so no rewrite is required. Remote MCP cancellation, approval-reviewer defaults and interrupt handling are upstream fixes. No changes to `.agents/plugins/marketplace.json`, no new custom wrappers and no other target modifications. Changelog review only; documentary validation baseline stays **0.153.4**.
+
+## Codex 0.164.0 compatibility review (2026-10-25)
+
+Reviewed stable Codex releases 0.163.0–0.164.0 beyond the previous 0.162.1 catalog review. Native steering, parallel read-only lookups, `/config`, `/keymap`, `/daemon`, reusable `/presets`, inline `/model` and `/permissions` options, enterprise MCP OAuth/account-grant sign-in and remote credential masking are host capabilities. No change to the portable `.agents/plugins/marketplace.json` schema or the catalog's installation commands is required. Prefer Codex-native marketplace and MCP authentication facilities rather than custom wrappers. This was a changelog-only review; the separately documented validation baseline stays **0.153.4**. The root `.codex-version` tracks the reviewed stable **0.164.0**.
 
 ## Two corrected version floors
 
