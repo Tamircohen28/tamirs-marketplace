@@ -8,7 +8,7 @@ enforced by `scripts/check-platform-targets.sh`.
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.273 | 2.1.273 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
-| Codex | 0.40.0 | 0.153.4 | 0.164.0 | [codex.md](../../user/install/codex.md) |
+| Codex | 0.40.0 | 0.153.4 | 0.165.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 All four versions were read from the CLIs themselves on 2026-08-03. Claude Code now
@@ -88,6 +88,10 @@ exactly one skills-related entry (a docs path fix, #42337) and no plugin-marketp
 plugin-manifest concept, so both OpenCode capability gaps below stand as written.
 Claude Code's **2026-09-16** review (above) remains the most recent directly verified marketplace target; the global `last_reviewed` date is now **2026-10-25** for the newer Codex changelog review. Each target's `verification_method` in
 the JSON records exactly how.
+
+## Codex 0.165.0 compatibility review (2026-10-28)
+
+Reviewed the stable 0.165.0 release (published 2026-10-27). Native Vertex AI provider support, GPT-6.1 Terra, session repository filtering, reasoning-effort changes and memory v2 for fresh profiles are host capabilities. Experimental attached app-server forks are not a marketplace schema feature. The stricter Git marketplace URL validation rejects unsafe backslashes in HTTP(S) URL userinfo; this catalog's GitHub source URLs are ordinary URLs without userinfo, so no rewrite is required. Remote MCP cancellation, approval-reviewer defaults and interrupt handling are upstream fixes. No changes to `.agents/plugins/marketplace.json`, no new custom wrappers and no other target modifications. Changelog review only; documentary validation baseline stays **0.153.4**.
 
 ## Codex 0.164.0 compatibility review (2026-10-25)
 
