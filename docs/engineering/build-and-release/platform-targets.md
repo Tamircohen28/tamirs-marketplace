@@ -6,18 +6,51 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.306 | 2.1.306 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.312 | 2.1.312 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.18.9 | 3.18.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
-Claude Code now tracks **2.1.306**, reviewed live on **2026-10-21** — this run's runner
-has the `claude` CLI installed and `claude --version` reported `2.1.306 (Claude Code)`,
-matching the target exactly, continuing the live-CLI confirmation from the prior
-2.1.300 run (2026-10-14). `make validate`, `make validate-skills`, `make assert-contract`,
-and `scripts/check-platform-targets.sh --assert-current` all passed clean against it.
-`validated_against` and `latest_known` both land on **2.1.306** together — no
-divergence, covering six releases (2.1.301 → 2.1.306). The reviewed delta:
+Claude Code now tracks **2.1.312**, reviewed live on **2026-10-31** against the official
+changelog — this run's runner has the `claude` CLI installed and `claude --version`
+reported `2.1.316 (Claude Code)`, newer than the changelog's newest published entry
+(`2.1.312`, dated 2026-10-27); per this review's own instruction the changelog is the
+compatibility target, not a possibly-ahead local binary, so `validated_against` and
+`latest_known` land on **2.1.312** together — no divergence, covering five releases
+(2.1.308 → 2.1.312) — while the live CLI commands below still ran for real, just on the
+newer installed binary. `make validate`, `make validate-skills`, `make assert-contract`,
+`bash scripts/check-agent-drift.sh .`, `bash scripts/check-feature-equivalence.sh .`, and
+`scripts/check-platform-targets.sh --assert-current` all passed clean against it, after
+fixing the one finding below. The reviewed delta:
+
+- **2.1.308:** bug-fixes-and-reliability-improvements only, no itemized changelog
+  entries.
+- **2.1.309 – 2.1.312: no marketplace-manifest surface in the range.** 2.1.309 stopped
+  worktree creation/reuse fetching objects on demand in ordinary clones, denied dangerous
+  `rm`/`rmdir` instantly in bypass-permissions unattended sessions, made `sed -i` a real
+  Bash edit action rather than a simulated preview, and added a sandbox write-list ask
+  when sandboxing can't run — worktree-hook/CLI-execution surface, not a marketplace
+  concern. 2.1.310 extended the `Monitor` tool to Bedrock/Vertex/Foundry and added
+  cloud-session custom-role gating — no catalog surface. 2.1.311 made `DISABLE_COMPACT`
+  one-way, dropped the `[1m]` model-name suffix label, and escaped control characters in
+  `--output-format json`/`stream-json` output — mod-dev/CLI surface this manifest-only
+  catalog has none of. 2.1.312 fixed a subagent's `autoCompactWindow` not lowering a
+  session-level `CLAUDE_CODE_AUTO_COMPACT_WINDOW`, and raised the prompt/agent hook
+  concurrency cap 12 → 24 — this catalog ships no subagent definitions and no hooks of
+  its own, so neither applies. None of 2.1.308 → 2.1.312 touches a marketplace manifest
+  or `.agents/skills` frontmatter.
+- **Finding, fixed this cycle:** the README's Claude Code badge still read `2.1.306`
+  (the version `platform-targets.json` carried *before* the prior PR cycle bumped it to
+  2.1.307 without updating the badge) — `scripts/check-platform-targets.sh .
+  --assert-current` caught it. Confirmed via `git stash` that the drift predates this
+  review, not introduced by it; fixed to `2.1.312` below.
+- **Cross-repo check:** re-confirmed `tamirs-superpowers`' four gating hooks
+  (`agent.spawn`, `prompt.submit`, `tool.call`, `session.compact`) still all carry
+  `.catch(($, e, next) => next(e))` — the 5.0.0/5.0.1 fix tracked since 2.1.299 remains
+  resolved upstream, now against that repo's own 2.1.312 cycle (`make test-mods`, 56/56
+  passing).
+
+Prior reviewed delta (2.1.301 → 2.1.306):
 
 - **2.1.301 – 2.1.302:** `.catch` on a mod hook now runs only on throw or timeout,
   `$.env.set` resolves `{}`/`{ deny }`, fork subagents default on, `-p`/SDK sessions
@@ -114,7 +147,7 @@ pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `S
 so native skill discovery still works unchanged. Reviewing the 1.18.12 → 1.18.29 release
 notes turned up exactly one skills-related entry (a docs path fix, #42337) and no
 plugin-marketplace or plugin-manifest concept, so both OpenCode capability gaps below
-stand as written. Claude Code's **2026-10-14** live-CLI confirmation (above) is the most
+stand as written. Claude Code's **2026-10-31** live-CLI confirmation (above) is the most
 recent verification of any target and is therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
 
