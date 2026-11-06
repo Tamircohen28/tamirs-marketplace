@@ -11,17 +11,17 @@
     {
       "name": "tamirs-superpowers",
       "source": "https://github.com/Tamircohen28/tamirs-superpowers",
-      "description": "26 bundled skills, smart worktree hooks, statusline, and MCP server stubs \u2014 plan, implement, review, debug, and audit code from one plugin."
+      "description": "A portable agent toolkit \u2014 31 skills, 10 specialist agents, worktree hooks and MCP stubs \u2014 shipped from one canonical source to six agent surfaces across five platforms: Claude Code, Claude Desktop, Codex, Cursor, Gemini CLI and OpenCode."
     },
     {
       "name": "jose-claudinho",
       "source": "https://github.com/Tamircohen28/jose-claudinho",
-      "description": "AI manager for Sport5 Fantasy World Cup 2026: market/team/league tools, weekly snapshots, and rules-aware transfer/captain/lineup recommendations."
+      "description": "AI assistant manager for Sport5 Fantasy World Cup 2026 \u2014 Plugin + MCP"
     },
     {
       "name": "headhunter",
       "source": "https://github.com/Tamircohen28/headhunter",
-      "description": "Job search CRM: pipeline, interviews, tasks, contacts, and Gmail/Calendar/Notion/Todoist integrations with an interview-prep research pipeline."
+      "description": "AI job-search co-pilot: CRM pipeline, interview prep, CV tailoring, job discovery, salary negotiation, and analytics \u2014 all from your terminal."
     }
   ]
 }

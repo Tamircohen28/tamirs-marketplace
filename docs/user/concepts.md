@@ -136,6 +136,6 @@ is a convenience, not a requirement.
 
 | Plugin | What it does |
 |--------|-------------|
-| `tamirs-superpowers` | 26 bundled skills, smart worktree hooks, statusline, and MCP server stubs — plan, implement, review, debug, and audit code from one plugin |
+| `tamirs-superpowers` | A portable agent toolkit — 31 skills, 10 specialist agents, worktree hooks and MCP stubs — shipped from one canonical source to six agent surfaces across five platforms: Claude Code, Claude Desktop, Codex, Cursor, Gemini CLI and OpenCode. |
 | `jose-claudinho` | Fantasy World Cup AI — lineup/transfer/captain recommendations via Sport5 API |
 | `headhunter` | Job search CRM — pipeline, interview prep, Gmail/Notion/Todoist integrations |
