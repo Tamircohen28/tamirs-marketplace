@@ -9,6 +9,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **CI:** the `CI` workflow now runs on Node **26** (was 22) and sets a `concurrency` group
+  (per PR / ref, `cancel-in-progress: true`) so superseded runs are cancelled. Job names
+  (and therefore required checks) are unchanged.
 - **Platform sync 2026-11-06.** Cursor validated/latest pin **3.27.22 → 3.29.9**
   (download API stable build, matched by a local `cursor --version`; changelog through the
   2026-11-05 Live Apps entry, which does not touch plugins). Install docs use Cursor's
