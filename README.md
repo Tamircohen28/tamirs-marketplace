@@ -50,13 +50,15 @@ Codex 0.167.0 was validated live on 2026-11-06: `codex plugin marketplace add` p
 three plugins. Floors, verification methods, and OpenCode's documented capability gaps:
 [platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
 
-## Plugins
+## Catalog
 
 | Plugin | Repo | Description |
 |--------|------|-------------|
-| `tamirs-superpowers` | [Tamircohen28/tamirs-superpowers](https://github.com/Tamircohen28/tamirs-superpowers) | 26 skills, smart worktree hooks, statusline, MCP stubs, and a Claude Code 2.1.287+ Mod (objective pane, rate-limit band) for a full dev workflow. |
-| `jose-claudinho` | [Tamircohen28/jose-claudinho](https://github.com/Tamircohen28/jose-claudinho) | AI manager for Sport5 Fantasy World Cup 2026. |
-| `headhunter` | [Tamircohen28/headhunter](https://github.com/Tamircohen28/headhunter) | Job-search CRM with Gmail/Calendar/Notion/Todoist integrations. |
+| `tamirs-superpowers` | [Tamircohen28/tamirs-superpowers](https://github.com/Tamircohen28/tamirs-superpowers) | A portable agent toolkit — 31 skills, 10 specialist agents, worktree hooks and MCP stubs — shipped from one canonical source to six agent surfaces across five platforms: Claude Code, Claude Desktop, Codex, Cursor, Gemini CLI and OpenCode. |
+| `jose-claudinho` | [Tamircohen28/jose-claudinho](https://github.com/Tamircohen28/jose-claudinho) | AI assistant manager for Sport5 Fantasy World Cup 2026 — Plugin + MCP |
+| `headhunter` | [Tamircohen28/headhunter](https://github.com/Tamircohen28/headhunter) | AI job-search co-pilot: CRM pipeline, interview prep, CV tailoring, job discovery, salary negotiation, and analytics — all from your terminal. |
+
+Descriptions come from each plugin repo's GitHub description (`make sync-descriptions`).
 
 Each of those repos is independently installable on all four targets — see its own
 `docs/user/install/` directory.
@@ -165,4 +167,8 @@ See [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md) — edit the Claude manifest,
 
 ## License
 
+---
+
 MIT © [Tamir Cohen](https://github.com/Tamircohen28)
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

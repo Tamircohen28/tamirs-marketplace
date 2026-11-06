@@ -130,3 +130,7 @@ codex plugin add headhunter@headhunter
 | `codex plugin list` shows nothing from this catalog | You listed all marketplaces; scroll, or use `codex plugin list --marketplace tamirs-marketplace`. |
 
 More: [troubleshooting.md](../troubleshooting.md).
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

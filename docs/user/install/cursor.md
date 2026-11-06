@@ -173,3 +173,7 @@ Cursor can run Cloud Agent tool execution on **My Machines**, **Team Pools**, or
 ## Host currency (desktop 3.27.12)
 
 Stable download pin **3.27.12** (2026-10-23). Feature changelog still **3.11** / **2026-10-16**. IDE **3.26**/**3.27**: Resume after extension-host crash; sticky Always Run with `~/.cursor/permissions.json`; `parent_agent_id` on subagent hooks. This catalog is manifest-only — no Cursor runtime change.
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>
