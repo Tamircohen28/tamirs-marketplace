@@ -109,7 +109,7 @@ live:
 ```
 
 So installing a plugin on OpenCode is just: clone the plugin repo and run `opencode` in it.
-The [plugin table in the README](../../README.md#plugins) is the discovery surface a
+The [plugin table in the README](../../README.md#catalog) is the discovery surface a
 marketplace would otherwise provide.
 
 Full detail, including OpenCode's config strictness and its documented capability gaps:
@@ -139,3 +139,7 @@ is a convenience, not a requirement.
 | `tamirs-superpowers` | A portable agent toolkit — 31 skills, 10 specialist agents, worktree hooks and MCP stubs — shipped from one canonical source to six agent surfaces across five platforms: Claude Code, Claude Desktop, Codex, Cursor, Gemini CLI and OpenCode. |
 | `jose-claudinho` | Fantasy World Cup AI — lineup/transfer/captain recommendations via Sport5 API |
 | `headhunter` | Job search CRM — pipeline, interview prep, Gmail/Notion/Todoist integrations |
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

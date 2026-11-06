@@ -32,3 +32,7 @@ VER=$(jq -r .version .claude-plugin/marketplace.json)
 git tag -l "v${VER}" | grep -q . || echo "missing tag v${VER}"
 make validate
 ```
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

@@ -32,6 +32,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   validation baseline stays 0.153.4.
 
 ### Added
+- **Repo standards (marketplace-gold).** `scripts/validate-marketplace.sh` checks all three
+  manifests (and runs `claude plugin validate` when the CLI is present). It is wired into
+  `make validate` with the CLI step skipped. Cursor's GitHub-URL sources are reported as
+  warnings because Cursor documents only path sources.
+  `docs/user/catalog.md` covers catalog maintenance. `config/docs/doc-standards.json` and
+  `scripts/check-doc-standards.sh` (`make check-doc-standards`, part of `make validate`)
+  hold every human-facing doc to the canonical footer. CODEOWNERS now names the
+  supply-chain paths, and the README's plugin table becomes `## Catalog`, with descriptions
+  synced to the catalog.
 - **`/plugin` Discover/Browse missing-description fix documented (Claude Code
   2.1.265).** Before 2.1.265, browsing a plugin that exists only as a marketplace
   entry (not yet installed) could show no description at all. Re-confirmed all

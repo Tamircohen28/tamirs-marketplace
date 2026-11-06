@@ -279,3 +279,7 @@ its entry is bumped by hand — read `cursor --version` and update the JSON.
 has a `validated_against` value and a matching README badge. The target list is data-driven:
 adding a fifth target means adding it to `supported_targets`, and the check picks it up with
 no script change.
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

@@ -161,3 +161,7 @@ If the error persists, open an issue in the plugin's own repo (not this catalog)
 
 - Open an issue in [this repo](https://github.com/Tamircohen28/tamirs-marketplace/issues) for catalog-level problems (wrong repo URL, missing plugin entry)
 - Open an issue in the plugin's own repo for plugin-level bugs
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

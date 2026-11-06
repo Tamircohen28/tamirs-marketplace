@@ -159,3 +159,7 @@ codex plugin marketplace upgrade tamirs-marketplace
 > release didn't bump its version, `plugin update` is a no-op.
 
 See [Troubleshooting](troubleshooting.md) if a plugin installs but skills do not appear.
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

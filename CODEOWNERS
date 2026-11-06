@@ -1,1 +1,11 @@
+# Default owner for everything in this catalog.
 * @TamirCohen28
+
+# Supply-chain paths: the manifests every platform installs from, and the scripts that
+# generate and validate them. Listed explicitly so review stays required if the default
+# rule above is ever narrowed.
+/.claude-plugin/  @TamirCohen28
+/.cursor-plugin/  @TamirCohen28
+/.agents/         @TamirCohen28
+/plugins/         @TamirCohen28
+/scripts/         @TamirCohen28

@@ -54,3 +54,7 @@ own `opencode.json` and its own OpenCode install guide. See [opencode.md](openco
 
 Each of those repos is **independently installable on all four targets** without this
 catalog — the catalog is a convenience, not a requirement.
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

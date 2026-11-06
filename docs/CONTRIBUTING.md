@@ -44,3 +44,7 @@ make generate && make validate
 ## Code of Conduct
 
 Be respectful. This is a personal catalog — the maintainer reserves the right to decline additions that don't fit the project's scope.
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

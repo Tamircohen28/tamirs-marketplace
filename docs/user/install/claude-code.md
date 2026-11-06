@@ -1461,3 +1461,7 @@ catalog's automation token gets `workflows` scope.
 | `claude plugin test` on a plugin's mod directory used to pass even though a hook's `expect` failed | Before 2.1.292, a failing `expect` inside a mod's hook test could pass silently. Fixed in 2.1.292 — re-run `claude plugin test <dir>` on the current CLI. `tamirs-superpowers`' mod suite passes 21/21 live on 2.1.293. |
 
 More: [troubleshooting.md](../troubleshooting.md).
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>

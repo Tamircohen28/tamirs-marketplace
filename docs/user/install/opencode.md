@@ -23,7 +23,7 @@ an omission in this repo.
 
 **What works instead:** install each plugin repo directly. OpenCode reads skills natively,
 and every plugin in this catalog ships its own `opencode.json` declaring where its skills
-live. The [plugin table in the README](../../../README.md#plugins) is the discovery surface
+live. The [plugin table in the README](../../../README.md#catalog) is the discovery surface
 a marketplace would otherwise provide.
 
 ## Install a plugin
@@ -145,3 +145,7 @@ Delete the clone and remove its path from `skills.paths`.
 | An agent can't search the web | Expected — OpenCode has no `websearch` tool. Give it an explicit URL so it can `webfetch`. |
 
 More: [troubleshooting.md](../troubleshooting.md).
+
+---
+
+<p align="center"><a href="https://github.com/Tamircohen28">Have a Question?</a>&nbsp;·&nbsp;<a href="https://github.com/Tamircohen28/tamirs-marketplace/issues/new/choose">Open an Issue</a></p>
