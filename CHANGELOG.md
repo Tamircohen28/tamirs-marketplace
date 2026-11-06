@@ -9,6 +9,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Claude Code 2.1.319 validated live (2026-11-06).** `validated_against` and
+  `latest_known` advance **2.1.318 → 2.1.319** (GitHub release v2.1.319, matched by a local
+  `claude --version`). `claude plugin validate --strict` passed on the marketplace manifest
+  and on `.agents/skills` against the 2.1.319 CLI. The release changes no marketplace
+  manifest field: its plugin-facing items (`--add-dir` marketplaces waiting for the trust
+  dialog, `claude plugin update` installing newly added dependencies, `${CLAUDE_PLUGIN_ROOT}`
+  in `subagentStatusLine`) are host-side. README badge and target tables, the quick-start
+  and install index tables, and `platform-targets.md` updated to match.
 - **CI:** the `CI` workflow now runs on Node **26** (was 22) and sets a `concurrency` group
   (per PR / ref, `cancel-in-progress: true`) so superseded runs are cancelled. Job names
   (and therefore required checks) are unchanged.
