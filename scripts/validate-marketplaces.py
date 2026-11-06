@@ -36,9 +36,13 @@ def validate_claude(data: dict, errors: list[str]) -> None:
             if field not in entry:
                 errors.append(f"Claude plugin missing {field!r}: {entry.get('name', entry)}")
         source = entry.get("source", {})
-        if source.get("source") != "github" or not source.get("repo"):
+        github_ok = source.get("source") == "github" and source.get("repo")
+        url = str(source.get("url", ""))
+        url_ok = source.get("source") == "url" and url.startswith("https://github.com/") and url.count("/") >= 4
+        if not (github_ok or url_ok):
             errors.append(
-                f"Claude plugin {entry.get('name')!r} must use github source with repo"
+                f"Claude plugin {entry.get('name')!r} must use a github source with repo, "
+                "or a url source with an https://github.com/ URL"
             )
 
 

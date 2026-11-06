@@ -50,8 +50,9 @@ The `@tamirs-marketplace` suffix tells Claude Code which marketplace to resolve 
 Claude Code caches installed plugins by the `version` field in each plugin's `plugin.json`.
 A plugin release that doesn't bump its version never reaches installed users.
 
-**Plugin sources — git and archive:** every entry in this catalog is a `github` source
-pinned to a branch, so installs fetch the plugin repo over git and updates track that
+**Plugin sources — git and archive:** every entry in this catalog is an HTTPS `url` source on GitHub
+pinned to a branch (not the `github` shorthand, which Claude Code clones over SSH and which fails
+without a GitHub SSH key), so installs fetch the plugin repo over git and updates track that
 branch. Since Claude Code 2.1.224 a plugin can also be distributed as an **`archive`
 source** — a zip fetched over HTTPS, needing neither git nor npm, with optional SHA-256
 pinning. This catalog does not currently publish archive sources; the git-pinned entries

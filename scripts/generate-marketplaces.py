@@ -33,13 +33,28 @@ def github_repo_to_url(repo: str, with_git_suffix: bool = True) -> str:
     return url
 
 
+GITHUB_HTTPS = "https://github.com/"
+
+
 def parse_github_source(source: dict) -> tuple[str, str | None]:
-    if source.get("source") != "github":
+    """owner/repo and ref from a Claude source on GitHub.
+
+    Two spellings mean the same repository: {"source": "github", "repo": "o/r"} and
+    {"source": "url", "url": "https://github.com/o/r.git"}. The catalog uses the url form
+    because Claude Code clones a github source over SSH, which fails for anyone without a
+    GitHub SSH key ("Permission denied (publickey)", 2026-11-06); an https url clones
+    anonymously for a public repository.
+    """
+    kind = source.get("source")
+    if kind == "github":
+        repo = source.get("repo")
+    elif kind == "url" and str(source.get("url", "")).startswith(GITHUB_HTTPS):
+        repo = source["url"][len(GITHUB_HTTPS):].removesuffix(".git").strip("/")
+    else:
         raise ValueError(
-            f"Unsupported Claude source type {source.get('source')!r}; "
-            "only github sources are supported"
+            f"Unsupported Claude source {source!r}; "
+            "only github sources and https://github.com/ url sources are supported"
         )
-    repo = source.get("repo")
     if not repo or "/" not in repo:
         raise ValueError(f"Invalid github repo: {repo!r}")
     ref = source.get("ref")
