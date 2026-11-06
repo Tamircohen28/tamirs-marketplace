@@ -9,6 +9,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Platform sync 2026-11-06.** Cursor validated/latest pin **3.27.22 → 3.29.9**
+  (download API stable build, matched by a local `cursor --version`; changelog through the
+  2026-11-05 Live Apps entry, which does not touch plugins). Install docs use Cursor's
+  renamed **Dashboard → Plugins & MCPs** section. OpenCode **1.18.29 →
+  1.19.5** (npm `latest`, GitHub Latest and the official installer agree); the separate
+  OpenCode 2.x line is documented as unverified because it drops `opencode debug skill`.
+  OpenCode 1.19.5 and Codex 0.167.0 were then validated live (isolated config homes):
+  `opencode debug skill` resolved `run-plugins-catalog`, and `codex plugin list` resolved
+  all three catalog plugins, so both `validated_against` values now match `latest_known`.
+  Claude Code (2.1.318) was already current.
 - **Cursor 3.11 (+2026-10-20 / desktop 3.27.22):** advance the catalog's Cursor
   validated/latest pin **3.18.9 → 3.27.22** (documentary review: official download API
   stable build plus cursor.com/changelog through Agent SDK GA). Install docs note IDE

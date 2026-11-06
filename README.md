@@ -10,9 +10,9 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/version-2.0.0-blue" alt="Version 2.0.0" />
   <img src="https://img.shields.io/badge/Claude%20Code-2.1.318-blueviolet" alt="Claude Code 2.1.318" />
-  <img src="https://img.shields.io/badge/Cursor-3.27.22-000000" alt="Cursor 3.27.22" />
-  <img src="https://img.shields.io/badge/Codex-0.153.4-412991" alt="Codex 0.153.4" />
-  <img src="https://img.shields.io/badge/OpenCode-1.18.29-fab283" alt="OpenCode 1.18.29" />
+  <img src="https://img.shields.io/badge/Cursor-3.29.9-000000" alt="Cursor 3.29.9" />
+  <img src="https://img.shields.io/badge/Codex-0.167.0-412991" alt="Codex 0.167.0" />
+  <img src="https://img.shields.io/badge/OpenCode-1.19.5-fab283" alt="OpenCode 1.19.5" />
 </p>
 
 <p align="center">
@@ -35,18 +35,19 @@
 | Target | Minimum | Validated against | Catalog install | Install guide |
 |--------|---------|-------------------|-----------------|---------------|
 | [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.318** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
-| [Cursor](https://cursor.com/docs/plugins) | 3.18.9 | **3.27.22** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
-| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.153.4** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
-| [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.18.29** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
+| [Cursor](https://cursor.com/docs/plugins) | 3.18.9 | **3.29.9** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
+| [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.167.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
+| [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.19.5** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
-Cursor and OpenCode values above were validated from their CLIs. Claude Code 2.1.318 was
+Cursor 3.29.9 was checked against the official download API and a local `cursor --version`;
+OpenCode 1.19.5 and Codex 0.167.0 were validated live on 2026-11-06 (see below). Claude Code 2.1.318 was
 confirmed live on 2026-11-05 directly against the GitHub releases for anthropics/claude-code
 (the docs changelog page had lagged a few releases behind what was actually published, so
 this pass checked releases rather than the changelog), covering the 2.1.314 → 2.1.318 delta
 (2.1.313 and 2.1.315 are not separate releases) on top of the prior 2.1.312 confirmation.
-Codex 0.153.4 was revalidated on 2026-09-08 against the
-0.148.0 → 0.153.4 release delta and this catalog's native `.agents/plugins/marketplace.json`
-surface. Floors, verification methods, and OpenCode's documented capability gaps:
+Codex 0.167.0 was validated live on 2026-11-06: `codex plugin marketplace add` plus
+`codex plugin list` resolved this catalog's native `.agents/plugins/marketplace.json` with all
+three plugins. Floors, verification methods, and OpenCode's documented capability gaps:
 [platform-targets.md](docs/engineering/build-and-release/platform-targets.md).
 
 ## Plugins
@@ -118,7 +119,7 @@ In the Codex app: **Settings → Plugins → + Add More…** and paste `https://
 
 Org admins import this repo as a private team marketplace:
 
-1. **Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo**
+1. **Dashboard → Plugins & MCPs → Team Marketplaces → Add Marketplace → Import from Repo**
 2. Repository: `https://github.com/Tamircohen28/tamirs-marketplace`
 3. Save and assign distribution groups
 

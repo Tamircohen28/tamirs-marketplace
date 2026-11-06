@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Codex CLI **0.153.4** |
+| **Validated against** | Codex CLI **0.167.0** (live, 2026-11-06) |
 | **Minimum supported** | **0.40.0** |
 | **Marketplace manifest** | `.agents/plugins/marketplace.json` |
 | **Official docs** | [Codex plugins](https://developers.openai.com/codex/plugins) |

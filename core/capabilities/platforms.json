@@ -392,7 +392,7 @@
           ],
           "install": {
             "type": "marketplace",
-            "command": "Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo: https://github.com/Tamircohen28/tamirs-marketplace (Teams/Enterprise); or clone + symlink a single plugin repo into ~/.cursor/plugins/local/ for any plan.",
+            "command": "Dashboard → Plugins & MCPs → Team Marketplaces → Add Marketplace → Import from Repo: https://github.com/Tamircohen28/tamirs-marketplace (Teams/Enterprise); or clone + symlink a single plugin repo into ~/.cursor/plugins/local/ for any plan.",
             "doc": "docs/user/install/cursor.md"
           },
           "validation": {
@@ -483,7 +483,7 @@
               "status": "native",
               "since": "3.18.9",
               "validation": "python3 scripts/validate-marketplaces.py",
-              "notes": "Canonical artifact: .cursor-plugin/marketplace.json (generated from the Claude manifest by `make generate`). Method A (Teams/Enterprise): Dashboard → Plugins → Team Marketplaces → Add Marketplace → Import from Repo. Method B (any plan, bypasses the catalog): clone a single plugin repo and symlink it into ~/.cursor/plugins/local/."
+              "notes": "Canonical artifact: .cursor-plugin/marketplace.json (generated from the Claude manifest by `make generate`). Method A (Teams/Enterprise): Dashboard → Plugins & MCPs → Team Marketplaces → Add Marketplace → Import from Repo. Method B (any plan, bypasses the catalog): clone a single plugin repo and symlink it into ~/.cursor/plugins/local/."
             },
             "extension_install": {
               "status": "unsupported",
