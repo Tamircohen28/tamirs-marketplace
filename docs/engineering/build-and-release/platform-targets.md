@@ -7,9 +7,9 @@ enforced by `scripts/check-platform-targets.sh`.
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.318 | 2.1.318 | [claude-code.md](../../user/install/claude-code.md) |
-| Cursor | 3.18.9 | 3.27.22 | 3.27.22 | [cursor.md](../../user/install/cursor.md) |
-| Codex | 0.40.0 | 0.153.4 | 0.167.0 | [codex.md](../../user/install/codex.md) |
-| OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
+| Cursor | 3.18.9 | 3.29.9 | 3.29.9 | [cursor.md](../../user/install/cursor.md) |
+| Codex | 0.40.0 | 0.167.0 | 0.167.0 | [codex.md](../../user/install/codex.md) |
+| OpenCode | 1.16.2 | 1.19.5 | 1.19.5 | [opencode.md](../../user/install/opencode.md) |
 
 Claude Code now tracks **2.1.318**, reviewed live on **2026-11-05** directly against the
 GitHub releases for `anthropics/claude-code` (the docs changelog page had lagged a few
@@ -173,9 +173,9 @@ and began upgrading Git marketplaces from merged configuration (#42149), while #
 marketplace source policy applies only to OpenAI-curated plugins. The portable catalog
 shape is unchanged. Codex is validated documentarily — the CLI is not installed on the
 review machine, which is why `verification_method` in the JSON says so rather than
-implying a live run. Cursor was revalidated documentarily against desktop **3.27.22** on **2026-11-01**
-(official download API stable build; changelog through the date-only **2026-10-20** Agent
-SDK GA entry; CLI through **2026-08-26**). The **3.18.9** floor is unchanged. OpenCode
+implying a live run. Cursor was revalidated documentarily against desktop **3.29.9** on **2026-11-06**
+(official download API stable build, matched by the review machine's `cursor --version`;
+changelog through the date-only **2026-11-05** Live Apps entry; CLI through **2026-08-26**). The **3.18.9** floor is unchanged. OpenCode
 was revalidated against **1.18.29** on **2026-09-08** — `opencode --version` reported
 `1.18.29` on the maintainer machine, and `opencode debug skill` with `skills.paths`
 pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `SKILL.md`,
@@ -185,6 +185,28 @@ plugin-marketplace or plugin-manifest concept, so both OpenCode capability gaps 
 stand as written. Claude Code's **2026-10-31** live-CLI confirmation (above) is the most
 recent verification of any target and is therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
+
+## OpenCode 1.19.5 currency and the 2.x line (2026-11-06)
+
+`latest_known` advances **1.18.29 → 1.19.5**, the version npm's `opencode-ai` `latest` tag,
+GitHub's "Latest" release and the official `opencode.ai/install` script ("This installer
+only installs OpenCode 1") all agree on. `validated_against` also advances to **1.19.5**: `npx opencode-ai@1.19.5
+debug skill`, run with an isolated `XDG_CONFIG_HOME` and `OPENCODE_CONFIG_CONTENT` pointing
+`skills.paths` at this repo's `.agents/skills`, resolved `run-plugins-catalog` to its
+`SKILL.md`.
+
+A separate **OpenCode 2.x** line (v2.2.5, 2026-10-30) is published on GitHub but is not the
+installer's default. On 2.2.5 `opencode debug` no longer has a `skill` subcommand, so the
+verification method this repo uses (`opencode debug skill`) is 1.x-only. Re-check skill
+discovery before claiming any 2.x support.
+
+## Codex 0.167.0 live validation (2026-11-06)
+
+`validated_against` advances **0.153.4 → 0.167.0** on a live run, the first since the
+documentary baseline: `npx @openai/codex@0.167.0` with an isolated `CODEX_HOME` ran
+`codex plugin marketplace add Tamircohen28/tamirs-marketplace`, and `codex plugin list`
+resolved `.agents/plugins/marketplace.json` with all three plugins and their https Git
+sources.
 
 ## Codex 0.163.0–0.167.0 compatibility review (2026-11-06)
 

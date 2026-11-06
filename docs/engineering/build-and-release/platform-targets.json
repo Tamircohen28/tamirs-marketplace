@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-11-05",
+  "last_reviewed": "2026-11-06",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -115,12 +115,12 @@
     "cursor": {
       "supported_min": "3.18.9",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.27.22",
-      "latest_known": "3.27.22",
+      "validated_against": "3.29.9",
+      "latest_known": "3.29.9",
       "changelog_feature": "3.11",
-      "changelog_date": "2026-10-20",
-      "verified_on": "2026-11-01",
-      "verification_method": "Documentary review 2026-11-01: official Cursor download API stable desktop **3.27.22**; cursor.com/changelog through date-only **2026-10-20** (Agent SDK GA); IDE notes cover 3.26/3.27. Catalog remains manifest-only — no Cursor runtime.",
+      "changelog_date": "2026-11-05",
+      "verified_on": "2026-11-06",
+      "verification_method": "Documentary review 2026-11-06: official Cursor download API stable desktop **3.29.9**, matched by `cursor --version` on the review machine; cursor.com/changelog through date-only **2026-11-05** (Live Apps, a cloud-agent feature with no plugin/marketplace impact); cursor.com/docs/plugins re-read (Dashboard section renamed Plugins & MCPs; Import from Repo also accepts GitLab/Bitbucket/Azure DevOps). Catalog remains manifest-only. Prior: Documentary review 2026-11-01: official Cursor download API stable desktop **3.27.22**; cursor.com/changelog through date-only **2026-10-20** (Agent SDK GA); IDE notes cover 3.26/3.27. Catalog remains manifest-only — no Cursor runtime.",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -197,7 +197,8 @@
         "cloud-agent-canvases-docs-2026-10-16",
         "environments-api-docs-2026-10-16",
         "desktop-3.27.12",
-        "ide-3.26-3.27-docs"
+        "ide-3.26-3.27-docs",
+        "dashboard-plugins-and-mcps-label-2026-11-06"
       ],
       "capabilities": [
         "marketplace",
@@ -207,10 +208,10 @@
     "codex": {
       "supported_min": "0.40.0",
       "supported_min_source": "earliest release this catalog has claimed .agents/plugins/marketplace.json support for",
-      "validated_against": "0.153.4",
+      "validated_against": "0.167.0",
       "latest_known": "0.167.0",
-      "verified_on": "2026-09-08",
-      "verification_method": "Changelog-only review through Codex CLI 0.167.0 (2026-11-06; no live CLI validation): `codex agents --no-daemon` command center, backend switching in the session picker, TUI plugin mentions from installed plugins, session plugin overrides on MCP config refresh, app settings in plugin configuration and keeping remote plugin bundle URLs out of diagnostics are host-side; no portable marketplace schema or URL change, so `.agents/plugins/marketplace.json` stays as is and validated_against remains 0.153.4. Prior: Changelog-only review through Codex CLI 0.166.0 (2026-10-29; no live CLI validation): native `codex doctor --network-only` and `codex queue --resume`, transcript selection, async Markdown, Terra model catalog expansion, permission/approval persistence and app-server recovery are host-side. No marketplace schema or URL changes; keep portable `.agents/plugins/marketplace.json` and validated_against=0.153.4. Prior: Changelog-only review through Codex CLI 0.165.0 (2026-10-27; no live CLI validation): native Vertex AI provider, GPT-6.1 Terra catalog, session navigation, live reasoning-effort changes and memory v2 for new profiles are host features. Experimental app-server thread forks do not affect this catalog. The marketplace URL validator now rejects unsafe backslashes in HTTP(S) URL userinfo; this repo's plain GitHub plugin source URLs do not use userinfo or backslashes. Remote MCP cancellation, approval defaults and interrupted-work handling are host fixes. No portable Agent Plugin catalog schema change; use native Codex marketplace commands, not custom wrappers. validated_against remains 0.153.4 (documentary baseline). Prior: Changelog-only review through Codex CLI 0.164.0 (2026-10-23; no live CLI validation): 0.163 adds native steering, parallel read-only tools, /config, /keymap and daemon restart, with sandbox/permission hardening; 0.164 adds /presets, inline /model and /permissions arguments, enterprise MCP OAuth/account-grant sign-in, remote credential masking and compaction/recovery fixes. No portable Agent Plugin marketplace schema change; existing .agents/plugins/marketplace.json remains valid. Prefer native plugin marketplace management and MCP auth over custom wrappers. validated_against remains 0.153.4 from earlier documentary review. Earlier review: Changelog-only review to 0.162.1 (2026-10-09; validated_against stays 0.153.4): 0.154 removed the deprecated codex mcp-server command, unrelated to this marketplace; 0.156-0.160 added native worktrees, remote plugin management, daemon recovery and stronger MCP/security handling; 0.161 adds /mcp login and opt-in Daybreak/Cyber controls; 0.162 adds managed worktree tools, custom Responses-provider capability overrides and host reliability fixes; 0.162.1 fixes background-server startup against differing feature defaults. No portable Agent Plugin catalog schema change; retain the existing .agents/plugins/marketplace.json. Sources: https://github.com/openai/codex/releases/tag/rust-v0.161.0 ; https://github.com/openai/codex/releases/tag/rust-v0.162.0 ; https://github.com/openai/codex/releases/tag/rust-v0.162.1 . Earlier review: documentary revalidation by this repo's standing Codex method (official release notes plus catalog compatibility review; the Codex CLI is not installed on the review machine). Reviewed every openai/codex release from 0.148.0 through 0.153.4 for plugin/marketplace changes: #41208 (0.151.0) reports invalid project marketplaces without hiding valid plugins, #41953 (0.153.0) enforces a marketplace source policy for OpenAI-curated plugins only, and #42149/#42150 (0.153.0) upgrade Git marketplaces from merged configuration and add remote-marketplace support to the plugin CLI. None alter the portable Agent Plugin catalog shape, so .agents/plugins/marketplace.json remains discoverable unchanged; 0.153.0 widens how it can be consumed rather than narrowing it.",
+      "verified_on": "2026-11-06",
+      "verification_method": "Live CLI validation 2026-11-06 with Codex CLI 0.167.0 (`npx @openai/codex@0.167.0`, isolated CODEX_HOME so the maintainer's ~/.codex was untouched): `codex plugin marketplace add Tamircohen28/tamirs-marketplace` added the catalog and `codex plugin list` resolved .agents/plugins/marketplace.json with all three plugins (tamirs-superpowers, jose-claudinho, headhunter) and their https Git sources. Prior: Changelog-only review through Codex CLI 0.167.0 (2026-11-06; no live CLI validation): `codex agents --no-daemon` command center, backend switching in the session picker, TUI plugin mentions from installed plugins, session plugin overrides on MCP config refresh, app settings in plugin configuration and keeping remote plugin bundle URLs out of diagnostics are host-side; no portable marketplace schema or URL change, so `.agents/plugins/marketplace.json` stays as is and validated_against remains 0.153.4. Prior: Changelog-only review through Codex CLI 0.166.0 (2026-10-29; no live CLI validation): native `codex doctor --network-only` and `codex queue --resume`, transcript selection, async Markdown, Terra model catalog expansion, permission/approval persistence and app-server recovery are host-side. No marketplace schema or URL changes; keep portable `.agents/plugins/marketplace.json` and validated_against=0.153.4. Prior: Changelog-only review through Codex CLI 0.165.0 (2026-10-27; no live CLI validation): native Vertex AI provider, GPT-6.1 Terra catalog, session navigation, live reasoning-effort changes and memory v2 for new profiles are host features. Experimental app-server thread forks do not affect this catalog. The marketplace URL validator now rejects unsafe backslashes in HTTP(S) URL userinfo; this repo's plain GitHub plugin source URLs do not use userinfo or backslashes. Remote MCP cancellation, approval defaults and interrupted-work handling are host fixes. No portable Agent Plugin catalog schema change; use native Codex marketplace commands, not custom wrappers. validated_against remains 0.153.4 (documentary baseline). Prior: Changelog-only review through Codex CLI 0.164.0 (2026-10-23; no live CLI validation): 0.163 adds native steering, parallel read-only tools, /config, /keymap and daemon restart, with sandbox/permission hardening; 0.164 adds /presets, inline /model and /permissions arguments, enterprise MCP OAuth/account-grant sign-in, remote credential masking and compaction/recovery fixes. No portable Agent Plugin marketplace schema change; existing .agents/plugins/marketplace.json remains valid. Prefer native plugin marketplace management and MCP auth over custom wrappers. validated_against remains 0.153.4 from earlier documentary review. Earlier review: Changelog-only review to 0.162.1 (2026-10-09; validated_against stays 0.153.4): 0.154 removed the deprecated codex mcp-server command, unrelated to this marketplace; 0.156-0.160 added native worktrees, remote plugin management, daemon recovery and stronger MCP/security handling; 0.161 adds /mcp login and opt-in Daybreak/Cyber controls; 0.162 adds managed worktree tools, custom Responses-provider capability overrides and host reliability fixes; 0.162.1 fixes background-server startup against differing feature defaults. No portable Agent Plugin catalog schema change; retain the existing .agents/plugins/marketplace.json. Sources: https://github.com/openai/codex/releases/tag/rust-v0.161.0 ; https://github.com/openai/codex/releases/tag/rust-v0.162.0 ; https://github.com/openai/codex/releases/tag/rust-v0.162.1 . Earlier review: documentary revalidation by this repo's standing Codex method (official release notes plus catalog compatibility review; the Codex CLI is not installed on the review machine). Reviewed every openai/codex release from 0.148.0 through 0.153.4 for plugin/marketplace changes: #41208 (0.151.0) reports invalid project marketplaces without hiding valid plugins, #41953 (0.153.0) enforces a marketplace source policy for OpenAI-curated plugins only, and #42149/#42150 (0.153.0) upgrade Git marketplaces from merged configuration and add remote-marketplace support to the plugin CLI. None alter the portable Agent Plugin catalog shape, so .agents/plugins/marketplace.json remains discoverable unchanged; 0.153.0 widens how it can be consumed rather than narrowing it.",
       "install_doc": "docs/user/install/codex.md",
       "doc_urls": [
         "https://developers.openai.com/codex/plugins"
@@ -228,10 +229,10 @@
     "opencode": {
       "supported_min": "1.16.2",
       "supported_min_source": "oldest version on which `skills.paths` discovery of a catalog plugin's skills was verified with `opencode debug skill`",
-      "validated_against": "1.18.29",
-      "latest_known": "1.18.29",
-      "verified_on": "2026-09-08",
-      "verification_method": "`opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
+      "validated_against": "1.19.5",
+      "latest_known": "1.19.5",
+      "verified_on": "2026-11-06",
+      "verification_method": "Live CLI validation 2026-11-06 with OpenCode 1.19.5 (`npx opencode-ai@1.19.5`, isolated XDG_CONFIG_HOME, OPENCODE_CONFIG_CONTENT pointing skills.paths at this repo's .agents/skills, external skill scans disabled): `opencode debug skill` resolved run-plugins-catalog to its SKILL.md. 1.19.5 is the version npm's opencode-ai latest tag, GitHub's Latest release and the opencode.ai/install script (OpenCode 1 only) agree on. The separate OpenCode 2.x line (2.2.5) has no `opencode debug skill` subcommand, so this method is 1.x-only and 2.x is unverified. Prior: `opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",

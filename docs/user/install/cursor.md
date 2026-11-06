@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.27.22** |
+| **Validated against** | Cursor **3.29.9** |
 | **Minimum supported** | **3.18.9** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-10-20**; desktop **3.27.22** (see [`.cursor-version`](../../../.cursor-version)) |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-11-05**; desktop **3.29.9** (see [`.cursor-version`](../../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -30,9 +30,9 @@ changelog feature/date in `.cursor-version`.
 An org admin imports this repo once; everyone in the assigned distribution groups then sees
 the plugins in their in-editor marketplace panel.
 
-1. **Dashboard → Plugins → Team Marketplaces → Add Marketplace**
+1. **Dashboard → Plugins & MCPs → Team Marketplaces → Add Marketplace**
 2. Choose **Import from Repo**
-3. Repository: `https://github.com/Tamircohen28/tamirs-marketplace`
+3. Repository: `https://github.com/Tamircohen28/tamirs-marketplace` (Import from Repo also accepts GitLab, Bitbucket and Azure DevOps URLs; this catalog lives on GitHub)
 4. Under **Marketplace Settings**:
    - Enable **Auto Refresh** so pushes to `main` re-index the catalog
    - Optionally restrict **Marketplace Access** to [Organization Groups](https://cursor.com/docs/enterprise/organization-groups) (Cursor **3.10**) — members outside those groups will not see the catalog
@@ -157,6 +157,11 @@ More: [troubleshooting.md](../troubleshooting.md).
 Cursor can run Cloud Agent tool execution on **My Machines**, **Team Pools**, or partner sandboxes, with **computer use** on Linux/Mac ([docs](https://cursor.com/docs/cloud-agent/self-hosted)). This catalog remains installable from GitHub-hosted `ubuntu-latest` CI — Cursor Self-Hosted Machines are **not** GitHub Actions self-hosted runners and do not change this repo's runner policy.
 
 
+
+## Cursor currency (2026-11-05 / desktop 3.29.9)
+
+- Stable download API reports desktop **3.29.9** (checked 2026-11-06); the local `cursor --version` on the review machine matches. Newest date-only changelog entry is **2026-11-05** (Live Apps: cloud agents build, security-check and publish internal web apps). That is a cloud-agent feature, not a plugin or marketplace change; this catalog's install flow is unchanged.
+- The Dashboard section that manages team marketplaces is now labelled **Plugins & MCPs** (per [cursor.com/docs/plugins](https://cursor.com/docs/plugins)); the install steps above use the new label.
 
 ## Cursor currency (2026-10-16 / desktop 3.27.12)
 

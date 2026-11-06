@@ -106,7 +106,7 @@ plugin repo, it's on a revision that predates the fix.
 1. Confirm `.cursor-plugin/marketplace.json` exists on the `main` branch
 2. Confirm each plugin repo has `.cursor-plugin/plugin.json`
 3. Assign distribution groups — an imported marketplace with no groups reaches nobody
-4. Click **Refresh** in Dashboard → Plugins after pushing catalog changes
+4. Click **Refresh** in Dashboard → Plugins & MCPs after pushing catalog changes
 
 ### Local plugin does not load
 

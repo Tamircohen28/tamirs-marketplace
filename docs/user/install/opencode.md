@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | OpenCode **1.18.29** |
+| **Validated against** | OpenCode **1.19.5** (live, 2026-11-06; OpenCode 2.x unverified) |
 | **Minimum supported** | **1.16.2** |
 | **Marketplace manifest** | *none — OpenCode has no marketplace format* |
 | **Official docs** | [Skills](https://opencode.ai/docs/skills/) · [Agents](https://opencode.ai/docs/agents/) · [Config schema](https://opencode.ai/config.json) |

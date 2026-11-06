@@ -8,10 +8,10 @@ Pick your host:
 
 | Target | Catalog install | Validated against | Minimum | Guide |
 |--------|-----------------|-------------------|---------|-------|
-| Claude Code | ✅ marketplace | 2.1.233 | 2.0.0 | [claude-code.md](claude-code.md) |
-| Cursor | ✅ team marketplace | 3.18.9 | 3.27.22 | [cursor.md](cursor.md) |
-| Codex | ✅ marketplace | 0.146.0 | 0.40.0 | [codex.md](codex.md) |
-| OpenCode | ❌ no marketplace — install per plugin | 1.18.11 | 1.16.2 | [opencode.md](opencode.md) |
+| Claude Code | ✅ marketplace | 2.1.318 | 2.0.0 | [claude-code.md](claude-code.md) |
+| Cursor | ✅ team marketplace | 3.29.9 | 3.18.9 | [cursor.md](cursor.md) |
+| Codex | ✅ marketplace | 0.167.0 | 0.40.0 | [codex.md](codex.md) |
+| OpenCode | ❌ no marketplace — install per plugin | 1.19.5 | 1.16.2 | [opencode.md](opencode.md) |
 
 Version floors and how each was verified: [platform-targets.md](../../engineering/build-and-release/platform-targets.md).
 
