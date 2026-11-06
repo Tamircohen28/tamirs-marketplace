@@ -15,6 +15,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   3.23–3.27 changes relevant to catalog consumers (team/org MCP allowlists, service tokens,
   removal of Required team-marketplace plugins, MCP OAuth hosted-callback reliability,
   Resume-after-crash). The supported floor stays **3.18.9**. Cursor-only.
+- **Codex 0.167.0 reviewed.** `latest_known` for Codex advances **0.153.4 → 0.167.0**
+  after a changelog-only review of 0.163.0–0.167.0 (no portable marketplace schema
+  change; 0.165.0's stricter Git marketplace URL validation does not affect this
+  catalog's plain GitHub URLs). `.codex-version` tracks 0.167.0; the documentary
+  validation baseline stays 0.153.4.
 
 ### Added
 - **`/plugin` Discover/Browse missing-description fix documented (Claude Code

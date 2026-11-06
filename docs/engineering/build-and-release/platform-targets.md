@@ -8,7 +8,7 @@ enforced by `scripts/check-platform-targets.sh`.
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.318 | 2.1.318 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.27.22 | 3.27.22 | [cursor.md](../../user/install/cursor.md) |
-| Codex | 0.40.0 | 0.153.4 | 0.153.4 | [codex.md](../../user/install/codex.md) |
+| Codex | 0.40.0 | 0.153.4 | 0.167.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.18.29 | 1.18.29 | [opencode.md](../../user/install/opencode.md) |
 
 Claude Code now tracks **2.1.318**, reviewed live on **2026-11-05** directly against the
@@ -185,6 +185,26 @@ plugin-marketplace or plugin-manifest concept, so both OpenCode capability gaps 
 stand as written. Claude Code's **2026-10-31** live-CLI confirmation (above) is the most
 recent verification of any target and is therefore the `last_reviewed` date. Each target's
 `verification_method` in the JSON records exactly how.
+
+## Codex 0.163.0–0.167.0 compatibility review (2026-11-06)
+
+Changelog-only review of every stable Codex release from 0.163.0 through 0.167.0
+(published 2026-11-06); no live CLI run, so the documentary validation baseline stays
+**0.153.4** and `latest_known` advances to **0.167.0**.
+
+- **0.167.0** — `codex agents --no-daemon` command center, backend switching in the
+  session picker, TUI plugin mentions loaded from installed plugins, session plugin
+  overrides applied on MCP config refresh, app settings in plugin configuration, and
+  remote plugin bundle URLs kept out of diagnostics. All host-side.
+- **0.166.0** — native `codex doctor --network-only` and `codex queue --resume`; host-side.
+- **0.165.0** — Git marketplace URL validation now rejects unsafe backslashes in HTTP(S)
+  URL userinfo. This catalog's GitHub source URLs carry no userinfo, so no rewrite is
+  needed. Vertex AI provider, memory v2 and session filtering are host features.
+- **0.163.0–0.164.0** — steering, parallel read-only tools, `/config`, `/presets`, inline
+  `/model`/`/permissions`, enterprise MCP OAuth sign-in; host features.
+
+None of these change the portable `.agents/plugins/marketplace.json` schema or this
+catalog's install commands.
 
 ## Two corrected version floors
 
