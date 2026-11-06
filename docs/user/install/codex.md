@@ -15,6 +15,14 @@ codex --version
 
 Codex 0.153.4 keeps the portable Agent Plugin catalog layout this repo already uses, and 0.153.0 widened how such a catalog can be consumed: the `codex plugin` CLI gained remote-marketplace support and Git marketplaces are now upgraded from merged configuration. This catalog already uses the supported `.agents/plugins/marketplace.json` layout, so no manifest migration is required.
 
+**Current release review:** Codex CLI **0.167.0** (2026-11-06) keeps the portable marketplace manifest unchanged. Plugin mentions in the TUI now load from installed plugins, session plugin overrides apply when MCP config refreshes, plugin configuration accepts app settings, and remote plugin bundle URLs stay out of diagnostics; `codex agents --no-daemon` opens the agent command center. No new manifest fields or installation steps are required. Changelog review only; validated baseline remains **0.153.4**.
+
+**Previous release review:** Codex CLI **0.166.0** (2026-10-29) keeps the portable marketplace manifest unchanged. Use native `codex doctor --network-only` to diagnose network and WebSocket setup instead of a custom marketplace connectivity wrapper. `codex queue --resume`, transcript navigation, Markdown questions, model-catalog additions and resume/approval fixes are host-side; no new manifest fields or installation steps are required. This is a changelog review, not direct validation; the last directly validated baseline remains **0.153.4**.
+
+**Previous release review:** Codex CLI **0.165.0** (2026-10-27) retains the portable marketplace catalog layout. New native Vertex AI provider, GPT-6.1 Terra catalog, repository-filtered session picker, live reasoning-effort controls and memory v2 defaults are Codex host features, not catalog fields. Marketplace URL validation is stricter for HTTP(S) userinfo containing backslashes; the existing plain GitHub source URLs need no change. Abandoned remote MCP requests and interrupted queued agent work are handled natively. No custom marketplace install wrappers or schema changes are needed. Changelog review only; validated baseline remains **0.153.4**.
+
+**Previous release review:** Codex CLI **0.164.0** (2026-10-23) remains compatible with this catalog's portable marketplace manifest. Native `/presets`, inline model/permission controls, enterprise MCP sign-in and remote credential masking are Codex host features; no new marketplace fields or custom wrappers are required. This is a changelog review, not a live validation: the validated baseline remains **0.153.4**.
+
 ## The manifest path trips people up
 
 Codex reads the marketplace from **`.agents/plugins/marketplace.json`** — *not*
