@@ -1,4 +1,5 @@
-.PHONY: help install update uninstall generate validate validate-skills agent\:check agent-polish-gate \ sync-descriptions check-descriptions
+.PHONY: help install update uninstall generate validate validate-skills agent\:check agent-polish-gate \
+	sync-descriptions check-descriptions check-doc-standards \
 	check-agent-drift check-feature-equivalence check-platform-targets check-action-pinning \
 	platform-targets-sync platform-targets-assert assert-contract repo-standards-gate
 
@@ -22,11 +23,15 @@ sync-descriptions:
 	python3 scripts/sync-descriptions.py
 	python3 scripts/generate-marketplaces.py
 
+check-doc-standards:
+	bash scripts/check-doc-standards.sh .
+
 check-descriptions:
 	python3 scripts/sync-descriptions.py --check
 
-validate: generate agent-check check-action-pinning check-descriptions
+validate: generate agent-check check-action-pinning check-descriptions check-doc-standards
 	python3 scripts/validate-marketplaces.py
+	MARKETPLACE_SKIP_CLI=1 bash scripts/validate-marketplace.sh .
 	@git diff --exit-code -- .agents/plugins/marketplace.json .cursor-plugin/marketplace.json \
 		|| (echo "Generated manifests are out of sync. Run 'make generate' and commit the results." >&2; exit 1)
 
