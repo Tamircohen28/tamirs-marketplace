@@ -8,6 +8,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Changed
+- **Cursor 3.11 (+2026-10-20 / desktop 3.27.22):** advance the catalog's Cursor
+  validated/latest pin **3.18.9 → 3.27.22** (documentary review: official download API
+  stable build plus cursor.com/changelog through Agent SDK GA). Install docs note IDE
+  3.23–3.27 changes relevant to catalog consumers (team/org MCP allowlists, service tokens,
+  removal of Required team-marketplace plugins, MCP OAuth hosted-callback reliability,
+  Resume-after-crash). The supported floor stays **3.18.9**. Cursor-only.
+
 ### Added
 - **`/plugin` Discover/Browse missing-description fix documented (Claude Code
   2.1.265).** Before 2.1.265, browsing a plugin that exists only as a marketplace
