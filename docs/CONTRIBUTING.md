@@ -14,8 +14,8 @@ This repo is a catalog. Edit the canonical Claude manifest, then regenerate the 
 {
   "name": "your-plugin-name",
   "source": {
-    "source": "github",
-    "repo": "YourGitHubHandle/your-plugin-repo",
+    "source": "url",
+    "url": "https://github.com/YourGitHubHandle/your-plugin-repo.git",
     "ref": "main"
   },
   "description": "One sentence describing what the plugin does."

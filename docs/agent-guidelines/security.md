@@ -10,8 +10,8 @@ See [AGENTS.md](../../AGENTS.md) for the canonical off-limits list.
   never contain build secrets or environment files.
 - All three manifests (`.claude-plugin/marketplace.json`, `.agents/plugins/
   marketplace.json`, `.cursor-plugin/marketplace.json`) point at plugin repos
-  with the credential-free `"source": "github", "repo": "..."` shorthand —
-  never a raw clone URL with an embedded token or password. Keep it that way:
+  with credential-free `https://github.com/<owner>/<repo>.git` url sources —
+  never a clone URL with an embedded token or password. Keep it that way:
   before Claude Code 2.1.268, a plugin or marketplace error message could echo
   a token/password embedded in a git source URL back to the terminal; fixed in
   2.1.268, but a credential-free source form avoids the class of leak entirely
