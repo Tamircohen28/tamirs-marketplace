@@ -118,9 +118,9 @@
       "validated_against": "3.29.9",
       "latest_known": "3.29.9",
       "changelog_feature": "3.11",
-      "changelog_date": "2026-11-05",
+      "changelog_date": "2026-11-06",
       "verified_on": "2026-11-06",
-      "verification_method": "Documentary review 2026-11-06: official Cursor download API stable desktop **3.29.9**, matched by `cursor --version` on the review machine; cursor.com/changelog through date-only **2026-11-05** (Live Apps, a cloud-agent feature with no plugin/marketplace impact); cursor.com/docs/plugins re-read (Dashboard section renamed Plugins & MCPs; Import from Repo also accepts GitLab/Bitbucket/Azure DevOps). Catalog remains manifest-only. Prior: Documentary review 2026-11-01: official Cursor download API stable desktop **3.27.22**; cursor.com/changelog through date-only **2026-10-20** (Agent SDK GA); IDE notes cover 3.26/3.27. Catalog remains manifest-only — no Cursor runtime.",
+      "verification_method": "Documentary review 2026-11-08: changelog advanced **2026-11-05 \u2192 2026-11-06** (Voice Chat with Agents \u2014 host UX, no plugin/marketplace impact; remains distinct from dictation). Desktop pin unchanged at **3.29.9**. Prior: Documentary review 2026-11-06: official Cursor download API stable desktop **3.29.9**, matched by `cursor --version` on the review machine; cursor.com/changelog through date-only **2026-11-05** (Live Apps, a cloud-agent feature with no plugin/marketplace impact); cursor.com/docs/plugins re-read (Dashboard section renamed Plugins & MCPs; Import from Repo also accepts GitLab/Bitbucket/Azure DevOps). Catalog remains manifest-only. Prior: Documentary review 2026-11-01: official Cursor download API stable desktop **3.27.22**; cursor.com/changelog through date-only **2026-10-20** (Agent SDK GA); IDE notes cover 3.26/3.27. Catalog remains manifest-only \u2014 no Cursor runtime.",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -198,7 +198,8 @@
         "environments-api-docs-2026-10-16",
         "desktop-3.27.12",
         "ide-3.26-3.27-docs",
-        "dashboard-plugins-and-mcps-label-2026-11-06"
+        "dashboard-plugins-and-mcps-label-2026-11-06",
+        "voice-chat-agents-docs-2026-11-06"
       ],
       "capabilities": [
         "marketplace",
@@ -232,7 +233,7 @@
       "validated_against": "1.19.5",
       "latest_known": "1.19.5",
       "verified_on": "2026-11-06",
-      "verification_method": "Live CLI validation 2026-11-06 with OpenCode 1.19.5 (`npx opencode-ai@1.19.5`, isolated XDG_CONFIG_HOME, OPENCODE_CONFIG_CONTENT pointing skills.paths at this repo's .agents/skills, external skill scans disabled): `opencode debug skill` resolved run-plugins-catalog to its SKILL.md. 1.19.5 is the version npm's opencode-ai latest tag, GitHub's Latest release and the opencode.ai/install script (OpenCode 1 only) agree on. The separate OpenCode 2.x line (2.2.5) has no `opencode debug skill` subcommand, so this method is 1.x-only and 2.x is unverified. Prior: `opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed — skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
+      "verification_method": "Live CLI validation 2026-11-06 with OpenCode 1.19.5 (`npx opencode-ai@1.19.5`, isolated XDG_CONFIG_HOME, OPENCODE_CONFIG_CONTENT pointing skills.paths at this repo's .agents/skills, external skill scans disabled): `opencode debug skill` resolved run-plugins-catalog to its SKILL.md. 1.19.5 is the version npm's opencode-ai latest tag, GitHub's Latest release and the opencode.ai/install script (OpenCode 1 only) agree on. The separate OpenCode 2.x line (2.2.5) has no `opencode debug skill` subcommand, so this method is 1.x-only and 2.x is unverified. Prior: `opencode --version` on the maintainer machine (reported 1.18.29); latest from registry.npmjs.org/opencode-ai. OpenCode has no marketplace, so the catalog itself cannot be installed \u2014 skill discovery is verified directly with `opencode debug skill`, pointing `skills.paths` at this repo's `.agents/skills` and confirming `run-plugins-catalog` resolves to its `SKILL.md`",
       "install_doc": "docs/user/install/opencode.md",
       "doc_urls": [
         "https://opencode.ai/docs/skills/",
@@ -247,7 +248,7 @@
         "per-plugin-clone"
       ],
       "capability_gaps": {
-        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly — clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
+        "marketplace": "OpenCode has no plugin marketplace and no plugin manifest, so this catalog cannot be added as an install source. Each plugin repo is installed directly \u2014 clone it and point `skills.paths` at its `skills/` directory, or symlink it into the OpenCode skills directory. Every plugin in this catalog ships its own `opencode.json` and its own OpenCode install guide.",
         "catalog_discovery": "There is no OpenCode equivalent of listing plugins from a remote catalog. The plugin table in this repo's README is the discovery surface; installation is then per-repo."
       }
     }

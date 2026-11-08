@@ -8,6 +8,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Cursor 3.11 (+2026-11-06 / desktop 3.29.9):** advance `changelog_date` **2026-11-05 → 2026-11-06** (Voice Chat; desktop pin unchanged). Catalog remains manifest-only. Cursor-only.
+
 ### Changed
 - **Claude Code 2.1.319 validated live (2026-11-06).** `validated_against` and
   `latest_known` advance **2.1.318 → 2.1.319** (GitHub release v2.1.319, matched by a local
