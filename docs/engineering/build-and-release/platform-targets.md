@@ -200,9 +200,9 @@ and began upgrading Git marketplaces from merged configuration (#42149), while #
 marketplace source policy applies only to OpenAI-curated plugins. The portable catalog
 shape is unchanged. Codex is validated documentarily — the CLI is not installed on the
 review machine, which is why `verification_method` in the JSON says so rather than
-implying a live run. Cursor was revalidated documentarily against desktop **3.29.9** on **2026-11-06**
+implying a live run. Cursor was revalidated documentarily against desktop **3.29.9** on **2026-11-08**
 (official download API stable build, matched by the review machine's `cursor --version`;
-changelog through the date-only **2026-11-05** Live Apps entry; CLI through **2026-08-26**). The **3.18.9** floor is unchanged. OpenCode
+changelog through the date-only **2026-11-06** Voice Chat entry (prior Live Apps **2026-11-05**); CLI through **2026-08-26**). The **3.18.9** floor is unchanged. OpenCode
 was revalidated against **1.18.29** on **2026-09-08** — `opencode --version` reported
 `1.18.29` on the maintainer machine, and `opencode debug skill` with `skills.paths`
 pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `SKILL.md`,
