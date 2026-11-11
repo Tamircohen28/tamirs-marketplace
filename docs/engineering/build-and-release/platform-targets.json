@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-11-06",
+  "last_reviewed": "2026-11-11",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -12,10 +12,10 @@
     "claude_code": {
       "supported_min": "2.0.0",
       "supported_min_source": "the .claude-plugin/marketplace.json schema this catalog ships has been stable since 2.0.0; the previous floor was never validated",
-      "validated_against": "2.1.319",
-      "latest_known": "2.1.319",
-      "verified_on": "2026-11-06",
-      "verification_method": "Live-CLI revalidation on 2026-11-06 -- `claude --version` on the maintainer machine reports `2.1.319 (Claude Code)`, matching the newest release published on GitHub (anthropics/claude-code v2.1.319, 2026-11-06T17:04Z, confirmed via `gh release view`). `validated_against` and `latest_known` both advance from 2.1.318 to **2.1.319** (one release). Ran live against the 2.1.319 CLI: `claude plugin validate --strict .` (marketplace manifest: passed), `make validate-skills` (`claude plugin validate --strict --json .agents/skills`: PASS, 0 findings), `scripts/validate-marketplace.sh .` with the CLI step enabled (passed; 3 pre-existing warnings), then `make repo-standards-gate` and `make agent:check`. Reviewed the 2.1.319 notes for catalog surface: `--add-dir` directories now register plugin marketplaces only after that directory's own trust dialog is accepted (install-time host behavior; this catalog is added with `claude plugin marketplace add`, not via `--add-dir`); `claude plugin update` / `/plugin` \"Update now\" and background auto-update now install dependencies added by a new plugin version (host-side fix; this catalog's one `allowCrossMarketplaceDependenciesOn` entry needs no change); `${CLAUDE_PLUGIN_ROOT}` is now substituted in a plugin `subagentStatusLine` (plugin-side, none of this catalog's manifests declare one); VS Code's remove-marketplace confirmation now checks installed plugins (host UI). The rest (auto mode server check, MCP tasks, `permissions.denyInsteadOfPrompting`, apps gateway, Bash permission fixes, Claude in Chrome shortcut tools removed) is host/CLI/gateway surface. None touches the marketplace manifest schema or `.agents/skills` frontmatter.",
+      "validated_against": "2.1.322",
+      "latest_known": "2.1.322",
+      "verified_on": "2026-11-11",
+      "verification_method": "Documentary review 2026-11-11 against the published anthropics/claude-code CHANGELOG.md, covering 2.1.319 through the newest release **2.1.322** (no 2.1.320 was published; the sequence jumps 2.1.319 to 2.1.321). `validated_against` and `latest_known` advance **2.1.319 -> 2.1.322** (no live CLI on this run, so this is changelog-only, same method tier as the Codex/OpenCode documentary reviews recorded below). Reviewed for catalog surface: **2.1.321** fixes plugin auto-updates and `/plugin` marketplace updates re-downloading a plugin for every worktree or folder of a repository (reliability win for this catalog's installs in multi-worktree setups, no manifest change needed); fixes project skills, commands and agents staying missing after their folder disappears and returns mid-session, including after entering a worktree (e.g. `git stash`) -- relevant to this catalog's skills surviving worktree operations, no manifest change; changes managed `extraKnownMarketplaces` so a declared marketplace name can no longer be taken over by another source, an entry from elsewhere is hidden, and plugins the declared marketplace lists are reinstalled from it -- documented in the install guide's Managed (enterprise) environments section, no manifest change (this catalog is not itself declared via `extraKnownMarketplaces` by default, but admins who pin it that way benefit). **2.1.322** ships one line, fast mode on Vertex -- no catalog surface. Nothing in 2.1.321/2.1.322 touches the marketplace manifest schema or `.agents/skills` frontmatter. Prior: Live-CLI revalidation on 2026-11-06 -- `claude --version` on the maintainer machine reports `2.1.319 (Claude Code)`, matching the newest release published on GitHub (anthropics/claude-code v2.1.319, 2026-11-06T17:04Z, confirmed via `gh release view`). `validated_against` and `latest_known` both advance from 2.1.318 to **2.1.319** (one release). Ran live against the 2.1.319 CLI: `claude plugin validate --strict .` (marketplace manifest: passed), `make validate-skills` (`claude plugin validate --strict --json .agents/skills`: PASS, 0 findings), `scripts/validate-marketplace.sh .` with the CLI step enabled (passed; 3 pre-existing warnings), then `make repo-standards-gate` and `make agent:check`. Reviewed the 2.1.319 notes for catalog surface: `--add-dir` directories now register plugin marketplaces only after that directory's own trust dialog is accepted (install-time host behavior; this catalog is added with `claude plugin marketplace add`, not via `--add-dir`); `claude plugin update` / `/plugin` \"Update now\" and background auto-update now install dependencies added by a new plugin version (host-side fix; this catalog's one `allowCrossMarketplaceDependenciesOn` entry needs no change); `${CLAUDE_PLUGIN_ROOT}` is now substituted in a plugin `subagentStatusLine` (plugin-side, none of this catalog's manifests declare one); VS Code's remove-marketplace confirmation now checks installed plugins (host UI). The rest (auto mode server check, MCP tasks, `permissions.denyInsteadOfPrompting`, apps gateway, Bash permission fixes, Claude in Chrome shortcut tools removed) is host/CLI/gateway surface. None touches the marketplace manifest schema or `.agents/skills` frontmatter.",
       "install_doc": "docs/user/install/claude-code.md",
       "doc_urls": [
         "https://code.claude.com/docs/en/plugin-marketplaces",
@@ -105,7 +105,15 @@
         "headersHelper-env-var-corruption-fix-reviewed-2.1.316",
         "sdk-hook-onfailure-block-reviewed-2.1.317",
         "stdio-mcp-reprobe-pin-reviewed-2.1.318",
-        "deniedmcpservers-url-match-reviewed-2.1.318"
+        "deniedmcpservers-url-match-reviewed-2.1.318",
+        "add-dir-marketplace-trust-dialog-gate-reviewed-2.1.319",
+        "plugin-update-new-dependency-install-fix-reviewed-2.1.319",
+        "subagentstatusline-plugin-root-substitution-reviewed-2.1.319",
+        "vscode-remove-marketplace-installed-check-reviewed-2.1.319",
+        "plugin-autoupdate-per-worktree-redownload-fix-reviewed-2.1.321",
+        "skills-missing-folder-restore-worktree-fix-reviewed-2.1.321",
+        "extraknownmarketplaces-declared-name-takeover-fix-docs-2.1.321",
+        "vertex-fast-mode-reviewed-2.1.322"
       ],
       "capabilities": [
         "marketplace",
