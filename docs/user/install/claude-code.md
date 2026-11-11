@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.300** |
+| **Validated against** | Claude Code **2.1.322** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.300 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.322 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -349,6 +349,43 @@ consuming organization's own gateway policy — but they're the relevant switch 
 managed Desktop fleet needs to allow (or block) users adding `Tamircohen28/tamirs-marketplace`
 themselves. Requires Claude Desktop 1.15200.0 or later to read the newer list form the
 gateway sends (also since 2.1.260); older desktops ignore it.
+
+Since Claude Code 2.1.321, managed **`extraKnownMarketplaces`** is harder to spoof: a
+marketplace name an admin has declared there can no longer be added from another
+source, an entry for that name injected from elsewhere is hidden, and the plugins the
+declared marketplace lists are reinstalled from it. An admin who pins this catalog by
+declaring `Tamircohen28/tamirs-marketplace` under `extraKnownMarketplaces` gets this
+protection automatically on 2.1.321+; on older CLIs a same-named marketplace added from
+another source could shadow the declared one.
+
+## Claude Code 2.1.319 – 2.1.322
+
+Documentary review on **2026-11-11** against the published `anthropics/claude-code`
+CHANGELOG.md (no live CLI available this run). `validated_against` and `latest_known`
+advance **2.1.319 → 2.1.322** — the release sequence jumps straight from 2.1.319 to
+2.1.321, so there is no 2.1.320.
+
+- **2.1.321 — two reliability fixes land directly on this catalog's installs:** plugin
+  auto-updates and `/plugin` marketplace updates no longer download a plugin again for
+  every worktree or folder of a repository; and project skills, commands and agents no
+  longer stay missing after their folder disappears and comes back mid-session (for
+  example `git stash`), including after entering a worktree.
+- **2.1.321 — managed `extraKnownMarketplaces` hardening**, documented above under
+  Managed (enterprise) environments.
+- **2.1.321 — everything else is host/CLI surface with no catalog impact:** Claude
+  Fable 5.2 as the default Fable model, a `--settings` flag for `claude remote-control`,
+  and a batch of security fixes (MCP OAuth redirect secrets, Bash permission/sandbox
+  checks, deny-rule coverage of `cp`/`mv` destinations).
+- **2.1.322 — one line, no catalog surface:** fast mode on Vertex (global/us/eu
+  regions), a billing/performance feature with no plugin or marketplace surface.
+- Nothing in 2.1.321 or 2.1.322 touches the marketplace manifest schema or
+  `.agents/skills` frontmatter.
+
+> **Note for maintainers:** this file's version-range sections below jump from
+> 2.1.294 – 2.1.300 to this one. The 2.1.301 – 2.1.318 range was validated in
+> `platform-targets.json`/`.md` and `CHANGELOG.md` across earlier passes, but a
+> matching narrative section was never backfilled here — flagged in this PR's Future
+> opportunities rather than reconstructed from memory.
 
 ## Claude Code 2.1.294 – 2.1.300
 
@@ -1341,7 +1378,7 @@ content: the `managed` connector marker in `/mcp`/`/plugins` (documented above, 
 only manifested for dev-time `--plugin-dir` loading of two plugins together, not for a
 normal `/plugin install` from this catalog, so no behavior here was ever affected; and a
 `/reload-plugins` fix for a stale LSP tool after the last LSP plugin is disabled — no
-plugin in this catalog ships an LSP integration, so not applicable. Everything else in
+plugin in this catalog ships an LSP integration. Everything else in
 2.1.243 (the `/usage` Loops breakdown, `modelPicker`, `promptCacheTtl`/
 `subagentPromptCacheTtl`, `modelPricing`, keyless Console sign-in, `/web-setup`, hook
 `if`-condition fixes, `--agents` JSON validation) is host/editor-side with no

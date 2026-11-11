@@ -9,6 +9,19 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Claude Code 2.1.322 reviewed (2026-11-11).** `validated_against` and `latest_known`
+  advance **2.1.319 → 2.1.322** (documentary review of the published
+  `anthropics/claude-code` CHANGELOG.md; no 2.1.320 was ever published — the sequence
+  jumps 2.1.319 to 2.1.321). Two reliability fixes land directly on this catalog's
+  installs: plugin auto-updates and `/plugin` marketplace updates no longer re-download
+  a plugin for every worktree or folder of a repository, and project skills/commands/
+  agents no longer stay missing after their folder disappears and returns mid-session
+  (`git stash` and similar), including after entering a worktree. Managed
+  `extraKnownMarketplaces` is hardened: a declared marketplace name can no longer be
+  taken over by another source, documented in the install guide's Managed (enterprise)
+  environments section. 2.1.322 itself ships one line (Vertex fast mode) with no catalog
+  surface. README badge/table, `platform-targets.json`/`.md`, and
+  `docs/user/install/claude-code.md` updated to match.
 - **Claude Code 2.1.319 validated live (2026-11-06).** `validated_against` and
   `latest_known` advance **2.1.318 → 2.1.319** (GitHub release v2.1.319, matched by a local
   `claude --version`). `claude plugin validate --strict` passed on the marketplace manifest
