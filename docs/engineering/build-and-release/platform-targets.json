@@ -115,12 +115,12 @@
     "cursor": {
       "supported_min": "3.18.9",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.29.9",
-      "latest_known": "3.29.9",
+      "validated_against": "3.30.14",
+      "latest_known": "3.30.14",
       "changelog_feature": "3.11",
       "changelog_date": "2026-11-06",
-      "verified_on": "2026-11-06",
-      "verification_method": "Documentary review 2026-11-08: changelog advanced **2026-11-05 \u2192 2026-11-06** (Voice Chat with Agents \u2014 host UX, no plugin/marketplace impact; remains distinct from dictation). Desktop pin unchanged at **3.29.9**. Prior: Documentary review 2026-11-06: official Cursor download API stable desktop **3.29.9**, matched by `cursor --version` on the review machine; cursor.com/changelog through date-only **2026-11-05** (Live Apps, a cloud-agent feature with no plugin/marketplace impact); cursor.com/docs/plugins re-read (Dashboard section renamed Plugins & MCPs; Import from Repo also accepts GitLab/Bitbucket/Azure DevOps). Catalog remains manifest-only. Prior: Documentary review 2026-11-01: official Cursor download API stable desktop **3.27.22**; cursor.com/changelog through date-only **2026-10-20** (Agent SDK GA); IDE notes cover 3.26/3.27. Catalog remains manifest-only \u2014 no Cursor runtime.",
+      "verified_on": "2026-11-15",
+      "verification_method": "Documentary review 2026-11-15: official Cursor download API stable desktop **3.30.14**; cursor.com/changelog still through date-only **2026-11-06** (Voice Chat) and **2026-11-05** (Live Apps). No new feature write-up since prior pin; 3.30 is a desktop stabilization line (Agents Window usage-panel, chat text-size, EOL nag). Catalog remains manifest-only \u2014 no plugin API change. Prior: 3.29.9 (2026-11-06/08).",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
