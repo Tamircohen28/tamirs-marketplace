@@ -9,6 +9,26 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Changed
+- **Claude Code 2.1.327 reviewed (2026-11-18).** `validated_against` and `latest_known`
+  advance **2.1.322 → 2.1.327** (documentary review of the published
+  `anthropics/claude-code` CHANGELOG.md; no 2.1.324 was ever published — the sequence
+  jumps 2.1.323 to 2.1.325). `plugin.json` gains `engines["claude-code"]` to range-gate
+  installs by Claude Code version (a per-plugin field, not one this catalog's own
+  marketplace manifest declares — tracked as a Future opportunity for the three listed
+  plugins). Marketplace `ref` can now pin a full commit ID, with the caveat that a
+  Claude Code older than 2.1.325 can't clone a marketplace pinned that way; this
+  catalog's entries all pin a branch, so unaffected. Scheduled tasks and `/loop` now
+  ask before running a skill that declares `allowed-tools` or hooks — this catalog's
+  own `run-plugins-catalog` skill declares `allowed-tools: [Bash]`, so this is a real,
+  documented behavior change for anyone automating it unattended (`Skill(run-plugins-catalog)`
+  in `permissions.allow` keeps it unattended). `npm`/`pip`/`uv`/`cargo`/`github`/`gh`
+  are now reserved marketplace names (unaffected); a malformed `renames` entry no
+  longer breaks a marketplace's other renames (this manifest has none); unsafe
+  plugin-folder paths/links are now skipped and reported by `claude plugin validate`
+  (this catalog's manifest already validates clean); a malformed `plugin.json` display
+  field is now tolerated rather than refused (relaxation only). 2.1.327 ships no
+  catalog-manifest-relevant change. README badge/table, `platform-targets.json`/`.md`,
+  and `docs/user/install/claude-code.md` updated to match.
 - **Claude Code 2.1.322 reviewed (2026-11-11).** `validated_against` and `latest_known`
   advance **2.1.319 → 2.1.322** (documentary review of the published
   `anthropics/claude-code` CHANGELOG.md; no 2.1.320 was ever published — the sequence
