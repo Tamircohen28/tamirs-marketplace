@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.322** |
+| **Validated against** | Claude Code **2.1.327** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.322 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.327 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -357,6 +357,51 @@ declared marketplace lists are reinstalled from it. An admin who pins this catal
 declaring `Tamircohen28/tamirs-marketplace` under `extraKnownMarketplaces` gets this
 protection automatically on 2.1.321+; on older CLIs a same-named marketplace added from
 another source could shadow the declared one.
+
+## Claude Code 2.1.323 – 2.1.327
+
+Documentary review on **2026-11-18** against the published `anthropics/claude-code`
+CHANGELOG.md (no live CLI available this run). `validated_against` and `latest_known`
+advance **2.1.322 → 2.1.327** — the release sequence jumps straight from 2.1.323 to
+2.1.325, so there is no 2.1.324.
+
+- **2.1.323 — `plugin.json` gains `engines["claude-code"]`:** a plugin outside its
+  stated Claude Code version range is skipped at install, update and load time, and
+  install/update now pick the newest version that fits. This is a per-plugin
+  `plugin.json` field, not a field this catalog's own
+  `.claude-plugin/marketplace.json` declares, so there is nothing to change in this
+  repo directly — but it is a real opportunity for the three plugins this catalog
+  points to (see Future opportunities below).
+- **2.1.323 — reserved marketplace names:** `npm`, `pip`, `uv`, `cargo`, `github` and
+  `gh` are now refused as marketplace names. `tamirs-marketplace` is unaffected.
+- **2.1.323 — fixed one malformed `renames` map entry breaking a marketplace's other
+  renames.** This catalog's manifest declares no `renames`, so unaffected.
+- **2.1.325 — marketplace `ref` can pin a full commit ID** on any branch or tag, not
+  just a branch/tag name — with the caveat that a Claude Code **older than 2.1.325**
+  cannot clone a marketplace pinned that way. This catalog's three plugin entries all
+  pin a branch (`master`/`main`), so nothing changes today; noted here so a future
+  switch to a commit pin is a deliberate choice about the minimum version it would
+  require, not an accident.
+- **2.1.325 — scheduled tasks and `/loop` now ask before running a skill that declares
+  `allowed-tools` or hooks.** This catalog's own `run-plugins-catalog` skill declares
+  `allowed-tools: [Bash]` (see `.agents/skills/run-plugins-catalog/SKILL.md`), so an
+  unattended scheduled task or `/loop` run on 2.1.325+ now asks for confirmation before
+  invoking it — add `Skill(run-plugins-catalog)` to `permissions.allow` to keep running
+  it unattended. Added to the Troubleshooting table below.
+- **2.1.325 — plugin loading now skips, and `claude plugin validate` now reports,
+  some unsafe paths and links in a plugin's folder.** This catalog ships no plugin
+  files of its own (catalog-only) and `claude plugin validate --strict .` has always
+  passed clean on its manifest, so this only adds a safety net.
+- **2.1.326 — a malformed `plugin.json` display field (`author`, `homepage`, and
+  similar) is now tolerated:** the plugin loads instead of being refused. This only
+  relaxes validation and cannot regress this catalog's already-clean generated
+  manifests.
+- **2.1.327 — no catalog-manifest-relevant change** for a marketplace-only repository:
+  its plugin/MCP/hook items this release are terminal-UI fixes (a `/plugin` search-box
+  crash, losing your place in the MCP tool list after going back from a tool) and a
+  `claude mcp add-json <name> -` CLI convenience for reading server JSON from stdin.
+- Nothing in 2.1.323 – 2.1.327 touches the marketplace manifest schema or
+  `.agents/skills` frontmatter.
 
 ## Claude Code 2.1.319 – 2.1.322
 
@@ -995,8 +1040,7 @@ Reviewed for catalog impact, with a live 2.1.267 CLI available this run (`claude
 live-CLI validation since 2.1.257 and closing the 2.1.264 → 2.1.267 gap since the
 last review. Both `validated_against` and `latest_known` advance from 2.1.263 to
 **2.1.267** together (no divergence). 2.1.264 and 2.1.266 shipped no itemized
-changelog entries beyond "bug fixes and reliability improvements" — reviewed,
-nothing to adopt, matching the 2.1.226/.../2.1.263 fix-only precedent. Items from
+changelog entries beyond "bug fixes and reliability improvements." Items from
 2.1.265 and 2.1.267 were checked directly against this repo rather than assumed:
 
 - **`/plugin` Discover/Browse missing description for marketplace-only plugins,
@@ -1486,7 +1530,7 @@ catalog's automation token gets `workflows` scope.
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 | `claude plugin install <name>` exits with no output | Before 2.1.246, a missing or corrupted `~/.claude/plugins/known_marketplaces.json` made install fail silently instead of reporting an error. Fixed in 2.1.246 — on older versions, re-add the catalog with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` first if install seems to do nothing. |
 | Installing a catalog plugin in a second scope deletes the other scope's cache | Before 2.1.247, a plugin with no `version` field (true of all three plugins in this catalog) installed into a second scope could delete the first scope's cache directory. Fixed in 2.1.247 — on older versions, avoid installing the same catalog plugin into two scopes at once, or upgrade first. |
-| A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment the background session started. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
+| A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
 | `claude plugin marketplace add <pasted URL>` fails with an unusable clone URL | Before 2.1.259, a `github.com` marketplace URL pasted with a trailing slash or a dangling `?`/`#` (as a browser address bar shows it) could produce a broken `.git` clone URL. Fixed in 2.1.259 — on older versions, use the `Tamircohen28/tamirs-marketplace` shorthand from this guide's Install section instead of a pasted URL, or strip the trailing slash/`?`/`#` by hand. |
 | A catalog plugin shows as broken in `claude plugin list` but the reason isn't clear | Since 2.1.268, `claude plugin list --json` includes per-row `errorDetails`/`noteDetails` fields — inspect that row's JSON for the specific cause instead of guessing from `/doctor` output alone. |
 | `claude plugin marketplace add Tamircohen28/tamirs-marketplace` seems to do nothing, or a stale copy stays around | Before 2.1.284, adding a marketplace already registered under the same name from a different source (e.g. a manual local clone added before the GitHub shorthand) could silently replace it with no explanation. Since 2.1.284, the add now says it's replacing an existing entry and how to undo it — re-run the add and read the notice. |
@@ -1496,6 +1540,7 @@ catalog's automation token gets `workflows` scope.
 | `claude plugin validate --strict` run against one of the three listed plugin repos reported nothing, even though its `plugin.json` has real warnings | Before 2.1.289, validate silently skipped a plugin folder that also held a marketplace manifest — true of all three listed plugins, which ship both for their standalone install path. Fixed in 2.1.289 — re-run on 2.1.289+ to see real results (confirmed live: `headhunter` has 3 pre-existing unknown-field warnings; `tamirs-superpowers` and `jose-claudinho` are clean). |
 | A fork's plugin or marketplace name silently stops showing up after adding more characters to it | Since 2.1.292, a plugin or skill `name` over 256 characters is ignored at load time instead of partially working. This catalog's own name and all three plugin names are 19 characters or fewer, so unaffected — a consideration only if you fork and rename. |
 | `claude plugin test` on a plugin's mod directory used to pass even though a hook's `expect` failed | Before 2.1.292, a failing `expect` inside a mod's hook test could pass silently. Fixed in 2.1.292 — re-run `claude plugin test <dir>` on the current CLI. `tamirs-superpowers`' mod suite passes 21/21 live on 2.1.293. |
+| Running `/run-plugins-catalog` from a scheduled task or `/loop` now stops to ask for confirmation | Since 2.1.325, scheduled tasks and `/loop` ask before running a skill that declares `allowed-tools` or hooks. This catalog's `run-plugins-catalog` skill declares `allowed-tools: [Bash]`, so this is expected — add `Skill(run-plugins-catalog)` to `permissions.allow` to run it unattended. |
 
 More: [troubleshooting.md](../troubleshooting.md).
 
