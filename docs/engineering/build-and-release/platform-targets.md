@@ -8,7 +8,7 @@ enforced by `scripts/check-platform-targets.sh`.
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.319 | 2.1.319 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.29.9 | 3.29.9 | [cursor.md](../../user/install/cursor.md) |
-| Codex | 0.40.0 | 0.167.0 | 0.169.0 | [codex.md](../../user/install/codex.md) |
+| Codex | 0.40.0 | 0.167.0 | 0.169.1 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.19.5 | 1.19.5 | [opencode.md](../../user/install/opencode.md) |
 
 Claude Code now tracks **2.1.319**, reviewed live on **2026-11-06** against the GitHub
