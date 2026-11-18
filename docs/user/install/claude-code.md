@@ -1040,7 +1040,8 @@ Reviewed for catalog impact, with a live 2.1.267 CLI available this run (`claude
 live-CLI validation since 2.1.257 and closing the 2.1.264 → 2.1.267 gap since the
 last review. Both `validated_against` and `latest_known` advance from 2.1.263 to
 **2.1.267** together (no divergence). 2.1.264 and 2.1.266 shipped no itemized
-changelog entries beyond "bug fixes and reliability improvements." Items from
+changelog entries beyond "bug fixes and reliability improvements" — reviewed,
+nothing to adopt, matching the 2.1.226/.../2.1.263 fix-only precedent. Items from
 2.1.265 and 2.1.267 were checked directly against this repo rather than assumed:
 
 - **`/plugin` Discover/Browse missing description for marketplace-only plugins,
@@ -1530,7 +1531,7 @@ catalog's automation token gets `workflows` scope.
 | `/doctor` reports a stale plugin | `claude plugin marketplace update tamirs-marketplace`, then `claude plugin update <name>@tamirs-marketplace`. |
 | `claude plugin install <name>` exits with no output | Before 2.1.246, a missing or corrupted `~/.claude/plugins/known_marketplaces.json` made install fail silently instead of reporting an error. Fixed in 2.1.246 — on older versions, re-add the catalog with `claude plugin marketplace add Tamircohen28/tamirs-marketplace` first if install seems to do nothing. |
 | Installing a catalog plugin in a second scope deletes the other scope's cache | Before 2.1.247, a plugin with no `version` field (true of all three plugins in this catalog) installed into a second scope could delete the first scope's cache directory. Fixed in 2.1.247 — on older versions, avoid installing the same catalog plugin into two scopes at once, or upgrade first. |
-| A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
+| A background session starts with no plugin skills loaded, and stays that way | Before 2.1.251, this could happen when another Claude Code process was refreshing the plugin marketplace at the same moment the background session started. Fixed in 2.1.251 — on older versions, avoid starting a new background session while `claude plugin marketplace update tamirs-marketplace` is running elsewhere, or restart the affected session. |
 | `claude plugin marketplace add <pasted URL>` fails with an unusable clone URL | Before 2.1.259, a `github.com` marketplace URL pasted with a trailing slash or a dangling `?`/`#` (as a browser address bar shows it) could produce a broken `.git` clone URL. Fixed in 2.1.259 — on older versions, use the `Tamircohen28/tamirs-marketplace` shorthand from this guide's Install section instead of a pasted URL, or strip the trailing slash/`?`/`#` by hand. |
 | A catalog plugin shows as broken in `claude plugin list` but the reason isn't clear | Since 2.1.268, `claude plugin list --json` includes per-row `errorDetails`/`noteDetails` fields — inspect that row's JSON for the specific cause instead of guessing from `/doctor` output alone. |
 | `claude plugin marketplace add Tamircohen28/tamirs-marketplace` seems to do nothing, or a stale copy stays around | Before 2.1.284, adding a marketplace already registered under the same name from a different source (e.g. a manual local clone added before the GitHub shorthand) could silently replace it with no explanation. Since 2.1.284, the add now says it's replacing an existing entry and how to undo it — re-run the add and read the notice. |
