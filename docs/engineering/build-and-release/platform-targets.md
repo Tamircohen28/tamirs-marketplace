@@ -6,16 +6,57 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.322 | 2.1.322 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.327 | 2.1.327 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.29.9 | 3.29.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.167.0 | 0.167.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.19.5 | 1.19.5 | [opencode.md](../../user/install/opencode.md) |
 
-Claude Code now tracks **2.1.322**, reviewed on **2026-11-11** by documentary review of
+Claude Code now tracks **2.1.327**, reviewed on **2026-11-18** by documentary review of
 the published `anthropics/claude-code` CHANGELOG.md (no live CLI on this run). The
-sequence jumps straight from 2.1.319 to 2.1.321 — no 2.1.320 was ever published.
-`validated_against` and `latest_known` both advance **2.1.319 → 2.1.322**. The reviewed
+sequence jumps straight from 2.1.323 to 2.1.325 — no 2.1.324 was ever published.
+`validated_against` and `latest_known` both advance **2.1.322 → 2.1.327**. The reviewed
 delta:
+
+- **2.1.323 — `plugin.json` gains `engines["claude-code"]`:** a plugin outside its
+  stated Claude Code version range is now skipped at install/update/load. This is a
+  per-plugin `plugin.json` field, not something `.claude-plugin/marketplace.json` (this
+  catalog's own manifest) declares, so there is nothing to change here directly — it is
+  a real adoption opportunity for the three plugins this catalog points to, tracked in
+  Future opportunities and in those repos' own nightly passes (`tamirs-superpowers` is
+  covered separately). 2.1.323 also reserves the marketplace names `npm`, `pip`, `uv`,
+  `cargo`, `github` and `gh` (`tamirs-marketplace` is unaffected) and fixes one malformed
+  `renames` map entry breaking a marketplace's other renames (this manifest declares no
+  `renames`).
+- **2.1.325 — marketplace `ref` can now pin a full commit ID**, not just a branch or
+  tag — with the caveat that a Claude Code older than 2.1.325 can't clone a marketplace
+  pinned that way. This catalog's three plugin entries all pin a branch (`master`/`main`),
+  so they stay readable on every validated version; noted here so a future switch to a
+  commit pin is a deliberate floor-raising decision, not an accident.
+- **2.1.325 — scheduled tasks and `/loop` now ask before running a skill that declares
+  `allowed-tools` or hooks.** This catalog's own `run-plugins-catalog` skill declares
+  `allowed-tools: [Bash]`, so an unattended scheduled task or `/loop` run on 2.1.325+
+  now asks before invoking it, unless `Skill(run-plugins-catalog)` is added to
+  `permissions.allow`. Documented in
+  [claude-code.md](../../user/install/claude-code.md)'s Troubleshooting table — a real
+  behavior change for anyone automating this skill, not just a compatibility footnote.
+- **2.1.325 — plugin folders with unsafe paths or links are now skipped at load, and
+  reported by `claude plugin validate`.** This catalog's own manifest ships no plugin
+  files of its own (catalog-only) and `claude plugin validate --strict .` has always
+  passed clean, so this only adds a safety net, no regression.
+- **2.1.326 — a malformed `plugin.json` display field (`author`, `homepage`, etc.) is
+  now tolerated** (the plugin loads instead of being refused). This only relaxes
+  validation and cannot regress this catalog's already-clean generated manifests.
+- **2.1.327 — no catalog-manifest-relevant change** for a marketplace-only repository;
+  its plugin/MCP/hook items are terminal UI fixes (`/plugin` search-box crash, losing
+  your place in the MCP tool list) and a `claude mcp add-json` CLI convenience.
+- Nothing in 2.1.323 – 2.1.327 touches the marketplace manifest schema or
+  `.agents/skills` frontmatter.
+
+Prior reviewed delta (2.1.319 → 2.1.322), carried forward unchanged — Claude Code was
+reviewed on **2026-11-11** by documentary review of the published
+`anthropics/claude-code` CHANGELOG.md (no live CLI on that run). The sequence jumps
+straight from 2.1.319 to 2.1.321 — no 2.1.320 was ever published. `validated_against`
+and `latest_known` advanced **2.1.319 → 2.1.322**. The reviewed delta:
 
 - **2.1.321 — two reliability fixes directly relevant to this catalog's installs:**
   plugin auto-updates and `/plugin` marketplace updates no longer download a plugin
