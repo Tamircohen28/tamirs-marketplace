@@ -8,6 +8,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+- **Cursor 3.11 (+2026-11-06 / desktop 3.31.15):** desktop/validated/latest pin **3.30.14 → 3.31.15** (download API 2026-11-22); `cli_changelog_date` **2026-08-26 → 2026-11-17**. Feature pin **3.11** / **2026-11-06**. Document IDE 3.30 marketplace install progress / admin-refusal UX and CLI through **2026-11-17**. Catalog remains manifest-only. Cursor-only.
+
 ### Changed
 - **Claude Code 2.1.319 validated live (2026-11-06).** `validated_against` and
   `latest_known` advance **2.1.318 → 2.1.319** (GitHub release v2.1.319, matched by a local

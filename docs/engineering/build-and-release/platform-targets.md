@@ -7,7 +7,7 @@ enforced by `scripts/check-platform-targets.sh`.
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
 | Claude Code | 2.0.0 | 2.1.319 | 2.1.319 | [claude-code.md](../../user/install/claude-code.md) |
-| Cursor | 3.18.9 | 3.29.9 | 3.29.9 | [cursor.md](../../user/install/cursor.md) |
+| Cursor | 3.18.9 | 3.31.15 | 3.31.15 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.167.0 | 0.167.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.19.5 | 1.19.5 | [opencode.md](../../user/install/opencode.md) |
 
@@ -200,9 +200,9 @@ and began upgrading Git marketplaces from merged configuration (#42149), while #
 marketplace source policy applies only to OpenAI-curated plugins. The portable catalog
 shape is unchanged. Codex is validated documentarily — the CLI is not installed on the
 review machine, which is why `verification_method` in the JSON says so rather than
-implying a live run. Cursor was revalidated documentarily against desktop **3.29.9** on **2026-11-06**
+implying a live run. Cursor was revalidated documentarily against desktop **3.31.15** on **2026-11-15**
 (official download API stable build, matched by the review machine's `cursor --version`;
-changelog through the date-only **2026-11-05** Live Apps entry; CLI through **2026-08-26**). The **3.18.9** floor is unchanged. OpenCode
+changelog through the date-only **2026-11-06** Voice Chat entry (prior Live Apps **2026-11-05**); CLI through **2026-11-17**). The **3.18.9** floor is unchanged. OpenCode
 was revalidated against **1.18.29** on **2026-09-08** — `opencode --version` reported
 `1.18.29` on the maintainer machine, and `opencode debug skill` with `skills.paths`
 pointed at this repo's `.agents/skills` resolved `run-plugins-catalog` to its `SKILL.md`,
