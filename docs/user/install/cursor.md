@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| **Validated against** | Cursor **3.30.14** |
+| **Validated against** | Cursor **3.31.15** |
 | **Minimum supported** | **3.18.9** |
-| **Changelog covered through** | feature **3.11** + date-only entries to **2026-11-06**; desktop **3.30.14** (see [`.cursor-version`](../../../.cursor-version)) |
+| **Changelog covered through** | feature **3.11** + date-only entries to **2026-11-06**; desktop **3.31.15** (see [`.cursor-version`](../../../.cursor-version)) |
 | **Marketplace manifest** | `.cursor-plugin/marketplace.json` (generated) |
 | **Official docs** | [Cursor plugins](https://cursor.com/docs/plugins) · [Customize](https://cursor.com/docs/customize-cursor) |
 
@@ -88,18 +88,20 @@ the agent. Never commit Workspace credentials into this repo or any catalogued p
 
 Cursor **Projects** (left nav) suit multi-week catalog / multi-plugin work. A **coordinator** plans and delegates (does not write code); **shared context** syncs across cloud and local agents; **subscriptions** can watch Slack, schedules, or all PRs. Prefer a Project when validating marketplace + plugin repos together across days; keep one-shot `make validate` / docs edits as ordinary Agent chats. Complements Self-Hosted Machines (2026-09-02) and Cloud Agents ([changelog](https://cursor.com/changelog)).
 
-## Working tips (3.11 → 2026-11-06; desktop 3.30.14)
+## Working tips (3.11 → 2026-11-06; desktop 3.31.15)
+- **Marketplace install UX (IDE 3.30):** Customize shows **Adding…** while a marketplace plugin installs, and surfaces an admin-refusal warning (plugin marked Disabled) instead of briefly listing a blocked plugin as added. Catalog manifests unchanged ([IDE notes](https://cursor.com/docs/release-notes/ide)).
+- **CLI changelog through 2026-11-17:** MCP tool-description search, dashboard prompt hooks in CLI, Linux `privateTmp`, `CURSOR_LOGIN_SHELL=0`, `--mint-scm-token` — host/CLI only; this catalog stays manifest-only ([CLI changelog](https://cursor.com/docs/cli/changelog)).
 - **Voice Chat with Agents (2026-11-06):** host UX (realtime voice); no catalog/manifest impact. Distinct from dictation ([changelog](https://cursor.com/changelog)).
 - **Build Live Apps (2026-11-05):** Cloud Agent publish path; not a plugin marketplace feature ([changelog](https://cursor.com/changelog)).
-- **Desktop pin 3.30.14:** stable download API (unchanged this night); feature write-up remains **3.11**; newest date-only changelog **2026-11-06**.
+- **Desktop pin 3.31.15:** stable download API (unchanged this night); feature write-up remains **3.11**; newest date-only changelog **2026-11-06**.
 - **Agent SDK (2026-10-20):** Cursor Agent SDK (`@grok/agent-sdk`) ships versioned bots with evals ([docs](https://cursor.com/docs/agent-sdk)). This catalog stays manifest-only — Agent SDK projects belong in plugin repos, not marketplace manifests.
-- **Desktop pin 3.30.14:** see above.
+- **Desktop pin 3.31.15:** see above.
 - **Desktop 3.25.9 (2026-10-10/11):** IDE notes add hook **`tool_use_id`** correlation, **auto-review** approval for risky deletes, cloud-agent **OOM recognition**, and MCP OAuth **hosted callback** (helps Team MCP sign-in when local redirects fail). Retains **3.23** team/org **MCP allowlists** (Origin MCP at `api.origin.cursor.com/mcp`), **service tokens**, xAI account linking. **Compat:** applying team marketplace **Required** plugins remains removed — catalog install guidance above uses Default On / groups only. Prefer allowlists so Team MCP servers linked beside this catalog stay permitted.
 - **Security Review + Rollouts (2026-09-23):** Teams/Enterprise [Automations](https://cursor.com/automations) bots ([docs](https://cursor.com/docs/security-agents)). Useful when reviewing PRs that change this catalog's manifests; Rollouts is optional (catalog has no deploy). `/review-security` before push.
 - **Start from scratch / no SCM (2026-08-27)** — Cloud Agents can begin without a connected GitHub repo: pick **Start from scratch**, prompt, then **Create repo** into Origin. Use **browser port-forward preview**; optional **Vercel publish**. GitHub remains canonical for marketplace installs and CI.
 
-- **Desktop CLI patch line** — pin is **3.30.14** ([CLI changelog](https://cursor.com/docs/cli/changelog) Aug 26). Newest feature write-up remains **3.11**; newest date-only entry **2026-11-06**.
-- **CLI persistent sessions (2026-08-26)** — `agent persist` / `/detach` / `agent persist attach` keep long `make validate` / marketplace checks alive across disconnects ([CLI changelog](https://cursor.com/docs/cli/changelog)).
+- **Desktop CLI patch line** — pin is **3.31.15** ([CLI changelog](https://cursor.com/docs/cli/changelog) 2026-11-17). Newest feature write-up remains **3.11**; newest date-only entry **2026-11-06**.
+- **CLI persistent sessions (2026-11-17)** — `agent persist` / `/detach` / `agent persist attach` keep long `make validate` / marketplace checks alive across disconnects ([CLI changelog](https://cursor.com/docs/cli/changelog)).
 - **Custom Modes (2026-08-19)** — from `/`, pick a skill and press ⌥⏎ / Alt+Enter → **Use as Mode** to keep a catalogued plugin skill pinned for the chat (always-on playbook). Prefer for long install/verify sessions.
 - **`/goal` + non-interruptive steering (2026-08-19)** — long-lived objectives with `/goal`; Cloud Agents also expose native **CreateGoal** / **UpdateGoal** tools. Follow-ups wait for the next tool call (Send now, or ⏎ twice). CLI Aug 11 steer/`/goal` still apply for `agent` runs.
 - **Subscriptions (Cloud Agents, 2026-08-19)** — wake on PR / Slack / schedule; agents auto-subscribe to PRs they create. Use for unattended catalog CI triage Automations.
@@ -161,9 +163,9 @@ Cursor can run Cloud Agent tool execution on **My Machines**, **Team Pools**, or
 
 
 
-## Cursor currency (2026-11-06 / desktop 3.30.14)
+## Cursor currency (2026-11-06 / desktop 3.31.15)
 
-- Stable download API reports desktop **3.30.14** (re-checked 2026-11-15). Newest date-only changelog entry is **2026-11-06** (Voice Chat with Agents — host UX, distinct from dictation; prior **2026-11-05** Live Apps). Neither is a plugin or marketplace change; this catalog's install flow is unchanged.
+- Stable download API reports desktop **3.31.15** (re-checked 2026-11-22). Newest date-only changelog entry is **2026-11-06** (Voice Chat with Agents — host UX, distinct from dictation; prior **2026-11-05** Live Apps). Neither is a plugin or marketplace change; this catalog's install flow is unchanged.
 - The Dashboard section that manages team marketplaces is now labelled **Plugins & MCPs** (per [cursor.com/docs/plugins](https://cursor.com/docs/plugins)); the install steps above use the new label.
 
 ## Cursor currency (2026-10-16 / desktop 3.27.12)

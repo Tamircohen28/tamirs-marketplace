@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "last_reviewed": "2026-11-06",
+  "last_reviewed": "2026-11-22",
   "reviewed_by_skill": "tamirs-superpowers@1.12.0",
   "supported_targets": [
     "claude_code",
@@ -115,12 +115,12 @@
     "cursor": {
       "supported_min": "3.18.9",
       "supported_min_source": "Cursor documents no minimum version for plugins; the floor is the version actually validated rather than guessed. The previous 0.45.0 floor predates Cursor's plugin system entirely",
-      "validated_against": "3.30.14",
-      "latest_known": "3.30.14",
+      "validated_against": "3.31.15",
+      "latest_known": "3.31.15",
       "changelog_feature": "3.11",
       "changelog_date": "2026-11-06",
-      "verified_on": "2026-11-15",
-      "verification_method": "Documentary review 2026-11-15: official Cursor download API stable desktop **3.30.14**; cursor.com/changelog still through date-only **2026-11-06** (Voice Chat) and **2026-11-05** (Live Apps). No new feature write-up since prior pin; 3.30 is a desktop stabilization line (Agents Window usage-panel, chat text-size, EOL nag). Catalog remains manifest-only \u2014 no plugin API change. Prior: 3.29.9 (2026-11-06/08).",
+      "verified_on": "2026-11-22",
+      "verification_method": "Documentary review 2026-11-22: official Cursor download API stable desktop **3.31.15**; cursor.com/changelog still through date-only **2026-11-06** (Voice Chat) and **2026-11-05** (Live Apps); IDE notes through **3.30** (no 3.31 section yet); CLI changelog through **2026-11-17**. Catalog remains manifest-only \u2014 no plugin API change. Marketplace Customize install now shows Adding\u2026 / admin refusal (3.30) \u2014 host UX only. Prior: 3.30.14 (2026-11-15).",
       "install_doc": "docs/user/install/cursor.md",
       "doc_urls": [
         "https://cursor.com/docs/plugins",
@@ -199,7 +199,11 @@
         "desktop-3.27.12",
         "ide-3.26-3.27-docs",
         "dashboard-plugins-and-mcps-label-2026-11-06",
-        "voice-chat-agents-docs-2026-11-06"
+        "voice-chat-agents-docs-2026-11-06",
+        "desktop-3.31.15",
+        "cli-changelog-2026-11-17",
+        "ide-notes-through-3.30",
+        "marketplace-install-progress-docs-3.30"
       ],
       "capabilities": [
         "marketplace",
