@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Validated against** | Claude Code **2.1.327** |
+| **Validated against** | Claude Code **2.1.332** |
 | **Minimum supported** | **2.0.0** |
 | **Marketplace manifest** | `.claude-plugin/marketplace.json` (canonical) |
 | **Official docs** | [Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Plugins reference](https://code.claude.com/docs/en/plugins-reference) |
@@ -15,7 +15,7 @@ claude --version
 
 ## Prerequisites
 
-- Claude Code 2.0.0 or newer — 2.1.327 is what this release was validated on
+- Claude Code 2.0.0 or newer — 2.1.332 is what this release was validated on
 - Nothing else. Installing plugins needs no Python and no clone; Python 3 is a
   **contributor**-only dependency for `make generate`.
 
@@ -357,6 +357,43 @@ declared marketplace lists are reinstalled from it. An admin who pins this catal
 declaring `Tamircohen28/tamirs-marketplace` under `extraKnownMarketplaces` gets this
 protection automatically on 2.1.321+; on older CLIs a same-named marketplace added from
 another source could shadow the declared one.
+
+**Coming since Claude Code 2.1.331 — managed marketplaces default to auto-update.** In a
+future release on or after **November 30, 2026**, a plugin marketplace declared under
+managed `extraKnownMarketplaces` will auto-update by default. An admin who has pinned
+`Tamircohen28/tamirs-marketplace` there and wants to control exactly when its plugins
+update should set `"autoUpdate": false` on that entry before this takes effect; `/status`
+(since 2.1.329) lists which managed marketplaces currently get no automatic updates, and
+why.
+
+## Claude Code 2.1.328 – 2.1.332
+
+Reviewed 2026-11-25 by documentary review of the published
+[changelog](https://code.claude.com/docs/en/changelog) (no live CLI on this run).
+`validated_against` and `latest_known` advance **2.1.327 → 2.1.332**.
+
+- **2.1.328:** host/gateway surface only (auto mode for Opus/Sonnet 4.6 on third-party
+  gateways, `"onFailure": "block"` for `mcp_tool` hooks) — no catalog-manifest change.
+- **2.1.329:** `/status` gains a "Marketplace auto-update" row naming managed
+  marketplaces with no automatic updates and why — informational, no manifest change.
+- **2.1.330:** `claude plugin install --json` gains `commandPrinted`/`commandFailed`
+  diagnostic fields, and cloud/self-hosted-runner sessions get a notice when a
+  marketplace can't be fetched because its repo isn't one of the session's — no manifest
+  change needed on this side.
+- **2.1.331 — `plugin.json` gains `optionalDependencies`:** a plugin can list
+  dependencies that install alongside it but can be disabled or uninstalled
+  independently. This is a per-plugin `plugin.json` field, not a marketplace-catalog
+  field, so `.claude-plugin/marketplace.json` needs no change here — see Future
+  opportunities for which of this catalog's plugins could use it.
+- **2.1.331 — managed marketplace auto-update default change**, documented above under
+  Managed (enterprise) environments.
+- **2.1.332:** adds MCP-server-hosted skills (beta, `server:skill` in the `/` menu) and
+  a `PreSkillShellCommand` hook event that can refuse a skill or command's inline shell
+  commands at load. None of this catalog's three plugins ship MCP-server-hosted skills
+  today; the catalog's own `run-plugins-catalog` skill is unaffected since the hook only
+  gates skills that declare one.
+- Nothing in 2.1.328 – 2.1.332 touches the marketplace manifest schema or
+  `.agents/skills` frontmatter.
 
 ## Claude Code 2.1.323 – 2.1.327
 
