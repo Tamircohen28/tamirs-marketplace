@@ -6,12 +6,52 @@ enforced by `scripts/check-platform-targets.sh`.
 
 | Platform | Min supported | Validated against | Latest known | Install guide |
 |----------|---------------|-------------------|--------------|---------------|
-| Claude Code | 2.0.0 | 2.1.327 | 2.1.327 | [claude-code.md](../../user/install/claude-code.md) |
+| Claude Code | 2.0.0 | 2.1.332 | 2.1.332 | [claude-code.md](../../user/install/claude-code.md) |
 | Cursor | 3.18.9 | 3.29.9 | 3.29.9 | [cursor.md](../../user/install/cursor.md) |
 | Codex | 0.40.0 | 0.167.0 | 0.167.0 | [codex.md](../../user/install/codex.md) |
 | OpenCode | 1.16.2 | 1.19.5 | 1.19.5 | [opencode.md](../../user/install/opencode.md) |
 
-Claude Code now tracks **2.1.327**, reviewed on **2026-11-18** by documentary review of
+Claude Code now tracks **2.1.332**, reviewed on **2026-11-25** by documentary review of
+the published `code.claude.com/docs/en/changelog` (no live CLI on this run), covering
+2.1.328 through the newest release **2.1.332**. `validated_against` and `latest_known`
+both advance **2.1.327 → 2.1.332**. The reviewed delta:
+
+- **2.1.328 — host/gateway surface only:** auto mode for Opus/Sonnet 4.6 on third-party
+  gateways and `"onFailure": "block"` for `mcp_tool` hooks. No marketplace-manifest
+  change for a repo with no MCP hooks of its own.
+- **2.1.329 — `/status` gains a "Marketplace auto-update" row** naming managed
+  marketplaces that get no automatic updates and why. Informational only; this catalog
+  is not itself declared under a managed `extraKnownMarketplaces` by default, so the row
+  doesn't apply unless an admin pins it that way (see Managed section below).
+- **2.1.330 — diagnostics only:** `commandPrinted`/`commandFailed` fields on
+  `claude plugin install --json`, and a notice in cloud/self-hosted-runner sessions when
+  a marketplace can't be fetched because its repository isn't one of the session's. No
+  manifest change needed on this side.
+- **2.1.331 — `plugin.json` gains `optionalDependencies`:** a plugin can list
+  dependencies that install alongside it but can be disabled or uninstalled
+  independently. A per-plugin `plugin.json` field, not a marketplace-catalog field, so
+  it does not touch this repo's own `.claude-plugin/marketplace.json` — a real adoption
+  opportunity for the three plugins this catalog points to, tracked in Future
+  opportunities (`tamirs-superpowers` is covered by its own nightly pass).
+- **2.1.331 — managed marketplace auto-update default is changing.** In a future
+  release on or after **November 30, 2026**, plugin marketplaces declared in managed
+  `extraKnownMarketplaces` will auto-update by default; opt a specific entry out with
+  `"autoUpdate": false`. Documented in
+  [claude-code.md](../../user/install/claude-code.md)'s Managed (enterprise)
+  environments section, since an admin who has pinned
+  `Tamircohen28/tamirs-marketplace` there should know this is coming five days from
+  this review.
+- **2.1.332 — MCP-server-hosted skills (beta)**, shown as `server:skill` in the `/`
+  menu, and a new `PreSkillShellCommand` hook event that can refuse a skill or
+  command's inline shell commands at load. Host/CLI surface; none of this catalog's
+  three plugins ship MCP-server-hosted skills today, and the catalog's own
+  `run-plugins-catalog` skill is unaffected since the new hook only gates skills that
+  declare one.
+- Nothing in 2.1.328 – 2.1.332 touches the marketplace manifest schema or
+  `.agents/skills` frontmatter.
+
+Prior reviewed delta (2.1.323 → 2.1.327), carried forward unchanged — Claude Code was
+tracked at **2.1.327**, reviewed on **2026-11-18** by documentary review of
 the published `anthropics/claude-code` CHANGELOG.md (no live CLI on this run). The
 sequence jumps straight from 2.1.323 to 2.1.325 — no 2.1.324 was ever published.
 `validated_against` and `latest_known` both advance **2.1.322 → 2.1.327**. The reviewed
