@@ -9,7 +9,7 @@
   <a href="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml"><img src="https://github.com/Tamircohen28/tamirs-marketplace/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
   <img src="https://img.shields.io/badge/version-2.0.0-blue" alt="Version 2.0.0" />
-  <img src="https://img.shields.io/badge/Claude%20Code-2.1.327-blueviolet" alt="Claude Code 2.1.327" />
+  <img src="https://img.shields.io/badge/Claude%20Code-2.1.332-blueviolet" alt="Claude Code 2.1.332" />
   <img src="https://img.shields.io/badge/Cursor-3.29.9-000000" alt="Cursor 3.29.9" />
   <img src="https://img.shields.io/badge/Codex-0.167.0-412991" alt="Codex 0.167.0" />
   <img src="https://img.shields.io/badge/OpenCode-1.19.5-fab283" alt="OpenCode 1.19.5" />
@@ -34,18 +34,20 @@
 
 | Target | Minimum | Validated against | Catalog install | Install guide |
 |--------|---------|-------------------|-----------------|---------------|
-| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.327** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
+| [Claude Code](https://code.claude.com/docs/en/plugin-marketplaces) | 2.0.0 | **2.1.332** | ✅ marketplace | [claude-code.md](docs/user/install/claude-code.md) |
 | [Cursor](https://cursor.com/docs/plugins) | 3.18.9 | **3.29.9** | ✅ team marketplace | [cursor.md](docs/user/install/cursor.md) |
 | [Codex](https://developers.openai.com/codex/plugins) | 0.40.0 | **0.167.0** | ✅ marketplace | [codex.md](docs/user/install/codex.md) |
 | [OpenCode](https://opencode.ai/docs/skills/) | 1.16.2 | **1.19.5** | ❌ no marketplace — install per plugin | [opencode.md](docs/user/install/opencode.md) |
 
 Cursor 3.29.9 was checked against the official download API and a local `cursor --version`;
-OpenCode 1.19.5 and Codex 0.167.0 were validated live on 2026-11-06 (see below). Claude Code 2.1.327 was
-reviewed on 2026-11-18 against the published anthropics/claude-code CHANGELOG.md (no live
-CLI on this pass), advancing from the prior 2.1.322 confirmation — the catalog's own
-`run-plugins-catalog` skill declares `allowed-tools: [Bash]`, so 2.1.325's change to ask
-before running such a skill in a scheduled task or `/loop` is noted in the install guide;
-nothing else in 2.1.323 – 2.1.327 touches the marketplace manifest schema.
+OpenCode 1.19.5 and Codex 0.167.0 were validated live on 2026-11-06 (see below). Claude Code 2.1.332 was
+reviewed on 2026-11-25 against the published code.claude.com/docs/en/changelog (no live
+CLI on this pass), advancing from the prior 2.1.327 confirmation — 2.1.331 adds
+`optionalDependencies` to `plugin.json` (an adoption opportunity for this catalog's three
+plugins, not this repo's own manifest) and announces that managed `extraKnownMarketplaces`
+marketplaces start auto-updating by default on or after November 30, 2026 (opt out per
+entry with `"autoUpdate": false`), noted in the install guide's Managed section; nothing
+in 2.1.328 – 2.1.332 touches the marketplace manifest schema.
 Codex 0.167.0 was validated live on 2026-11-06: `codex plugin marketplace add` plus
 `codex plugin list` resolved this catalog's native `.agents/plugins/marketplace.json` with all
 three plugins. Floors, verification methods, and OpenCode's documented capability gaps:
